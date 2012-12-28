@@ -19,6 +19,12 @@
     </LinearLayout>
     
     <!-- BODY -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp" >
+    </LinearLayout>
+
     <LinearLayout
         android:id ="@+id/linearLayout2"
         android:layout_width ="fill_parent"
@@ -26,6 +32,7 @@
         android:layout_weight ="1"
         android:orientation ="vertical"
         style="@style/Layout.body">
+
             <EditText 
                 android:id="@+id/registrar_nombre_edittext"
                 android:layout_width="200sp"
@@ -50,19 +57,32 @@
                 android:layout_height="wrap_content"
                 android:hint="Telefono"/>
             
-            <Button 
+            <Button
                 android:id="@+id/registrar_enviar_button"
                 android:layout_width="200sp"
-                android:layout_height="wrap_content"
-                android:text="Enviar"/>
+                android:layout_height="45dp"
+                android:background="#FFB900"
+                android:text="Enviar"
+                android:textColor="#FFF"
+                android:textSize="25sp" />
+
     </LinearLayout>
     
     <!-- FOOTER -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/background_footer_shadow" >
+
+    </LinearLayout>
+
     	<LinearLayout
         	android:id ="@+id/linearLayout3"
         	android:layout_width ="fill_parent"
         	android:layout_height ="wrap_content"
         	android:orientation ="vertical"
         	style="@style/Layout.footer">
+
         </LinearLayout>
 </LinearLayout>

@@ -28,15 +28,19 @@
             
             <Button
                 android:id="@+id/evento_save_button"
-                android:layout_width="42dp"
-                android:layout_height="40dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/save" />
 
             <Button
                 android:id="@+id/evento_capturar_button"
-                android:layout_width="42dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/camera" />
+
         </LinearLayout>
     </LinearLayout>
 

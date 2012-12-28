@@ -8,7 +8,9 @@
     
     <color name="text_label">#333333</color>
     <color name="text_value">#505050</color>
-    <color name="text_title">#FFFFD4</color>
+    <color name="text_title">#FFFFFF</color>
     
     <color name="text_button_common">#FFFFFF</color>
+    <color name="background_button_orange">#FFB900</color>
+    <color name="background_footer_shadow">#61D8C5</color>
 </resources>

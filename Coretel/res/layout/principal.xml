@@ -26,17 +26,30 @@
         android:layout_weight ="1"
         android:orientation ="vertical"
         style="@style/Layout.body">
-            <Button 
+
+            <Button
                 android:id="@+id/principal_login_button"
-                android:layout_width="150dp"
-        		android:layout_height="wrap_content"
-        		android:text="LOGIN"/>
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/background_button_orange"
+                android:text="LOGIN"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
             
-            <Button 
+            <Button
                 android:id="@+id/principal_registrar_button"
-                android:layout_width="150dp"
-        		android:layout_height="wrap_content"
-        		android:text="REGISTRATE"/>
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/background_footer_shadow"
+                android:text="REGISTRATE"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+
     </LinearLayout>
     
     <!-- FOOTER -->

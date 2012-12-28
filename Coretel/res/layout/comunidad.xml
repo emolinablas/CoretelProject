@@ -23,11 +23,11 @@
             android:layout_height="wrap_content"
             android:gravity="right|center"
             android:orientation="vertical" >
-
+
             <Button
                 android:id="@+id/comunidades_guardar_button"
-                android:layout_width="54dp"
-                android:layout_height="52dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/save" />
 
         </LinearLayout>
@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:text="Nombre:"
             style="@style/Text.Label"/>
-        
+        
+
         <TextView
             android:id="@+id/comunidad_nombre_textview"
             style="@style/Text.Value"
@@ -64,7 +65,9 @@
             android:layout_height="wrap_content"
             android:text="Descripción:"
             style="@style/Text.Label"/>
-        
+        
+
+
         <TextView
             android:id="@+id/comunidad_descripcion_textview"
             style="@style/Text.Value"
@@ -97,8 +100,8 @@
             
             <Button
                 android:id="@+id/comunidad_borrar_button"
-                android:layout_width="54dp"
-                android:layout_height="52dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/basurero" />
             
         </LinearLayout>
