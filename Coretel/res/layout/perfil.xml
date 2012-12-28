@@ -21,6 +21,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/background_principal" >
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id ="@+id/linearLayout2"
         android:layout_width ="fill_parent"
         android:layout_height ="0dip"
@@ -78,13 +85,18 @@
             </LinearLayout>
             
                 <Button
-                android:id="@+id/perfil_cambiar_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Cambiar Clave" />
+                    android:id="@+id/perfil_cambiar_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/background_footer_shadow"
+                    android:text="Cambiar Clave"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp" 
+                    />
             
             <LinearLayout
                 android:id="@+id/perfil_layout_edit"
@@ -132,6 +144,13 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/background_footer_shadow" >
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id ="@+id/linearLayout3"
         	android:layout_width ="fill_parent"
         	android:layout_height ="wrap_content"
@@ -140,9 +159,9 @@
 
         <Button
             android:id="@+id/perfil_guardar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/save"/>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/save" />
 
     </LinearLayout>
 
