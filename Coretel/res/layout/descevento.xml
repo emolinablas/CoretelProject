@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- HEADER -->
+    <LinearLayout
+       android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="horizontal"
+        android:gravity="left|center"
+        style="@style/Layout.header">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo Evento"/>
+
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        android:gravity="top|center"
+        style="@style/Layout.body">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/Layout.body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.96"
+        android:gravity="right"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Tipos de Evento"
+            style="@style/Text.Label"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="Nombre" style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/descevento_nombre_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="" style="@style/Text.Value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="Icono" style="@style/Text.Label"/>
+
+            <ImageView
+                android:id="@+id/descevento_icono_imageview"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/alert" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="Activo" style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/descevento_activo_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="" style="@style/Text.Value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="Es incidente:" style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/descevento_incidente_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="" style="@style/Text.Value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.40"
+            
+            android:background="@drawable/values_background"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción:" style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/descevento_descripcion_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="7sp"
+                android:hint="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	style="@style/Layout.footer" android:gravity="right|center">
+
+        <Button
+            android:id="@+id/descevento_borrar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/basurero" />
+
+    </LinearLayout>
+
+</LinearLayout>

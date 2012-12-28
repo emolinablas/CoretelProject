@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+       android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="vertical"
+        style="@style/Layout.header">
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mi Perfil"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        style="@style/Layout.body">
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+                <TextView
+                android:id="@+id/textView1"
+                style="@style/Text.Label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Datos Actuales"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Nombre"
+                style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/perfil_nombre_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                style="@style/Text.Value"/>
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Email"
+                android:textAppearance="?android:attr/textAppearanceMedium" style="@style/Text.Label"/>
+
+            <TextView
+                android:id="@+id/perfil_email_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                style="@style/Text.Value"/>
+            </LinearLayout>
+            
+                <Button
+                android:id="@+id/perfil_cambiar_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Cambiar Clave" />
+            
+            <LinearLayout
+                android:id="@+id/perfil_layout_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+
+
+            <EditText
+                android:id="@+id/perfil_claveactual_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Clave Actual" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/perfil_clavenueva1_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Clave Nueva" />
+
+            <EditText
+                android:id="@+id/perfil_clavenueva2_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10sp"
+                android:layout_marginRight="10sp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Verificar Clave" />
+            </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	style="@style/Layout.footer" android:gravity="right|center">
+
+        <Button
+            android:id="@+id/perfil_guardar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/save"/>
+
+    </LinearLayout>
+
+</LinearLayout>

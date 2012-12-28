@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- HEADER -->
+    <LinearLayout
+       android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="horizontal"
+        android:gravity="center"
+        style="@style/Layout.header">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro Evento"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            >
+            
+            <Button
+                android:id="@+id/evento_save_button"
+                android:layout_width="42dp"
+                android:layout_height="40dp"
+                android:background="@drawable/save" />
+
+            <Button
+                android:id="@+id/evento_capturar_button"
+                android:layout_width="42dp"
+                android:layout_height="40dp"
+                android:background="@drawable/camera" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        android:gravity="top|center"
+        style="@style/Layout.body">
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="372dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Titulo"
+                    style="@style/Text.Label"/>
+
+                <EditText
+                    android:id="@+id/evento_titulo_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:hint="Escriba un título" >
+
+                    <requestFocus />
+                </EditText>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Fecha"
+                    style="@style/Text.Label"/>
+
+                <TextView
+                    android:id="@+id/evento_fecha_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="20 de noviembre de 2012, 11:12" style="@style/Text.Value"/>
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Ubicación"
+                    style="@style/Text.Label"/>
+
+                <TextView
+                    android:id="@+id/evento_latitud_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Text.Value"/>
+
+                <TextView
+                    android:id="@+id/evento_longitud_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    style="@style/Text.Value"/>
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Tipo"
+                    style="@style/Text.Label"/>
+
+                <Spinner
+                    android:id="@+id/evento_tipo_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Descripción"
+                    style="@style/Text.Label"/>
+
+                <EditText
+                    android:id="@+id/evento_descripcion_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Comunidad"
+                    style="@style/Text.Label"/>
+
+                <Spinner
+                    android:id="@+id/evento_comunidad_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp" />
+                
+                <LinearLayout 
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#afafaf">
+                    
+                    <ImageView
+                    android:id="@+id/evento_foto_imageview"
+                    android:layout_width="295sp"
+                    android:layout_height="195sp"
+                    android:src="@drawable/camera" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="horizontal"
+        	style="@style/Layout.footer" android:gravity="right|center">
+
+        <Button
+            android:id="@+id/evento_borrar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/basurero" />
+
+    </LinearLayout>
+
+</LinearLayout>

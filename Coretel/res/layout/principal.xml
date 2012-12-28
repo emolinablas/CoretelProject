@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" style="@style/Layout.principal">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout1"
+        android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="vertical"
+        style="@style/Layout.header">
+        
+        <TextView 
+            style="@style/Text.Titulo"
+            android:text="CORETEL"/>"
+        
+    </LinearLayout>
+    
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        style="@style/Layout.body">
+            <Button 
+                android:id="@+id/principal_login_button"
+                android:layout_width="150dp"
+        		android:layout_height="wrap_content"
+        		android:text="LOGIN"/>
+            
+            <Button 
+                android:id="@+id/principal_registrar_button"
+                android:layout_width="150dp"
+        		android:layout_height="wrap_content"
+        		android:text="REGISTRATE"/>
+    </LinearLayout>
+    
+    <!-- FOOTER -->
+    	<LinearLayout
+        	android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	style="@style/Layout.footer">
+        </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <!-- HEADER -->
+    <LinearLayout
+       android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="horizontal"
+        android:gravity="left|center"
+        style="@style/Layout.header">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Miembros"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        android:gravity="top|center"
+        style="@style/Layout.body">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mis Comunidades"
+            style="@style/Text.Label"/>
+        
+            <ListView
+		        android:id="@+id/miembros_lista_listview"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content" >
+
+    </ListView>
+
+    </LinearLayout>
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	style="@style/Layout.footer" android:gravity="right|center">
+
+    </LinearLayout>
+
+</LinearLayout>

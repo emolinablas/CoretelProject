@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- HEADER -->
+    <LinearLayout
+       android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="horizontal"
+        android:gravity="left|center"
+        style="@style/Layout.header">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comunidad"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/comunidades_guardar_button"
+                android:layout_width="54dp"
+                android:layout_height="52dp"
+                android:background="@drawable/save" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        android:gravity="top|left|center"
+        style="@style/Layout.body">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre:"
+            style="@style/Text.Label"/>
+        
+        <TextView
+            android:id="@+id/comunidad_nombre_textview"
+            style="@style/Text.Value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comunidad 1" />
+        
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción:"
+            style="@style/Text.Label"/>
+        
+        <TextView
+            android:id="@+id/comunidad_descripcion_textview"
+            style="@style/Text.Value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción 1" />
+        
+            <ListView
+		        android:id="@+id/comunidad_lista_listview"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_marginTop="10dp" >
+
+    </ListView>
+
+    </LinearLayout>
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	style="@style/Layout.footer" android:gravity="right|center">
+            
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center">
+            
+            <Button
+                android:id="@+id/comunidad_borrar_button"
+                android:layout_width="54dp"
+                android:layout_height="52dp"
+                android:background="@drawable/basurero" />
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
