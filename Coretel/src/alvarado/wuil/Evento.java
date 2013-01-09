@@ -3,7 +3,6 @@ package alvarado.wuil;
 import java.io.File;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -13,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,10 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
+import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
@@ -38,6 +40,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Button cameraButton;
 	private Button borrarButton;
 	private Button guardarButton;
+	private Button verImagenButton;
+	private LinearLayout imagenLayout;
 	private ImageView fotoEvento;
 	private String pathFoto;
 	private String latitud;
@@ -55,6 +59,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private EditText descripcionEditText;
 	private Spinner comunidadSpinner;
 	private CatalogoComunidad catalogoComunidad;
+	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -71,10 +76,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setBorrarButton((Button)findViewById(R.id.evento_borrar_button));
 		setGuardarButton((Button)findViewById(R.id.evento_save_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
+		setVerImagenButton((Button)findViewById(R.id.evento_ver_button));
+		getVerImagenButton().setOnClickListener(this);
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		
+		setImagenLayout((LinearLayout)findViewById(R.id.evento_imagen_layout));
+		getImagenLayout().setVisibility(View.INVISIBLE);
 		setTituloEditText((EditText)findViewById(R.id.evento_titulo_edittext));
 		setFechaTextView((TextView)findViewById(R.id.evento_fecha_textview));
 		setLatitudTextView((TextView)findViewById(R.id.evento_latitud_textview));
@@ -86,27 +95,65 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
 		
+		new ComunidadesAsync().execute("");
+		
 	}
 	
 	private void CargarDatosSpinner() {
-		TipoAnotacion();
 		Comunidades();
+		TipoAnotacion();
 	}
 
 	private void Comunidades() {
-		final String[] comunidades = new String[]{"comunidad 1"};
-		ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, comunidades);
+		ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, misComunidades());
 		getComunidadSpinner().setAdapter(adaptador);
 	}
 
-	private void TipoAnotacion() {
-		final String[] tipos = new String[]{"Accidente de Moto","Lluvia","Camino en mal estado","Policia","Disparos","Camara","Semaforo","Tunel","Volcan en erupcion","Tornado","Senal Wifi"};
-		ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, tipos);
-		getTipoEventoSpinnet().setAdapter(adaptador);
+	private String[] misComunidades() {
+		int tamano = getCatalogoComunidad().getComunidad().length;
+		String[] comunidades = new String[tamano];
+		for (int i = 0; i < tamano; i++){
+			comunidades[i] = getCatalogoComunidad().getComunidad()[i].getNombre();
+		}
+		if (tamano > 0){
+			return comunidades;
+		}else{
+			String[] error = {" "};
+			return error;
+		}
+		
+	}
 
+	private void TipoAnotacion() {
+		
+		String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
+		System.out.println("comunidad seleccionada = " + selectComunidad);
+		String idComunidad = "";
+		int tamano = getCatalogoComunidad().getComunidad().length;
+		for (int i = 0; i < tamano; i++){
+			if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(selectComunidad)){
+				idComunidad = getCatalogoComunidad().getComunidad()[i].getId();
+			}
+		}
+		
+		RequestWS request = new RequestWS();
+		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)request.BuscarTiposEventos(idComunidad));
+		
+		ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, tipoAnotacion());
+		getTipoEventoSpinnet().setAdapter(adaptador);
+		
 	}
 	
-	 // Clase para ejecutar en Background
+	 private String[] tipoAnotacion() {
+		int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
+		String[] tipos = new String[tamano];
+		for (int i = 0; i < tamano; i++){
+			tipos[i] = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre();
+		}
+		return tipos;
+	}
+
+	// Clase para ejecutar en Background
     class ComunidadesAsync extends AsyncTask<String, Integer, Integer> {
 
           // Metodo que prepara lo que usara en background, Prepara el progress
@@ -120,8 +167,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
           protected Integer doInBackground(String... urlString) {
                 try {
                 	CargarDatos();
-                	CargarTipoAnotacion();
-
+                
                } catch (Exception exception) {
 
                }
@@ -129,13 +175,22 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
          }
 
           private void CargarTipoAnotacion() {
-			// TODO Auto-generated method stub
-			
+			RequestWS request = new RequestWS();
+			String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
+			String idComunidad = "";
+			int tamano = getCatalogoComunidad().getComunidad().length;
+			for (int i = 0; i < tamano; i++){
+				if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(selectComunidad)){
+					idComunidad = getCatalogoComunidad().getComunidad()[i].getId();
+				}
+			}
+			setCatalogoTipoAnotacion(request.BuscarTiposEventos(idComunidad));
 		}
 
 		private void CargarDatos() {
         	  RequestWS request = new RequestWS();
-      		  setCatalogoComunidad(request.CargarComunidad("1"));
+      		  setCatalogoComunidad(request.CargarComunidades(User.getUserId()));
+      		  CargarTipoAnotacion();
 			
 		}
 
@@ -158,53 +213,86 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else if (view == getBorrarButton()){
 			
 		}else if (view == getGuardarButton()){
-			try{
-				ConnectState connect = new ConnectState();
-				RequestWS request = new RequestWS();
-				if (connect.isConnectedToInternet(this)){
-					String titulo = getTituloEditText().getText().toString();
-				    String idUsuario = User.getUserId();
-				    String comunidad = "16";
-				    String tipoAnotacion = "1";
-				    String descripcion = getTipoEventoSpinnet().getSelectedItem().toString();
-				    String imagen = "";
-					RespuestaWS respuesta = new RespuestaWS();
-					respuesta = request.MandarEvento(titulo, getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, getPathFoto());
-					if (respuesta.isResultado()){
-						getMensaje().VerMensaje(this, respuesta.getMensaje());
-						finish();
-					}
-				}
-			}catch(Exception exception){
-				
-			}
+			EnviarEvento();
+		}else if (view == getVerImagenButton()){
+			MostrarImagen();
 		}
 		
+	}
+
+	private void MostrarImagen() {
+		verImagen();
+		getImagenLayout().setVisibility(View.VISIBLE);
+		
+	}
+
+	private void EnviarEvento() {
+		
+		try{
+			ConnectState connect = new ConnectState();
+			RequestWS request = new RequestWS();
+			if (connect.isConnectedToInternet(this)){
+				String titulo = getTituloEditText().getText().toString();
+			    String idUsuario = User.getUserId();
+			    String comunidad = ComunidadSeleccionada();
+			    String tipoAnotacion = TipoSeleccionado();
+			    String descripcion = getTipoEventoSpinnet().getSelectedItem().toString();
+			    String imagen = getPathFoto();
+				RespuestaWS respuesta = new RespuestaWS();
+				request.MandarEvento(titulo, getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
+				if (respuesta.isResultado()){
+					getMensaje().VerMensaje(this, respuesta.getMensaje());
+					finish();
+				}
+			}
+		}catch(Exception exception){
+			
+		}
+		
+	}
+
+	private String TipoSeleccionado() {
+		String anotacion = "";
+		String tipo = getTipoEventoSpinnet().getSelectedItem().toString();
+		int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
+		for (int i = 0; i < tamano; i++){
+			if (getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre().equalsIgnoreCase(tipo)){
+				anotacion = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getId();
+			}
+		}
+		return anotacion;
+	}
+
+	private String ComunidadSeleccionada() {
+		String comunidad = "";
+		String com = getComunidadSpinner().getSelectedItem().toString();
+		int tamano = getCatalogoComunidad().getComunidad().length;
+		for (int i = 0; i < tamano; i++){
+			if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(com)){
+				comunidad = getCatalogoComunidad().getComunidad()[i].getId();
+			}
+		}
+		return comunidad;
 	}
 
 	private void ActivarCamara() {
 		//Activar la camara
 	  	Intent cIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		//startActivityForResult(cIntent, CAMERA_RESULT); 
-		System.out.println("activar camara");
 		//asignar nombre y direccion a la imagen
-		setPathFoto("/foto1-evento.jpg");
+		setPathFoto("/foto1-even.jpg");
 		String path = "/mifoto.jpg";
-		System.out.println("crear nombre archivo " + getPathFoto());
 		//crear nuevo archivo (imagen)
 		File f = new File(Environment.getExternalStorageDirectory() + getPathFoto());
 		Uri uri = Uri.fromFile(f);
-		System.out.println("crear archivo " + f);
 		cIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-		
 		startActivityForResult(cIntent, CAMERA_RESULT);
-			
-		verImagen();
 	}
 
 	private void verImagen() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
+		Log.e("Log", "ver foto = sdcard" + getPathFoto());
         Bitmap bm = BitmapFactory.decodeFile("sdcard" + getPathFoto(), options);
         getFotoEvento().setImageBitmap(bm);
 	}
@@ -381,7 +469,29 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
 		this.catalogoComunidad = catalogoComunidad;
 	}
-	
-	
+
+	public CatalogoTipoAnotacion getCatalogoTipoAnotacion() {
+		return catalogoTipoAnotacion;
+	}
+
+	public void setCatalogoTipoAnotacion(CatalogoTipoAnotacion catalogoTipoAnotacion) {
+		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
+	}
+
+	public Button getVerImagenButton() {
+		return verImagenButton;
+	}
+
+	public void setVerImagenButton(Button verImagenButton) {
+		this.verImagenButton = verImagenButton;
+	}
+
+	public LinearLayout getImagenLayout() {
+		return imagenLayout;
+	}
+
+	public void setImagenLayout(LinearLayout imagenLayout) {
+		this.imagenLayout = imagenLayout;
+	}
 	
 }

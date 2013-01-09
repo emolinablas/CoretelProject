@@ -177,8 +177,21 @@
                 <LinearLayout 
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="#afafaf">
+                    android:gravity="center">
+                    
+                    <Button
+            			android:id="@+id/evento_ver_button"
+            			android:layout_width="wrap_content"
+            			android:layout_height="wrap_content"
+            			android:text="Ver Imagen"/>
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:id="@+id/evento_imagen_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#afafaf"
+                    android:gravity="center" >
                     
                     <ImageView
                     android:id="@+id/evento_foto_imageview"

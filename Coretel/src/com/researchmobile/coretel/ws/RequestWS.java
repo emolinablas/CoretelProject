@@ -2,11 +2,14 @@ package com.researchmobile.coretel.ws;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -17,6 +20,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -119,7 +123,8 @@ public class RequestWS {
 	public RespuestaWS CrearUsuario(String nombre, String usuario, String email, String telefono) {
 		JSONObject jsonObject = null;
 
-		String finalURL = WS_CREAUSUARIO + email + "&nombre=" + nombre + "&telefono=" + telefono + "&usuario=" + usuario;
+		String urlTemp = WS_CREAUSUARIO + email + "&nombre=" + nombre + "&telefono=" + telefono + "&usuario=" + usuario;
+		String finalURL = urlTemp.replace(" ", "%20");
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
 			jsonObject = connectWS.CreaUsuario(finalURL);
@@ -292,56 +297,147 @@ public class RequestWS {
 		}
 		return null;
 	}
+
+public void post(String url, List<NameValuePair> nameValuePairs) {
+    HttpClient httpClient = new DefaultHttpClient();
+    HttpContext localContext = new BasicHttpContext();
+    HttpPost httpPost = new HttpPost(url);
+
+    try {
+        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        Log.e("LOG", "Prueba envio foto");
+
+        for(int index=0; index < nameValuePairs.size(); index++) {
+            if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
+                // If the key equals to "image", we use FileBody to transfer the data
+                entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
+            } else {
+                // Normal string data
+                entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
+            }
+        }
+
+        httpPost.setEntity(entity);
+
+        HttpResponse response = httpClient.execute(httpPost, localContext);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 	
 	public RespuestaWS MandarEvento(String titulo, String latitud, String longitud, String idUsuario, String comunidad, String tipoAnotacion, String descripcion, String imagen) {
-		RespuestaWS respuesta = new RespuestaWS();
 		
 		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
-		nombresArchivos.add(new BasicNameValuePair("usuario", "2"));
-		nombresArchivos.add(new BasicNameValuePair("comunidad", "1"));
-		nombresArchivos.add(new BasicNameValuePair("tipo_anotacion", "2"));
-		nombresArchivos.add(new BasicNameValuePair("descripcion", "asasas"));
-		nombresArchivos.add(new BasicNameValuePair("lat", "14.23232323"));
-		nombresArchivos.add(new BasicNameValuePair("lon", "-90.23231212"));
+		nombresArchivos.add(new BasicNameValuePair("usuario", idUsuario));
+		nombresArchivos.add(new BasicNameValuePair("comunidad", comunidad));
+		nombresArchivos.add(new BasicNameValuePair("tipo_anotacion", tipoAnotacion));
+		nombresArchivos.add(new BasicNameValuePair("descripcion", descripcion));
+		nombresArchivos.add(new BasicNameValuePair("lat", latitud));
+		nombresArchivos.add(new BasicNameValuePair("lon", longitud));
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
+		post("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
+		
+
+
+		/*
+		 * Forma 4, manda los datos pero no la imagen
+		try{
+			System.out.println("mandar evento");
+			JSONObject jsonObject = null;
+			ConnectWS connectWS = new ConnectWS();
+			jsonObject = connectWS.enviarImagen(titulo, latitud, longitud, idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
+			System.out.println("evento mandado");
+		}catch(Exception exception){
+			
+		}
+		*/
+		
+		/*
+		//* Forma 1, manda los datos pero no la imagen
+		System.out.println("mandar evento");
+		JSONObject jsonObject = null;
+		ConnectWS connectWS = new ConnectWS();
+		jsonObject = connectWS.EnviaImagen(titulo, latitud, longitud, idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
+		System.out.println("evento mandado");
+		*/
+		
+		/*
+		 * Forma 2, no manda datos ni imagen
+		 * 
+		RespuestaWS respuesta = new RespuestaWS();
+		
+		
+		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
+		nombresArchivos.add(new BasicNameValuePair("usuario", idUsuario));
+		nombresArchivos.add(new BasicNameValuePair("comunidad", comunidad));
+		nombresArchivos.add(new BasicNameValuePair("tipo_anotacion", tipoAnotacion));
+		nombresArchivos.add(new BasicNameValuePair("descripcion", descripcion));
+		nombresArchivos.add(new BasicNameValuePair("lat", latitud));
+		nombresArchivos.add(new BasicNameValuePair("lon", longitud));
+		nombresArchivos.add(new BasicNameValuePair("Filedata", imagen) );
+		
 		System.out.println(imagen);
-		String url = "http://190.149.200.202/WS/ws_crear_anotacion.php?";
+		String url = "http://23.23.1.2/WS/ws_crear_anotacion.php?";
 		post(url, nombresArchivos);
-		return null;
-	}
+		*/
 		
-	public void post(String url, List<NameValuePair> nameValuePairs) {
 		
-	    HttpClient httpClient = new DefaultHttpClient();
-	    HttpContext localContext = new BasicHttpContext();
-	    HttpPost httpPost = new HttpPost(url);
+		
+		// * Foram 3, manda los datos, posblimente la imagen, pero no aparece la imagen en el ws, solo los datos
+		Log.d("TAG", "UPLOAD: SendMultipartFile");
+	    DefaultHttpClient httpclient = new DefaultHttpClient();
+	    HttpPost httppost = new HttpPost("http://23.23.1.2/WS/ws_crear_anotacion.php?");
+
+	    File file = new File("/sdcard" + imagen);
+
+	    Log.d("TAG", "UPLOAD: setting up multipart entity");
+
+	    MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+	    Log.d("TAG", "UPLOAD: file length = " + file.length());
+	    Log.d("TAG", "UPLOAD: file exist = " + file.exists());
 
 	    try {
-	        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+	        mpEntity.addPart("Filedata", new FileBody(file, "image"));
+	        mpEntity.addPart("usuario", new StringBody(idUsuario));
+	        mpEntity.addPart("comunidad", new StringBody(comunidad));
+	        mpEntity.addPart("tipo_anotacion", new StringBody(tipoAnotacion));
+	        mpEntity.addPart("descripcion", new StringBody(descripcion));
+	        mpEntity.addPart("lat", new StringBody(latitud));
+	        mpEntity.addPart("lon", new StringBody(longitud));
+	    } catch (UnsupportedEncodingException e1) {
+	        Log.d("TAG", "UPLOAD: UnsupportedEncodingException");
+	        e1.printStackTrace();
+	    }
 
-	        for(int index=0; index < nameValuePairs.size(); index++) {
-	            if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
-	                System.out.println("campo = "+ nameValuePairs.get(index).getValue());
-	                entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
-	            } else {
-	            	System.out.println("campo = "+ nameValuePairs.get(index).getValue());
-	                // Normal string data
-	                entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
-	            }
+	    httppost.setEntity(mpEntity);
+	    Log.d("TAG", "UPLOAD: executing request: " + httppost.getRequestLine());
+	    Log.d("TAG", "UPLOAD: request: " + httppost.getEntity().getContentType().toString());
+
+
+	    HttpResponse response;
+	    try {
+	        Log.d("TAG", "UPLOAD: about to execute");
+	        response = httpclient.execute(httppost);
+	        Log.d("TAG", "UPLOAD: executed");
+	        HttpEntity resEntity = response.getEntity();
+	        Log.d("TAG", "UPLOAD: respose code: " + response.getStatusLine().toString());
+	        if (resEntity != null) {
+	            Log.d("TAG", "UPLOAD: " + EntityUtils.toString(resEntity));
 	        }
-
-	        httpPost.setEntity(entity);
-
-	        HttpResponse response = httpClient.execute(httpPost, localContext);
-	        System.out.println("del envieo = " + response);
-	        System.out.println("del envieo = " + response.getEntity().getContent());
-	        System.out.println("del envieo = " + response.getParams());
-	        System.out.println("del envieo = " + response.getEntity().getContentLength());
-	        
+	        if (resEntity != null) {
+	            resEntity.consumeContent();
+	        }
+	    } catch (ClientProtocolException e) {
+	        e.printStackTrace();
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
+		
+		return null;
+		
 	}
+		
+	
 		
 		/*
 		JSONObject jsonObject = null;
@@ -469,7 +565,7 @@ public class RequestWS {
 		CatalogoAnotacion catalogo = new CatalogoAnotacion();
 		RespuestaWS respuesta = new RespuestaWS();
 		JSONObject jsonObject = null;
-		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=2";
+		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=1";
 		try{
 			jsonObject = connectWS.CatalogoAnotacion(finalURL);
 			if (jsonObject != null){
