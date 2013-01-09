@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 public class ConnectWS {
 	//private static String IP_SERVER = "23.22.165.103";
-	private static String IP_SERVER = "174.129.97.85";
+	private static String IP_SERVER = "23.23.1.2";
 	private static int PUERTO = 80;
 	
 	public static JSONObject Login(String url) {			
