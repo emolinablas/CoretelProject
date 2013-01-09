@@ -69,10 +69,11 @@ public class MapWuil extends MapActivity {
 		btnSatelite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mapView.isSatellite())
+				if (mapView.isSatellite()){
 					mapView.setSatellite(false);
-				else
+				}else{
 					mapView.setSatellite(true);
+				}
 			}
 		});
 
