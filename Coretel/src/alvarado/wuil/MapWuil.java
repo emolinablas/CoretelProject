@@ -101,8 +101,6 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         	public void onSelectPOI(int latitud, int longitud) {
         		list.add(new GeoPoint((int)(latitud), (int)(longitud)));
         		agregaPuntos(list, "nuevo", "nuevo punto");
-        		Toast.makeText(getBaseContext(), String.valueOf(latitud) + " : " + String.valueOf(longitud), Toast.LENGTH_SHORT).show();
-        		
         	}
         });
         	

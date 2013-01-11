@@ -3,6 +3,7 @@ package alvarado.wuil;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -61,13 +62,18 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	
+	private ProgressDialog pd = null;
+	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.evento);
 		new ComunidadesAsync().execute("");
 		Bundle bundle = (Bundle)getIntent().getExtras();
-		setLatitud(bundle.getString("latitud"));
-		setLongitud(bundle.getString("longitud"));
+		String lat = bundle.getString("latitud");
+		String lon = bundle.getString("longitud");
+		
+		setLatitud(String.valueOf(Integer.parseInt(lat)/1E6));
+		setLongitud(String.valueOf(Integer.parseInt(lon)/1E6));
 		setMensaje(new Mensaje());
 		getMensaje().VerMensaje(this, getLatitud());
 		setFecha(new Fecha());
@@ -199,6 +205,37 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
         	 CargarDatosSpinner();
          }
     }
+    
+	// Clase para ejecutar en Background
+	class enviarAsync extends AsyncTask<String, Integer, Integer> {
+
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(Evento.this, "ENVIAR",
+					"ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				EnviarEvento();
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			finish();
+
+		}
+	}
+
 
 
 	@Override
@@ -213,7 +250,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else if (view == getBorrarButton()){
 			
 		}else if (view == getGuardarButton()){
-			EnviarEvento();
+			new enviarAsync().execute("");
 		}else if (view == getVerImagenButton()){
 			MostrarImagen();
 		}

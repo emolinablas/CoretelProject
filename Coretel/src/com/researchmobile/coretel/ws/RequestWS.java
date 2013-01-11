@@ -337,53 +337,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
 		post("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
 		
-
-
 		/*
-		 * Forma 4, manda los datos pero no la imagen
-		try{
-			System.out.println("mandar evento");
-			JSONObject jsonObject = null;
-			ConnectWS connectWS = new ConnectWS();
-			jsonObject = connectWS.enviarImagen(titulo, latitud, longitud, idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
-			System.out.println("evento mandado");
-		}catch(Exception exception){
-			
-		}
-		*/
-		
-		/*
-		//* Forma 1, manda los datos pero no la imagen
-		System.out.println("mandar evento");
-		JSONObject jsonObject = null;
-		ConnectWS connectWS = new ConnectWS();
-		jsonObject = connectWS.EnviaImagen(titulo, latitud, longitud, idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
-		System.out.println("evento mandado");
-		*/
-		
-		/*
-		 * Forma 2, no manda datos ni imagen
-		 * 
-		RespuestaWS respuesta = new RespuestaWS();
-		
-		
-		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
-		nombresArchivos.add(new BasicNameValuePair("usuario", idUsuario));
-		nombresArchivos.add(new BasicNameValuePair("comunidad", comunidad));
-		nombresArchivos.add(new BasicNameValuePair("tipo_anotacion", tipoAnotacion));
-		nombresArchivos.add(new BasicNameValuePair("descripcion", descripcion));
-		nombresArchivos.add(new BasicNameValuePair("lat", latitud));
-		nombresArchivos.add(new BasicNameValuePair("lon", longitud));
-		nombresArchivos.add(new BasicNameValuePair("Filedata", imagen) );
-		
-		System.out.println(imagen);
-		String url = "http://23.23.1.2/WS/ws_crear_anotacion.php?";
-		post(url, nombresArchivos);
-		*/
-		
-		
-		
-		// * Foram 3, manda los datos, posblimente la imagen, pero no aparece la imagen en el ws, solo los datos
 		Log.d("TAG", "UPLOAD: SendMultipartFile");
 	    DefaultHttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://23.23.1.2/WS/ws_crear_anotacion.php?");
@@ -432,7 +386,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-		
+		*/
 		return null;
 		
 	}
