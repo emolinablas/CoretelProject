@@ -7,10 +7,22 @@ import alvarado.wuil.MapItemizedOverlaySelect.OnSelectPOIListener;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -22,7 +34,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 
-public class MapWuil extends MapActivity {
+public class MapWuil extends MapActivity implements OnItemClickListener{
 	private static final String LOG = "CORETEL-MapWuil";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
@@ -34,22 +46,50 @@ public class MapWuil extends MapActivity {
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
 	private Button btnAnimar = null;
-	private Button btnLobby = null;
-	private Button btnChat = null;
+	//Declare
+	private LinearLayout slidingPanel;
+	private boolean isExpanded;
+	private DisplayMetrics metrics;	
+	private ListView listView;
+	private RelativeLayout headerPanel;
+	private RelativeLayout menuPanel;
+	private int panelWidth;
+	private ImageView menuViewButton;
+	private View viewItem1;
+	private View viewItem2;
+	private ListView lView;
+	
+	FrameLayout.LayoutParams menuPanelParameters;
+	FrameLayout.LayoutParams slidingPanelParameters;
+	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams listViewParameters;
 	
 	final List<GeoPoint> list = new ArrayList<GeoPoint>();
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.mapa);
+        
+        /***
+         * MENU
+         */
+        
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Loby", "Chat", "Cerrar sesión" };
+
+      lView = (ListView) findViewById(R.id.lista);
+      // Set option as Multiple Choice. So that user can able to select more the one option from list
+      lView.setAdapter(new ArrayAdapter<String>(this,
+      android.R.layout.simple_list_item_1, lv_items));
+      lView.setOnItemClickListener(this);
+      animationMenu();
+        
+        
         Bundle bundle = (Bundle)getIntent().getExtras();
         setCatalogoAnotacion((CatalogoAnotacion)bundle.get("anotaciones"));
         btnSatelite = (Button)findViewById(R.id.BtnSatelite);
         btnCentrar = (Button)findViewById(R.id.BtnCentrar);
         btnAnimar = (Button)findViewById(R.id.BtnAnimar);
-        btnLobby = (Button)findViewById(R.id.BtnLobby);
-        btnChat = (Button)findViewById(R.id.BtnChat);
         inicializeMap();
         mapOverlays = mapView.getOverlays();
         
@@ -115,34 +155,57 @@ public class MapWuil extends MapActivity {
 				
 			}
 		});
+	}
+    
+    private void animationMenu(){
+    	//Initialize
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		panelWidth = (int) ((metrics.widthPixels)*0.75);
+	
+		headerPanel = (RelativeLayout) findViewById(R.id.header);
+		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
+		headerPanelParameters.width = metrics.widthPixels;
+		headerPanel.setLayoutParams(headerPanelParameters);
 		
-		btnLobby.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(MapWuil.this, Lobby.class);
-				startActivity(intent);
-			}
-		});
+		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
+		menuPanelParameters.width = panelWidth;
+		menuPanel.setLayoutParams(menuPanelParameters);
 		
-		btnChat.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(MapWuil.this, Chat.class);
-				startActivity(intent);
-			}
-		});
+		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
+		slidingPanelParameters.width = metrics.widthPixels;
+		slidingPanel.setLayoutParams(slidingPanelParameters);
 		
-		/*btnMover.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// mapOverlays.clear();
-				mapController.scrollBy(50, 0);
-			}
+		//Slide the Panel	
+		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+		menuViewButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if(!isExpanded){
+		    		expandMenu();
+		    	}else{
+		    		collapseMenu();
+		    	}         	   
+		    }
 		});
-		*/
-
     }
     
+    private void expandMenu(){
+    	//Expand
+    	isExpanded = true;
+		new ExpandAnimation(slidingPanel, panelWidth,
+	    Animation.RELATIVE_TO_SELF, 0.0f,
+	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+    }
+    
+    private void collapseMenu(){
+    	//Collapse
+    	isExpanded = false;
+		new CollapseAnimation(slidingPanel,panelWidth,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+    }
     private void VerificarPuntos(List<GeoPoint> list) {
     	int tamano = getCatalogoAnotacion().getAnotacion().length;
     	for (int i = 0; i < tamano; i++){
@@ -214,6 +277,51 @@ public class MapWuil extends MapActivity {
 	public void setCatalogoAnotacion(CatalogoAnotacion catalogoAnotacion) {
 		this.catalogoAnotacion = catalogoAnotacion;
 	}
+	
+	private void opcionesMenu(int opcion){
+		switch(opcion){
+		case 0:
+			break;
+		case 1:
+			//Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+			//startActivity(intentComunidades);
+			break;
+		case 2:
+			break;
+		case 3:
+			Intent intentLobby = new Intent(MapWuil.this, Lobby.class);
+			startActivity(intentLobby);
+			break;
+		case 4:
+			Intent intentChat = new Intent(MapWuil.this, Chat.class);
+			startActivity(intentChat);
+			break;
+		case 5:
+			Intent intentCerrar = new Intent(MapWuil.this, Principal.class);
+			startActivity(intentCerrar);
+			break;
+        default:
+            break;
+
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		collapseMenu();
+		opcionesMenu(arg2);
+		
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	      if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            // Preventing default implementation previous to android.os.Build.VERSION_CODES.ECLAIR     
+	            return true;
+	      }
+	      
+	      return super.onKeyDown(keyCode, event);
+    }
+
     
     
 }
