@@ -50,13 +50,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
 	private DisplayMetrics metrics;	
-	private ListView listView;
 	private RelativeLayout headerPanel;
 	private RelativeLayout menuPanel;
 	private int panelWidth;
 	private ImageView menuViewButton;
-	private View viewItem1;
-	private View viewItem2;
 	private ListView lView;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
@@ -291,7 +288,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 			startActivity(intentLobby);
 			break;
 		case 4:
-			Intent intentChat = new Intent(MapWuil.this, Chat.class);
+			Intent intentChat = new Intent(MapWuil.this, GroupChat.class);
 			startActivity(intentChat);
 			break;
 		case 5:

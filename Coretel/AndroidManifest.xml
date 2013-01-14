@@ -59,11 +59,13 @@
         <activity android:name="Comunidad"/>
         <activity android:name="Miembros"/>
         <activity android:name="Chat" android:screenOrientation="portrait" android:configChanges="orientation"/>
+        <activity android:name="GroupChat" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="TipoEvento"/>
         <activity android:name="Descevento"/>
         <activity android:name="CreaComunidad"/>
         <activity android:name="Evento" android:configChanges="keyboard|keyboardHidden|orientation"/>
         <activity android:name="NuevoTipoEvento"/>
+        
         
     </application>
 
