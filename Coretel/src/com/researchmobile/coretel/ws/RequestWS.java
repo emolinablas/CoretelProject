@@ -51,7 +51,7 @@ public class RequestWS {
 	private static final String WS_CATALOGOMIEMBRO = "ws_miembro.php?comunidad=";
 	private static final String WS_MANDAREVENTO = "dashboard.anotaciones.actions.php?idusuario=";
 	private static final String WS_CREACOMUNIDAD = "ws_crear_comunidad.php?usuario=";
-	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=2&clave=";
+	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
 	private static final String WS_LISTATIPOANOTACION = "ws_tipo_anotacion.php?comunidad=";
@@ -423,7 +423,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	
 	public RespuestaWS CambiarClave(String claveactual, String clavenueva1) {
 		JSONObject jsonObject = null;
-		String finalURL = WS_CAMBIARCLAVE + claveactual + "&nclave=" + clavenueva1;
+		String finalURL = WS_CAMBIARCLAVE + User.getUserId() + "&clave=" + claveactual + "&nclave=" + clavenueva1;
 		String url = finalURL.replace(" ", "%20");
 		RespuestaWS respuesta = new RespuestaWS();
 		try{

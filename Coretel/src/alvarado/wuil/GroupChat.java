@@ -1,12 +1,11 @@
 package alvarado.wuil;
 
 import java.net.URI;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.codebutler.android_websockets.SocketIOClient;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -16,17 +15,26 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-public class GroupChat extends Activity implements OnClickListener{
+import com.codebutler.android_websockets.SocketIOClient;
+import com.researchmobile.coretel.entity.ItemChat;
+import com.researchmobile.coretel.entity.User;
+
+public class GroupChat extends Activity implements OnClickListener, OnItemClickListener{
 	
 	private Button mandar;
+	private long idChat = 0;
+	private EditText mensajeEditText;
 	protected static final String TAG = null;
 	
 	//Declare
@@ -41,10 +49,15 @@ public class GroupChat extends Activity implements OnClickListener{
 	private SocketIOClient client;
 	private String[] listaUsuarios;
 	
+	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
 	LinearLayout.LayoutParams headerPanelParameters ;
 	LinearLayout.LayoutParams listViewParameters;
+	
+	ItemChatAdapter adapter;
+	private ListView listChat;
+	ArrayList<ItemChat> itemsCompra;
 
 	
 	@Override
@@ -52,8 +65,15 @@ public class GroupChat extends Activity implements OnClickListener{
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_chat);
+		
 		setMandar((Button)findViewById(R.id.chat_enviar_button));
+		setMensajeEditText((EditText)findViewById(R.id.chat_agregar_edittext));
+		setListChat((ListView)findViewById(R.id.chat_conversacion_listview));
+		setItemsCompra(new ArrayList<ItemChat>());
+		setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
+		getListChat().setAdapter(getAdapter());
 		getMandar().setOnClickListener(this);
+		
 		menuDesplegable();
 		
 		setClient(new SocketIOClient(URI.create("http://23.23.1.2:8080"), new SocketIOClient.Handler() {
@@ -84,14 +104,35 @@ public class GroupChat extends Activity implements OnClickListener{
 				 
 			}
 		}));
+		conectar();
 
 		getClient().connect();
 				
 	}
+	private void conectar(){
+		JSONArray arguments = new JSONArray();
+		JSONArray arguments2 = new JSONArray();
+		try{
+		
+		arguments2.put("Wuilder Alvarado");
+		arguments2.put("21");
+		arguments2.put("1");
+	    arguments.put("21");
+	    
+		getClient().emit("conectarComunidad", arguments2);
+		}catch(Exception exception){
+			
+		}
+		
+	}
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	private void mensajeCapturado(String event, JSONArray arguments){
 		if (event.equalsIgnoreCase("usuarios_online")){
-			
 			//event usuarios_online: [[{"id":61,"usuario":"Regina Goubaud","com":1},{"id":22,"usuario":"Kevin Herrarte","com":1},{"id":21,"usuario":"Wuilder Alvarado","com":1}]]
 			try {
 				JSONArray usuarios = arguments.getJSONArray(0);
@@ -109,25 +150,36 @@ public class GroupChat extends Activity implements OnClickListener{
 				e.printStackTrace();
 			}
 		}
+
+		if (event.equalsIgnoreCase("saludador")){
+			Log.e("CHAT", "inicia Saludador");
+			//{"name":"saludador","args":["Hola nuevo usuario :)"]}
+			try{
+				String mensaje = arguments.toString();
+				//insertaMensaje(mensaje, User.getUsername());
+			}catch(Exception exception){
+				
+			}
+		}
+		
+		
+		
 	}
 	
 	@Override
 	public void onClick(View view) {
 		if (view == getMandar()){
-			JSONArray arguments = new JSONArray();
+			String mensaje = getMensajeEditText().getText().toString();
+			getMensajeEditText().setText("");
+			insertaMensaje(User.getUsername(), mensaje);
 			JSONArray arguments2 = new JSONArray();
-			JSONObject primero = new JSONObject();
-			JSONObject segundo = new JSONObject();
-			JSONObject tercero = new JSONObject();
 			try{
 			
-			arguments2.put("Wuilder Alvarado");
-			arguments2.put("21");
-			arguments2.put("1");
-		    arguments.put("21");
+			arguments2.put(mensaje);
+			arguments2.put(User.getUsername());
+			arguments2.put("xxx");
 		    
-		    
-			getClient().emit("conectarComunidad", arguments2);
+			getClient().emit("ingresoMensaje", arguments2);
 			llenaListaUsuarios(getListaUsuarios());
 			}
 			catch(Exception e){
@@ -136,6 +188,14 @@ public class GroupChat extends Activity implements OnClickListener{
 		
 	}
 	
+	private void insertaMensaje(String usuario, String mensaje){
+		Log.e("CHAT", "insertando mensaje");
+		ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
+		Log.e("CHAT", miItem.getId() + " " + miItem.getNombre() + " " + miItem.getMensaje());
+        getItemsCompra().add(miItem);
+        setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
+        getListChat().setAdapter(getAdapter());
+	}
 	private void llenaListaUsuarios(String[] lista){
 		Log.e("CHAT", "llegaLista");
 		lView = (ListView) findViewById(R.id.list);
@@ -210,10 +270,39 @@ public class GroupChat extends Activity implements OnClickListener{
 	public void setListaUsuarios(String[] listaUsuarios) {
 		this.listaUsuarios = listaUsuarios;
 	}
+
+	public ListView getListChat() {
+		return listChat;
+	}
+
+	public void setListChat(ListView listChat) {
+		this.listChat = listChat;
+	}
+
+	public ItemChatAdapter getAdapter() {
+		return adapter;
+	}
+
+	public void setAdapter(ItemChatAdapter adapter) {
+		this.adapter = adapter;
+	}
+
+	public ArrayList<ItemChat> getItemsCompra() {
+		return itemsCompra;
+	}
+
+	public void setItemsCompra(ArrayList<ItemChat> itemsCompra) {
+		this.itemsCompra = itemsCompra;
+	}
+
+	public EditText getMensajeEditText() {
+		return mensajeEditText;
+	}
+
+	public void setMensajeEditText(EditText mensajeEditText) {
+		this.mensajeEditText = mensajeEditText;
+	}
 	
 	
 
 }
-
-
-
