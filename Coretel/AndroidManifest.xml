@@ -56,6 +56,7 @@
         <activity android:name="Lobby"/>
         <activity android:name="Perfil"/>
         <activity android:name="Comunidades"/>
+        <activity android:name="Invitaciones"/>
         <activity android:name="Comunidad"/>
         <activity android:name="Miembros"/>
         <activity android:name="Chat" android:screenOrientation="portrait" android:configChanges="orientation"/>

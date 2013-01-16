@@ -8,6 +8,7 @@ public class User implements Serializable{
 	private static String username;
 	private static String password;
 	private static String userId;
+	private static String email;
 	private RespuestaWS respuestaWS;
 	
 	public static String getUsername() {
@@ -34,5 +35,10 @@ public class User implements Serializable{
 	public void setRespuestaWS(RespuestaWS respuestaWS) {
 		this.respuestaWS = respuestaWS;
 	}
-
+	public static String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
