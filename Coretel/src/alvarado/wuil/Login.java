@@ -1,7 +1,6 @@
 package alvarado.wuil;
 
 import android.app.Activity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,10 +13,11 @@ import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gcm.GCMRegistrar;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
+import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.ChatUtility;
+import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -36,6 +36,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private CatalogoAnotacion catalogoAnotacion;
      private ProgressDialog pd = null;
      private boolean logeado;
+     private RequestWS requestWS;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,9 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             getEntrarButton().setOnClickListener(this);
             getSalirButton().setOnClickListener(this);
             getUsuarioEditText().setText("emejia");
-            getClaveEditText().setText("111");
+            getClaveEditText().setText("123");
+            setRequestWS(new RequestWS());
+            
         }catch(Exception exception){
              Log.i(LOGTAG, exception.getLocalizedMessage());
         }
@@ -106,8 +109,37 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private void CargarAnotaciones() {
+		
+		//Cargar Comunidades(idusuario)
+		CatalogoComunidad comunidades = new CatalogoComunidad();
+		comunidades = getRequestWS().CargarComunidades(User.getUserId());
+		Log.e("TT", "Login, comunidades cargadas = " + comunidades.getComunidad().length);
+		
+		//Cargar Tipo de anotaciones por comunidades(idcomunidad)
+		CatalogoTipoAnotacion tipoAnotaciones = new CatalogoTipoAnotacion();
+		int tamanoComunidades = comunidades.getComunidad().length;
+		
+		int contar = 0;
+		for (int i = 0; i < tamanoComunidades; i++){
+			tipoAnotaciones = getRequestWS().BuscarTiposEventos(comunidades.getComunidad()[i].getId());
+			contar = contar + tipoAnotaciones.getTipoAnotacion().length;
+		}
+		
+		CatalogoTipoAnotacion tiposFinal = new CatalogoTipoAnotacion();
+		TipoAnotacion[] total = new TipoAnotacion[contar];
+		int contarTotal = 0;
+		for (int i = 0; i < tamanoComunidades; i++){
+			tipoAnotaciones = getRequestWS().BuscarTiposEventos(comunidades.getComunidad()[i].getId());
+			for (int j = 0; j < tipoAnotaciones.getTipoAnotacion().length; j++){
+				total[contarTotal] = tipoAnotaciones.getTipoAnotacion()[j];
+				contarTotal++;
+			}
+		}
+		tiposFinal.setTipoAnotacion(total);
+		
+		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
 		RequestWS request = new RequestWS();
-		setCatalogoAnotacion(request.CargarAnotaciones());
+		setCatalogoAnotacion(request.CargarAnotaciones(total));
 		System.out.println(getCatalogoAnotacion().getRespuesta().getMensaje());
 	}
 
@@ -254,6 +286,14 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setLogeado(boolean logeado) {
 		this.logeado = logeado;
+	}
+
+	public RequestWS getRequestWS() {
+		return requestWS;
+	}
+
+	public void setRequestWS(RequestWS requestWS) {
+		this.requestWS = requestWS;
 	}
 	
 	

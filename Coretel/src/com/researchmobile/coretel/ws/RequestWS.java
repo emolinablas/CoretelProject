@@ -2,14 +2,11 @@ package com.researchmobile.coretel.ws;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -20,7 +17,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -565,10 +561,62 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 
-	public CatalogoAnotacion CargarAnotaciones() {
+	public CatalogoAnotacion CargarAnotaciones(TipoAnotacion[] total) {
 		CatalogoAnotacion catalogo = new CatalogoAnotacion();
 		RespuestaWS respuesta = new RespuestaWS();
 		JSONObject jsonObject = null;
+		Log.e("TT", "total tipos = " + total.length);
+		ArrayList<Anotacion> anotacionesList = new ArrayList<Anotacion>();
+		
+		for (int an = 0; an < total.length; an++){
+			Log.e("TT", "recorriendo tipos anotacion = " + total[an].getNombre());
+			String finalURL = WS_ANOTACIONES + total[an].getComunidad() + "&tipo_anotacion=" + total[an].getId();
+			try{
+				jsonObject = connectWS.CatalogoAnotacion(finalURL);
+				if (jsonObject != null){
+					System.out.println("json != null");
+					respuesta.setResultado(jsonObject.getBoolean("resultado"));
+					respuesta.setMensaje(jsonObject.getString("mensaje"));
+					Log.d("WA-ANOTACION", "mensaje capturado");
+					catalogo.setRespuesta((RespuestaWS)respuesta);
+					Log.d("WA-ANOTACION", "respuesta en catalogo");
+					System.out.println("RequestWS" + catalogo.getRespuesta().getMensaje());
+					JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
+				
+					for (int i = 0; i < anotacionesa.length(); i++){
+						JSONObject jsonTemp = anotacionesa.getJSONObject(i);
+						Anotacion anota = new Anotacion();
+						anota.setIdAnotacion(jsonTemp.getString("id"));
+						anota.setDescripcion(jsonTemp.getString("descripcion"));
+						anota.setTipo_anotacion(jsonTemp.getString("tipo_anotacion"));
+						anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
+						anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
+						anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
+						anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
+						anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
+						anota.setUsuario_anoto(jsonTemp.getString("usuario_anoto"));
+						anota.setIdcomunidad(jsonTemp.getString("comunidad"));
+						anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
+						anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
+						anota.setIcono(jsonTemp.getString("icono"));
+						anotacionesList.add(anota);
+					}
+					int tamano = anotacionesList.size();
+					Anotacion[] anotacionesFinal = new Anotacion[tamano];
+					for (int a = 0; a < tamano; a++){
+						anotacionesFinal[a] = anotacionesList.get(a);
+					}
+					catalogo.setAnotacion(anotacionesFinal);
+					return catalogo;
+				}
+			}catch(Exception exception){
+				return null;
+			}
+		}
+		return catalogo;		
+	}
+}
+		/*	
 		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=1";
 		try{
 			jsonObject = connectWS.CatalogoAnotacion(finalURL);
@@ -615,5 +663,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 			System.out.println(exception);
 			return catalogo;
 		}
-	}
-}
+		*/
+		
+
+

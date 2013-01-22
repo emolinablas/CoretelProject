@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -119,6 +120,7 @@ public class BalloonItemizedOverlay <Item extends OverlayItem> extends ItemizedO
 	   public boolean onTouch(View v, MotionEvent event) {
 	    
 	    View l =  ((View) v.getParent()).findViewById(R.id.balloon_main_layout);
+	    l.setClickable(false);
 	    Drawable d = l.getBackground();
 	    
 	    if (event.getAction() == MotionEvent.ACTION_DOWN) {
