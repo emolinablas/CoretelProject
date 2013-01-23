@@ -34,6 +34,7 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 	private CatalogoInvitacion catalogoInvitacion;
 	private String respuesta;
 	private Invitacion invitacion;
+	private RespuestaWS respuestaRespondidoWS;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class Invitaciones extends Activity implements OnItemClickListener{
         
         setRequestWS(new RequestWS());
         setRespuestaWS(new RespuestaWS());
+        setRespuestaRespondidoWS(new RespuestaWS());
         setInvitacionesListView((ListView)findViewById(R.id.invitaciones_listview));
         getInvitacionesListView().setOnItemClickListener(this);
         
@@ -88,7 +90,7 @@ public class Invitaciones extends Activity implements OnItemClickListener{
            @Override
            protected Integer doInBackground(String... urlString) {
                  try {
-                	 enviarRespuesta();
+                	 setRespuestaRespondidoWS(enviarRespuesta());
 
                 } catch (Exception exception) {
 
@@ -99,15 +101,19 @@ public class Invitaciones extends Activity implements OnItemClickListener{
            // Metodo con las instrucciones al finalizar lo ejectuado en background
            protected void onPostExecute(Integer resultado) {
                  pd.dismiss();
-
+                 if (getRespuestaRespondidoWS() != null && getRespuestaRespondidoWS().isResultado()){
+                	 new InvitacionesAsync().execute(""); 
+                 }
           }
     }
      
-     public void enviarRespuesta(){
+     public RespuestaWS enviarRespuesta(){
     	 try{
-    		 getRequestWS().enviarRespuestaInvitacion(getInvitacion(), getRespuesta());
+    		 RespuestaWS respuestaWS = new RespuestaWS();
+    		 respuestaWS = getRequestWS().enviarRespuestaInvitacion(getInvitacion(), getRespuesta());
+    		 return respuestaWS;
     	 }catch(Exception exception){
-    		 
+    		 return null;
     	 }
     	
      }
@@ -215,6 +221,14 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 
 	public void setInvitacion(Invitacion invitacion) {
 		this.invitacion = invitacion;
+	}
+
+	public RespuestaWS getRespuestaRespondidoWS() {
+		return respuestaRespondidoWS;
+	}
+
+	public void setRespuestaRespondidoWS(RespuestaWS respuestaRespondidoWS) {
+		this.respuestaRespondidoWS = respuestaRespondidoWS;
 	}
 
 	
