@@ -589,16 +589,18 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		for (int an = 0; an < total.length; an++){
 			Log.e("TT", "recorriendo tipos anotacion = " + total[an].getNombre());
 			String finalURL = WS_ANOTACIONES + total[an].getComunidad() + "&tipo_anotacion=" + total[an].getId();
+			Log.e("TT", "anotaciones = " + finalURL);
 			try{
 				jsonObject = connectWS.CatalogoAnotacion(finalURL);
+				Log.e("TT", "RequestWS - encontrado");
 				if (jsonObject != null){
-					System.out.println("json != null");
+					Log.e("TT", "json != null");
 					respuesta.setResultado(jsonObject.getBoolean("resultado"));
 					respuesta.setMensaje(jsonObject.getString("mensaje"));
-					Log.d("WA-ANOTACION", "mensaje capturado");
+					Log.d("TT", "mensaje capturado");
 					catalogo.setRespuesta((RespuestaWS)respuesta);
-					Log.d("WA-ANOTACION", "respuesta en catalogo");
-					System.out.println("RequestWS" + catalogo.getRespuesta().getMensaje());
+					Log.d("TT", "respuesta en catalogo");
+					Log.e("TT", catalogo.getRespuesta().getMensaje());
 					JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
 				
 					for (int i = 0; i < anotacionesa.length(); i++){
@@ -617,20 +619,22 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 						anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
 						anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
 						anota.setIcono(jsonTemp.getString("icono"));
+						anota.setImagen(jsonTemp.getString("archivo"));
 						anotacionesList.add(anota);
+						Log.e("TT", "anotacion guardada");
 					}
-					int tamano = anotacionesList.size();
-					Anotacion[] anotacionesFinal = new Anotacion[tamano];
-					for (int a = 0; a < tamano; a++){
-						anotacionesFinal[a] = anotacionesList.get(a);
-					}
-					catalogo.setAnotacion(anotacionesFinal);
-					return catalogo;
 				}
 			}catch(Exception exception){
 				return null;
 			}
 		}
+		int tamano = anotacionesList.size();
+		Anotacion[] anotacionesFinal = new Anotacion[tamano];
+		for (int a = 0; a < tamano; a++){
+			anotacionesFinal[a] = anotacionesList.get(a);
+		}
+		catalogo.setAnotacion(anotacionesFinal);
+		
 		return catalogo;		
 	}
 }

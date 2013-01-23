@@ -16,6 +16,7 @@ public class Anotacion implements Serializable{
 	private String nombreComunidad;
 	private String nombreTipoAnotacion;
 	private String icono;
+	private String imagen;
 	private float latitud;
 	private float longitud;
 	public String getIdAnotacion() {
@@ -95,6 +96,12 @@ public class Anotacion implements Serializable{
 	}
 	public void setIcono(String icono) {
 		this.icono = icono;
+	}
+	public String getImagen() {
+		return imagen;
+	}
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	
 	

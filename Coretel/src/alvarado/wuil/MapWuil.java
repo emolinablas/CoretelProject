@@ -131,12 +131,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 		btnAnimar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
-
-				
-				try{
-					GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation().getLatitudeE6(), 
-							myLocationOverlay.getMyLocation().getLongitudeE6());
+				try {
+					GeoPoint loc = new GeoPoint(myLocationOverlay
+							.getMyLocation().getLatitudeE6(), myLocationOverlay
+							.getMyLocation().getLongitudeE6());
 
 					mapController.animateTo(loc);
 
@@ -144,10 +142,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 					for (int i = zoomActual; i < 10; i++) {
 						mapController.zoomIn();
 					}
-				}catch(Exception exception){
-					
+				} catch (Exception exception) {
+
 				}
-				
+
 			}
 		});
 	}
@@ -205,8 +203,18 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     	int tamano = getCatalogoAnotacion().getAnotacion().length;
     	for (int i = 0; i < tamano; i++){
     		list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
-    		String titulo = getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + " " + getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion();
-    		String desc = getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad();
+    		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+    			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getUsuario_anoto() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getTipo_anotacion() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+    		
+    		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+    			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
     		agregaPuntos(list, titulo, desc);
     	}
     }

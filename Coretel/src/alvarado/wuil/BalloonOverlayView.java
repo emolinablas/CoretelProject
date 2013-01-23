@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.OverlayItem;
+import com.researchmobile.coretel.utility.TokenizerUtility;
 
 public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 
@@ -24,6 +25,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	 protected ImageView editar;
 	 protected ImageView borrar;
 	 protected Item miItem;
+	 private TokenizerUtility tokenizer = new TokenizerUtility();
 
 	 protected int getIdView(){return R.layout.window_balloon_overlay;}
 	 
@@ -57,21 +59,18 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 		   }
 		  });
 	  editar.setOnClickListener(new OnClickListener() {
-		   public void onClick(View v) {
-			   {layout.setVisibility(GONE);}
-			   System.out.println(getMiItem().getSnippet());
-				  System.out.println(getMiItem().getTitle());
-				  System.out.println(getMiItem().getPoint().getLatitudeE6()+"");
-				  System.out.println(getMiItem().getPoint().getLongitudeE6()+"");
-			 Intent intent = new Intent(context, Evento.class);
-			 intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
-			 intent.putExtra("longitud", String.valueOf(getMiItem().getPoint().getLongitudeE6()));
-			 intent.putExtra("titulo", getMiItem().getTitle());
-			 intent.putExtra("descripcion", getMiItem().getSnippet());
-			 context.startActivity(intent);
-			   
-		   }
-		  });
+			public void onClick(View v) {
+				{
+					layout.setVisibility(GONE);
+				}
+				Intent intent = new Intent(context, Evento.class);
+				intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
+				intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
+				intent.putExtra("titulo", getMiItem().getTitle());
+				intent.putExtra("descripcion", getMiItem().getSnippet());
+				context.startActivity(intent);
+			}
+		});
 	  FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 	  params.gravity = Gravity.NO_GRAVITY;
 	  addView(layout, params);   
@@ -86,13 +85,13 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  layout.setVisibility(VISIBLE);
 	  if (item.getTitle() != null && item.getTitle().length() > 0) {
 	   title.setVisibility(VISIBLE);
-	   title.setText(item.getTitle());
+	   title.setText(tokenizer.titulo(item.getTitle()));
 	  } else {
 	   title.setVisibility(GONE);
 	  }
 	  if (item.getSnippet() != null && item.getSnippet().length() > 0) {
 	   snippet.setVisibility(VISIBLE);
-	   snippet.setText(item.getSnippet());
+	   snippet.setText(tokenizer.descripcion(item.getSnippet()));
 	  } else {
 	   snippet.setVisibility(GONE);
 	  }
