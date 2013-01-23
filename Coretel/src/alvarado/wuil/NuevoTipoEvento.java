@@ -1,20 +1,28 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.utility.ConnectState;
+import com.researchmobile.coretel.utility.ImageAdapter;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -23,10 +31,13 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private EditText descripcionEditText;
 	private Spinner tipoSpinner;
 	private Button guardarButton;
+	private Button iconoButton;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
 	private Mensaje mensaje;
 	private String idComunidad;
+	int seleccionado = 0;
+	private ImageView iconoEvento;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -38,10 +49,45 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		setDescripcionEditText((EditText)findViewById(R.id.nuevotipoevento_descripcion_edittext));
 		setTipoSpinner((Spinner)findViewById(R.id.nuevotipoevento_tipo_spinner));
 		setGuardarButton((Button)findViewById(R.id.nuevotipoevento_guardar_button));
+		setIconoButton((Button)findViewById(R.id.nuevotipoevento_icono_button));
+		setIconoEvento((ImageView)findViewById(R.id.nuevotipoevento_icono_imageview));
+		getIconoButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
 		fillDataSpinner();
+	}
+	
+	public void mDialog(){
+		LayoutInflater factory = LayoutInflater.from(NuevoTipoEvento.this);
+        
+        final View textEntryView = factory.inflate(R.layout.items_icon , null);
+        final GridView gv = (GridView)textEntryView.findViewById(R.id.grid);
+        gv.setAdapter(new ImageAdapter(this, 100));
+        final AlertDialog.Builder alert = new AlertDialog.Builder(NuevoTipoEvento.this );
+        alert.setTitle( "¿Cliente Cerrado?");
+        alert.setView(textEntryView);
+        alert.setCancelable(true);
+        gv.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            	seleccionado = (int)parent.getAdapter().getItemId(position);
+                gv.setAdapter(new ImageAdapter(NuevoTipoEvento.this, position));
+            }
+        });
+        alert.setPositiveButton( "   OK   " ,
+                new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface arg0, int arg1) {
+                           verSeleccion(seleccionado);
+                     }
+               });
+
+        alert.show();
+
+	}
+	
+	public void verSeleccion(int imagen){
+		getIconoEvento().setImageResource(imagen);
 	}
 
 	private void fillDataSpinner() {
@@ -103,6 +149,8 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	public void onClick(View v) {
 		if (v == getGuardarButton()){
 			new NuevoEventoAsync().execute("");
+		}else if (v == getIconoButton()){
+			mDialog();
 		}
 		// TODO Auto-generated method stub
 		
@@ -168,6 +216,22 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 
 	public void setIdComunidad(String idComunidad) {
 		this.idComunidad = idComunidad;
+	}
+
+	public ImageView getIconoEvento() {
+		return iconoEvento;
+	}
+
+	public void setIconoEvento(ImageView iconoEvento) {
+		this.iconoEvento = iconoEvento;
+	}
+
+	public Button getIconoButton() {
+		return iconoButton;
+	}
+
+	public void setIconoButton(Button iconoButton) {
+		this.iconoButton = iconoButton;
 	}
 	
 	
