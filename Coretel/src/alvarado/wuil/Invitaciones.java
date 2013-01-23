@@ -1,7 +1,9 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +11,20 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoInvitacion;
 import com.researchmobile.coretel.entity.Invitacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.ws.RequestWS;
-
+/**
+ * 
+ * @author WUIL
+ * Invitacion
+ * 0 = No respondido
+ * 1 = Aceptado
+ * 2 = Rechazado
+ *
+ */
 public class Invitaciones extends Activity implements OnItemClickListener{
 	
 	private ListView invitacionesListView;
@@ -23,6 +32,8 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 	private RequestWS requestWS;
 	private RespuestaWS respuestaWS;
 	private CatalogoInvitacion catalogoInvitacion;
+	private String respuesta;
+	private Invitacion invitacion;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,11 +50,70 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-		Invitacion seleccionado = (Invitacion)adapter.getItemAtPosition(position);
-		
+		setInvitacion((Invitacion)adapter.getItemAtPosition(position));
+		dialogInvitacion();
 	}
 	
-	 // Clase para ejecutar en Background
+	 private void dialogInvitacion() {
+		 new AlertDialog.Builder(this)
+         .setIcon(this.getResources().getDrawable(R.drawable.alert))
+         .setTitle("Invitacion")
+         .setMessage("¿Que desea hacer?")
+         .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int whichButton) {
+                  setRespuesta("1");
+                  new enviarRespuestaAsync().execute("");
+             }
+         })
+         .setNegativeButton("RECHAZAR", new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int whichButton) {
+                 setRespuesta("2");
+                 new enviarRespuestaAsync().execute("");
+             }
+         })
+         .show();
+	}
+	 
+	// Clase para ejecutar en Background
+     class enviarRespuestaAsync extends AsyncTask<String, Integer, Integer> {
+
+           // Metodo que prepara lo que usara en background, Prepara el progress
+           @Override
+           protected void onPreExecute() {
+                 pd = ProgressDialog. show(Invitaciones.this, "RESPONDIENDO", "ESPERE UN MOMENTO");
+                 pd.setCancelable( false);
+          }
+
+           // Metodo con las instrucciones que se realizan en background
+           @Override
+           protected Integer doInBackground(String... urlString) {
+                 try {
+                	 enviarRespuesta();
+
+                } catch (Exception exception) {
+
+                }
+                 return null ;
+          }
+
+           // Metodo con las instrucciones al finalizar lo ejectuado en background
+           protected void onPostExecute(Integer resultado) {
+                 pd.dismiss();
+
+          }
+    }
+     
+     public void enviarRespuesta(){
+    	 try{
+    		 getRequestWS().enviarRespuestaInvitacion(getInvitacion(), getRespuesta());
+    	 }catch(Exception exception){
+    		 
+    	 }
+    	
+     }
+ 
+
+	// Clase para ejecutar en Background
     class InvitacionesAsync extends AsyncTask<String, Integer, Integer> {
 
           // Metodo que prepara lo que usara en background, Prepara el progress
@@ -129,6 +199,22 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 
 	public void setCatalogoInvitacion(CatalogoInvitacion catalogoInvitacion) {
 		this.catalogoInvitacion = catalogoInvitacion;
+	}
+
+	public String getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public Invitacion getInvitacion() {
+		return invitacion;
+	}
+
+	public void setInvitacion(Invitacion invitacion) {
+		this.invitacion = invitacion;
 	}
 
 	

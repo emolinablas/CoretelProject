@@ -51,6 +51,7 @@ public class RequestWS {
 	private static final String WS_CREACOMUNIDAD = "ws_crear_comunidad.php?usuario=";
 	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=";
 	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&email=";
+	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
 	private static final String WS_LISTATIPOANOTACION = "ws_tipo_anotacion.php?comunidad=";
@@ -420,6 +421,23 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 		*/
 	
+	public RespuestaWS enviarRespuestaInvitacion(Invitacion invitacion, String respuesta) {
+		JSONObject jsonObject = null;
+		String finalURL = WS_RESPUESTAINVITACON + invitacion.getId() + "&estado=" + respuesta; 
+		RespuestaWS res = new RespuestaWS();
+		try{
+			jsonObject = connectWS.enviarRespuestaInvitacion(finalURL);
+			if (jsonObject != null){
+				res.setResultado(jsonObject.getBoolean("resultado"));
+				res.setMensaje(jsonObject.getString("mensaje"));
+				return res;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
 	
 	public RespuestaWS CambiarClave(String claveactual, String clavenueva1) {
 		JSONObject jsonObject = null;
@@ -519,7 +537,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 			return null;
 		}
 	}
-
+	
 	public CatalogoComunidad CargarComunidad(String idUsuario) {
 		CatalogoComunidad catalogo = new CatalogoComunidad();
 		RespuestaWS respuesta = new RespuestaWS();

@@ -264,6 +264,24 @@ public class ConnectWS {
 		}
 	}
 	
+	public JSONObject enviarRespuestaInvitacion(String finalURL) {
+		JSONObject jsonObject = null;
+		try {
+			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + finalURL);
+			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
+			System.out.println("DatosUsuario - url = " + urlCon);
+			InputStream inputStream = urlConnection.getInputStream();
+			
+			String responseInputStream = convertStreamToString(inputStream);
+			System.out.println(responseInputStream);
+			jsonObject = new JSONObject(responseInputStream);
+			return jsonObject;
+		} catch (Exception exception) {
+			System.out.println(exception);
+			return jsonObject;
+		}
+	}
+	
 	public JSONObject buscarInvitaciones(String finalURL) {
 		JSONObject jsonObject = null;
 		try {
