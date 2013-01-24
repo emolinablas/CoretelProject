@@ -48,6 +48,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	private ListView lView;
 	private SocketIOClient client;
 	private String[] listaUsuarios;
+	private String comunidad;
 	
 	
 	FrameLayout.LayoutParams menuPanelParameters;
@@ -65,6 +66,9 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_chat);
+		
+		Bundle bundle = getIntent().getExtras();
+		setComunidad(bundle.getString("comunidad"));
 		
 		setMandar((Button)findViewById(R.id.chat_enviar_button));
 		setMensajeEditText((EditText)findViewById(R.id.chat_agregar_edittext));
@@ -114,10 +118,10 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		JSONArray arguments2 = new JSONArray();
 		try{
 		
-		arguments2.put("Wuilder Alvarado");
-		arguments2.put("21");
-		arguments2.put("1");
-	    arguments.put("21");
+		arguments2.put(User.getUsername());
+		arguments2.put(User.getUserId());
+		arguments2.put(getComunidad());
+	    arguments.put(User.getUserId());
 	    
 		getClient().emit("conectarComunidad", arguments2);
 		}catch(Exception exception){
@@ -156,14 +160,11 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			//{"name":"saludador","args":["Hola nuevo usuario :)"]}
 			try{
 				String mensaje = arguments.toString();
-				//insertaMensaje(mensaje, User.getUsername());
+				insertaMensaje(mensaje, User.getUsername());
 			}catch(Exception exception){
 				
 			}
 		}
-		
-		
-		
 	}
 	
 	@Override
@@ -177,11 +178,13 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			
 			arguments2.put(mensaje);
 			arguments2.put(User.getUsername());
-			arguments2.put("xxx");
+			arguments2.put(getComunidad());
 		    
 			getClient().emit("ingresoMensaje", arguments2);
 			llenaListaUsuarios(getListaUsuarios());
+			getClient().connect();
 			}
+			
 			catch(Exception e){
 			}
 		}
@@ -189,15 +192,20 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	}
 	
 	private void insertaMensaje(String usuario, String mensaje){
-		Log.e("CHAT", "insertando mensaje");
-		ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
-		Log.e("CHAT", miItem.getId() + " " + miItem.getNombre() + " " + miItem.getMensaje());
-        getItemsCompra().add(miItem);
-        setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
-        getListChat().setAdapter(getAdapter());
+		try{
+			Log.e("CHAT", "insertando mensaje");
+			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
+			Log.e("CHAT", miItem.getId() + " " + miItem.getNombre() + " " + miItem.getMensaje());
+	        getItemsCompra().add(miItem);
+	        setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
+	        getListChat().setAdapter(getAdapter());
+		}catch(Exception exception){
+			
+		}
+		
 	}
 	private void llenaListaUsuarios(String[] lista){
-		Log.e("CHAT", "llegaLista");
+		Log.e("CHAT", "llenaLista");
 		lView = (ListView) findViewById(R.id.list);
 		lView.setAdapter(new ArrayAdapter<String>(this,
 		        android.R.layout.simple_list_item_1, getListaUsuarios()));
@@ -301,6 +309,12 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 
 	public void setMensajeEditText(EditText mensajeEditText) {
 		this.mensajeEditText = mensajeEditText;
+	}
+	public String getComunidad() {
+		return comunidad;
+	}
+	public void setComunidad(String comunidad) {
+		this.comunidad = comunidad;
 	}
 	
 	
