@@ -118,27 +118,30 @@ public class BalloonItemizedOverlay <Item extends OverlayItem> extends ItemizedO
 	 private OnTouchListener createBalloonTouchListener() {
 	  return new OnTouchListener() {
 	   public boolean onTouch(View v, MotionEvent event) {
-	    
-	    View l =  ((View) v.getParent()).findViewById(R.id.balloon_main_layout);
-	    l.setClickable(false);
-	    Drawable d = l.getBackground();
-	    
-	    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-	     int[] states = {android.R.attr.state_pressed};
-	     if (d.setState(states)) {
-	      d.invalidateSelf();
-	     }
-	     return true;
-	    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-	     int newStates[] = {};
-	     if (d.setState(newStates)) {
-	      d.invalidateSelf();
-	     }
-	     onBalloonTap(currentFocussedIndex, currentFocussedItem);
-	     return true;
-	    } else {
-	     return false;
+	    try{
+	    	View l =  ((View) v.getParent()).findViewById(R.id.balloon_main_layout);
+		    Drawable d = l.getBackground();
+		    
+		    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+		     int[] states = {android.R.attr.state_pressed};
+		     if (d.setState(states)) {
+		      d.invalidateSelf();
+		     }
+		     return true;
+		    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+		     int newStates[] = {};
+		     if (d.setState(newStates)) {
+		      d.invalidateSelf();
+		     }
+		     onBalloonTap(currentFocussedIndex, currentFocussedItem);
+		     return true;
+		    } else {
+		     return false;
+		    }
+	    }catch(Exception exception){
+	    	return false;
 	    }
+	    
 	    
 	   }
 	  };

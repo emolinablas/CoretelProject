@@ -22,9 +22,16 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:gravity="right"
             android:orientation="horizontal"
             >
+            
+            <Button
+                android:id="@+id/evento_capturar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/camera" />
             
             <Button
                 android:id="@+id/evento_save_button"
@@ -32,14 +39,7 @@
                 android:layout_height="28dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/save" />
-
-            <Button
-                android:id="@+id/evento_capturar_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/camera" />
+                android:background="@drawable/send" />
 
         </LinearLayout>
     </LinearLayout>
@@ -121,6 +121,31 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     style="@style/Text.Value"/>
+                
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Comunidad"
+                    style="@style/Text.Label"/>
+                
+                <TextView
+                    android:id="@+id/evento_comunidad_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    style="@style/Text.Value"/>
+
+                <Spinner
+                    android:id="@+id/evento_comunidad_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp" />
 
                 <TextView
                     android:id="@+id/textView7"
@@ -130,6 +155,13 @@
                     android:layout_marginTop="10dp"
                     android:text="Tipo"
                     style="@style/Text.Label"/>
+                
+                <TextView
+                    android:id="@+id/evento_tipo_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    style="@style/Text.Value"/>
 
                 <Spinner
                     android:id="@+id/evento_tipo_spinner"
@@ -156,24 +188,6 @@
                     android:ems="10"
                     android:inputType="textMultiLine" />
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Comunidad"
-                    style="@style/Text.Label"/>
-
-                <Spinner
-                    android:id="@+id/evento_comunidad_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp" />
-                
                 <LinearLayout 
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -185,6 +199,14 @@
             			android:layout_height="wrap_content"
             			android:text="Ver Imagen"/>
                 </LinearLayout>
+                
+                <ProgressBar
+            			android:id="@+id/barraProgreso"
+            			style="?android:attr/progressBarStyleHorizontal"
+            			android:layout_width="fill_parent"
+            			android:layout_height="wrap_content"
+            			android:layout_alignParentTop="true"
+            			android:layout_centerHorizontal="true" />
                 
                 <LinearLayout
                     android:id="@+id/evento_imagen_layout"

@@ -96,8 +96,9 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         VerificarPuntos(list);
         itemizedoverlay.setOnSelectPOIListener(new OnSelectPOIListener() {   
         	public void onSelectPOI(int latitud, int longitud) {
-        		list.add(new GeoPoint((int)(latitud), (int)(longitud)));
-        		agregaPuntos(list, "nuevo", "nuevo punto");
+        		GeoPoint loc = new GeoPoint((int)(latitud), (int)(longitud));
+        		list.add(loc);
+        		agregaPuntos(loc, "nuevo", "nuevo punto");
         	}
         });
         	
@@ -120,7 +121,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 							myLocationOverlay.getMyLocation().getLongitudeE6());
 					
 					list.add(loc);
-	        		agregaPuntos(list, "nuevo", "nuevo punto");
+	        		agregaPuntos(loc, "nuevo", "nuevo punto");
 	                mapController.animateTo(myLocationOverlay.getMyLocation());
 	            }catch(Exception exception){
 					
@@ -209,13 +210,12 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     			+ getCatalogoAnotacion().getAnotacion()[i].getUsuario_anoto() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getTipo_anotacion() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
-    		
     		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
     			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
-    		agregaPuntos(list, titulo, desc);
+    		agregaPuntos(list.get(i), titulo, desc);
     	}
     }
 
@@ -229,20 +229,18 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         mapOverlays.add(itemizedoverlay);
     }
     
-    private void agregaPuntos(List<GeoPoint> list, String titulo, String desc) {
+    private void agregaPuntos(GeoPoint list, String titulo, String desc) {
     	
-    	for (int i = 0; i < list.size(); i++){
+    	//for (int i = 0; i < list.size(); i++){
     		//Toast.makeText(getBaseContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
-    		Log.e(LOG, "latitud = " + list.get(i).getLatitudeE6());
-    		Log.e(LOG, "longitud = " + list.get(i).getLongitudeE6());
-    		
     		Drawable drawable = getResources().getDrawable(R.drawable.marker);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
-    		OverlayItem overlayItem = new OverlayItem(list.get(i), titulo, desc);     
+    		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
+    		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
             itemizedoverlay.addOverlay(overlayItem);
             mapOverlays.add(itemizedoverlay);
     		
-    	}
+    	//}
     }
 
 	private void inicializeMap(){

@@ -59,7 +59,7 @@ public class TokenizerUtility {
 		return buscar(anotacion, NOMBRE_USUARIO);
 	}
 	
-	public String nombreCoString(String anotacion){
+	public String nombreComunidad(String anotacion){
 		return buscar(anotacion, NOMBRE_COMUNIDAD);
 	}
 	
@@ -70,11 +70,16 @@ public class TokenizerUtility {
 		Log.e("TT", "tokenizer - string = " + anotacion + " posicion = " + posicion);
 		StringTokenizer tokenizer = new StringTokenizer(anotacion, SEPARADOR);
 		int i = 0;
+		Log.e("TT", "tamaño tokenizer = " + tokenizer.countTokens());
+		if (tokenizer.countTokens() < 5){
+			return "";
+		}
 		String[] vector = new String[tokenizer.countTokens()];
 		while(tokenizer.hasMoreTokens()){
 			vector[i] = tokenizer.nextToken();
 			i++;
 		}
+		
 		return vector[posicion];
 	}
 	

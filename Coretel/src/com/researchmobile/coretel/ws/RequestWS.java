@@ -622,6 +622,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 						anota.setImagen(jsonTemp.getString("archivo"));
 						anotacionesList.add(anota);
 						Log.e("TT", "anotacion guardada");
+						Log.e("TT", "id = " + anota.getIdAnotacion());
+						Log.e("TT", "idcomunidad = " + anota.getIdcomunidad());
 					}
 				}
 			}catch(Exception exception){

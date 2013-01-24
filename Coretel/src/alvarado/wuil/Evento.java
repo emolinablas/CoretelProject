@@ -1,9 +1,30 @@
+/**
+ * datos a buscar en TukenizerUtility
+ * getTitulo
+ * titulo - idAnotacion - idComunidad - usuarioAnoto - tipoAnotacion - icono
+ * 
+ * getDescripcion
+ * descripcion - fechaRegistro - nombreUsuario - nombreComunidad - imagen
+ * 
+ * 8va calle 7-63 zona 12, UNI   Tel 23765333
+ */
+
 package alvarado.wuil;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -23,8 +44,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
@@ -33,6 +56,7 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Fecha;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Evento extends Activity implements OnClickListener, OnKeyListener{
@@ -56,11 +80,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private TextView fechaTextView;
 	private TextView latitudTextView;
 	private TextView longitudTextView;
+	private TextView comunidadTextView;
+	private TextView tipoTextView;
 	private Spinner tipoEventoSpinnet;
 	private EditText descripcionEditText;
 	private Spinner comunidadSpinner;
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
+	private TokenizerUtility tokenizer = new TokenizerUtility();
 	
 	private ProgressDialog pd = null;
 	
@@ -71,6 +98,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		String lat = bundle.getString("latitud");
 		String lon = bundle.getString("longitud");
+		setTitulo(bundle.getString("titulo"));
+		setDescripcion(bundle.getString("descripcion"));
 		
 		setLatitud(String.valueOf(Integer.parseInt(lat)/1E6));
 		setLongitud(String.valueOf(Integer.parseInt(lon)/1E6));
@@ -91,18 +120,50 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setImagenLayout((LinearLayout)findViewById(R.id.evento_imagen_layout));
 		getImagenLayout().setVisibility(View.INVISIBLE);
 		setTituloEditText((EditText)findViewById(R.id.evento_titulo_edittext));
+		setDescripcionEditText((EditText)findViewById(R.id.evento_descripcion_edittext));
 		setFechaTextView((TextView)findViewById(R.id.evento_fecha_textview));
 		setLatitudTextView((TextView)findViewById(R.id.evento_latitud_textview));
 		setLongitudTextView((TextView)findViewById(R.id.evento_longitud_textview));
+		setComunidadTextView((TextView)findViewById(R.id.evento_comunidad_textview));
+		setTipoTextView((TextView)findViewById(R.id.evento_tipo_textview));
 		setTipoEventoSpinnet((Spinner)findViewById(R.id.evento_tipo_spinner));
 		setComunidadSpinner((Spinner)findViewById(R.id.evento_comunidad_spinner));
 		
-		getFechaTextView().setText(getFecha().FechaHoy());
-		getLatitudTextView().setText(getLatitud());
-		getLongitudTextView().setText(getLongitud());
+		
+		if(getTitulo().equalsIgnoreCase("nuevo")){
+			iniciaNuevo();
+		}else{
+			verEvento();
+		}
+		
 		
 		new ComunidadesAsync().execute("");
 		
+	}
+	
+	private void iniciaNuevo(){
+		getFechaTextView().setText(getFecha().FechaHoy());
+		getLatitudTextView().setText(getLatitud());
+		getLongitudTextView().setText(getLongitud());
+	}
+	
+	private void verEvento(){
+		if (!User.getUserId().equalsIgnoreCase(tokenizer.usuarioAnoto(getTitulo()))){
+			getBorrarButton().setEnabled(false);
+		}
+		getComunidadSpinner().setEnabled(false);
+		getTipoEventoSpinnet().setEnabled(false);
+		getDescripcionEditText().setEnabled(false);
+		getTituloEditText().setEnabled(false);
+		getCameraButton().setEnabled(false);
+		getGuardarButton().setEnabled(false);
+		getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
+		getTituloEditText().setText(tokenizer.titulo(getTitulo()));
+		getComunidadTextView().setText(tokenizer.nombreComunidad(getDescripcion()));
+		getTipoTextView().setText(tokenizer.tipoAnotacion(getTitulo()));
+		getDescripcionEditText().setText(tokenizer.descripcion(getDescripcion()));
+		getLatitudTextView().setText(getLatitud());
+		getLongitudTextView().setText(getLongitud());
 	}
 	
 	private void CargarDatosSpinner() {
@@ -248,7 +309,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		if (view == getCameraButton()){
 			ActivarCamara();
 		}else if (view == getBorrarButton()){
-			
+			borrarEvento();
 		}else if (view == getGuardarButton()){
 			new enviarAsync().execute("");
 		}else if (view == getVerImagenButton()){
@@ -256,9 +317,30 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}
 		
 	}
+	
+	private void borrarEvento(){
+		new AlertDialog.Builder(this)
+        .setTitle("Borrar Evento")
+        .setMessage("Esta seguro que desea eliminar el evento")
+        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     Toast.makeText(getBaseContext(), "se borrar", Toast.LENGTH_SHORT).show();
+                }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     
+                }
+        })
+        .show();
+
+	}
 
 	private void MostrarImagen() {
-		verImagen();
+		String url = "http://23.23.1.2/WS/" + tokenizer.imagen(getDescripcion());
+		Log.e("TT", "url imagen = " + url);
+		new descargaImagenes().execute(url);
+		//verImagen();
 		getImagenLayout().setVisibility(View.VISIBLE);
 		
 	}
@@ -353,6 +435,58 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
              }
              return false;
          
+	}
+	
+	class descargaImagenes extends AsyncTask<String, Integer, Integer>{
+
+		ProgressBar miBarra;
+		
+		@Override
+		protected void onPreExecute(){
+			miBarra = (ProgressBar)findViewById(R.id.barraProgreso);
+			
+		}
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				URL url = new URL(urlString[0]);
+				URLConnection conexion = url.openConnection();
+				conexion.connect();
+				
+				int tamano = conexion.getContentLength();
+				Log.e("TT", "resultado busqueda imagen = " + tamano);
+				InputStream input = new BufferedInputStream(url.openStream());
+				OutputStream output = new FileOutputStream("/sdcard/temp.jpg");
+				
+				byte datos[] = new byte[1024];
+				int cuenta;
+				long total = 0;
+				
+				while ((cuenta = input.read(datos)) != -1){
+					total += cuenta;
+					output.write(datos, 0, cuenta);
+					
+					this.publishProgress((int)total*100/tamano);
+				}
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onProgressUpdate(Integer...progreso){
+			int porcentaje = progreso[0];
+			miBarra.setProgress(porcentaje);
+		}
+		
+		protected void onPostExecute(Integer resultado){
+			getFotoEvento().setImageBitmap(BitmapFactory.decodeFile("/sdcard/temp.jpg"));
+		}
 	}
 
 	public Button getCameraButton() {
@@ -529,6 +663,22 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setImagenLayout(LinearLayout imagenLayout) {
 		this.imagenLayout = imagenLayout;
+	}
+
+	public TextView getComunidadTextView() {
+		return comunidadTextView;
+	}
+
+	public void setComunidadTextView(TextView comunidadTextView) {
+		this.comunidadTextView = comunidadTextView;
+	}
+
+	public TextView getTipoTextView() {
+		return tipoTextView;
+	}
+
+	public void setTipoTextView(TextView tipoTextView) {
+		this.tipoTextView = tipoTextView;
 	}
 	
 }

@@ -23,7 +23,6 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	 protected View balloonview;
 	 protected ImageView imgclose;
 	 protected ImageView editar;
-	 protected ImageView borrar;
 	 protected Item miItem;
 	 private TokenizerUtility tokenizer = new TokenizerUtility();
 
@@ -40,35 +39,36 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  title = (TextView) balloonview.findViewById(R.id.balloon_item_title);
 	  snippet = (TextView) balloonview.findViewById(R.id.balloon_item_snippet);
 	  
+	  setOnClickListener(new OnClickListener() {
+	   public void onClick(View v) {layout.setVisibility(GONE);}
+	  });
+	  
 	  title.setVisibility(GONE);
 	  snippet.setVisibility(GONE);
 
 	  imgclose = (ImageView) balloonview.findViewById(R.id.close_img_button);
 	  editar = (ImageView) balloonview.findViewById(R.id.edit_img);
-	  borrar = (ImageView) balloonview.findViewById(R.id.delete_img);
 	  
 	  imgclose.setOnClickListener(new OnClickListener() {
 	   public void onClick(View v) {layout.setVisibility(GONE);}
 	  });
 	  
-	  borrar.setOnClickListener(new OnClickListener() {
-		   public void onClick(View v) {
-			   {layout.setVisibility(GONE);}
-			 Toast.makeText(getContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
-			   
-		   }
-		  });
 	  editar.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				{
-					layout.setVisibility(GONE);
+				try{
+					{
+						layout.setVisibility(GONE);
+					}
+					
+					Intent intent = new Intent(context, Evento.class);
+					intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
+					intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
+					intent.putExtra("titulo", getMiItem().getTitle());
+					intent.putExtra("descripcion", getMiItem().getSnippet());
+					context.startActivity(intent);
+				}catch(Exception exception){
+					
 				}
-				Intent intent = new Intent(context, Evento.class);
-				intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
-				intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
-				intent.putExtra("titulo", getMiItem().getTitle());
-				intent.putExtra("descripcion", getMiItem().getSnippet());
-				context.startActivity(intent);
 			}
 		});
 	  FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
