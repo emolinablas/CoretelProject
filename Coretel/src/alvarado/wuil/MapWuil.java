@@ -110,11 +110,16 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 		btnSatelite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (mapView.isSatellite()){
-					mapView.setSatellite(false);
-				}else{
-					mapView.setSatellite(true);
+				try{
+					if (mapView.isSatellite()){
+						mapView.setSatellite(false);
+					}else{
+						mapView.setSatellite(true);
+					}
+				}catch(Exception exception){
+					
 				}
+				
 			}
 		});
 
