@@ -102,10 +102,10 @@ public class RequestWS {
 		return null;
 	}
 	
-	public RespuestaWS NuevoTipoEvento(String idComunidad, String nombre, String descripcion, String tipo) {
+	public RespuestaWS NuevoTipoEvento(String idComunidad, String nombre, String descripcion, String tipo, String icono) {
 		JSONObject jsonObject = null;
 		
-		String finalURL = WS_NUEVOTIPOANOTACION + idComunidad + "&incidente=1" + "&administrador=" + tipo + "&nombre=" + nombre + "&descripcion=" + descripcion;
+		String finalURL = WS_NUEVOTIPOANOTACION + idComunidad + "&incidente=1" + "&administrador=" + tipo + "&nombre=" + nombre + "&descripcion=" + descripcion + "&icono=" + icono;
 		String url = finalURL.replace(" ", "%20");
 		RespuestaWS respuesta = new RespuestaWS();
 		try{

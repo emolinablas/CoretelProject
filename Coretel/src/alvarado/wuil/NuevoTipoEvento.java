@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private RespuestaWS respuesta;
 	private Mensaje mensaje;
 	private String idComunidad;
+	private String urlSeleccionado = "";
 	int seleccionado = 0;
 	private ImageView iconoEvento;
 	
@@ -70,6 +74,8 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
         alert.setCancelable(true);
         gv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+            	ImageAdapter img = (ImageAdapter)parent.getAdapter();
+            	urlSeleccionado = img.nombre(position);
             	seleccionado = (int)parent.getAdapter().getItemId(position);
                 gv.setAdapter(new ImageAdapter(NuevoTipoEvento.this, position));
             }
@@ -78,7 +84,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
                 new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface arg0, int arg1) {
-                           verSeleccion(seleccionado);
+                           verSeleccion(urlSeleccionado);
                      }
                });
 
@@ -86,8 +92,12 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 
 	}
 	
-	public void verSeleccion(int imagen){
-		getIconoEvento().setImageResource(imagen);
+	public void verSeleccion(String imagen){
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 0;
+		Bitmap bm = BitmapFactory.decodeFile("sdcard/"+ imagen, options);
+//        imageView.setImageBitmap(bm);
+		getIconoEvento().setImageBitmap(bm);
 	}
 
 	private void fillDataSpinner() {
@@ -124,7 +134,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 			String tipo = String.valueOf(getTipoSpinner().getSelectedItemPosition());
 			if (connect.isConnectedToInternet(NuevoTipoEvento.this)){
 				RequestWS request = new RequestWS();
-				setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, tipo));
+				setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, tipo, urlSeleccionado));
 				if (getRespuesta() != null){
 					if (getRespuesta().isResultado()){
 						getMensaje().VerMensaje(NuevoTipoEvento.this,getRespuesta().getMensaje());
@@ -144,7 +154,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 			}
 		}
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		if (v == getGuardarButton()){

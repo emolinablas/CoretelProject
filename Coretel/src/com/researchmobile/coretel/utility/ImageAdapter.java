@@ -2,7 +2,10 @@ package com.researchmobile.coretel.utility;
 
 import alvarado.wuil.R;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -29,6 +32,10 @@ public class ImageAdapter extends BaseAdapter {
     public Object getItem(int position) {
         return null;
     }
+    
+    public String nombre(int position){
+    	return mMarkers[position];
+    }
 
     public long getItemId(int position) {
         return mThumbIds[position];
@@ -50,12 +57,44 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
             
         }
+        
+        BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 0;
+		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + mMarkers[position], options);
+        imageView.setImageBitmap(bm);
 
-        imageView.setImageResource(mThumbIds[position]);
+        //imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
     
     // references to our images
+    private String[] mMarkers = {
+    		"img/markers/2hand.png",
+    		"img/markers/360degrees.png",
+    		"img/markers/abduction.png",
+    		"img/markers/aboriginal.png",
+    		"img/markers/accesdenied.png",
+    		"img/markers/acupuncture.png",
+    		"img/markers/administration.png",
+    		"img/markers/administrativeboundary.png",
+    		"img/markers/aed-2.png",
+    		"img/markers/agritourism.png",
+    		"img/markers/air_fixwing.png",
+    		"img/markers/aircraftcarrier.png",
+    		"img/markers/aircraftsmall.png",
+    		"img/markers/airport.png",
+    		"img/markers/airport_apron.png",
+    		"img/markers/airport_runway.png",
+    		"img/markers/airport_terminal.png",
+    		"img/markers/airshow-2.png",
+    		"img/markers/algae.png",
+    		"img/markers/alien.png",
+    		"img/markers/alligator.png",
+    		"img/markers/amphitheater.png",
+    		"img/markers/amphitheater-2.png",
+    		"img/markers/anchorpier.png",
+    		"img/markers/anemometer_mono.png"
+    };
     private Integer[] mThumbIds = {
             R.drawable.abduction, R.drawable.airport_apron,
             R.drawable.aboriginal, R.drawable.airport_runway,
