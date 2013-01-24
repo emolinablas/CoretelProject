@@ -5,6 +5,9 @@ import java.util.List;
 
 import alvarado.wuil.MapItemizedOverlaySelect.OnSelectPOIListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -33,6 +35,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
+import com.researchmobile.coretel.utility.TokenizerUtility;
 
 public class MapWuil extends MapActivity implements OnItemClickListener{
 	private static final String LOG = "CORETEL-MapWuil";
@@ -55,6 +58,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	private int panelWidth;
 	private ImageView menuViewButton;
 	private ListView lView;
+	private TokenizerUtility tokenizer =new TokenizerUtility();
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
@@ -67,6 +71,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
+        
         
         /***
          * MENU
@@ -233,7 +238,12 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     	
     	//for (int i = 0; i < list.size(); i++){
     		//Toast.makeText(getBaseContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
-    		Drawable drawable = getResources().getDrawable(R.drawable.marker);
+    	
+    	BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 0;
+		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + tokenizer.icono(titulo), options);
+        
+    		Drawable drawable = new BitmapDrawable(bm);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
     		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
     		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
