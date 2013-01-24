@@ -1,6 +1,8 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +39,10 @@ public class Descevento extends Activity implements OnClickListener{
 			getActivoTextView().setText(getTipoAnotacion().getActivo());
 			getIncidenteTextView().setText(getTipoAnotacion().getIncidente());
 			getDescripcionTextView().setText(getTipoAnotacion().getDescripcion());
+			BitmapFactory.Options options = new BitmapFactory.Options();
+			options.inSampleSize = 0;
+			Bitmap bm = BitmapFactory.decodeFile("sdcard/" + getTipoAnotacion().getIcono(), options);
+	        getIconoImageView().setImageBitmap(bm);
 		}
 		
 	}
