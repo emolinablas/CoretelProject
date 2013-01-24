@@ -39,6 +39,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -168,7 +169,19 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	
 	private void CargarDatosSpinner() {
 		Comunidades();
-		TipoAnotacion();
+		getComunidadSpinner().setOnItemSelectedListener(
+				new AdapterView.OnItemSelectedListener() {
+					public void onItemSelected(AdapterView<?> parent,
+							android.view.View v, int position, long id) {
+						TipoAnotacion();
+
+					}
+
+					public void onNothingSelected(AdapterView<?> parent) {
+						// textView.setText("");
+					}
+				});
+		
 	}
 
 	private void Comunidades() {
@@ -192,32 +205,41 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private void TipoAnotacion() {
-		
-		String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
-		System.out.println("comunidad seleccionada = " + selectComunidad);
-		String idComunidad = "";
-		int tamano = getCatalogoComunidad().getComunidad().length;
-		for (int i = 0; i < tamano; i++){
-			if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(selectComunidad)){
-				idComunidad = getCatalogoComunidad().getComunidad()[i].getId();
+		try{
+			String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
+			System.out.println("comunidad seleccionada = " + selectComunidad);
+			String idComunidad = "";
+			int tamano = getCatalogoComunidad().getComunidad().length;
+			for (int i = 0; i < tamano; i++){
+				if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(selectComunidad)){
+					idComunidad = getCatalogoComunidad().getComunidad()[i].getId();
+				}
 			}
+			
+			RequestWS request = new RequestWS();
+			
+			setCatalogoTipoAnotacion((CatalogoTipoAnotacion)request.BuscarTiposEventos(idComunidad));
+			
+			ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, tipoAnotacion());
+			getTipoEventoSpinnet().setAdapter(adaptador);
+		}catch(Exception exception){
+			
 		}
-		
-		RequestWS request = new RequestWS();
-		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)request.BuscarTiposEventos(idComunidad));
-		
-		ArrayAdapter<String> adaptador =  new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, tipoAnotacion());
-		getTipoEventoSpinnet().setAdapter(adaptador);
 		
 	}
 	
 	 private String[] tipoAnotacion() {
-		int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
-		String[] tipos = new String[tamano];
-		for (int i = 0; i < tamano; i++){
-			tipos[i] = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre();
-		}
-		return tipos;
+		 try{
+			 int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
+				String[] tipos = new String[tamano];
+				for (int i = 0; i < tamano; i++){
+					tipos[i] = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre();
+				}
+				return tipos;
+		 }catch(Exception exception){
+			 return null;
+		 }
+		
 	}
 
 	// Clase para ejecutar en Background
