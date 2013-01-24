@@ -1,5 +1,6 @@
 /**
  * datos a buscar en TukenizerUtility
+
  * getTitulo
  * titulo - idAnotacion - idComunidad - usuarioAnoto - tipoAnotacion - icono
  * 
@@ -143,6 +144,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private void iniciaNuevo(){
+		getVerImagenButton().setEnabled(false);
 		getFechaTextView().setText(getFecha().FechaHoy());
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
@@ -333,13 +335,31 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else if (view == getBorrarButton()){
 			borrarEvento();
 		}else if (view == getGuardarButton()){
-			new enviarAsync().execute("");
+			dialogEnviar();
+
 		}else if (view == getVerImagenButton()){
 			MostrarImagen();
 		}
 		
 	}
 	
+	private void dialogEnviar(){
+		new AlertDialog.Builder(this)
+        .setTitle("Enviar Evento")
+        .setMessage("¿Esta seguro de enviar el evento?")
+        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	new enviarAsync().execute(""); 
+                }
+        })
+        .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	new enviarAsync().execute(""); 
+                }
+        })
+        .show();
+
+	}
 	private void borrarEvento(){
 		new AlertDialog.Builder(this)
         .setTitle("Borrar Evento")

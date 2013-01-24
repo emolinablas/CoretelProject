@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alvarado.wuil.MapItemizedOverlaySelect.OnSelectPOIListener;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -26,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -35,7 +42,11 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
+import com.researchmobile.coretel.entity.CatalogoComunidad;
+import com.researchmobile.coretel.entity.DetalleComunidad;
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.TokenizerUtility;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class MapWuil extends MapActivity implements OnItemClickListener{
 	private static final String LOG = "CORETEL-MapWuil";
@@ -58,7 +69,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	private int panelWidth;
 	private ImageView menuViewButton;
 	private ListView lView;
+	private ProgressDialog pd = null;
+	private CatalogoComunidad catalogoComunidad;
 	private TokenizerUtility tokenizer =new TokenizerUtility();
+	private RequestWS requestWS;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
@@ -311,8 +325,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 			startActivity(intentLobby);
 			break;
 		case 4:
-			Intent intentChat = new Intent(MapWuil.this, GroupChat.class);
-			startActivity(intentChat);
+			new comunidadesAsync().execute("");
 			break;
 		case 5:
 			Intent intentCerrar = new Intent(MapWuil.this, Principal.class);
@@ -322,6 +335,79 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
             break;
 
 		}
+	}
+	
+	 // Clase para ejecutar en Background
+    class comunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	buscarComunidades();
+
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (getCatalogoComunidad().getComunidad().length > 0){
+                	dialogComunidades();
+                }else{
+                	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                }
+
+         }
+   }
+
+	private void buscarComunidades(){
+		setRequestWS(new RequestWS());
+		setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+	}
+	private void dialogComunidades(){
+		
+		LayoutInflater factory = LayoutInflater.from(MapWuil.this);
+        
+        final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
+       
+        final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_comunidades_spinner);
+        ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+        comunidadesSpinner.setAdapter(adaptador);
+        
+        final AlertDialog.Builder alert = new AlertDialog.Builder(MapWuil.this );
+
+       alert.setTitle( "Elija una comunidad");
+       alert.setView(textEntryView);
+       alert.setPositiveButton( "   OK   " ,
+                    new DialogInterface.OnClickListener() {
+                          @Override
+                          public void onClick(DialogInterface arg0, int arg1) {
+                        	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
+                        	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
+                        	  Intent intentChat = new Intent(MapWuil.this, GroupChat.class);
+                        	  intentChat.putExtra("comunidad", comunidad.getId());
+                        	  startActivity(intentChat);
+                               
+                         }
+                   });
+       alert.setNegativeButton( "CANCELAR" ,
+               new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface arg0, int arg1) {
+                   	}
+              });
+       alert.show();
 	}
 
 	@Override
@@ -339,6 +425,22 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	      
 	      return super.onKeyDown(keyCode, event);
     }
+
+	public CatalogoComunidad getCatalogoComunidad() {
+		return catalogoComunidad;
+	}
+
+	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
+		this.catalogoComunidad = catalogoComunidad;
+	}
+
+	public RequestWS getRequestWS() {
+		return requestWS;
+	}
+
+	public void setRequestWS(RequestWS requestWS) {
+		this.requestWS = requestWS;
+	}
 
     
     

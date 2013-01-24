@@ -12,6 +12,9 @@ public class DetalleComunidad implements Serializable{
 	RespuestaWS respuestaWS;
 	
 	
+	public String toString(){
+		return nombre;
+	}
 	public String getId() {
 		return id;
 	}
