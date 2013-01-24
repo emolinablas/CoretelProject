@@ -57,19 +57,19 @@ public class ImageAdapter extends BaseAdapter {
     
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.a, R.drawable.b,
-            R.drawable.c, R.drawable.d,
-            R.drawable.f, R.drawable.g,
-            R.drawable.h, R.drawable.i,
-            R.drawable.j, R.drawable.k,
-            R.drawable.l, R.drawable.m,
-            R.drawable.n, R.drawable.o,
-            R.drawable.a, R.drawable.b,
-            R.drawable.c, R.drawable.d,
-            R.drawable.f, R.drawable.g,
-            R.drawable.h, R.drawable.i,
-            R.drawable.j, R.drawable.k,
-            R.drawable.l
+            R.drawable.abduction, R.drawable.airport_apron,
+            R.drawable.aboriginal, R.drawable.airport_runway,
+            R.drawable.accesdenied, R.drawable.airport_terminal,
+            R.drawable.actualpos, R.drawable.airshow,
+            R.drawable.acupuncture, R.drawable.alert,
+            R.drawable.administration, R.drawable.algae,
+            R.drawable.administrativeboundary, R.drawable.alien,
+            R.drawable.aed, R.drawable.alligator,
+            R.drawable.agritourism, R.drawable.amphitheat,
+            R.drawable.air_fixwing, R.drawable.amphitheater,
+            R.drawable.aircraftcarrier, R.drawable.anchorpier,
+            R.drawable.aircraftsmall, R.drawable.anemometer_mono,
+            R.drawable.airport
     };
 
 }
