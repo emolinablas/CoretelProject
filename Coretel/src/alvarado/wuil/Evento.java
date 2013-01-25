@@ -63,11 +63,14 @@ import com.researchmobile.coretel.ws.RequestWS;
 
 public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	final static int CAMERA_RESULT = 0;
+	private static int TAKE_PICTURE = 1;
+	private static int SELECT_PICTURE = 2;
 	
 	private Button cameraButton;
 	private Button borrarButton;
 	private Button guardarButton;
 	private Button verImagenButton;
+	private Button galleryButton;
 	private LinearLayout imagenLayout;
 	private ImageView fotoEvento;
 	private String pathFoto;
@@ -114,6 +117,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setGuardarButton((Button)findViewById(R.id.evento_save_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
 		setVerImagenButton((Button)findViewById(R.id.evento_ver_button));
+		setGalleryButton((Button)findViewById(R.id.evento_gallery_button));
+		getGalleryButton().setOnClickListener(this);
 		getVerImagenButton().setOnClickListener(this);
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
@@ -192,18 +197,21 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private String[] misComunidades() {
-		int tamano = getCatalogoComunidad().getComunidad().length;
-		String[] comunidades = new String[tamano];
-		for (int i = 0; i < tamano; i++){
-			comunidades[i] = getCatalogoComunidad().getComunidad()[i].getNombre();
-		}
-		if (tamano > 0){
-			return comunidades;
-		}else{
-			String[] error = {" "};
+		String[] error = {" "};
+		try{
+			int tamano = getCatalogoComunidad().getComunidad().length;
+			String[] comunidades = new String[tamano];
+			for (int i = 0; i < tamano; i++){
+				comunidades[i] = getCatalogoComunidad().getComunidad()[i].getNombre();
+			}
+			if (tamano > 0){
+				return comunidades;
+			}else{
+				return error;
+			}
+		}catch(Exception exception){
 			return error;
 		}
-		
 	}
 
 	private void TipoAnotacion() {
@@ -339,8 +347,21 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 		}else if (view == getVerImagenButton()){
 			MostrarImagen();
+		}else if (view == getGalleryButton()){
+			mostrarGaleria();
 		}
 		
+	}
+	
+	private void mostrarGaleria(){
+		try{
+			int code = TAKE_PICTURE;
+			Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+			code = SELECT_PICTURE;
+			startActivityForResult(intent, code);
+		}catch(Exception exception){
+			
+		}
 	}
 	
 	private void dialogEnviar(){
@@ -379,12 +400,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private void MostrarImagen() {
-		String url = "http://23.23.1.2/WS/" + tokenizer.imagen(getDescripcion());
-		Log.e("TT", "url imagen = " + url);
-		new descargaImagenes().execute(url);
-		verImagen();
+		if(getTitulo().equalsIgnoreCase("nuevo")){
+			verImagen();
+		}else{
+			String url = "http://23.23.1.2/WS/" + tokenizer.imagen(getDescripcion());
+			Log.e("TT", "url imagen = " + url);
+			new descargaImagenes().execute(url);
+		}
 		getImagenLayout().setVisibility(View.VISIBLE);
-		
 	}
 
 	private void EnviarEvento() {
@@ -448,6 +471,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		Uri uri = Uri.fromFile(f);
 		cIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		startActivityForResult(cIntent, CAMERA_RESULT);
+		getVerImagenButton().setEnabled(true);
 	}
 
 	private void verImagen() {
@@ -530,6 +554,22 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			getFotoEvento().setImageBitmap(BitmapFactory.decodeFile("/sdcard/temp.jpg"));
 		}
 	}
+	
+	/**
+     * Funci—n que se ejecuta cuando concluye el intent en el que se solicita una imagen
+     * ya sea de la c‡mara o de la galer’a
+     */
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	/**
+    	 * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
+    	 */
+    	if (requestCode == SELECT_PICTURE){
+    		if (data != null){
+    			setPathFoto(data.getDataString());
+    			getVerImagenButton().setEnabled(true);
+    		}
+    	}
+    }
 
 	public Button getCameraButton() {
 		return cameraButton;
@@ -721,6 +761,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setTipoTextView(TextView tipoTextView) {
 		this.tipoTextView = tipoTextView;
+	}
+
+	public Button getGalleryButton() {
+		return galleryButton;
+	}
+
+	public void setGalleryButton(Button galleryButton) {
+		this.galleryButton = galleryButton;
 	}
 	
 }

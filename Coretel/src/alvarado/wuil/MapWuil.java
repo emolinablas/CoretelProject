@@ -91,7 +91,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
          * MENU
          */
         
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Loby", "Chat", "Cerrar sesión" };
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Lobby", "Chat", "Cerrar sesión" };
 
       lView = (ListView) findViewById(R.id.lista);
       // Set option as Multiple Choice. So that user can able to select more the one option from list
