@@ -258,11 +258,15 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     	//for (int i = 0; i < list.size(); i++){
     		//Toast.makeText(getBaseContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
     	
+    	
+    	//imageView.setImageResource(mThumbIds[position]);
+    	
     	BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + tokenizer.icono(titulo), options);
         
-    		Drawable drawable = new BitmapDrawable(bm);
+		Drawable drawable = tokenizer.iconoResource(this, titulo);
+//    		Drawable drawable = new BitmapDrawable(bm);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
     		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
     		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());

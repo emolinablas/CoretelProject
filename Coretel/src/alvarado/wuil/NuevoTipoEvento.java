@@ -69,7 +69,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
         final GridView gv = (GridView)textEntryView.findViewById(R.id.grid);
         gv.setAdapter(new ImageAdapter(this, 100));
         final AlertDialog.Builder alert = new AlertDialog.Builder(NuevoTipoEvento.this );
-        alert.setTitle( "¿Cliente Cerrado?");
+        alert.setTitle( "ICONO");
         alert.setView(textEntryView);
         alert.setCancelable(true);
         gv.setOnItemClickListener(new OnItemClickListener() {
@@ -243,7 +243,4 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	public void setIconoButton(Button iconoButton) {
 		this.iconoButton = iconoButton;
 	}
-	
-	
-
 }

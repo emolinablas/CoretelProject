@@ -58,12 +58,12 @@ public class ImageAdapter extends BaseAdapter {
             
         }
         
-        BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 0;
-		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + mMarkers[position], options);
-        imageView.setImageBitmap(bm);
-
-        //imageView.setImageResource(mThumbIds[position]);
+//      BitmapFactory.Options options = new BitmapFactory.Options();
+//		options.inSampleSize = 0;
+//		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + mMarkers[position], options);
+//      imageView.setImageBitmap(bm);
+        
+        imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
     
