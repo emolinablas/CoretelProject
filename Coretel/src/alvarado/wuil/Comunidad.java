@@ -1,7 +1,9 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -39,6 +42,7 @@ public class Comunidad extends Activity implements OnClickListener{
 	private int seleccion;
 	private RespuestaWS respuesa;
 	private Mensaje mensaje;
+	private RespuestaWS respuestaEliminar = new RespuestaWS();
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -112,8 +116,47 @@ public class Comunidad extends Activity implements OnClickListener{
 			pd.dismiss();
 
 		}
-
 	}
+	
+	 // Clase para ejecutar en Background
+    class eliminarComunidadAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(Comunidad.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	eliminarComunidad();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (respuestaEliminar != null){
+                	if (respuestaEliminar.isResultado()){
+                		finish();
+                	}else{
+                		Toast.makeText(getBaseContext(), respuestaEliminar.getMensaje(), Toast.LENGTH_SHORT).show();
+                	}
+                }
+         }
+   }
+    
+    private void eliminarComunidad(){
+    	RequestWS request = new RequestWS();
+    	respuestaEliminar = request.eliminaComunidad(getDetalleComunidad().getId(), User.getUserId());
+    }
+
 
 	protected void IniciaTipos() {
 		ConnectState connect = new ConnectState();
@@ -151,9 +194,26 @@ public class Comunidad extends Activity implements OnClickListener{
 		if (view == getGuardarButton()){
 			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
 		}else if (view == getBorrarButton()){
-			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
+			eliminaDialog();
 		}
-		
+	}
+	
+	private void eliminaDialog(){
+		new AlertDialog.Builder(this)
+        .setTitle("Eliminar Comunidad")
+        .setMessage("Esta seguro que desea eliminar la comunidad...?")
+        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     new eliminarComunidadAsync().execute("");
+                }
+        })
+        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     Toast.makeText(getBaseContext(), "Operación cancelada", Toast.LENGTH_SHORT).show();
+                }
+        })
+        .show();
+
 	}
 
 	public TextView getNombreTextView() {
