@@ -246,6 +246,24 @@ public class ConnectWS {
 		}
 	}
 	
+	public JSONObject eliminarTipoEvento(String url) {
+		JSONObject jsonObject = null;
+		try {
+			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + url);
+			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
+			System.out.println("Elimina tipo evento - url = " + urlCon);
+			InputStream inputStream = urlConnection.getInputStream();
+			
+			String responseInputStream = convertStreamToString(inputStream);
+			System.out.println(responseInputStream);
+			jsonObject = new JSONObject(responseInputStream);
+			return jsonObject;
+		} catch (Exception exception) {
+			System.out.println(exception);
+			return jsonObject;
+		}
+	}
+	
 	public JSONObject ListaTipoEventos(String url) {
 		JSONObject jsonObject = null;
 		try {
@@ -338,6 +356,7 @@ public class ConnectWS {
 		}
 		return sb.toString();
 	}
-
 }
+
+
 

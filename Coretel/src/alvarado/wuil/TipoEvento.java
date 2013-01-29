@@ -114,6 +114,4 @@ public class TipoEvento extends Activity implements OnClickListener{
 		this.tipoAnotacion = tipoAnotacion;
 	}
 	
-	
-
 }
