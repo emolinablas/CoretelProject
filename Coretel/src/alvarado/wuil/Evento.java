@@ -93,6 +93,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private TokenizerUtility tokenizer = new TokenizerUtility();
+	private RespuestaWS respuestaWS = new RespuestaWS();
 	
 	private ProgressDialog pd = null;
 	
@@ -387,12 +388,12 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
         .setMessage("Esta seguro que desea eliminar el evento")
         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                     Toast.makeText(getBaseContext(), "se borrar", Toast.LENGTH_SHORT).show();
+                     new eliminaEventoAsync().execute("");
                 }
         })
         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                     
+                	Toast.makeText(getBaseContext(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
                 }
         })
         .show();
@@ -502,6 +503,45 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
              return false;
          
 	}
+	
+	private void eliminarEvento(){
+		RequestWS request = new RequestWS();
+		respuestaWS = request.eliminaEvento(tokenizer.idAnotacion(getTitulo()), User.getUserId());
+	}
+	
+	// Clase para ejecutar en Background
+    class eliminaEventoAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(Evento.this, "Eliminar Evento", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	eliminarEvento();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (respuestaWS != null){
+                	if (respuestaWS.isResultado()){
+                		finish();
+                	}else{
+                		Toast.makeText(getBaseContext(), respuestaWS.getMensaje(), Toast.LENGTH_SHORT).show();
+                	}
+                }
+         }
+   }
+
 	
 	class descargaImagenes extends AsyncTask<String, Integer, Integer>{
 

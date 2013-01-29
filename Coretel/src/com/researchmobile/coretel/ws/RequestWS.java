@@ -56,6 +56,7 @@ public class RequestWS {
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
 	private static final String WS_LISTATIPOANOTACION = "ws_tipo_anotacion.php?comunidad=";
 	private static final String WS_ELIMINATIPOANOTACION = "ws_delete_tipo_anotacion.php?id=";
+	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -476,6 +477,24 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}catch(Exception exception){
 			return null;
 		}
+	}
+	
+	public RespuestaWS eliminaEvento(String idAnotacion, String userId) {
+		JSONObject jsonObject = null;
+		String finalURL = WS_ELIMINAANOTACION + idAnotacion + "&usuario=" + userId;
+		String url = finalURL.replace(" ", "%20");
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.eliminaEvento(url);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+		return null;
 	}
 	
 	public CatalogoInvitacion buscarInvitaciones() {
