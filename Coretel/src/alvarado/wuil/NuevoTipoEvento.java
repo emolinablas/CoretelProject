@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -32,7 +33,6 @@ import com.researchmobile.coretel.ws.RequestWS;
 public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyListener{
 	private EditText nombreEditText;
 	private EditText descripcionEditText;
-	private Spinner tipoSpinner;
 	private Button guardarButton;
 	private Button iconoButton;
 	private ProgressDialog pd = null;
@@ -42,6 +42,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private String urlSeleccionado = "";
 	int seleccionado = 0;
 	private ImageView iconoEvento;
+	private CheckBox incidenteCheckBox;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		setMensaje(new Mensaje());
 		setNombreEditText((EditText)findViewById(R.id.nuevotipoevento_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.nuevotipoevento_descripcion_edittext));
-		setTipoSpinner((Spinner)findViewById(R.id.nuevotipoevento_tipo_spinner));
+		setIncidenteCheckBox((CheckBox)findViewById(R.id.nuevotipoevento_incidente_checkbox));
 		setGuardarButton((Button)findViewById(R.id.nuevotipoevento_guardar_button));
 		setIconoButton((Button)findViewById(R.id.nuevotipoevento_icono_button));
 		setIconoEvento((ImageView)findViewById(R.id.nuevotipoevento_icono_imageview));
@@ -59,7 +60,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		getGuardarButton().setOnClickListener(this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
-		fillDataSpinner();
 	}
 	
 	public void mDialog(){
@@ -100,12 +100,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		getIconoEvento().setImageBitmap(bm);
 	}
 
-	private void fillDataSpinner() {
-		final String[] datos = new String[]{"Administrador"};
-		ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, datos);
-		getTipoSpinner().setAdapter(adaptador);
-	}
-
 	// Clase para ejecutar en Background
 	class NuevoEventoAsync extends AsyncTask<String, Integer, Integer> {
 
@@ -120,36 +114,47 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		@Override
 		protected Integer doInBackground(String... urlString) {
 			try {
-				setRespuesta(EnviarDatos());
+				EnviarDatos();
 			} catch (Exception exception) {
 
 			}
 			return null;
 		}
 
-		private RespuestaWS EnviarDatos() {
+		private void EnviarDatos() {
 			ConnectState connect = new ConnectState();
 			String nombre = getNombreEditText().getText().toString();
 			String descripcion = getDescripcionEditText().getText().toString();
-			String tipo = String.valueOf(getTipoSpinner().getSelectedItemPosition());
+			String incidente = "";
+			if (getIncidenteCheckBox().isChecked()){
+				incidente = "1";
+			}else{
+				incidente = "0";
+			}
+			
 			if (connect.isConnectedToInternet(NuevoTipoEvento.this)){
 				RequestWS request = new RequestWS();
-				setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, tipo, urlSeleccionado));
-				if (getRespuesta() != null){
-					if (getRespuesta().isResultado()){
-						getMensaje().VerMensaje(NuevoTipoEvento.this,getRespuesta().getMensaje());
-					}
-				}
+				setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, incidente, urlSeleccionado));
+				Log.e("pio", "resultado = " + getRespuesta().getMensaje());
+				Log.e("pio", "resultado 1 = " + getRespuesta().isResultado());
+			}else{
+				getRespuesta().setMensaje("No cuenta con internet");
+				getRespuesta().setResultado(false);
 			}
-			return null;
 		}
 
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
+			Log.e("pio", "fin dialog");
 			if (getRespuesta() != null){
+				Log.e("pio", "respuesta != null");
+				getMensaje().VerMensaje(NuevoTipoEvento.this, getRespuesta().getMensaje());
+				Log.e("pio", "mensaje = " + getRespuesta().getMensaje());
+				Log.e("pio", "resultado = " + getRespuesta().isResultado());
 				if (getRespuesta().isResultado()){
-					getMensaje().VerMensaje(NuevoTipoEvento.this, getRespuesta().getMensaje());
+					Log.e("pio", "resultado = " + getRespuesta().isResultado());
+					finish();
 				}
 			}
 		}
@@ -186,14 +191,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 
 	public void setDescripcionEditText(EditText descripcionEditText) {
 		this.descripcionEditText = descripcionEditText;
-	}
-
-	public Spinner getTipoSpinner() {
-		return tipoSpinner;
-	}
-
-	public void setTipoSpinner(Spinner tipoSpinner) {
-		this.tipoSpinner = tipoSpinner;
 	}
 
 	public Button getGuardarButton() {
@@ -243,4 +240,14 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	public void setIconoButton(Button iconoButton) {
 		this.iconoButton = iconoButton;
 	}
+
+	public CheckBox getIncidenteCheckBox() {
+		return incidenteCheckBox;
+	}
+
+	public void setIncidenteCheckBox(CheckBox incidenteCheckBox) {
+		this.incidenteCheckBox = incidenteCheckBox;
+	}
+	
+	
 }

@@ -53,7 +53,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             getUsuarioEditText().setOnKeyListener(this);
             getEntrarButton().setOnClickListener(this);
             getSalirButton().setOnClickListener(this);
-            getUsuarioEditText().setText("emejia");
+            getUsuarioEditText().setText("walvarado");
             getClaveEditText().setText("123");
             setRequestWS(new RequestWS());
             

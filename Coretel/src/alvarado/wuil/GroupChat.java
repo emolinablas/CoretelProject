@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -197,13 +198,43 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
 			Log.e("CHAT", miItem.getId() + " " + miItem.getNombre() + " " + miItem.getMensaje());
 	        getItemsCompra().add(miItem);
-	        setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
-	        getListChat().setAdapter(getAdapter());
+	        new chatAsync().execute("");
 		}catch(Exception exception){
 			
 		}
 		
 	}
+	
+	// Clase para ejecutar en Background
+    class chatAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+         protected Integer doInBackground(String... urlString) {
+                try {
+                	setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
+        	        getListChat().setAdapter(getAdapter());
+        	        int total = getListChat().getCount();
+        	        getListChat().setSelection(total);
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+         // Metodo con las instrucciones al finalizar lo ejectuado en background
+         protected void onPostExecute(Integer resultado) {
+         }
+
+   }
+
+	
 	private void llenaListaUsuarios(String[] lista){
 		Log.e("CHAT", "llenaLista");
 		lView = (ListView) findViewById(R.id.list);

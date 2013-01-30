@@ -366,12 +366,15 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                if (getCatalogoComunidad().getComunidad().length > 0){
-                	dialogComunidades();
-                }else{
-                	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                try{
+                	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                    	dialogComunidades();
+                    }else{
+                    	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(Exception exception){
+                	
                 }
-
          }
    }
 
