@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -12,10 +13,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.DetalleComunidad;
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -32,26 +35,71 @@ public class Comunidades extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.comunidades);
 		
-		Bundle bundle = (Bundle)getIntent().getExtras();
-		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
-		//fillDataComunidades();
+//		Bundle bundle = (Bundle)getIntent().getExtras();
+//		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
+		setCatalogo(new CatalogoComunidad());
+		
+		new buscaComunidadesAsync().execute("");
+		
 		setAgregarButton((Button)findViewById(R.id.comunidades_agregar_button));
 		getAgregarButton().setOnClickListener(this);
 		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
-		getComunidadesListView().setAdapter(new ArrayAdapter<String>(this, 
-				R.layout.lista_lobby,
-				R.id.lista_lobby_textview,
-				ListaComunidades()));
-				getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-			    
-			    getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		    	setSelect(a.getItemAtPosition(position).toString());
-		    	new MiembrosAsync().execute("");
-		    }
-		});
+		
 	}
+	
+	// Clase para ejecutar en Background
+    class buscaComunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(Comunidades.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	buscaComunidades();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                resultadoComunidades();
+         }
+    }
+    
+    private void resultadoComunidades(){
+    	if (getCatalogo() != null){
+    		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
+    		if (getCatalogo().getRespuestaWS().isResultado()){
+    			getComunidadesListView().setAdapter(new ArrayAdapter<String>(this, 
+    					R.layout.lista_lobby,
+    					R.id.lista_lobby_textview,
+    					ListaComunidades()));
+    					getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    				    
+    				    getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
+    			    @Override
+    			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+    			    	setSelect(a.getItemAtPosition(position).toString());
+    			    	new MiembrosAsync().execute("");
+    			    }
+    			});
+    		}
+    	}
+    }
+    private void buscaComunidades(){
+    	Log.e("pio", "buscar comunidades");
+    	RequestWS request = new RequestWS();
+    	setCatalogo(request.CargarComunidades(User.getUserId()));
+    }
 	
 	// Clase para ejecutar en Background
     class MiembrosAsync extends AsyncTask<String, Integer, Integer> {

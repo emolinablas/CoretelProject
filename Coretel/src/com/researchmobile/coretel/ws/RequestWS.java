@@ -160,6 +160,14 @@ public class RequestWS {
 					com.setNombre(json.getString("nombre"));
 					comunidad[i] = com;
 				}
+				if (tamano > 0){
+					respuesta.setResultado(true);
+					respuesta.setMensaje("Comunidades cargadas exitosamente");
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("Usted no pertenece a ni una comunidad");
+				}
+				catalogo.setRespuestaWS(respuesta);
 				catalogo.setComunidad(comunidad);
 				return catalogo;
 			}

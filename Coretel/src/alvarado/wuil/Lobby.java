@@ -55,7 +55,8 @@ public class Lobby extends Activity implements OnClickListener{
 		        }else if (position == 1){
 		        	IniciaInvitaciones();
 		        }else {
-		        	new ComunidadesAsync().execute("");
+		        	Intent intent = new Intent(Lobby.this, Comunidades.class);
+		        	startActivity(intent);
 		        }
 		    }
 		});
@@ -101,40 +102,6 @@ public class Lobby extends Activity implements OnClickListener{
 		}
 	}
 	
-	// Clase para ejecutar en Background
-	class ComunidadesAsync extends AsyncTask<String, Integer, Integer> {
-
-		// Metodo que prepara lo que usara en background, Prepara el progress
-		@Override
-		protected void onPreExecute() {
-			pd = ProgressDialog.show(Lobby.this, "VERIFICANDO DATOS",
-					"ESPERE UN MOMENTO");
-			pd.setCancelable(false);
-		}
-
-		// Metodo con las instrucciones que se realizan en background
-		@Override
-		protected Integer doInBackground(String... urlString) {
-			try {
-				setEstadoComunidad(IniciaComunidades());
-
-			} catch (Exception exception) {
-
-			}
-			return null;
-		}
-
-		// Metodo con las instrucciones al finalizar lo ejectuado en background
-		protected void onPostExecute(Integer resultado) {
-			pd.dismiss();
-			if (isEstadoComunidad()){
-				VerComunidades();
-			}else{
-				getMensaje().VerMensaje(Lobby.this, getUsuario().getRespuestaWS().getMensaje());
-			}
-		}
-	}
-
 	protected boolean IniciaComunidades() {
 		if (getConnectState().isConnectedToInternet(Lobby.this)){
 			String id = getUser().getUserId();

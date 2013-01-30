@@ -317,8 +317,8 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 		case 0:
 			break;
 		case 1:
-			//Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
-			//startActivity(intentComunidades);
+			Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+			startActivity(intentComunidades);
 			break;
 		case 2:
 			Intent intentInvitaciones = new Intent(MapWuil.this, Invitaciones.class);
