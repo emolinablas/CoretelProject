@@ -54,7 +54,7 @@
         <activity android:name="Registrar"/>
         <activity android:name="MapWuil"/>
         <activity android:name="Lobby"/>
-        <activity android:name="Perfil"/>
+        <activity android:name="Perfil" android:configChanges="keyboard|keyboardHidden|orientation"/>
         <activity android:name="Comunidades"/>
         <activity android:name="Invitaciones"/>
         <activity android:name="Comunidad"/>

@@ -5,8 +5,10 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +45,8 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.perfil);
 		
+		setRespuestaWS(new RespuestaWS());
+		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setUsuario((Usuario)bundle.get("usuario"));
 		setMensaje(new Mensaje());
@@ -51,6 +55,10 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		setClavenuevaEditText((EditText)findViewById(R.id.perfil_claveactual_edittext));
 		setClavenueva1EditText((EditText)findViewById(R.id.perfil_clavenueva1_edittext));
 		setClavenueva2EditText((EditText)findViewById(R.id.perfil_clavenueva2_edittext));
+		
+		getClavenuevaEditText().setOnKeyListener(this);
+		getClavenueva1EditText().setOnKeyListener(this);
+		getClavenueva2EditText().setOnKeyListener(this);
 		setCambiaButton((Button)findViewById(R.id.perfil_cambiar_button));
 		setGuardarButton((Button)findViewById(R.id.perfil_guardar_button));
 		
@@ -92,7 +100,6 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
         .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                 	new GuardarAsync().execute("");
-                     LimpiarCampos();
                 }
         })
         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -114,7 +121,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	@Override
 	public void onClick(View view) {
 		if (view == getGuardarButton()){
-			new GuardarAsync().execute("");
+			ConfirmarCambio(Perfil.this);
 		}else if (view == getCambiaButton()){
 			if(getEdicionLayout().getVisibility() == View.INVISIBLE){
 				getEdicionLayout().setVisibility(View.VISIBLE);
@@ -146,7 +153,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		@Override
 		protected Integer doInBackground(String... urlString) {
 			try {
-				setCambioHecho(CambiarClave());
+				CambiarClave();
 
 			} catch (Exception exception) {
 
@@ -157,7 +164,13 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
-			getMensaje().VerMensaje(Perfil.this, getRespuestaWS().getMensaje());
+			if (getRespuestaWS() != null){
+				getMensaje().VerMensaje(Perfil.this, getRespuestaWS().getMensaje());
+				if (getRespuestaWS().isResultado()){
+					finish();
+				}
+			}
+			
 		}
 	}
 
@@ -167,24 +180,25 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 			String claveactual = getClavenuevaEditText().getText().toString();
 			String clavenueva1 = getClavenueva1EditText().getText().toString();
 			String clavenueva2 = getClavenueva2EditText().getText().toString();
-			System.out.println("clavereal = " + clavereal + ". claveactual = " + claveactual + ". clavenueva1 = " + clavenueva1 + ". clavenueva2 = " + clavenueva2);
 			if (CamposLlenos(claveactual, clavenueva1, clavenueva2)){
 				if (clavereal.equalsIgnoreCase(claveactual)){
 					if (clavenueva1.equalsIgnoreCase(clavenueva2)){
 						RequestWS request = new RequestWS();
 						setRespuestaWS(request.CambiarClave(claveactual, clavenueva1));
-						getMensaje().VerMensaje(Perfil.this, getRespuestaWS().getMensaje());
 						return true;
 					}else{
+						getRespuestaWS().setResultado(false);
 						getMensaje().ClavesNuevasDiferente(this);
 						return false;
 					}
 				}else{
+					getRespuestaWS().setResultado(false);
 					getMensaje().ClaveActualDiferente(this);
 					return false;
 				}
 			}else{
-				getMensaje().CamposVacios(this);
+				getRespuestaWS().setMensaje("Debe llenar todos los campos");
+				getRespuestaWS().setResultado(false);
 				return false;
 			}
 		}catch(Exception exception){
@@ -195,10 +209,18 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 
 	private boolean CamposLlenos(String claveactual, String clavenueva1, String clavenueva2) {
 		if (!claveactual.equalsIgnoreCase("") && !clavenueva1.equalsIgnoreCase("") && !clavenueva2.equalsIgnoreCase("")){
+			Log.e("pio", "no estan vacios");
 			return true;
 		}
 		return false;
 	}
+
+//	Metodo que mantiene los valores al girar la pantalla
+	@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
 
 	public LinearLayout getEdicionLayout() {
 		return edicionLayout;

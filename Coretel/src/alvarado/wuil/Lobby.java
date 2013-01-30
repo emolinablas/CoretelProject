@@ -87,12 +87,16 @@ public class Lobby extends Activity implements OnClickListener{
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
-			if (isEstadoPerfil()){
-				Intent intent = new Intent(Lobby.this, Perfil.class);
-				intent.putExtra("usuario", getUsuario());
-				startActivity(intent);
-			}else{
-				getMensaje().VerMensaje(Lobby.this, getUsuario().getRespuestaWS().getMensaje());
+			try{
+				if (isEstadoPerfil()){
+					Intent intent = new Intent(Lobby.this, Perfil.class);
+					intent.putExtra("usuario", getUsuario());
+					startActivity(intent);
+				}else{
+					getMensaje().VerMensaje(Lobby.this, getUsuario().getRespuestaWS().getMensaje());
+				}
+			}catch(Exception exception){
+				
 			}
 		}
 	}
