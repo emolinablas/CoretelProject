@@ -1,10 +1,18 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +45,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private ProgressDialog pd = null;
      private boolean logeado;
      private RequestWS requestWS;
+     private AlertDialog.Builder dialogActiveGPS = null;
+     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +66,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             getUsuarioEditText().setText("walvarado");
             getClaveEditText().setText("123");
             setRequestWS(new RequestWS());
-            
+            verificaGps();
         }catch(Exception exception){
              Log.i(LOGTAG, exception.getLocalizedMessage());
         }
@@ -219,6 +229,63 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 			getUsuarioEditText().setText("");
 		}
      }
+     
+     private void verificaGps(){
+    	 /**
+          * Crate Dialog
+          */
+         dialogActiveGPS = new AlertDialog.Builder(this);
+         AlertDialog.Builder dialogActiveGPS = new AlertDialog.Builder(this);
+         dialogActiveGPS.setMessage("¿Desea activarlo ahora?");
+         dialogActiveGPS.setCancelable(false);
+         dialogActiveGPS.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+ 			
+ 			@Override
+ 			public void onClick(DialogInterface dialog, int which) {
+ 				Intent myIntent = new Intent( Settings.ACTION_SECURITY_SETTINGS );
+ 			    startActivity(myIntent);
+ 			}
+ 		});
+         
+         dialogActiveGPS.setNegativeButton("No", new DialogInterface.OnClickListener() {
+ 			
+ 			@Override
+ 			public void onClick(DialogInterface dialog, int which) {
+ 				finish();
+ 				
+ 			}
+ 		});
+         
+         LocationManager locationService = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+         LocationListener myLocationListener = new MyLocationListener();
+ 		locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, myLocationListener);
+ 		if(!locationService.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER ))
+ 		{
+ 			AlertDialog alert = dialogActiveGPS.create();
+ 	        alert.setTitle("NECESITA ACTIVAR GPS");
+ 	        alert.show();
+ 		}
+     }
+     
+     public class MyLocationListener implements LocationListener {
+ 		public void onLocationChanged(Location location) {
+ 			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+ 			LocationListener locationListener = new MyLocationListener();
+ 			locationManager.removeUpdates(locationListener);
+ 		}
+ 		
+ 		public void onProviderDisabled(String provider) {
+			//Toast.makeText(getApplicationContext(), "Gps Desactivado", Toast.LENGTH_SHORT).show();
+			
+		}
+
+		public void onProviderEnabled(String provider) {
+			//Toast.makeText(getApplicationContext(), "Gps Activo", Toast.LENGTH_SHORT).show();
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+ 	 }
 
      public EditText getUsuarioEditText() {
           return usuarioEditText;
