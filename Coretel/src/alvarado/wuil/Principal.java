@@ -3,6 +3,7 @@ package alvarado.wuil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +32,16 @@ public class Principal extends Activity implements OnClickListener{
 		}
 		
 	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	      if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	  moveTaskToBack( true);     
+	          return true;
+	      }
+	      
+	      return super.onKeyDown(keyCode, event);
+    }
+
 
 	private void Registrar() {
 		Intent intent = new Intent(Principal.this, Registrar.class);

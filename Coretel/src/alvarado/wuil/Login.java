@@ -63,18 +63,22 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
     }
 
      @Override
-     public void onClick(View view) {
-          try{
-               if (view == getEntrarButton()){
-                    new LoginAsync().execute("");
-                   
-               }else if (view == getSalirButton()){
-                   
-               }
-          }catch(Exception exception){
-               Log.i(LOGTAG, exception.getLocalizedMessage());
-          }
-         
+	public void onClick(View view) {
+		try {
+			if (view == getEntrarButton()) {
+				new LoginAsync().execute("");
+
+			} else if (view == getSalirButton()) {
+				salir();
+			}
+		} catch (Exception exception) {
+			Log.i(LOGTAG, exception.getLocalizedMessage());
+		}
+	}
+     
+     private void salir(){
+    	 Intent intent = new Intent(Login.this, Principal.class);
+    	 startActivity(intent);
      }
     
      private void Entrar() {
