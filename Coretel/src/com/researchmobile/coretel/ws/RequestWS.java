@@ -133,9 +133,8 @@ public class RequestWS {
 		try{
 			jsonObject = connectWS.CreaUsuario(finalURL);
 			if (jsonObject != null){
-				respuesta.setResultado(jsonObject.getBoolean("respuesta"));
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
-				System.out.println(respuesta.getMensaje());
 				return respuesta;
 			}
 		}catch (Exception exception){

@@ -37,6 +37,8 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrar);
         
+        setRespuesta(new RespuestaWS());
+        
         setMensaje(new Mensaje());
         setNombreEditText((EditText)findViewById(R.id.registrar_nombre_edittext));
         setUsuarioEditText((EditText)findViewById(R.id.registrar_usuario_edittext));
@@ -62,8 +64,6 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 	public void onClick(View view) {
 		if (view == getEnviarButton()){
 			new RegistroAsync().execute("");
-			//EnviarDatos();
-			//getMensaje().EnProceso(this);
 		}
 	}
 	
@@ -75,22 +75,19 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 				String usuario = getUsuarioEditText().getText().toString();
 				String email = getEmailEditText().getText().toString();
 				String telefono = getTelefonoEditText().getText().toString();
-				if(CamposLlenos(nombre, email, telefono)){
+				if(CamposLlenos(nombre, usuario, email, telefono)){
 					RequestWS request = new RequestWS();
 					setRespuesta(request.CrearUsuario(nombre, usuario, email, telefono));
 					if(getRespuesta().isResultado()){
-						RegistrarChat(usuario, nombre);
-						
-						LimpiaCampos();
-						getMensaje().VerMensaje(this, getRespuesta().getMensaje());
-						
+//						RegistrarChat(usuario, nombre);
 						return true;
+					}else{
+						return false;
 					}
-				}else{
-					getMensaje().CamposVacios(this);
-					return false;
 				}
 			}else{
+				getRespuesta().setMensaje("No cuenta con internet");
+				getRespuesta().setResultado(false);
 				getMensaje().SinConexion(this);
 				return false;
 			}
@@ -135,22 +132,12 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
             //Metodo con las instrucciones al finalizar lo ejectuado en background
             protected void onPostExecute(Integer resultado){
                   pd.dismiss();
-                  if (isEnviado()){
-                	  System.out.println("correcto");
-                       getMensaje().VerMensaje(Registrar.this, getRespuesta().getMensaje());
-                       finish();
-                 
-                 } else {
-                	 System.out.println("no correcto");
-                       getMensaje().VerMensaje(Registrar.this , getRespuesta().getMensaje());
-                       LimpiaCampos();
-                 }
-                 
-           }
-
-            private void LimpiaCampos() {
-                  //getClaveEditText().setText( "");
-                  //getUsuarioEditText().setText( "" );
+                  if (getRespuesta() != null){
+                	  getMensaje().VerMensaje(Registrar.this,getRespuesta().getMensaje());
+                	  if (getRespuesta().isResultado()){
+                		  finish();
+                	  }
+                  }
            }
     }
 
@@ -175,10 +162,13 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 		
 	}
 
-	private boolean CamposLlenos(String nombre, String email, String telefono) {
-		if (!nombre.equalsIgnoreCase("") && !email.equalsIgnoreCase("") && !telefono.equalsIgnoreCase("")){
+	private boolean CamposLlenos(String nombre, String usuario, String email, String telefono) {
+		if (!nombre.equalsIgnoreCase("") && !email.equalsIgnoreCase("") && !telefono.equalsIgnoreCase("") && !usuario.equalsIgnoreCase("")){
 			return true;
 		}
+		setRespuesta(new RespuestaWS());
+		getRespuesta().setResultado(false);
+		getRespuesta().setMensaje("Debe llenar todos los campos");
 		return false;
 	}
 
