@@ -1,6 +1,8 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,11 +27,14 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	private Spinner tipoSpinner;
 	private RespuestaWS respuesta;
 	
+	private ProgressDialog pd = null;
+	
 	public void onCreate(Bundle b){
 		super.onCreate(b);
 		setContentView(R.layout.creacomunidad);
 		setMensaje(new Mensaje());
 		
+		setRespuesta(new RespuestaWS());
 		setNombreEditText((EditText)findViewById(R.id.creacomunidad_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.creacomunidad_descripcion_edittext));
 		setTipoSpinner((Spinner)findViewById(R.id.creacomunidad_tipo_spinner));
@@ -42,7 +47,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 
 	private void fillDataSpinner() {
 		String[] datos = new String[]{"Publica","Privada"};
-		 
 		ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, datos);
 		getTipoSpinner().setAdapter(adaptador);
 		
@@ -69,8 +73,7 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	@Override
 	public void onClick(View v) {
 		if (v == getGuardarButton()){
-			System.out.println("boton guardar");
-			Guardar();
+			new crearAsync().execute("");
 		}
 		
 	}
@@ -83,19 +86,45 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		if (connect.isConnectedToInternet(this)){
 			RequestWS request = new RequestWS();
 			setRespuesta(request.CreaComunidad(nombre, descripcion, tipo));
-			System.out.println("CreaComunidad - mensaje = " + respuesta.getMensaje());
-			if (getRespuesta() != null){
-				if (getRespuesta().isResultado()){
-					getMensaje().VerMensaje(this, respuesta.getMensaje());
-					finish();
-				}else{
-					getMensaje().VerMensaje(this, respuesta.getMensaje());
-				}
-			}
 		}else{
-			getMensaje().SinConexion(this);
+			getRespuesta().setResultado(false);
+			getRespuesta().setMensaje("No cuenta con internet");
 		}
 	}
+	
+	// Clase para ejecutar en Background
+    class crearAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(CreaComunidad.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	Guardar();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (getRespuesta() != null){
+    				getMensaje().VerMensaje(CreaComunidad.this, getRespuesta().getMensaje());
+    				if (getRespuesta().isResultado()){
+    					finish();
+    				}
+    			}
+         }
+    }
+
 
 	public EditText getNombreEditText() {
 		return nombreEditText;
