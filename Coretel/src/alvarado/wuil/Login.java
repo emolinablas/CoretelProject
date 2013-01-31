@@ -37,7 +37,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private EditText usuarioEditText;
      private EditText claveEditText;
      private Button entrarButton;
-     private Button salirButton;
+     private Button registrarButton;
      private Mensaje mensaje;
      private User user;
      private CatalogoComunidad catalogoComunidad;
@@ -58,11 +58,11 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             setUsuarioEditText((EditText)findViewById(R.id.login_usuario_edittext));
             setClaveEditText((EditText)findViewById(R.id.login_clave_edittext));
             setEntrarButton((Button)findViewById(R.id.login_entrar_button));
-            setSalirButton((Button)findViewById(R.id.login_salir_button));
+            setRegistrarButton((Button)findViewById(R.id.login_registrar_button));
+            getRegistrarButton().setOnClickListener(this);
             getClaveEditText().setOnKeyListener(this);
             getUsuarioEditText().setOnKeyListener(this);
             getEntrarButton().setOnClickListener(this);
-            getSalirButton().setOnClickListener(this);
             getUsuarioEditText().setText("walvarado");
             getClaveEditText().setText("123");
             setRequestWS(new RequestWS());
@@ -77,20 +77,19 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 		try {
 			if (view == getEntrarButton()) {
 				new LoginAsync().execute("");
-
-			} else if (view == getSalirButton()) {
-				salir();
+			}else if (view == getRegistrarButton()){
+				registrar();
 			}
 		} catch (Exception exception) {
 			Log.i(LOGTAG, exception.getLocalizedMessage());
 		}
 	}
      
-     private void salir(){
-    	 Intent intent = new Intent(Login.this, Principal.class);
+     private void registrar(){
+    	 Intent intent = new Intent(Login.this, Registrar.class);
     	 startActivity(intent);
      }
-    
+     
      private void Entrar() {
           Requerido();
           System.out.println(isLogeado());
@@ -114,12 +113,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private void RegistrarChat() {
     	 ChatUtility registerChar = new ChatUtility();
     	 registerChar.ChatId(Login.this);
-	}
-
-	private void CargarComunidades() {
-    	RequestWS request = new RequestWS();
-		setCatalogoComunidad(request.CargarComunidad("21"));
-		//CargarAnotaciones();
 	}
 
 	private void CargarAnotaciones() {
@@ -311,14 +304,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
           this.entrarButton = entrarButton;
      }
 
-     public Button getSalirButton() {
-          return salirButton;
-     }
-
-     public void setSalirButton(Button salirButton) {
-          this.salirButton = salirButton;
-     }
-
      public Mensaje getMensaje() {
           return mensaje;
      }
@@ -366,8 +351,13 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 	public void setRequestWS(RequestWS requestWS) {
 		this.requestWS = requestWS;
 	}
+
+	public Button getRegistrarButton() {
+		return registrarButton;
+	}
+
+	public void setRegistrarButton(Button registrarButton) {
+		this.registrarButton = registrarButton;
+	}
 	
-	
-     
-     
 }

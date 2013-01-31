@@ -170,7 +170,7 @@ public class TokenizerUtility {
 		}
 		
 		if (url.equalsIgnoreCase("img/markers/anemometer_mono.png")){
-			return context.getResources().getDrawable(R.drawable.alien);
+			return context.getResources().getDrawable(R.drawable.anemometer_mono);
 		}
 		
 		return context.getResources().getDrawable(R.drawable.algae);

@@ -140,6 +140,16 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
                   }
            }
     }
+    
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        		moveTaskToBack( true);     
+            return true;
+        }
+        
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     public void DialogoConfirmacion(Context ctx){
     	new AlertDialog.Builder(ctx)

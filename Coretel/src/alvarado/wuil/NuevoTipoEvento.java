@@ -28,6 +28,7 @@ import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.ImageAdapter;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyListener{
@@ -77,6 +78,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
             	ImageAdapter img = (ImageAdapter)parent.getAdapter();
             	urlSeleccionado = img.nombre(position);
             	seleccionado = (int)parent.getAdapter().getItemId(position);
+            	Log.e("pio", "icono = " + urlSeleccionado + " " + seleccionado);
                 gv.setAdapter(new ImageAdapter(NuevoTipoEvento.this, position));
             }
         });
@@ -93,11 +95,13 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	}
 	
 	public void verSeleccion(String imagen){
+		TokenizerUtility tokenizer = new TokenizerUtility();
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
-		Bitmap bm = BitmapFactory.decodeFile("sdcard/"+ imagen, options);
+//		Bitmap bm = BitmapFactory.decodeFile(tokenizer.iconoResource(NuevoTipoEvento.this, "0=+=1=+=2=+=3=+=4=+=" + imagen), options);
 //        imageView.setImageBitmap(bm);
-		getIconoEvento().setImageBitmap(bm);
+		getIconoEvento().setImageDrawable(tokenizer.iconoResource(NuevoTipoEvento.this, "0=+=1=+=2=+=3=+=4=+=" + imagen));
+//		getIconoEvento().setImageBitmap(bm);
 	}
 
 	// Clase para ejecutar en Background
