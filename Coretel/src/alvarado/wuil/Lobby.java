@@ -20,7 +20,7 @@ import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class Lobby extends Activity implements OnClickListener{
+public class Lobby extends Activity{
 	
 	private ConnectState connectState;
 	private Mensaje mensaje;
@@ -52,11 +52,6 @@ public class Lobby extends Activity implements OnClickListener{
 		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 		        if (position == 0){
 		        	new PerfilAsync().execute("0");
-		        }else if (position == 1){
-		        	IniciaInvitaciones();
-		        }else {
-		        	Intent intent = new Intent(Lobby.this, Comunidades.class);
-		        	startActivity(intent);
 		        }
 		    }
 		});
@@ -68,8 +63,7 @@ public class Lobby extends Activity implements OnClickListener{
 		// Metodo que prepara lo que usara en background, Prepara el progress
 		@Override
 		protected void onPreExecute() {
-			pd = ProgressDialog.show(Lobby.this, "VERIFICANDO DATOS",
-					"ESPERE UN MOMENTO");
+			pd = ProgressDialog.show(Lobby.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
 			pd.setCancelable(false);
 		}
 
@@ -101,8 +95,8 @@ public class Lobby extends Activity implements OnClickListener{
 			}
 		}
 	}
-	
-	protected boolean IniciaComunidades() {
+/**
+ * 	protected boolean IniciaComunidades() {
 		if (getConnectState().isConnectedToInternet(Lobby.this)){
 			String id = getUser().getUserId();
 			System.out.println(id);
@@ -123,10 +117,13 @@ public class Lobby extends Activity implements OnClickListener{
 		startActivity(intent);
 		
 	}
+	
 	protected void IniciaInvitaciones() {
 		Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
 		
 	}
+ * @return
+ */
 	protected boolean IniciaPerfil() {
 		if (getConnectState().isConnectedToInternet(Lobby.this)){
 			String id = getUser().getUserId();
@@ -145,13 +142,8 @@ public class Lobby extends Activity implements OnClickListener{
 	}
 	
 	private String[] ListaOpciones(){
-		String [] opciones = {"Mi Perfil", "Invitaciones Recibidas", "Comunidades"};
+		String [] opciones = {"Mi Perfil"};
 		return opciones;
-	}
-
-	@Override
-	public void onClick(View v) {
-		Toast.makeText(getBaseContext(), "En Proceso de Desarrollo", Toast.LENGTH_SHORT).show();
 	}
 
 	public ListView getOpcionesListView() {
