@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,11 +30,14 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	private LinearLayout edicionLayout;
 	private TextView nombreTextView;
 	private TextView emailText;
+	private TextView usuarioTextView;
+	private TextView telefonoTextView;
 	private EditText clavenuevaEditText;
 	private EditText clavenueva1EditText;
 	private EditText clavenueva2EditText;
 	private Button cambiaButton;
 	private Button guardarButton;
+	private Button editarButton;
 	private Usuario usuario;
 	private User user;
 	private Mensaje mensaje;
@@ -52,6 +56,8 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		setMensaje(new Mensaje());
 		setNombreTextView((TextView)findViewById(R.id.perfil_nombre_textview));
 		setEmailText((TextView)findViewById(R.id.perfil_email_textview));
+		setUsuarioTextView((TextView)findViewById(R.id.perfil_usuario_textview));
+		setTelefonoTextView((TextView)findViewById(R.id.perfil_telefono_textview));
 		setClavenuevaEditText((EditText)findViewById(R.id.perfil_claveactual_edittext));
 		setClavenueva1EditText((EditText)findViewById(R.id.perfil_clavenueva1_edittext));
 		setClavenueva2EditText((EditText)findViewById(R.id.perfil_clavenueva2_edittext));
@@ -61,11 +67,15 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		getClavenueva2EditText().setOnKeyListener(this);
 		setCambiaButton((Button)findViewById(R.id.perfil_cambiar_button));
 		setGuardarButton((Button)findViewById(R.id.perfil_guardar_button));
+		setEditarButton((Button)findViewById(R.id.perfil_editar_button));
 		
 		getNombreTextView().setText(getUsuario().getNombre());
 		getEmailText().setText(getUsuario().getEmail());
+		getUsuarioTextView().setText(User.getUsername());
+		getTelefonoTextView().setText(getUsuario().getTelefono());
 		getCambiaButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
+		getEditarButton().setOnClickListener(this);
 		setEdicionLayout((LinearLayout)findViewById(R.id.perfil_layout_edit));
 		getEdicionLayout().setVisibility(View.INVISIBLE);
 	}
@@ -133,9 +143,15 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 				getClavenueva1EditText().setText("");
 				getClavenueva2EditText().setText("");
 			}
-			
+		}else if (view == getEditarButton()){
+			editarActivity();
 		}
-		
+	}
+	
+	private void editarActivity(){
+		Intent intent = new Intent(Perfil.this, EditarPerfil.class);
+		intent.putExtra("usuario", getUsuario());
+		startActivity(intent);
 	}
 	
 	// Clase para ejecutar en Background
@@ -317,4 +333,30 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	public void setRespuestaWS(RespuestaWS respuestaWS) {
 		this.respuestaWS = respuestaWS;
 	}
+
+	public TextView getUsuarioTextView() {
+		return usuarioTextView;
+	}
+
+	public void setUsuarioTextView(TextView usuarioTextView) {
+		this.usuarioTextView = usuarioTextView;
+	}
+
+	public TextView getTelefonoTextView() {
+		return telefonoTextView;
+	}
+
+	public void setTelefonoTextView(TextView telefonoTextView) {
+		this.telefonoTextView = telefonoTextView;
+	}
+
+	public Button getEditarButton() {
+		return editarButton;
+	}
+
+	public void setEditarButton(Button editarButton) {
+		this.editarButton = editarButton;
+	}
+	
+	
 }

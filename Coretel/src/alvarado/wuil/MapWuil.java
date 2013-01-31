@@ -332,7 +332,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 			new comunidadesAsync().execute("");
 			break;
 		case 5:
-			Intent intentCerrar = new Intent(MapWuil.this, Principal.class);
+			Intent intentCerrar = new Intent(MapWuil.this, Login.class);
 			startActivity(intentCerrar);
 			break;
         default:

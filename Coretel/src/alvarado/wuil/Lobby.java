@@ -95,35 +95,7 @@ public class Lobby extends Activity{
 			}
 		}
 	}
-/**
- * 	protected boolean IniciaComunidades() {
-		if (getConnectState().isConnectedToInternet(Lobby.this)){
-			String id = getUser().getUserId();
-			System.out.println(id);
-			setCatalogo(getRequestWS().CargarComunidades(id));
-			if (getCatalogo() == null){
-				return false;
-			}else{
-				return true;
-			}
-		}else{
-			getMensaje().SinConexion(Lobby.this);
-			return false;
-		}
-	}
-	private void VerComunidades() {
-		Intent intent = new Intent(Lobby.this, Comunidades.class);
-		intent.putExtra("catalogo", getCatalogo());
-		startActivity(intent);
-		
-	}
-	
-	protected void IniciaInvitaciones() {
-		Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
-		
-	}
- * @return
- */
+
 	protected boolean IniciaPerfil() {
 		if (getConnectState().isConnectedToInternet(Lobby.this)){
 			String id = getUser().getUserId();
