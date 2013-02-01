@@ -1,6 +1,7 @@
 package alvarado.wuil;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.Miembro;
@@ -33,7 +33,11 @@ public class Miembros extends Activity implements OnClickListener{
 			    getMiembrosListView().setOnItemClickListener(new OnItemClickListener() {
 		    @Override
 		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		        Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
+		        Miembro miembro = new Miembro();
+		        miembro = (Miembro)a.getItemAtPosition(position);
+		        Intent intent = new Intent(Miembros.this, Miembro.class);
+		        intent.putExtra("miembro", miembro);
+		        startActivity(intent);
 		    }
 		});
 	}
