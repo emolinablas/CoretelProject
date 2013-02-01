@@ -14,7 +14,9 @@
     	    android:id="@+id/scrollView1"
     	    android:layout_width="match_parent"
     	    android:layout_height="wrap_content">
-
+
+
+
     	    <LinearLayout
     	        android:id="@+id/linearLayout4"
     	        android:layout_width="match_parent"
@@ -30,7 +32,7 @@
 
     	            <TextView
     	                style="@style/Text.Titulo"
-    	                android:text="Editar Perfil" />
+    	                android:text="Detalle Miembro" />
     	        </LinearLayout>
 
     	        <LinearLayout
@@ -50,34 +52,16 @@
     	                android:layout_marginTop="10dp"
     	                android:text="Nombre" />
 
-    	            <EditText
-    	                android:id="@+id/editarperfil_nombre_edittext"
+    	            <TextView
+    	                android:id="@+id/detallemiembros_nombre_edittext"
     	                android:layout_width="fill_parent"
     	                android:layout_height="wrap_content"
     	                android:layout_marginLeft="10dp"
     	                android:layout_marginRight="10dp"
     	                android:layout_marginTop="10dp"
-    	                android:hint="Nombre" >
+    	                android:text="Nombre" />
 
     	                <requestFocus />
-    	            </EditText>
-
-    	            <TextView
-    	                android:id="@+id/textView3"
-    	                style="@style/Text.Label"
-    	                android:layout_width="fill_parent"
-    	                android:layout_height="wrap_content"
-    	                android:layout_marginLeft="10dp"
-    	                android:layout_marginTop="10dp"
-    	                android:text="Usuario" />
-
-    	            <TextView
-    	                android:id="@+id/editarperfil_usuario_textview"
-    	                style="@style/Text.Value"
-    	                android:layout_width="fill_parent"
-    	                android:layout_height="wrap_content"
-    	                android:layout_marginLeft="10dp"
-    	                android:layout_marginTop="10dp" />
 
     	            <TextView
     	                android:id="@+id/textView3"
@@ -88,14 +72,14 @@
     	                android:layout_marginTop="10dp"
     	                android:text="Email" />
 
-    	            <EditText
-    	                android:id="@+id/editarperfil_email_edittext"
+    	            <TextView
+    	                android:id="@+id/detallemiembro_email_edittext"
     	                android:layout_width="fill_parent"
     	                android:layout_height="wrap_content"
     	                android:layout_marginLeft="10dp"
     	                android:layout_marginRight="10dp"
     	                android:layout_marginTop="10dp"
-    	                android:hint="Email" />
+    	                android:text="Email" />
 
     	            <TextView
     	                android:id="@+id/textView3"
@@ -106,14 +90,14 @@
     	                android:layout_marginTop="10dp"
     	                android:text="Telefono" />
 
-    	            <EditText
-    	                android:id="@+id/editarperfil_telefono_edittext"
+    	            <TextView
+    	                android:id="@+id/detallemiembro_telefono_edittext"
     	                android:layout_width="fill_parent"
     	                android:layout_height="wrap_content"
     	                android:layout_marginLeft="10dp"
     	                android:layout_marginRight="10dp"
     	                android:layout_marginTop="10dp"
-    	                android:hint="Telefono" />
+    	                android:text="Telefono" />
     	        </LinearLayout>
 
     	        <LinearLayout
@@ -124,12 +108,7 @@
     	            android:gravity="right"
     	            android:orientation="vertical" >
 
-    	            <Button
-    	                android:id="@+id/editarperfil_guardar_button"
-    	                android:layout_width="24dp"
-    	                android:layout_height="24dp"
-    	                android:background="@drawable/save" />
-    	        </LinearLayout>
+    	       </LinearLayout>
     	    </LinearLayout>
 
     	</ScrollView>
