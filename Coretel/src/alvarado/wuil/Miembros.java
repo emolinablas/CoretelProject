@@ -35,7 +35,7 @@ public class Miembros extends Activity implements OnClickListener{
 		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 		        Miembro miembro = new Miembro();
 		        miembro = (Miembro)a.getItemAtPosition(position);
-		        Intent intent = new Intent(Miembros.this, Miembro.class);
+		        Intent intent = new Intent(Miembros.this, DetalleMiembro.class);
 		        intent.putExtra("miembro", miembro);
 		        startActivity(intent);
 		    }
