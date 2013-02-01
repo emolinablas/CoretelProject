@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoMiembro;
+import com.researchmobile.coretel.entity.Miembro;
 
 public class Miembros extends Activity implements OnClickListener{
 	private ListView miembrosListView;
@@ -23,10 +24,10 @@ public class Miembros extends Activity implements OnClickListener{
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setMiembrosListView((ListView)findViewById(R.id.miembros_lista_listview));
-		getMiembrosListView().setAdapter(new ArrayAdapter<String>(this, 
+		getMiembrosListView().setAdapter(new ArrayAdapter<Miembro>(this, 
 				R.layout.lista_lobby,
 				R.id.lista_lobby_textview,
-				ListaMiembros()));
+				getCatalogoMiembro().getMiembro()));
 				getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			    
 			    getMiembrosListView().setOnItemClickListener(new OnItemClickListener() {

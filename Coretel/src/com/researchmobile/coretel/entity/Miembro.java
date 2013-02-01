@@ -13,6 +13,9 @@ public class Miembro implements Serializable{
 	private String nombreUsuario;
 	private String nombreUsuarioInvito;
 	private String nombreComunidad;
+	public String toString(){
+		return nombreUsuario;
+	}
 	public String getId() {
 		return id;
 	}
