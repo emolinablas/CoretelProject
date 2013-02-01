@@ -4,10 +4,8 @@ import java.util.StringTokenizer;
 
 import alvarado.wuil.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.widget.Toast;
 
 public class TokenizerUtility {
 	

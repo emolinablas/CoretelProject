@@ -2,10 +2,7 @@ package com.researchmobile.coretel.utility;
 
 import alvarado.wuil.R;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
