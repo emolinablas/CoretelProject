@@ -24,10 +24,37 @@
         android:layout_width ="fill_parent"
         android:layout_height ="0dip"
         android:layout_weight ="1"
+        android:orientation="vertical"
+        android:gravity="top"
         style="@style/Layout.body">
+        
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Text.Label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Invitaciones Recibidas" />
         
         <ListView 
             android:id="@+id/invitaciones_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+        </ListView>
+        
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/Text.Label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Invitaciones Enviadas" />
+        
+        <ListView 
+            android:id="@+id/invitaciones_enviadas_listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             

@@ -51,6 +51,7 @@ public class RequestWS {
 	private static final String WS_CREACOMUNIDAD = "ws_crear_comunidad.php?usuario=";
 	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=";
 	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&email=";
+	private static final String WS_VERINVITACIONESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
@@ -527,6 +528,54 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		CatalogoInvitacion invitaciones = new CatalogoInvitacion();
 		JSONObject jsonObject = null;
 		String finalURL = WS_VERINVITACIONES + User.getEmail();
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.buscarInvitaciones(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				invitaciones.setRespuestaWS(respuesta);
+				
+				JSONArray jsonArray = jsonObject.getJSONArray("invitacion");
+				
+				int tamano = jsonArray.length();
+				if (tamano > 0){
+					Invitacion[] invitacion = new Invitacion[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject temp = jsonArray.getJSONObject(i);
+						Invitacion invitacionTemp = new Invitacion();
+						invitacionTemp.setId(temp.getString("id"));
+						invitacionTemp.setFechaIntento(temp.getString("fecha_ultimo_intento"));
+						invitacionTemp.setFechaRegistro((temp.getString("fecha_registro")));
+						invitacionTemp.setIdUsuario((temp.getString("id_usuario")));
+						invitacionTemp.setIdComunicad((temp.getString("id_comunidad")));
+						invitacionTemp.setUsuarioInvito((temp.getString("usuario_invito")));
+						invitacionTemp.setCodigoInvitacion((temp.getString("codigo_invitacion")));
+						invitacionTemp.setEmail(temp.getString("email"));
+						invitacionTemp.setTelefono(temp.getString("estado"));
+						invitacionTemp.setIntentos(temp.getString("intentos"));
+						invitacionTemp.setNombreUsuario(temp.getString("nombreUsuario"));
+						invitacionTemp.setNombreComunidad(temp.getString("nombreComunidad"));
+						invitacionTemp.setUsuarioInvita((temp.getString("usuarioInvita")));
+						invitacionTemp.setMiembros((temp.getString("miembros")));
+						invitacion[i] = invitacionTemp;
+					}
+					invitaciones.setInvitacion(invitacion);
+					
+				}
+				return invitaciones;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
+	public CatalogoInvitacion buscaInvitacionesEnviadas() {
+		CatalogoInvitacion invitaciones = new CatalogoInvitacion();
+		JSONObject jsonObject = null;
+		String finalURL = WS_VERINVITACIONESENVIADAS + User.getUserId();
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
 			jsonObject = connectWS.buscarInvitaciones(finalURL);

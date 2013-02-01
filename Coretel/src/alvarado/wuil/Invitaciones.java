@@ -28,10 +28,12 @@ import com.researchmobile.coretel.ws.RequestWS;
 public class Invitaciones extends Activity implements OnItemClickListener{
 	
 	private ListView invitacionesListView;
+	private ListView invitacionesEnviadasListView;
 	private ProgressDialog pd = null;
 	private RequestWS requestWS;
 	private RespuestaWS respuestaWS;
 	private CatalogoInvitacion catalogoInvitacion;
+	private CatalogoInvitacion catalogoInvitacionEnviado;
 	private String respuesta;
 	private Invitacion invitacion;
 	private RespuestaWS respuestaRespondidoWS;
@@ -41,19 +43,25 @@ public class Invitaciones extends Activity implements OnItemClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invitaciones);
         
+        setCatalogoInvitacion(new CatalogoInvitacion());
+        setCatalogoInvitacionEnviado(new CatalogoInvitacion());
         setRequestWS(new RequestWS());
         setRespuestaWS(new RespuestaWS());
         setRespuestaRespondidoWS(new RespuestaWS());
         setInvitacionesListView((ListView)findViewById(R.id.invitaciones_listview));
+        setInvitacionesEnviadasListView((ListView)findViewById(R.id.invitaciones_enviadas_listview));
         getInvitacionesListView().setOnItemClickListener(this);
+        getInvitacionesEnviadasListView().setOnItemClickListener(this);
         
         new InvitacionesAsync().execute("");
     }
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-		setInvitacion((Invitacion)adapter.getItemAtPosition(position));
-		dialogInvitacion();
+		if (view == getInvitacionesListView()){
+			setInvitacion((Invitacion)adapter.getItemAtPosition(position));
+			dialogInvitacion();
+		}
 	}
 	
 	 private void dialogInvitacion() {
@@ -144,10 +152,16 @@ public class Invitaciones extends Activity implements OnItemClickListener{
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
-                	llenaLista();
+                try{
+                	if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
+                    	llenaLista();
+                    }
+                	if (getCatalogoInvitacionEnviado().getRespuestaWS().isResultado()){
+                		llenaListaEnviados();
+                	}
+                }catch(Exception exception){
+                	
                 }
-
          }
    }
     
@@ -157,8 +171,16 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 				R.id.lista_lobby_textview,
 				getCatalogoInvitacion().getInvitacion()));
     	
+    			getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	}
+    
+    public void llenaListaEnviados(){
+    	getInvitacionesEnviadasListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
+				R.layout.lista_lobby,
+				R.id.lista_lobby_textview,
+				getCatalogoInvitacionEnviado().getInvitacion()));
     	
-				getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+				getInvitacionesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
 	}
     
@@ -172,7 +194,8 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 	}
     
     public void buscarInvitaciones(){
-    	setCatalogoInvitacion((getRequestWS().buscarInvitaciones()));
+    	setCatalogoInvitacion(getRequestWS().buscarInvitaciones());
+    	setCatalogoInvitacionEnviado(getRequestWS().buscaInvitacionesEnviadas());
     }
 
 	public ListView getInvitacionesListView() {
@@ -229,6 +252,24 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 
 	public void setRespuestaRespondidoWS(RespuestaWS respuestaRespondidoWS) {
 		this.respuestaRespondidoWS = respuestaRespondidoWS;
+	}
+
+	public CatalogoInvitacion getCatalogoInvitacionEnviado() {
+		return catalogoInvitacionEnviado;
+	}
+
+	public void setCatalogoInvitacionEnviado(
+			CatalogoInvitacion catalogoInvitacionEnviado) {
+		this.catalogoInvitacionEnviado = catalogoInvitacionEnviado;
+	}
+
+	public ListView getInvitacionesEnviadasListView() {
+		return invitacionesEnviadasListView;
+	}
+
+	public void setInvitacionesEnviadasListView(
+			ListView invitacionesEnviadasListView) {
+		this.invitacionesEnviadasListView = invitacionesEnviadasListView;
 	}
 
 	
