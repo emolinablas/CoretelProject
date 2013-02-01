@@ -111,7 +111,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                if (request.Login(getUser())){
             	   setLogeado(true);
             	   CargarAnotaciones();
-            	   RegistrarChat();
+//            	   RegistrarChat();
                     return true;
                }else{
             	   return false;
