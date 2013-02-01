@@ -63,8 +63,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             getClaveEditText().setOnKeyListener(this);
             getUsuarioEditText().setOnKeyListener(this);
             getEntrarButton().setOnClickListener(this);
-            getUsuarioEditText().setText("walvarado");
-            getClaveEditText().setText("123");
+            getUsuarioEditText().setText("");
+            getClaveEditText().setText("");
             setRequestWS(new RequestWS());
             verificaGps();
         }catch(Exception exception){
@@ -84,6 +84,16 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 			Log.i(LOGTAG, exception.getLocalizedMessage());
 		}
 	}
+     
+     public boolean onKeyDown(int keyCode, KeyEvent event) {
+         if (keyCode == KeyEvent.KEYCODE_BACK) {
+        	 moveTaskToBack( true);     
+               return true;
+         }
+         
+         return super.onKeyDown(keyCode, event);
+     }
+
      
      private void registrar(){
     	 Intent intent = new Intent(Login.this, Registrar.class);
@@ -244,7 +254,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  			
  			@Override
  			public void onClick(DialogInterface dialog, int which) {
- 				finish();
+// 				finish();
  				
  			}
  		});

@@ -376,7 +376,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
         })
         .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                	new enviarAsync().execute(""); 
+//                	new enviarAsync().execute(""); 
                 }
         })
         .show();
