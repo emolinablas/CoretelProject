@@ -265,6 +265,7 @@ public class RequestWS {
 						miembroTemp.setId_comunidad(mJson.getString("id_comunidad"));
 						miembroTemp.setId_usuario(mJson.getString("id_usuario"));
 						miembroTemp.setNombreUsuario(mJson.getString("nombreUsuario"));
+						miembroTemp.setTelefono(mJson.getString("telefonoUsuario"));
 						miembroTemp.setFecha_registro(mJson.getString("fecha_registro"));
 						miembroTemp.setNombreComunidad(mJson.getString("nombreComunidad"));
 						miembroTemp.setNombreUsuarioInvito(mJson.getString("nombreUsuarioInvito"));

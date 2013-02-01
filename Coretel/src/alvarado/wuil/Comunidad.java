@@ -327,6 +327,4 @@ public class Comunidad extends Activity implements OnClickListener{
 	public void setCatalogoTipoAnotacion(CatalogoTipoAnotacion catalogoTipoAnotacion) {
 		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
 	}
-
-	
 }

@@ -13,6 +13,7 @@ public class Miembro implements Serializable{
 	private String nombreUsuario;
 	private String nombreUsuarioInvito;
 	private String nombreComunidad;
+	private String telefono;
 	public String toString(){
 		return nombreUsuario;
 	}
@@ -64,4 +65,11 @@ public class Miembro implements Serializable{
 	public void setNombreComunidad(String nombreComunidad) {
 		this.nombreComunidad = nombreComunidad;
 	}
+	public String getTelefono() {
+		return telefono;
+	}
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+	
 }
