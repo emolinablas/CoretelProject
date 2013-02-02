@@ -14,6 +14,7 @@ public class Miembro implements Serializable{
 	private String nombreUsuarioInvito;
 	private String nombreComunidad;
 	private String telefono;
+	private String email;
 	public String toString(){
 		return nombreUsuario;
 	}
@@ -70,6 +71,12 @@ public class Miembro implements Serializable{
 	}
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

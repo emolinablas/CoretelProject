@@ -269,6 +269,7 @@ public class RequestWS {
 						miembroTemp.setFecha_registro(mJson.getString("fecha_registro"));
 						miembroTemp.setNombreComunidad(mJson.getString("nombreComunidad"));
 						miembroTemp.setNombreUsuarioInvito(mJson.getString("nombreUsuarioInvito"));
+						miembroTemp.setEmail(mJson.getString("emailUsuario"));
 						miembro[i] = miembroTemp;
 						System.out.println("CatalogoMiembro - miembro cargado");
 					}
