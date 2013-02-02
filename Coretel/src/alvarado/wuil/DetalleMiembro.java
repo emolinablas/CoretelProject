@@ -27,16 +27,22 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		setTelefonoTextView((TextView)findViewById(R.id.detallemiembro_telefono_edittext));
 		setEmailTextView((TextView)findViewById(R.id.detallemiembro_email_edittext));
 		
-		getNombreTextView().setText(getMiembro().getNombre());
+		getNombreTextView().setText(getMiembro().getNombreUsuario());
 		getTelefonoTextView().setText(getMiembro().getTelefono());
 		getEmailTextView().setText(getMiembro().getEmail());
 		
 	}
 
-	private void setMiembro(Miembro miembro2) {
-		// TODO Auto-generated method stub
-		
+	
+	public Miembro getMiembro() {
+		return miembro;
 	}
+
+
+	public void setMiembro(Miembro miembro) {
+		this.miembro = miembro;
+	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -67,7 +73,6 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	public void setEmailTextView(TextView emailTextView) {
 		this.emailTextView = emailTextView;
 	}
-
 
 }
 
