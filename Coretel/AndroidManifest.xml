@@ -66,6 +66,7 @@
         <activity android:name="Evento" android:configChanges="keyboard|keyboardHidden|orientation"/>
         <activity android:name="NuevoTipoEvento"/>
         <activity android:name="EditarPerfil"/>
+        <activity android:name="DetalleMiembro"/>
         
         
     </application>

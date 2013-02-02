@@ -32,7 +32,6 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		getEmailTextView().setText(getMiembro().getEmail());
 		
 	}
-
 	
 	public Miembro getMiembro() {
 		return miembro;
