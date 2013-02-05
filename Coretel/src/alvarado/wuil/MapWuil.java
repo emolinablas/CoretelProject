@@ -43,7 +43,9 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
+import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.DetalleComunidad;
+import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -85,9 +87,13 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapa);
+        setRequestWS(new RequestWS());
         
-        
-        /***
+        new buscaAnotacionesAsync().execute("");
+    }
+    
+    private void inicializar(){
+    	/***
          * MENU
          */
         
@@ -101,8 +107,8 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
       animationMenu();
         
         
-        Bundle bundle = (Bundle)getIntent().getExtras();
-        setCatalogoAnotacion((CatalogoAnotacion)bundle.get("anotaciones"));
+//        Bundle bundle = (Bundle)getIntent().getExtras();
+//        setCatalogoAnotacion((CatalogoAnotacion)bundle.get("anotaciones"));
         btnSatelite = (Button)findViewById(R.id.BtnSatelite);
         btnCentrar = (Button)findViewById(R.id.BtnCentrar);
         btnAnimar = (Button)findViewById(R.id.BtnAnimar);
@@ -173,7 +179,72 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 
 			}
 		});
+	
+    }
+    
+private void CargarAnotaciones() {
+		CatalogoComunidad comunidades = new CatalogoComunidad();
+		comunidades = getRequestWS().CargarComunidades(User.getUserId());
+		Log.e("TT", "buscando anotaciones, usuario = " + User.getUserId());
+		Log.e("TT", "Login, comunidades cargadas = " + comunidades.getComunidad().length);
+		
+		//Cargar Tipo de anotaciones por comunidades(idcomunidad)
+		CatalogoTipoAnotacion tipoAnotaciones = new CatalogoTipoAnotacion();
+		int tamanoComunidades = comunidades.getComunidad().length;
+		
+		int contar = 0;
+		for (int i = 0; i < tamanoComunidades; i++){
+			tipoAnotaciones = getRequestWS().BuscarTiposEventos(comunidades.getComunidad()[i].getId());
+			contar = contar + tipoAnotaciones.getTipoAnotacion().length;
+		}
+		
+		CatalogoTipoAnotacion tiposFinal = new CatalogoTipoAnotacion();
+		TipoAnotacion[] total = new TipoAnotacion[contar];
+		int contarTotal = 0;
+		for (int i = 0; i < tamanoComunidades; i++){
+			tipoAnotaciones = getRequestWS().BuscarTiposEventos(comunidades.getComunidad()[i].getId());
+			for (int j = 0; j < tipoAnotaciones.getTipoAnotacion().length; j++){
+				total[contarTotal] = tipoAnotaciones.getTipoAnotacion()[j];
+				contarTotal++;
+			}
+		}
+		tiposFinal.setTipoAnotacion(total);
+		
+		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
+		RequestWS request = new RequestWS();
+		setCatalogoAnotacion(request.CargarAnotaciones(total));
+		System.out.println(getCatalogoAnotacion().getRespuesta().getMensaje());
 	}
+
+//Clase para ejecutar en Background
+class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
+
+      // Metodo que prepara lo que usara en background, Prepara el progress
+      @Override
+      protected void onPreExecute() {
+            pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+            pd.setCancelable( false);
+     }
+
+      // Metodo con las instrucciones que se realizan en background
+      @Override
+      protected Integer doInBackground(String... urlString) {
+            try {
+            	CargarAnotaciones();
+           } catch (Exception exception) {
+
+           }
+            return null ;
+     }
+
+      // Metodo con las instrucciones al finalizar lo ejectuado en background
+      protected void onPostExecute(Integer resultado) {
+            pd.dismiss();
+            inicializar();
+
+     }
+}
+
     
     private void animationMenu(){
     	//Initialize

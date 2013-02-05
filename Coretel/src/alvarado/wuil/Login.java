@@ -110,7 +110,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                RequestWS request = new RequestWS();
                if (request.Login(getUser())){
             	   setLogeado(true);
-            	   CargarAnotaciones();
+//            	   CargarAnotaciones();
 //            	   RegistrarChat();
                     return true;
                }else{
@@ -218,7 +218,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  			pd.dismiss();
  			if(isLogeado()){
  				Intent intent = new Intent(Login.this, MapWuil.class);
- 	            intent.putExtra("anotaciones", getCatalogoAnotacion());
+// 	            intent.putExtra("anotaciones", getCatalogoAnotacion());
  	            startActivity(intent);
  			}else{
  				getMensaje().VerMensaje(Login.this, "Usuario no existe");

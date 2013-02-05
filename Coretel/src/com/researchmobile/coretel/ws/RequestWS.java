@@ -146,6 +146,7 @@ public class RequestWS {
 	}
 	
 	public CatalogoComunidad CargarComunidades(String id) {
+		Log.e("TT", "buscando anotaciones, idusuario = " + id);
 		JSONArray jsonArray = null;
 		String finalURL = WS_MISCOMUNIDADES + id + "&activo=1";
 		RespuestaWS respuesta = new RespuestaWS();
