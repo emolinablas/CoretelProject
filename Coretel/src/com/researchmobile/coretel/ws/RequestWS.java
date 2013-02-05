@@ -60,6 +60,7 @@ public class RequestWS {
 	private static final String WS_ELIMINATIPOANOTACION = "ws_delete_tipo_anotacion.php?id=";
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
+	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -473,6 +474,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 	
+	public RespuestaWS editarPerfil(String nombre, String email, String usuario, String telefono) {
+		JSONObject jsonObject = null;
+//		http://174.129.97.85/WS/ws_update_usuario.php?action=modificar&id=2&nombre=kevin&email=kevintech@outlook.copm&telefono=56305815
+
+		String finalURL = WS_EDITARPERFIL + User.getUserId() + "&nombre=" + nombre + "&email=" + email + "&telefono=" + telefono;
+		String url = finalURL.replace(" ", "%20");
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.editarPerfil(url);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
 	public RespuestaWS eliminaTipoEvento(String idUsuario, String idTipoAnotacion) {
 		JSONObject jsonObject = null;
 		String finalURL = WS_ELIMINATIPOANOTACION + idTipoAnotacion + "&usuario=" + idUsuario;
@@ -778,6 +800,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 		return catalogo;		
 	}
+
+	
 
 	
 }
