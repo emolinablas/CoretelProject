@@ -422,7 +422,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			    String comunidad = ComunidadSeleccionada();
 			    String tipoAnotacion = TipoSeleccionado();
 			    String descripcion = getTipoEventoSpinnet().getSelectedItem().toString();
-			    String imagen = getPathFoto();
+			    String imagen = fotoReducida();
 				RespuestaWS respuesta = new RespuestaWS();
 				request.MandarEvento(titulo, getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
 				if (respuesta.isResultado()){
@@ -434,6 +434,24 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			
 		}
 		
+	}
+	
+	private String fotoReducida(){
+		String fotonueva = "/captura.jpg";
+		BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 0;
+        Bitmap bm = BitmapFactory.decodeFile("sdcard" + getPathFoto());
+
+        File file = new File("sdcard" + fotonueva);
+        try {
+        file.createNewFile();
+        FileOutputStream out = new FileOutputStream(file);
+        bm.compress(Bitmap.CompressFormat.JPEG, 20, out);//Convertimos la imagen a JPEG
+        return fotonueva;
+        } catch (Exception e) {
+        	e.printStackTrace();
+        	return null;
+        }
 	}
 
 	private String TipoSeleccionado() {
@@ -534,7 +552,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
                 pd.dismiss();
                 if (respuestaWS != null){
                 	if (respuestaWS.isResultado()){
-                		finish();
+                		Intent intent = new Intent(Evento.this, MapWuil.class);
+                		startActivity(intent);
                 	}else{
                 		Toast.makeText(getBaseContext(), respuestaWS.getMensaje(), Toast.LENGTH_SHORT).show();
                 	}

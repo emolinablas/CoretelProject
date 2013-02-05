@@ -386,6 +386,7 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 	private void opcionesMenu(int opcion){
 		switch(opcion){
 		case 0:
+			new buscaAnotacionesAsync().execute("");
 			break;
 		case 1:
 			Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
