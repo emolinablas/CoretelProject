@@ -171,7 +171,7 @@ public class TokenizerUtility {
 			return context.getResources().getDrawable(R.drawable.anemometer_mono);
 		}
 		
-		return context.getResources().getDrawable(R.drawable.algae);
+		return context.getResources().getDrawable(R.drawable.marker);
 	}
 	
 	private String buscar(String anotacion, int posicion){
