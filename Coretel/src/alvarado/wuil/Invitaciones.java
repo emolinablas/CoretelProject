@@ -6,15 +6,25 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoInvitacion;
+import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.Invitacion;
+import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.ws.RequestWS;
 /**
  * 
@@ -25,7 +35,7 @@ import com.researchmobile.coretel.ws.RequestWS;
  * 2 = Rechazado
  *
  */
-public class Invitaciones extends Activity implements OnItemClickListener{
+public class Invitaciones extends Activity implements OnItemClickListener, OnClickListener{
 	
 	private ListView invitacionesListView;
 	private ListView invitacionesEnviadasListView;
@@ -34,9 +44,14 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 	private RespuestaWS respuestaWS;
 	private CatalogoInvitacion catalogoInvitacion;
 	private CatalogoInvitacion catalogoInvitacionEnviado;
+	private CatalogoComunidad catalogoComunidad;
 	private String respuesta;
 	private Invitacion invitacion;
 	private RespuestaWS respuestaRespondidoWS;
+	private RespuestaWS respuestaInvitar;
+	private Button invitarButton;
+	private String invitaEmail;
+	private String invitaComunidad;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +62,12 @@ public class Invitaciones extends Activity implements OnItemClickListener{
         setCatalogoInvitacionEnviado(new CatalogoInvitacion());
         setRequestWS(new RequestWS());
         setRespuestaWS(new RespuestaWS());
+        setCatalogoComunidad(new CatalogoComunidad());
         setRespuestaRespondidoWS(new RespuestaWS());
         setInvitacionesListView((ListView)findViewById(R.id.invitaciones_listview));
         setInvitacionesEnviadasListView((ListView)findViewById(R.id.invitaciones_enviadas_listview));
+        setInvitarButton((Button)findViewById(R.id.invitaciones_agregar_button));
+        getInvitarButton().setOnClickListener(this);
         getInvitacionesListView().setOnItemClickListener(this);
         getInvitacionesEnviadasListView().setOnItemClickListener(this);
         
@@ -64,7 +82,14 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 		}
 	}
 	
-	 private void dialogInvitacion() {
+	@Override
+	public void onClick(View view) {
+		if (view == getInvitarButton()){
+			new invitarAsync().execute("");
+		}
+	}
+	
+	private void dialogInvitacion() {
 		 new AlertDialog.Builder(this)
          .setIcon(this.getResources().getDrawable(R.drawable.alert))
          .setTitle("Invitacion")
@@ -83,7 +108,106 @@ public class Invitaciones extends Activity implements OnItemClickListener{
          })
          .show();
 	}
-	 
+	
+
+	public void dialogInvitar() {
+		LayoutInflater factory = LayoutInflater.from(Invitaciones.this);
+
+		final View textEntryView = factory.inflate(R.layout.dialog_invitar, null);
+
+		final EditText emailEditText = (EditText) textEntryView.findViewById(R.id.dialog_invitar_email_edittext);
+		final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_invitar_comunidad_spinner);
+		ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+        comunidadesSpinner.setAdapter(adaptador);
+        
+		final AlertDialog.Builder alert = new AlertDialog.Builder(Invitaciones.this);
+
+		alert.setTitle("ENVIAR INVITACION");
+		alert.setView(textEntryView);
+		alert.setPositiveButton("Invitar",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						setInvitaEmail(emailEditText.getText().toString());
+						DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
+						setInvitaComunidad(comunidad.getId());
+						new enviarInvitacionAsync().execute("");
+					}
+				});
+		alert.setNegativeButton("Cancelar",
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+
+					}
+				});
+		alert.show();
+	}
+	
+	public void enviar(){
+		RequestWS requestInvitar = new RequestWS();
+		setRespuestaInvitar(requestInvitar.enviarInvitacion(getInvitaEmail(), getInvitaComunidad()));
+	}
+	
+	// Clase para ejecutar en Background
+    class enviarInvitacionAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(Invitaciones.this, "Buscando Comunidades", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	enviar();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                Toast.makeText(getBaseContext(), getRespuestaInvitar().getMensaje(), Toast.LENGTH_SHORT).show();
+                if (getRespuestaInvitar().isResultado()){
+                	new InvitacionesAsync().execute("");
+                }
+          }
+    }
+	
+	// Clase para ejecutar en Background
+    class invitarAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(Invitaciones.this, "Buscando Comunidades", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	buscaComunidades();
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                dialogInvitar();
+         }
+    }
+ 
 	// Clase para ejecutar en Background
      class enviarRespuestaAsync extends AsyncTask<String, Integer, Integer> {
 
@@ -115,6 +239,10 @@ public class Invitaciones extends Activity implements OnItemClickListener{
           }
     }
      
+		public void buscaComunidades(){
+		RequestWS request = new RequestWS();
+		setCatalogoComunidad(request.CargarComunidades(User.getUserId()));
+     }
      public RespuestaWS enviarRespuesta(){
     	 try{
     		 RespuestaWS respuestaWS = new RespuestaWS();
@@ -272,6 +400,45 @@ public class Invitaciones extends Activity implements OnItemClickListener{
 		this.invitacionesEnviadasListView = invitacionesEnviadasListView;
 	}
 
-	
+	public Button getInvitarButton() {
+		return invitarButton;
+	}
+
+	public void setInvitarButton(Button invitarButton) {
+		this.invitarButton = invitarButton;
+	}
+
+	public CatalogoComunidad getCatalogoComunidad() {
+		return catalogoComunidad;
+	}
+
+	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
+		this.catalogoComunidad = catalogoComunidad;
+	}
+
+	public RespuestaWS getRespuestaInvitar() {
+		return respuestaInvitar;
+	}
+
+	public void setRespuestaInvitar(RespuestaWS respuestaInvitar) {
+		this.respuestaInvitar = respuestaInvitar;
+	}
+
+	public String getInvitaEmail() {
+		return invitaEmail;
+	}
+
+	public void setInvitaEmail(String invitaEmail) {
+		this.invitaEmail = invitaEmail;
+	}
+
+	public String getInvitaComunidad() {
+		return invitaComunidad;
+	}
+
+	public void setInvitaComunidad(String invitaComunidad) {
+		this.invitaComunidad = invitaComunidad;
+	}
+
 	
 }

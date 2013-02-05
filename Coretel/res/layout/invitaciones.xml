@@ -9,12 +9,27 @@
         android:id ="@+id/linearLayout1"
         android:layout_width ="fill_parent"
         android:layout_height ="wrap_content"
-        android:orientation ="vertical"
+        android:orientation ="horizontal"
         style="@style/Layout.header">
         
         <TextView 
             style="@style/Text.Titulo"
-            android:text="INVITACIONES"/>"
+            android:layout_width="wrap_content"
+            android:text="INVITACIONES"/>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/invitaciones_agregar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/plus" />
+
+        </LinearLayout>
         
     </LinearLayout>
     

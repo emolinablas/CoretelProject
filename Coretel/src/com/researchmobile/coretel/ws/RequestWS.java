@@ -51,6 +51,7 @@ public class RequestWS {
 	private static final String WS_CREACOMUNIDAD = "ws_crear_comunidad.php?usuario=";
 	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=";
 	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&email=";
+	private static final String WS_ENVIARINVITACION = "ws_invitacion.php?&invita=";
 	private static final String WS_VERINVITACIONESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
@@ -526,6 +527,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		return null;
 	}
 	
+	public RespuestaWS enviarInvitacion(String email, String idComunidad) {
+		RespuestaWS respuesta = new RespuestaWS();
+		String finalURL = WS_ENVIARINVITACION + User.getUserId() + "&comunidad=" + idComunidad + "&email=" + email;
+		JSONObject jsonObject = null;
+		try{
+			jsonObject = connectWS.enviarInvitacion(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+			}else{
+				respuesta.setResultado(false);
+				respuesta.setMensaje("En este momento no se puede enviar la invitacion");
+			}
+			return respuesta;
+		}catch(Exception exception){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("En este momento no se puede enviar la invitacion");
+			return respuesta;
+		}
+	}
+	
 	public CatalogoInvitacion buscarInvitaciones() {
 		CatalogoInvitacion invitaciones = new CatalogoInvitacion();
 		JSONObject jsonObject = null;
@@ -755,6 +777,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 		return catalogo;		
 	}
+
+	
 }
 		/*	
 		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=1";
