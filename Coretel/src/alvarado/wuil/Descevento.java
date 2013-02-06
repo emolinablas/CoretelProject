@@ -49,6 +49,7 @@ public class Descevento extends Activity implements OnClickListener{
 		getBorrarButton().setOnClickListener(this);
 		setEditarButton((Button)findViewById(R.id.editar_edit_button));
 		getBorrarButton().setOnClickListener(this);
+		getEditarButton().setOnClickListener(this);
 		
 		if (getTipoAnotacion() != null){
 			getNombreTextView().setText(getTipoAnotacion().getNombre());
