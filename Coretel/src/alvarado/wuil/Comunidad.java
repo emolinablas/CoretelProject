@@ -174,6 +174,7 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	protected void IniciaEventos() {
 		Intent intent = new Intent(Comunidad.this, ListaEventos.class);
+		intent.putExtra("idComunidad", getDetalleComunidad().getId());
 		startActivity(intent);
 	}
 
