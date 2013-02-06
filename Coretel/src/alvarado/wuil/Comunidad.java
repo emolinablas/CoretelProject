@@ -173,8 +173,8 @@ public class Comunidad extends Activity implements OnClickListener{
 	}
 
 	protected void IniciaEventos() {
-		Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
-		
+		Intent intent = new Intent(Comunidad.this, ListaEventos.class);
+		startActivity(intent);
 	}
 
 	protected void IniciaMiembros() {
