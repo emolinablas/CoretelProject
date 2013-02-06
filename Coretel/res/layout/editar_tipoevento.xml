@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" style="@style/Layout.principal">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:id ="@+id/linearLayout1"
+        android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="vertical"
+        style="@style/Layout.header">
+        
+        <TextView 
+            style="@style/Text.Titulo"
+            android:text="EDITAR TIPO DE EVENTO"/>
+        
+    </LinearLayout>
+    
+    <!-- BODY -->
+    <LinearLayout
+        android:id ="@+id/linearLayout2"
+        android:layout_width ="fill_parent"
+        android:layout_height ="0dip"
+        android:layout_weight ="1"
+        android:orientation ="vertical"
+        style="@style/Layout.body">
+            <EditText 
+                android:id="@+id/editartipoevento_nombre_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"/>
+            
+            <EditText 
+                android:id="@+id/editartipoevento_descripcion_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:hint="Descripcion"/>
+            
+            <CheckBox 
+                android:id="@+id/editartipoevento_incidente_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Es incidente"
+                android:textColor="#000"/>
+            
+            <LinearLayout 
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+                <Button 
+                    android:id="@+id/editartipoevento_icono_button"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:text="ICONO"/>
+                
+                <ImageView 
+                    android:id="@+id/editartipoevento_icono_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                
+            </LinearLayout>
+            
+    </LinearLayout>
+    
+    <!-- FOOTER -->
+    	<LinearLayout
+        	android:id ="@+id/linearLayout3"
+        	android:layout_width ="fill_parent"
+        	android:layout_height ="wrap_content"
+        	android:orientation ="vertical"
+        	android:gravity="right"
+        	style="@style/Layout.footer">
+            
+    	    <Button 
+    	        android:id="@+id/editartipoevento_guardar_button"
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:background="@drawable/save"
+    	        />
+        </LinearLayout>
+</LinearLayout>

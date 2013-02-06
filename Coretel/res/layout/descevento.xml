@@ -18,6 +18,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipo Evento"/>
+        
+        <LinearLayout 
+        android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:orientation ="horizontal"
+        android:gravity="right"
+        style="@style/Layout.header">
+            
+        <Button
+        android:id="@+id/editar_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit" />
+            
+        </LinearLayout>
 
     <!-- BODY -->
     <LinearLayout

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class Descevento extends Activity implements OnClickListener{
 	private TextView descripcionTextView;
 	private ImageView iconoImageView;
 	private Button borrarButton;
+	private Button editarButton;
 	private TokenizerUtility tokenizer = new TokenizerUtility();
 	private ProgressDialog pd = null;
 	private RespuestaWS respuestaWS;
@@ -45,6 +47,8 @@ public class Descevento extends Activity implements OnClickListener{
 		setIconoImageView((ImageView)findViewById(R.id.descevento_icono_imageview));
 		setBorrarButton((Button)findViewById(R.id.descevento_borrar_button));
 		getBorrarButton().setOnClickListener(this);
+		setEditarButton((Button)findViewById(R.id.editar_edit_button));
+		getBorrarButton().setOnClickListener(this);
 		
 		if (getTipoAnotacion() != null){
 			getNombreTextView().setText(getTipoAnotacion().getNombre());
@@ -61,12 +65,49 @@ public class Descevento extends Activity implements OnClickListener{
 	}
 
 
+	public Button getEditarButton() {
+		return editarButton;
+	}
+
+
+	public void setEditarButton(Button editarButton) {
+		this.editarButton = editarButton;
+	}
+
+
+	public TokenizerUtility getTokenizer() {
+		return tokenizer;
+	}
+
+
+	public void setTokenizer(TokenizerUtility tokenizer) {
+		this.tokenizer = tokenizer;
+	}
+
+
+	public ProgressDialog getPd() {
+		return pd;
+	}
+
+
+	public void setPd(ProgressDialog pd) {
+		this.pd = pd;
+	}
+
+
 	@Override
 	public void onClick(View v) {
 		if (v == getBorrarButton()){
 			dialogBorrar();
+		}else if(v == getEditarButton()){
+			Editarboton();
 		}
-		
+				
+	}
+	
+	private void Editarboton(){
+		Intent intent = new Intent(Descevento.this, EditarTipoEvento.class); 
+		startActivity(intent);
 	}
 	
 	private void dialogBorrar(){
