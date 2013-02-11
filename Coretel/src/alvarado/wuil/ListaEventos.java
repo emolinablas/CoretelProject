@@ -106,14 +106,18 @@ public class ListaEventos extends Activity implements OnItemClickListener{
     }
 
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	
+	public void onItemClick(AdapterView<?> arg0, View arg1, int posicion, long id) {
 		// TODO Auto-generated method stub
-		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class); 
-		startActivity(intent);
+			IniciaDetalleEvento();
 		
 	}
 	
+	private void IniciaDetalleEvento() {
+		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class);
+		startActivity(intent);
+	}
+
 	private ArrayList<HashMap<String, String>> myList(){
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		
