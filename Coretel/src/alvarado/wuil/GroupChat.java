@@ -137,6 +137,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	}
 	
 	private void mensajeCapturado(String event, JSONArray arguments){
+		Log.e("pio", "mensaje capturado = " + arguments.toString());
 		if (event.equalsIgnoreCase("usuarios_online")){
 			//event usuarios_online: [[{"id":61,"usuario":"Regina Goubaud","com":1},{"id":22,"usuario":"Kevin Herrarte","com":1},{"id":21,"usuario":"Wuilder Alvarado","com":1}]]
 			try {
@@ -220,8 +221,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
                 try {
                 	setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
         	        getListChat().setAdapter(getAdapter());
-        	        int total = getListChat().getCount();
-        	        getListChat().setSelection(total);
+        	        
                } catch (Exception exception) {
 
                }
@@ -230,6 +230,8 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 
          // Metodo con las instrucciones al finalizar lo ejectuado en background
          protected void onPostExecute(Integer resultado) {
+        	 int total = getListChat().getCount();
+ 	        getListChat().setSelection(total);
          }
 
    }
