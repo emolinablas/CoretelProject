@@ -170,13 +170,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     style="@style/Text.Value"/>
-
+<!--  
                 <TextView
-                    android:id="@+id/detalleevento_tipo_textview"
+                    android:id="@+id/detalleevento_tipo1_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp" />
+-->
 
                 <TextView
                     android:id="@+id/textView8"

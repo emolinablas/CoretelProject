@@ -76,10 +76,10 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-		if (view == getInvitacionesListView()){
+//		if (view == getInvitacionesListView()){
 			setInvitacion((Invitacion)adapter.getItemAtPosition(position));
 			dialogInvitacion();
-		}
+//		}
 	}
 	
 	@Override
