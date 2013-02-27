@@ -38,7 +38,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	private EditText mensajeEditText;
 	protected static final String TAG = null;
 	
-	//Declare
+	
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
 	private DisplayMetrics metrics;	
@@ -51,12 +51,13 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	private String[] listaUsuarios;
 	private String comunidad;
 	
-	
+//	Frames y Layout para el menu deslisante
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
 	LinearLayout.LayoutParams headerPanelParameters ;
 	LinearLayout.LayoutParams listViewParameters;
 	
+//	Componentes para el uso del list que muestra la conversaci€n del chact
 	ItemChatAdapter adapter;
 	private ListView listChat;
 	ArrayList<ItemChat> itemsCompra;
@@ -64,12 +65,14 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
+		System.out.println("ENTRANDO AL CHAT");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_chat);
 		
 		Bundle bundle = getIntent().getExtras();
 		setComunidad(bundle.getString("comunidad"));
+		//eliminar
+//		setComunidad("34");
 		
 		setMandar((Button)findViewById(R.id.chat_enviar_button));
 		setMensajeEditText((EditText)findViewById(R.id.chat_agregar_edittext));
@@ -81,13 +84,18 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		
 		menuDesplegable();
 		
+//		Inicio SocketIo
 		setClient(new SocketIOClient(URI.create("http://23.23.1.2:8080"), new SocketIOClient.Handler() {
 		    @Override
 		    public void onConnect() {
-		        Log.d(TAG, "Connected!");
-		       // wuilla = 1;
+		        Log.v("CHAT", "EL SOCKET HA CONECTADO!");
+
+				// HASTA ESTE MOMENTO PODES COMENZAR A ENVIARLE COSAS AL SOCKET PORQUE YA ESTA CONECTADO,SE LO ENVIVAS SEGUIDO
+		        //EN TAREAS PARALELAS Y NO SE PUEDE ENTONCES COMPLETABA EL CONNECT PERO NO SEGUIA
 		        
-		       // entraralchat();
+		        conectar();
+		        
+		       
 		    }
 
 		    @Override
@@ -109,9 +117,10 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 				 
 			}
 		}));
-		conectar();
 
 		getClient().connect();
+		
+
 				
 	}
 	private void conectar(){
@@ -124,9 +133,13 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		arguments2.put(getComunidad());
 	    arguments.put(User.getUserId());
 	    
+//			arguments2.put("luis");
+//			arguments2.put(1);
+//			arguments2.put(34);
+	    
 		getClient().emit("conectarComunidad", arguments2);
 		}catch(Exception exception){
-			
+			System.out.println("EXCEPCION CAPTURADO:"+exception.getMessage());
 		}
 		
 	}
@@ -137,9 +150,11 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	}
 	
 	private void mensajeCapturado(String event, JSONArray arguments){
+//		Muestra lo que recibe del servidor
 		Log.e("pio", "mensaje capturado = " + arguments.toString());
+		Log.e("CHAT", "Evento capturado = " + event);
+
 		if (event.equalsIgnoreCase("usuarios_online")){
-			//event usuarios_online: [[{"id":61,"usuario":"Regina Goubaud","com":1},{"id":22,"usuario":"Kevin Herrarte","com":1},{"id":21,"usuario":"Wuilder Alvarado","com":1}]]
 			try {
 				JSONArray usuarios = arguments.getJSONArray(0);
 				int tamano = usuarios.length();
@@ -149,6 +164,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 					lista[i] = usuario.getString("usuario");
 					Log.e("CHAT", String.valueOf(i) + " " + lista[i]);
 				}
+//				Agrega lo que recibe del servidor a la lista en el menu desplegable
 				setListaUsuarios(lista);
 				
 			} catch (JSONException e) {
@@ -159,14 +175,26 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 
 		if (event.equalsIgnoreCase("saludador")){
 			Log.e("CHAT", "inicia Saludador");
-			//{"name":"saludador","args":["Hola nuevo usuario :)"]}
 			try{
-				String mensaje = arguments.toString();
+ 				String mensaje = arguments.getString(0);
 				insertaMensaje(mensaje, User.getUsername());
 			}catch(Exception exception){
 				
 			}
 		}
+		if (event.equalsIgnoreCase("escribir_mensaje")){
+			Log.e("CHAT", "escribir_mensaje");
+			try{
+				String mensaje = arguments.toString();
+				insertaMensaje(arguments.getString(1), arguments.getString(0).toString());
+			}catch(Exception exception){
+				System.out.println("ERROR:"+exception.getMessage());
+			}
+		}
+		if (event.equalsIgnoreCase("enviar_historial")){
+			//implementar esto leer el json que te manda en un ciclo y agregarlo a la conversacion.
+		}
+		
 	}
 	
 	@Override
@@ -174,14 +202,17 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		if (view == getMandar()){
 			String mensaje = getMensajeEditText().getText().toString();
 			getMensajeEditText().setText("");
+//			Agrega el mensaje a la lista en la conversaci€n
 			insertaMensaje(User.getUsername(), mensaje);
 			JSONArray arguments2 = new JSONArray();
 			try{
 			
 			arguments2.put(mensaje);
-			arguments2.put(User.getUsername());
-			arguments2.put(getComunidad());
+			arguments2.put(User.getUsername());//no el username sino el NOMBRE del don osea LUIS GONZALEZ no LUIS
+			arguments2.put("img/avatars/60765793imagen.jpg");//envais el avatar que te mando en el LOGIN
+			
 		    
+//			EnvÃa el mensaje
 			getClient().emit("ingresoMensaje", arguments2);
 			llenaListaUsuarios(getListaUsuarios());
 			getClient().connect();
@@ -195,10 +226,8 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	
 	private void insertaMensaje(String usuario, String mensaje){
 		try{
-			Log.e("CHAT", "insertando mensaje");
 			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
-			Log.e("CHAT", miItem.getId() + " " + miItem.getNombre() + " " + miItem.getMensaje());
-	        getItemsCompra().add(miItem);
+			getItemsCompra().add(miItem);
 	        new chatAsync().execute("");
 		}catch(Exception exception){
 			
