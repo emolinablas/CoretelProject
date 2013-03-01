@@ -10,7 +10,7 @@
         style="@style/Layout.header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/values_background"
+        android:background="@drawable/background_footer_iphone"
         android:gravity="left|center"
         android:orientation="horizontal" >
 
@@ -19,22 +19,30 @@
             style="@style/Text.Titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Comunidades"/>
+            android:layout_weight="1.02"
+            android:gravity="center"
+            android:text="Comunidades" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right|center"
             android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/comunidades_agregar_button"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/plus" />
+                android:background="@drawable/button_background_iphone_gray"
+                android:orientation="vertical"
+                android:padding="3dp" >
 
+                <Button
+                    android:id="@+id/comunidades_agregar_button"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/plus" />
+            </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 
     <!-- BODY -->
@@ -45,27 +53,63 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="@drawable/values_background"
+        android:background="#D1D5E0"
         android:gravity="top|center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="0dp" >
 
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/Text.Label"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mis Comunidades"
-            android:textColor="#ffffff" />
-        
-            <ListView
-		        android:id="@+id/comunidades_lista_listview"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" >
+            android:layout_weight="0.4"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
 
-    </ListView>
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/Text.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Mis Comunidades"
+                android:textColor="#495060" />
+
+            <ListView
+                android:id="@+id/comunidades_lista_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_list_view"
+                android:cacheColorHint="#00000000"
+                android:divider="#797c96" >
+
+            </ListView>
+        </LinearLayout>
 
     </LinearLayout>
 
     <!-- FOOTER -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone" >
+
+        <Button
+            android:id="@+id/explorar_comunidades_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Explorar Comunidades"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 
 </LinearLayout>
