@@ -361,7 +361,6 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
     private void centerMyPosition(){
         myLocationOverlay = new MyLocationOverlay(this, mapView);
         mapView.getOverlays().add(myLocationOverlay);
-        myLocationOverlay.enableCompass();
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.runOnFirstFix(new Runnable() {
             public void run() {

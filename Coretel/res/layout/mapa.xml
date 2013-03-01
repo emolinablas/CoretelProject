@@ -81,13 +81,34 @@
 		        android:layout_height="1dp"
 		        android:background="#414141" />
 
-		    <com.google.android.maps.MapView
-		        android:id="@+id/map"
+		    <RelativeLayout
 		        android:layout_width="fill_parent"
-		        android:layout_height="0dp"
-		        android:layout_weight="1"
-		        android:apiKey="AIzaSyBzjabASEoR5fHrjKCTSlRzJFTfIU1zNhc"
-		        android:clickable="true" />
+		        android:layout_height="1dip"
+		        android:layout_weight="1" >
+
+		        <com.google.android.maps.MapView
+		            android:id="@+id/map"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_weight="1"
+		            android:apiKey="AIzaSyBzjabASEoR5fHrjKCTSlRzJFTfIU1zNhc"
+		            android:clickable="true" >
+		        </com.google.android.maps.MapView>
+
+		        <Button
+		            android:id="@+id/button3"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="Button" />
+		        
+		        <Button
+		            android:id="@+id/button3"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentRight="true"
+		            android:text="Button" />
+		    </RelativeLayout>
 
 		    <RelativeLayout
 		        android:layout_width="match_parent"
@@ -145,6 +166,7 @@
 		            android:background="@drawable/launcher" />
 
 		    </RelativeLayout>
+
 		</LinearLayout>
 
 </FrameLayout>

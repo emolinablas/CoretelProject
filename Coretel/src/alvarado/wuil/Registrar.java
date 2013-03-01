@@ -29,6 +29,7 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 	private EditText telefonoEditText;
 	private EditText usuarioEditText;
 	private Button enviarButton;
+	private Button volverButton;
 	private Mensaje mensaje;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
@@ -45,12 +46,14 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
         setEmailEditText((EditText)findViewById(R.id.registrar_email_edittext));
         setTelefonoEditText((EditText)findViewById(R.id.registrar_telefono_edittext));
         setEnviarButton((Button)findViewById(R.id.registrar_enviar_button));
+        setVolverButton((Button)findViewById(R.id.registrar_volver_button));
         
         getNombreEditText().setOnKeyListener(this);
         getUsuarioEditText().setOnKeyListener(this);
         getEmailEditText().setOnKeyListener(this);
         getTelefonoEditText().setOnKeyListener(this);
         getEnviarButton().setOnClickListener( this );
+        getVolverButton().setOnClickListener(this);
         
         MostrarNumeroTelefono();
     }
@@ -64,6 +67,8 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 	public void onClick(View view) {
 		if (view == getEnviarButton()){
 			new RegistroAsync().execute("");
+		}else if (view == getVolverButton()){
+			finish();
 		}
 	}
 	
@@ -274,5 +279,12 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 		this.usuarioEditText = usuarioEditText;
 	}
 
-	
+	public Button getVolverButton() {
+		return volverButton;
+	}
+
+	public void setVolverButton(Button volverButton) {
+		this.volverButton = volverButton;
+	}
+
 }
