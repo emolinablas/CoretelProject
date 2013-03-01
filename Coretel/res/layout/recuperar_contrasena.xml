@@ -31,36 +31,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="30dp"
                     android:gravity="center"
-                    android:text="Ingresa los datos que se te solicitan para poder registrarte a Pasalo"
+                    android:text="Ingresa tu email y te enviaremos una nueva contraseña"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <EditText
-                    android:id="@+id/registrar_nombre_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/background_edittext"
-                    android:ems="10"
-                    android:hint="Nombre Completo" >
-
-                    <requestFocus />
-                </EditText>
-
-                <EditText
-                    android:id="@+id/registrar_usuario_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/background_edittext"
-                    android:ems="10"
-                    android:hint="Usuario" />
-
-                <EditText
-                    android:id="@+id/registrar_email_edittext"
+                    android:id="@+id/recuperar_email_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -70,19 +45,8 @@
                     android:ems="10"
                     android:hint="Email" />
 
-                <EditText
-                    android:id="@+id/registrar_telefono_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/background_edittext"
-                    android:ems="10"
-                    android:hint="Telefono" />
-
                 <Button
-                    android:id="@+id/registrar_enviar_button"
+                    android:id="@+id/recuperar_recuperar_button"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="20dp"
@@ -93,12 +57,12 @@
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="2"
-                    android:text="¡Regístrame!"
+                    android:text="Recuperar"
                     android:textColor="#FFF"
                     android:textSize="25sp" />
 
                 <Button
-                    android:id="@+id/registrar_volver_button"
+                    android:id="@+id/recuperar_volver_button"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="20dp"

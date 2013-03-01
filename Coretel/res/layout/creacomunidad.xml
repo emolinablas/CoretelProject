@@ -5,33 +5,37 @@
     android:orientation="vertical" style="@style/Layout.principal">
 
     <!-- HEADER -->
-    <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="vertical"
-        style="@style/Layout.header">
-        
-        <TextView 
-            style="@style/Text.Titulo"
-            android:text="NUEVA COMUNIDAD"/>"
-        
-    </LinearLayout>
     
     <!-- BODY -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
-        style="@style/Layout.body">
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@drawable/values_background"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre de la comunidad"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         
         <EditText 
             android:id="@+id/creacomunidad_nombre_edittext"
             android:layout_width="230sp"
             android:layout_height="wrap_content"
             android:hint="Nombre Comunidad"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
         
         <EditText 
             android:id="@+id/creacomunidad_descripcion_edittext"
@@ -43,22 +47,18 @@
             android:id="@+id/creacomunidad_tipo_spinner"
             android:layout_width="130sp"
             android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/creacomunidad_guardar_button"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:background="@drawable/boton_background"
+            android:text="Crear"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:textStyle="bold" />
             
     </LinearLayout>
     
     <!-- FOOTER -->
-    	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="horizontal"
-        	android:gravity="right|center"
-        	style="@style/Layout.footer">
-        
-    	    <Button 
-    	        android:id="@+id/creacomunidad_guardar_button"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:background="@drawable/save"/>
-        </LinearLayout>
 </LinearLayout>

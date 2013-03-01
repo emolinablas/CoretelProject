@@ -1,95 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.principal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" style="@style/Layout.principal">
+    android:background="@drawable/values_background"
+    android:orientation="vertical" >
 
     <!-- HEADER -->
-    <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
-        style="@style/Layout.header">
-
-        <TextView 
-            style="@style/Text.Titulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pasalo"/>
-        
-        <LinearLayout 
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
-        </LinearLayout>
-        
-    </LinearLayout>
     
     <!-- BODY -->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="5sp" >
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
-        style="@style/Layout.body">
-        
-        <EditText 
-            android:id="@+id/login_usuario_edittext"
-            android:layout_width="230dp"
-        	android:layout_height="wrap_content"
-        	android:hint="Usuario"/>
-        
-        <EditText 
-            android:id="@+id/login_clave_edittext"
-            android:layout_width="230dp"
-        	android:layout_height="wrap_content"
-        	android:hint="Contraseña"
-        	/>
-        
-        <LinearLayout 
+        android:id="@+id/linearLayout2"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-            
-            <Button 
-                android:id="@+id/login_entrar_button"
-                android:layout_width="230dp"
-        		android:text="ENTRAR" 
-                style="@style/RM_Button"/>
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@drawable/values_background"
+        android:orientation="vertical"
+        android:padding="0dp" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.41"
+            android:background="@drawable/patron_de_fondo"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="false"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="52dp"
+                    android:src="@drawable/logo" />
+
+                <EditText
+                    android:id="@+id/login_clave_edittext"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/login_usuario_edittext"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/background_edittext"
+                    android:ems="10"
+                    android:hint="Contraseña" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView1"
+                    android:layout_alignRight="@+id/login_usuario_edittext"
+                    android:layout_marginBottom="18dp"
+                    android:shadowColor="#000000"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:text="Pasalo"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="50sp" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/login_entrar_button"
+                    android:layout_below="@+id/login_entrar_button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="¿Olvidaste tu contraseña?"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/login_usuario_edittext"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/login_clave_edittext"
+                    android:layout_below="@+id/imageView1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/background_edittext"
+                    android:ems="10"
+                    android:hint="Usuario" />
+
+                <Button
+                    android:id="@+id/login_entrar_button"
+                    style="@style/RM_Button"
+                    android:layout_width="220dp"
+                    android:layout_alignLeft="@+id/login_clave_edittext"
+                    android:layout_below="@+id/login_clave_edittext"
+                    android:background="@drawable/boton_background"
+                    android:shadowColor="#000001"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1"
+                    android:text="Entrar"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:typeface="normal" />
+            </RelativeLayout>
+
         </LinearLayout>
         
     </LinearLayout>
     
     <!-- FOOTER -->
+
     	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="horizontal"
-        	android:gravity="center"
-        	style="@style/Layout.footer">
-        
-    	    <Button
-                android:id="@+id/login_registrar_button"
-                android:layout_width="fill_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@color/background_footer_shadow"
-                android:text="REGISTRATE"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp" />
+    	    android:id="@+id/linearLayout3"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="@drawable/values_background_footer"
+    	    android:gravity="center"
+    	    android:orientation="horizontal"
+    	    android:padding="0dp" >
+
+    		<LinearLayout
+    		    android:layout_width="fill_parent"
+    		    android:layout_height="fill_parent"
+    		    android:background="@drawable/patron_de_fondo"
+    		    android:padding="10dp" >
+
+    			<Button
+    			    android:id="@+id/login_registrar_button"
+    			    android:layout_width="fill_parent"
+    			    android:layout_height="45dp"
+    			    android:layout_marginBottom="5dp"
+    			    android:layout_marginLeft="30dp"
+    			    android:layout_marginRight="30dp"
+    			    android:layout_marginTop="5dp"
+    			    android:background="@drawable/button_background_green"
+    			    android:shadowColor="#00000F"
+    			    android:shadowDx="1"
+    			    android:shadowDy="1"
+    			    android:shadowRadius="2"
+    			    android:text="Regístrame ahora"
+    			    android:textColor="#FFFFFF"
+    			    android:textSize="25sp"
+    			    android:textStyle="bold" />
+
+    		</LinearLayout>
+
         </LinearLayout>
+
 </LinearLayout>

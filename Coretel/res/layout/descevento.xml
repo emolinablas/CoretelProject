@@ -53,16 +53,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.96"
+        android:background="@drawable/values_background"
         android:gravity="right"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView2"
+            style="@style/Text.Label"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:text="Tipos de Evento"
-            style="@style/Text.Label"/>
+            android:textColor="#ffffff" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,16 +74,21 @@
 
             <TextView
                 android:id="@+id/textView3"
+                style="@style/Text.Label"
                 android:layout_width="180sp"
                 android:layout_height="wrap_content"
-                android:text="Nombre" style="@style/Text.Label"/>
+                android:text="Nombre"
+                android:textColor="@color/background_body" />
 
             <TextView
                 android:id="@+id/descevento_nombre_textview"
+                style="@style/Text.Value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="" style="@style/Text.Value"/>
+                android:background="@drawable/background_textview"
+                android:text="" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -90,9 +98,11 @@
 
             <TextView
                 android:id="@+id/textView4"
+                style="@style/Text.Label"
                 android:layout_width="180sp"
                 android:layout_height="wrap_content"
-                android:text="Icono" style="@style/Text.Label"/>
+                android:text="Icono"
+                android:textColor="@color/background_body" />
 
             <ImageView
                 android:id="@+id/descevento_icono_imageview"
@@ -109,9 +119,11 @@
 
             <TextView
                 android:id="@+id/textView6"
+                style="@style/Text.Label"
                 android:layout_width="180sp"
                 android:layout_height="wrap_content"
-                android:text="Activo" style="@style/Text.Label"/>
+                android:text="Activo"
+                android:textColor="@color/background_body" />
 
             <TextView
                 android:id="@+id/descevento_activo_textview"
@@ -128,9 +140,11 @@
 
             <TextView
                 android:id="@+id/textView5"
+                style="@style/Text.Label"
                 android:layout_width="180sp"
                 android:layout_height="wrap_content"
-                android:text="Es incidente:" style="@style/Text.Label"/>
+                android:text="Es incidente:"
+                android:textColor="@color/background_body" />
 
             <TextView
                 android:id="@+id/descevento_incidente_textview"
@@ -147,8 +161,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="0.40"
-            
-            android:background="@drawable/values_background"
+            android:background="@drawable/background_textview"
             android:orientation="vertical" >
 
             <TextView

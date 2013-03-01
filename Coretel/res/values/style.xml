@@ -66,4 +66,10 @@
      	 <item name="android:layout_height">45sp</item>
      	 <item name="android:layout_margin">4sp</item>
      </style>
+     <style name="Text.buttonAll">
+         <item name="android:shadowColor">#ffffff</item>
+         <item name="android:shadowRadius">2</item>
+         <item name="android:shadowDy">1</item>
+         <item name="android:shadowDx">1</item>
+     </style>
 </resources>

@@ -4,12 +4,14 @@
     android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- HEADER -->
+
     <LinearLayout
-       android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/values_background"
         android:gravity="left|center"
-        style="@style/Layout.header">
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textView1"
@@ -35,43 +37,46 @@
     </LinearLayout>
 
     <!-- BODY -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@drawable/values_background"
         android:gravity="top|left|center"
-        style="@style/Layout.body">
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView2"
+            style="@style/Text.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre:"
-            style="@style/Text.Label"/>
-        
+            android:text="Nombre de la comunidad"
+            android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/comunidad_nombre_textview"
             style="@style/Text.Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_textview" />
         
         <TextView
             android:id="@+id/textView2"
+            style="@style/Text.Label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Descripción:"
-            style="@style/Text.Label"/>
-        
-
+            android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/comunidad_descripcion_textview"
             style="@style/Text.Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_textview" />
         
             <ListView
 		        android:id="@+id/comunidad_lista_listview"
@@ -84,12 +89,15 @@
     </LinearLayout>
 
     <!-- FOOTER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer" android:gravity="right|center">
+        android:id="@+id/linearLayout3"
+        style="@style/Layout.footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/values_background"
+        android:gravity="right|center"
+        android:orientation="vertical" >
             
         <LinearLayout 
             android:layout_width="fill_parent"
