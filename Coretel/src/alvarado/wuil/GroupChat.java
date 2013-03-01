@@ -177,7 +177,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			Log.e("CHAT", "inicia Saludador");
 			try{
  				String mensaje = arguments.getString(0);
-				insertaMensaje(mensaje, User.getUsername());
+				insertaMensaje(User.getUsername(), mensaje);
 			}catch(Exception exception){
 				
 			}
@@ -192,7 +192,25 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			}
 		}
 		if (event.equalsIgnoreCase("enviar_historial")){
-			//implementar esto leer el json que te manda en un ciclo y agregarlo a la conversacion.
+			
+			
+			try {
+				JSONArray jsonArray = (JSONArray) arguments.getJSONArray(0);
+				int histo = jsonArray.length();
+				Log.e("TT", "historial capturado numero = " + histo);
+				for (int i = 0; i < histo; i++){
+					JSONObject json = (JSONObject) jsonArray.get(i);
+					String nombreH = json.getString("usuario");
+					String mensajeH = json.getString("mensaje");
+					insertaMensaje(nombreH, mensajeH);
+				}
+				new chatAsync().execute("");
+				Log.e("TT", "historial capturado = " + jsonArray.get(0));
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -203,7 +221,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			String mensaje = getMensajeEditText().getText().toString();
 			getMensajeEditText().setText("");
 //			Agrega el mensaje a la lista en la conversaciÛn
-			insertaMensaje(User.getUsername(), mensaje);
+//			insertaMensaje(User.getUsername(), mensaje);
 			JSONArray arguments2 = new JSONArray();
 			try{
 			
@@ -228,9 +246,10 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		try{
 			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
 			getItemsCompra().add(miItem);
-	        new chatAsync().execute("");
+	        
 		}catch(Exception exception){
-			
+			Log.e("TT", "Error agregando item");
+			Log.e("TT", exception.getMessage());
 		}
 		
 	}
