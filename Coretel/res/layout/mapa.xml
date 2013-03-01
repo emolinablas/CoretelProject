@@ -33,7 +33,7 @@
 		            android:layout_width="match_parent"
 		            android:layout_height="match_parent"
 		            android:divider="#000000"
-		            android:dividerHeight="0.5dp"
+		            android:dividerHeight="0dp"
 		            android:background= "@drawable/gray_bg"
 		            android:cacheColorHint="#00000000"
 		            />
@@ -86,7 +86,7 @@
 		        android:layout_width="fill_parent"
 		        android:layout_height="0dp"
 		        android:layout_weight="1"
-		        android:apiKey="0FRTZYBu8RoUIJd0q3yPFxTLtzLDmNAogCDUppw"
+		        android:apiKey="AIzaSyBzjabASEoR5fHrjKCTSlRzJFTfIU1zNhc"
 		        android:clickable="true" />
 
 		    <RelativeLayout
