@@ -46,12 +46,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  title.setVisibility(GONE);
 	  snippet.setVisibility(GONE);
 
-	  imgclose = (ImageView) balloonview.findViewById(R.id.close_img_button);
 	  editar = (ImageView) balloonview.findViewById(R.id.edit_img);
-	  
-	  imgclose.setOnClickListener(new OnClickListener() {
-	   public void onClick(View v) {layout.setVisibility(GONE);}
-	  });
 	  
 	  editar.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
