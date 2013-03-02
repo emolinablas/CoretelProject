@@ -69,8 +69,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Button cameraButton;
 	private Button borrarButton;
 	private Button guardarButton;
-	private Button verImagenButton;
-	private Button galleryButton;
 	private LinearLayout imagenLayout;
 	private ImageView fotoEvento;
 	private String pathFoto;
@@ -81,14 +79,12 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Mensaje mensaje;
 	private Fecha fecha;
 	
-	private EditText tituloEditText;
 	private TextView fechaTextView;
 	private TextView latitudTextView;
 	private TextView longitudTextView;
 	private TextView comunidadTextView;
 	private TextView tipoTextView;
 	private Spinner tipoEventoSpinnet;
-	private EditText descripcionEditText;
 	private Spinner comunidadSpinner;
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -117,23 +113,15 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setBorrarButton((Button)findViewById(R.id.evento_borrar_button));
 		setGuardarButton((Button)findViewById(R.id.evento_save_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
-		setVerImagenButton((Button)findViewById(R.id.evento_ver_button));
-		setGalleryButton((Button)findViewById(R.id.evento_gallery_button));
-		getGalleryButton().setOnClickListener(this);
-		getVerImagenButton().setOnClickListener(this);
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		
 		setImagenLayout((LinearLayout)findViewById(R.id.evento_imagen_layout));
 		getImagenLayout().setVisibility(View.INVISIBLE);
-		setTituloEditText((EditText)findViewById(R.id.evento_titulo_edittext));
-		setDescripcionEditText((EditText)findViewById(R.id.evento_descripcion_edittext));
 		setFechaTextView((TextView)findViewById(R.id.evento_fecha_textview));
 		setLatitudTextView((TextView)findViewById(R.id.evento_latitud_textview));
 		setLongitudTextView((TextView)findViewById(R.id.evento_longitud_textview));
-		setComunidadTextView((TextView)findViewById(R.id.evento_comunidad_textview));
-		setTipoTextView((TextView)findViewById(R.id.evento_tipo_textview));
 		setTipoEventoSpinnet((Spinner)findViewById(R.id.evento_tipo_spinner));
 		setComunidadSpinner((Spinner)findViewById(R.id.evento_comunidad_spinner));
 		
@@ -150,7 +138,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private void iniciaNuevo(){
-		getVerImagenButton().setEnabled(false);
 		getFechaTextView().setText(getFecha().FechaHoy());
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
@@ -162,15 +149,11 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}
 		getComunidadSpinner().setEnabled(false);
 		getTipoEventoSpinnet().setEnabled(false);
-		getDescripcionEditText().setEnabled(false);
-		getTituloEditText().setEnabled(false);
 		getCameraButton().setEnabled(false);
 		getGuardarButton().setEnabled(false);
 		getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
-		getTituloEditText().setText(tokenizer.titulo(getTitulo()));
 		getComunidadTextView().setText(tokenizer.nombreComunidad(getDescripcion()));
 		getTipoTextView().setText(tokenizer.tipoAnotacion(getTitulo()));
-		getDescripcionEditText().setText(tokenizer.descripcion(getDescripcion()));
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
 	}
@@ -330,8 +313,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}
 	}
 
-
-
 	@Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -346,12 +327,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else if (view == getGuardarButton()){
 			dialogEnviar();
 
-		}else if (view == getVerImagenButton()){
-			MostrarImagen();
-		}else if (view == getGalleryButton()){
-			mostrarGaleria();
 		}
-		
+//			mostrarGaleria();
 	}
 	
 	private void mostrarGaleria(){
@@ -417,8 +394,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			ConnectState connect = new ConnectState();
 			RequestWS request = new RequestWS();
 			if (connect.isConnectedToInternet(this)){
-				String titulo = getTituloEditText().getText().toString();
-			    String idUsuario = User.getUserId();
+				String idUsuario = User.getUserId();
 			    String comunidad = ComunidadSeleccionada();
 			    String tipoAnotacion = TipoSeleccionado();
 			    String descripcion = getTipoEventoSpinnet().getSelectedItem().toString();
@@ -433,7 +409,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}catch(Exception exception){
 			
 		}
-		
 	}
 	
 	private String fotoReducida(){
@@ -490,7 +465,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		Uri uri = Uri.fromFile(f);
 		cIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		startActivityForResult(cIntent, CAMERA_RESULT);
-		getVerImagenButton().setEnabled(true);
 	}
 
 	private void verImagen() {
@@ -506,11 +480,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		 
              if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)
              {
-                 if (v == getTituloEditText()){
-                	 getDescripcionEditText().requestFocus();//TODO: When the enter key is released
-                 }else if(v == getDescripcionEditText()){
-                	 
-                 }
+                 
                  return true;
              }
              if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
@@ -625,7 +595,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
     	if (requestCode == SELECT_PICTURE){
     		if (data != null){
     			setPathFoto(data.getDataString());
-    			getVerImagenButton().setEnabled(true);
     		}
     	}
     }
@@ -702,14 +671,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		this.mensaje = mensaje;
 	}
 
-	public EditText getTituloEditText() {
-		return tituloEditText;
-	}
-
-	public void setTituloEditText(EditText tituloEditText) {
-		this.tituloEditText = tituloEditText;
-	}
-
 	public TextView getFechaTextView() {
 		return fechaTextView;
 	}
@@ -740,14 +701,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setTipoEventoSpinnet(Spinner tipoEventoSpinnet) {
 		this.tipoEventoSpinnet = tipoEventoSpinnet;
-	}
-
-	public EditText getDescripcionEditText() {
-		return descripcionEditText;
-	}
-
-	public void setDescripcionEditText(EditText descripcionEditText) {
-		this.descripcionEditText = descripcionEditText;
 	}
 
 	public Spinner getComunidadSpinner() {
@@ -790,14 +743,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
 	}
 
-	public Button getVerImagenButton() {
-		return verImagenButton;
-	}
-
-	public void setVerImagenButton(Button verImagenButton) {
-		this.verImagenButton = verImagenButton;
-	}
-
 	public LinearLayout getImagenLayout() {
 		return imagenLayout;
 	}
@@ -822,12 +767,4 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		this.tipoTextView = tipoTextView;
 	}
 
-	public Button getGalleryButton() {
-		return galleryButton;
-	}
-
-	public void setGalleryButton(Button galleryButton) {
-		this.galleryButton = galleryButton;
-	}
-	
 }
