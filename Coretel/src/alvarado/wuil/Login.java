@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
@@ -38,6 +38,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private EditText claveEditText;
      private Button entrarButton;
      private Button registrarButton;
+     private TextView recuperarTextView;
      private Mensaje mensaje;
      private User user;
      private CatalogoComunidad catalogoComunidad;
@@ -59,6 +60,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             setClaveEditText((EditText)findViewById(R.id.login_clave_edittext));
             setEntrarButton((Button)findViewById(R.id.login_entrar_button));
             setRegistrarButton((Button)findViewById(R.id.login_registrar_button));
+            setRecuperarTextView((TextView)findViewById(R.id.login_recuperar_textview));
+            getRecuperarTextView().setOnClickListener(this);
             getRegistrarButton().setOnClickListener(this);
             getClaveEditText().setOnKeyListener(this);
             getUsuarioEditText().setOnKeyListener(this);
@@ -79,6 +82,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 				new LoginAsync().execute("");
 			}else if (view == getRegistrarButton()){
 				registrar();
+			}else if (view == getRecuperarTextView()){
+				recuperarPassword();
 			}
 		} catch (Exception exception) {
 			Log.i(LOGTAG, exception.getLocalizedMessage());
@@ -94,6 +99,10 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
          return super.onKeyDown(keyCode, event);
      }
 
+     private void recuperarPassword(){
+    	 Intent intent = new Intent(Login.this, Recuperar.class);
+    	 startActivity(intent);
+     }
      
      private void registrar(){
     	 Intent intent = new Intent(Login.this, Registrar.class);
@@ -369,5 +378,15 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 	public void setRegistrarButton(Button registrarButton) {
 		this.registrarButton = registrarButton;
 	}
+
+	public TextView getRecuperarTextView() {
+		return recuperarTextView;
+	}
+
+	public void setRecuperarTextView(TextView recuperarTextView) {
+		this.recuperarTextView = recuperarTextView;
+	}
+	
+	
 	
 }

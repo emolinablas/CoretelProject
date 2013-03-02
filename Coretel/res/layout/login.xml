@@ -67,7 +67,7 @@
                     android:textSize="50sp" />
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/login_recuperar_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/login_entrar_button"

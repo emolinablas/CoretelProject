@@ -14,7 +14,28 @@
            android:background="@drawable/gray_bg"
            android:orientation="vertical" >
        
-            <TextView
+        <LinearLayout 
+            android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp" 
+                android:paddingLeft="15dp"             
+                android:gravity="center_vertical"
+                android:background="#353535"
+                android:orientation="vertical">
+            
+            <LinearLayout 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center">
+                
+                <ImageView 
+                    android:id="@+id/mapa_avatar"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/camera"/>
+                
+                <TextView
                 android:text="Usuario Conectado"
                 android:id="@+id/menu_title_1"
                 android:layout_width="fill_parent"
@@ -24,10 +45,10 @@
                 android:paddingLeft="15dp"             
                 android:gravity="center_vertical"
                 android:background="#353535"
-                android:textColor="@android:color/white"
-                >     
+                android:textColor="@android:color/white">     
             </TextView>
-               
+            </LinearLayout>
+            
             <ListView
 		            android:id="@+id/lista"
 		            android:layout_width="match_parent"
@@ -37,6 +58,8 @@
 		            android:background= "@drawable/gray_bg"
 		            android:cacheColorHint="#00000000"
 		            />
+            
+        </LinearLayout>
                        
        </RelativeLayout>
             
@@ -91,23 +114,37 @@
 		            android:layout_width="fill_parent"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="1"
-		            android:apiKey="AIzaSyBzjabASEoR5fHrjKCTSlRzJFTfIU1zNhc"
+		            android:apiKey="0FRTZYBu8RoUIJd0q3yPFxTLtzLDmNAogCDUppw"
 		            android:clickable="true" >
 		        </com.google.android.maps.MapView>
 
 		        <Button
-		            android:id="@+id/button3"
+		            android:id="@+id/filter_button_mapa"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_alignParentLeft="true"
-		            android:text="Button" />
+		            android:background="@drawable/filter"/>
 		        
 		        <Button
-		            android:id="@+id/button3"
+		            android:id="@+id/reload_button_mapa"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_alignParentRight="true"
-		            android:text="Button" />
+		            android:background="@drawable/reload_blue"/>
+
+		        <LinearLayout
+		            android:id="@+id/bubble_filter_layout"
+		            android:layout_width="250dp"
+		            android:layout_height="300dp"
+		            android:visibility="gone"
+		            android:layout_alignParentLeft="true"
+		            android:layout_below="@+id/button3"
+		            android:layout_marginLeft="5dp"
+		            android:layout_marginTop="40dp"
+		            android:orientation="vertical"
+		            android:background="@drawable/bubble_filter" >
+		        </LinearLayout>
+
 		    </RelativeLayout>
 
 		    <RelativeLayout

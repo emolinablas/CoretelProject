@@ -571,6 +571,28 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 	
+	public RespuestaWS recuperaClave(String email) {
+		RespuestaWS respuesta = new RespuestaWS();
+//		String finalURL = WS_RECUPERARCLAVE + User.getUserId() + "&email=" + email;
+		String finalURL = "";
+		JSONObject jsonObject = null;
+		try{
+			jsonObject = connectWS.recuperarClave(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+			}else{
+				respuesta.setResultado(false);
+				respuesta.setMensaje("En este momento no se puede enviar la invitacion");
+			}
+			return respuesta;
+		}catch(Exception exception){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("En este momento no se puede enviar la invitacion");
+			return respuesta;
+		}
+	}
+	
 	public CatalogoInvitacion buscarInvitaciones() {
 		CatalogoInvitacion invitaciones = new CatalogoInvitacion();
 		JSONObject jsonObject = null;
@@ -800,6 +822,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 		return catalogo;		
 	}
+
+	
 
 	
 

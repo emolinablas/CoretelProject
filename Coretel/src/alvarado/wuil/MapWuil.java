@@ -62,6 +62,9 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
 	private Button btnAnimar = null;
+	private Button btnFilter = null;
+	private Button btnReload = null;
+	private LinearLayout bubbleFilterLayout = null;
 	//Declare
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -93,6 +96,24 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     }
     
     private void inicializar(){
+    	
+    	btnFilter = (Button)findViewById(R.id.filter_button_mapa);
+    	btnReload = (Button)findViewById(R.id.reload_button_mapa);
+    	bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
+    	
+    	btnFilter.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (bubbleFilterLayout.getVisibility() == View.VISIBLE){
+					bubbleFilterLayout.setVisibility(View.GONE);
+				}else{
+					bubbleFilterLayout.setVisibility(View.VISIBLE);
+				}
+				
+				
+			}
+		});
     	/***
          * MENU
          */
