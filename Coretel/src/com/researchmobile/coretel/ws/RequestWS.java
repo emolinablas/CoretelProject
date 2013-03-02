@@ -61,6 +61,7 @@ public class RequestWS {
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
+	private static final String WS_RECUPERARCLAVE = "ws_forgot.php?email=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -573,14 +574,14 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	
 	public RespuestaWS recuperaClave(String email) {
 		RespuestaWS respuesta = new RespuestaWS();
-//		String finalURL = WS_RECUPERARCLAVE + User.getUserId() + "&email=" + email;
-		String finalURL = "";
+		String finalURL = WS_RECUPERARCLAVE + email;
 		JSONObject jsonObject = null;
 		try{
 			jsonObject = connectWS.recuperarClave(finalURL);
 			if (jsonObject != null){
-				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setResultado((jsonObject.getInt("resultado") != 0));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				Log.e("piio", "resultado = " + respuesta.isResultado());
 			}else{
 				respuesta.setResultado(false);
 				respuesta.setMensaje("En este momento no se puede enviar la invitacion");
