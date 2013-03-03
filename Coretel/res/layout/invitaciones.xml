@@ -5,12 +5,14 @@
     android:orientation="vertical" style="@style/Layout.principal">
 
     <!-- HEADER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
-        style="@style/Layout.header">
+        android:id="@+id/linearLayout1"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:orientation="horizontal" >
         
         <TextView 
             style="@style/Text.Titulo"
@@ -34,56 +36,69 @@
     </LinearLayout>
     
     <!-- BODY -->
-    <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation="vertical"
-        android:gravity="top"
-        style="@style/Layout.body">
-        
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/Text.Label"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Invitaciones Recibidas" />
-        
-        <ListView 
-            android:id="@+id/invitaciones_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
-        </ListView>
-        
-        <TextView
-            android:id="@+id/textView3"
-            style="@style/Text.Label"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Invitaciones Enviadas" />
-        
-        <ListView 
-            android:id="@+id/invitaciones_enviadas_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            
-        </ListView>
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#D1D5E0"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:padding="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/Text.Label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Invitaciones Recibidas" />
+
+            <ListView
+                android:id="@+id/invitaciones_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_list_view" >
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/Text.Label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Invitaciones Enviadas" />
+
+            <ListView
+                android:id="@+id/invitaciones_enviadas_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+        </LinearLayout>
 
     </LinearLayout>
     
     <!-- FOOTER -->
+
     	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer">
+    	    android:id="@+id/linearLayout3"
+    	    style="@style/Layout.footer"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="30dp"
+    	    android:background="@drawable/background_footer_iphone"
+    	    android:orientation="vertical" >
+
         </LinearLayout>
 </LinearLayout>

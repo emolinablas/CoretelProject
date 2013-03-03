@@ -5,77 +5,93 @@
     android:orientation="vertical" style="@style/Layout.principal">
 
     <!-- HEADER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="vertical"
-        style="@style/Layout.header">
+        android:id="@+id/linearLayout1"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:orientation="vertical" >
         
         <TextView 
             style="@style/Text.Titulo"
-            android:text="CORETEL"/>"
+            android:text="CORETEL"/>
+"
         
     </LinearLayout>
     
     <!-- BODY -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
-        android:gravity="top"
-        style="@style/Layout.body">
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="#D1D5E0"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            style="@style/Layout.body"
+            android:layout_width="fill_parent"
+            android:layout_height="320dp"
+            android:layout_weight="0.88"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:gravity="top"
+            android:orientation="vertical" >
 
             <TextView
-                      android:id ="@+id/textView3"
-                      style ="@style/Text.Label"
-                      android:layout_width ="fill_parent"
-                      android:layout_height ="wrap_content"
-                      android:text ="Nombre" />
+                android:id="@+id/textView3"
+                style="@style/Text.Label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre" />
 
-                  <TextView
-                      android:id ="@+id/detallemiembros_nombre_edittext"
-                      style="@style/Text.Value"
-            		  android:layout_width="wrap_content"
-             		  android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/detallemiembros_nombre_edittext"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_textview" />
 
-                  <TextView
-                      android:id ="@+id/textView3"
-                      style ="@style/Text.Label"
-                      android:layout_width ="fill_parent"
-                      android:layout_height ="wrap_content"
-                      android:text ="Email" />
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/Text.Label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Email" />
 
-                  <TextView
-                      android:id ="@+id/detallemiembro_email_edittext"
-                      style="@style/Text.Value"
-            		  android:layout_width="wrap_content"
-             		  android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/detallemiembro_email_edittext"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_textview" />
 
-                  <TextView
-                      android:id ="@+id/textView3"
-                      style ="@style/Text.Label"
-                      android:layout_width ="fill_parent"
-                      android:layout_height ="wrap_content"
-                      android:text ="Telefono" />
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/Text.Label"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Telefono" />
 
-                  <TextView
-                      android:id ="@+id/detallemiembro_telefono_edittext"
-                      style="@style/Text.Value"
-            		  android:layout_width="wrap_content"
-             		  android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/detallemiembro_telefono_edittext"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_textview" />
 
+        </LinearLayout>
 
+        <RelativeLayout
+            style="@style/Layout.footer"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/background_footer_iphone" >
+
+        </RelativeLayout>
     </LinearLayout>
     
     <!-- FOOTER -->
-    	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer">
-        </LinearLayout>
+
 </LinearLayout>
