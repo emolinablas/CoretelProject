@@ -143,6 +143,20 @@
 		            android:layout_marginTop="40dp"
 		            android:orientation="vertical"
 		            android:background="@drawable/bubble_filter" >
+
+		            <TextView
+		                android:id="@+id/textView1"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="Filtro Comunidad..."
+		                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		            <ListView
+		                android:id="@+id/comunidades_filter"
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content" >
+		            </ListView>
+
 		        </LinearLayout>
 
 		    </RelativeLayout>

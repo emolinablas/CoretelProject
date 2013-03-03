@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -74,6 +73,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 	private int panelWidth;
 	private ImageView menuViewButton;
 	private ListView lView;
+	private ListView comunidadesFilter;
 	private ProgressDialog pd = null;
 	private CatalogoComunidad catalogoComunidad;
 	private TokenizerUtility tokenizer =new TokenizerUtility();
@@ -100,6 +100,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     	btnFilter = (Button)findViewById(R.id.filter_button_mapa);
     	btnReload = (Button)findViewById(R.id.reload_button_mapa);
     	bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
+    	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
     	
     	btnFilter.setOnClickListener(new View.OnClickListener() {
 			
@@ -109,11 +110,13 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 					bubbleFilterLayout.setVisibility(View.GONE);
 				}else{
 					bubbleFilterLayout.setVisibility(View.VISIBLE);
+					new filtrarComunidadesAsync().execute("");
+					
 				}
-				
-				
 			}
 		});
+    	
+    	
     	/***
          * MENU
          */
@@ -469,10 +472,54 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
                 }
          }
    }
+    
+    // Clase para ejecutar en Background
+    class filtrarComunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	buscarComunidadesFilter();
+
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                try{
+                	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                		ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(MapWuil.this, android.R.layout.simple_list_item_1, getCatalogoComunidad().getComunidad());
+    					comunidadesFilter.setAdapter(adaptador);
+                    }else{
+                    	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(Exception exception){
+                	
+                }
+         }
+   }
+
 
 	private void buscarComunidades(){
 		setRequestWS(new RequestWS());
 		setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+	}
+	
+	private void buscarComunidadesFilter(){
+		setRequestWS(new RequestWS());
+		setCatalogoComunidad(getRequestWS().CargarComunidadesFilter(User.getUserId()));
 	}
 	private void dialogComunidades(){
 		

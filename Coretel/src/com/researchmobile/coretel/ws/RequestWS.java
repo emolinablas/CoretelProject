@@ -182,6 +182,47 @@ public class RequestWS {
 		return null;
 	}
 	
+	public CatalogoComunidad CargarComunidadesFilter(String id) {
+		Log.e("TT", "buscando anotaciones, idusuario = " + id);
+		JSONArray jsonArray = null;
+		String finalURL = WS_MISCOMUNIDADES + id + "&activo=1";
+		RespuestaWS respuesta = new RespuestaWS();
+		CatalogoComunidad catalogo = new CatalogoComunidad();
+		try{
+			jsonArray = connectWS.MisComunidades(finalURL);
+			if (jsonArray != null){
+				int tamano = jsonArray.length();
+				DetalleComunidad[] comunidad = new DetalleComunidad[tamano + 1];
+				for (int i = 0; i < tamano; i++){
+					JSONObject json = jsonArray.getJSONObject(i);
+					DetalleComunidad com = new DetalleComunidad();
+					com.setId(json.getString("id"));
+					com.setNombre(json.getString("nombre"));
+					comunidad[i] = com;
+				}
+				
+				if (tamano > 0){
+					DetalleComunidad com = new DetalleComunidad();
+					com.setId("1000");
+					com.setNombre("Todos");
+					comunidad[tamano] = com;
+					
+					respuesta.setResultado(true);
+					respuesta.setMensaje("Comunidades cargadas exitosamente");
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("Usted no pertenece a ni una comunidad");
+				}
+				catalogo.setRespuestaWS(respuesta);
+				catalogo.setComunidad(comunidad);
+				return catalogo;
+			}
+		}catch (Exception exception){
+			return catalogo;
+		}
+		return null;
+	}
+	
 	public RespuestaWS CreaComunidad(String nombre, String descripcion, String tipo) {
 		JSONObject jsonObject = null;
 		String finalURL = WS_CREACOMUNIDAD + User.getUserId() + "&tipo_comunidad=" + tipo + "&publica=" + "1" +"&nombre=" + nombre + "&descripcion=" + descripcion;
