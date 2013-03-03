@@ -37,6 +37,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
@@ -69,6 +70,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Button cameraButton;
 	private Button borrarButton;
 	private Button guardarButton;
+	private Button descripcionButton;
 	private LinearLayout imagenLayout;
 	private ImageView fotoEvento;
 	private String pathFoto;
@@ -84,6 +86,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private TextView longitudTextView;
 	private TextView comunidadTextView;
 	private TextView tipoTextView;
+	private TextView descripcionTextView;
 	private Spinner tipoEventoSpinnet;
 	private Spinner comunidadSpinner;
 	private CatalogoComunidad catalogoComunidad;
@@ -112,16 +115,19 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setCameraButton((Button)findViewById(R.id.evento_capturar_button));
 		setBorrarButton((Button)findViewById(R.id.evento_borrar_button));
 		setGuardarButton((Button)findViewById(R.id.evento_save_button));
+		setDescripcionButton((Button)findViewById(R.id.evento_descripcion_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
+		getDescripcionButton().setOnClickListener(this);
 		
 		setImagenLayout((LinearLayout)findViewById(R.id.evento_imagen_layout));
 		getImagenLayout().setVisibility(View.INVISIBLE);
 		setFechaTextView((TextView)findViewById(R.id.evento_fecha_textview));
 		setLatitudTextView((TextView)findViewById(R.id.evento_latitud_textview));
 		setLongitudTextView((TextView)findViewById(R.id.evento_longitud_textview));
+		setDescripcionTextView((TextView)findViewById(R.id.evento_descripcion_textview));
 		setTipoEventoSpinnet((Spinner)findViewById(R.id.evento_tipo_spinner));
 		setComunidadSpinner((Spinner)findViewById(R.id.evento_comunidad_spinner));
 		
@@ -321,12 +327,13 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	@Override
 	public void onClick(View view) {
 		if (view == getCameraButton()){
-			ActivarCamara();
+			fotografiaDialog();
 		}else if (view == getBorrarButton()){
 			borrarEvento();
 		}else if (view == getGuardarButton()){
 			dialogEnviar();
-
+		}else if (view == getDescripcionButton()){
+			dialogDescripcion();
 		}
 //			mostrarGaleria();
 	}
@@ -376,6 +383,61 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
         .show();
 
 	}
+	
+	private void dialogDescripcion() {
+        LayoutInflater factory = LayoutInflater.from(Evento.this);
+       
+        final View textEntryView = factory.inflate(R.layout.dialog_descripcion , null);
+       
+        final EditText descripcionEditText = (EditText) textEntryView.findViewById(R.id.dialog_descripcion_edittext);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        
+        alert.setPositiveButton( "OK" ,
+                new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface arg0, int arg1) {
+                    	  String descripcion = descripcionEditText.getText().toString();
+                    	  getDescripcionTextView().setText(descripcion);
+                     }
+         });
+       alert.setTitle( "Descripción");
+       alert.setView(textEntryView);
+       
+       alert.show();
+	}
+	
+	private void fotografiaDialog() {
+        LayoutInflater factory = LayoutInflater.from(Evento.this);
+       
+        final View textEntryView = factory.inflate(R.layout.dialog_fotografia , null);
+       
+        final Button capturarButton = (Button) textEntryView.findViewById(R.id.dialog_fotografia_camara);
+        final Button albumButton = (Button) textEntryView.findViewById(R.id.dialog_fotografia_album);
+        
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        
+        capturarButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ActivarCamara();
+				
+			}
+		});
+        
+        alert.setPositiveButton( "CERRAR" ,
+                new DialogInterface.OnClickListener() {
+                      @Override
+                      public void onClick(DialogInterface arg0, int arg1) {
+                    	  MostrarImagen();
+                     }
+         });
+       alert.setTitle( "Agregar Fotografía");
+       alert.setView(textEntryView);
+       
+       alert.show();
+	}
+
 
 	private void MostrarImagen() {
 		if(getTitulo().equalsIgnoreCase("nuevo")){
@@ -767,4 +829,20 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		this.tipoTextView = tipoTextView;
 	}
 
+	public TextView getDescripcionTextView() {
+		return descripcionTextView;
+	}
+
+	public void setDescripcionTextView(TextView descripcionTextView) {
+		this.descripcionTextView = descripcionTextView;
+	}
+
+	public Button getDescripcionButton() {
+		return descripcionButton;
+	}
+
+	public void setDescripcionButton(Button descripcionButton) {
+		this.descripcionButton = descripcionButton;
+	}
+	
 }
