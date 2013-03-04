@@ -295,8 +295,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		// Metodo que prepara lo que usara en background, Prepara el progress
 		@Override
 		protected void onPreExecute() {
-			pd = ProgressDialog.show(Evento.this, "ENVIAR",
-					"ESPERE UN MOMENTO");
+			pd = ProgressDialog.show(Evento.this, "ENVIAR", "ESPERE UN MOMENTO");
 			pd.setCancelable(false);
 		}
 
@@ -459,7 +458,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 				String idUsuario = User.getUserId();
 			    String comunidad = ComunidadSeleccionada();
 			    String tipoAnotacion = TipoSeleccionado();
-			    String descripcion = getTipoEventoSpinnet().getSelectedItem().toString();
+			    String descripcion = getDescripcionTextView().getText().toString();
 			    String imagen = fotoReducida();
 				RespuestaWS respuesta = new RespuestaWS();
 				request.MandarEvento(titulo, getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);

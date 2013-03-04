@@ -101,7 +101,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
     	btnReload = (Button)findViewById(R.id.reload_button_mapa);
     	bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
     	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
-    	
+    	btnReload = (Button)findViewById(R.id.reload_button_mapa);
     	btnFilter.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -117,11 +117,21 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
 		});
     	
     	
+    	btnReload.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mapOverlays.clear();
+				new buscaAnotacionesAsync().execute("");
+				
+			}
+		});
+    	
     	/***
          * MENU
          */
         
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Lobby", "Chat", "Cerrar sesión" };
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 
       lView = (ListView) findViewById(R.id.lista);
       // Set option as Multiple Choice. So that user can able to select more the one option from list
@@ -388,7 +398,12 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
         myLocationOverlay.enableMyLocation();
         myLocationOverlay.runOnFirstFix(new Runnable() {
             public void run() {
-            	mapController.animateTo(myLocationOverlay.getMyLocation());
+            	try{
+            		mapController.animateTo(myLocationOverlay.getMyLocation());
+            	}catch(Exception exception){
+            		Toast.makeText(getBaseContext(), "No es posible obtener su ubicación", Toast.LENGTH_SHORT).show();
+            	}
+            	
             }
         });
     }

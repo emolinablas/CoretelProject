@@ -34,7 +34,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/button_background_iphone_gray"
-                android:text="Registrar Evento"
+                android:text="Aplicar"
                 android:textColor="#ffffff" />
 
         </LinearLayout>
@@ -255,7 +255,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_iphone_gray"
-                android:text="Eliminar"
+                android:text="Cancelar"
                 android:textColor="#ffffff" />
 
         </LinearLayout>
