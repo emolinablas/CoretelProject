@@ -446,7 +446,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
     }
 }
 	
-	public RespuestaWS MandarEvento(String titulo, String latitud, String longitud, String idUsuario, String comunidad, String tipoAnotacion, String descripcion, String imagen) {
+	public RespuestaWS MandarEvento(String latitud, String longitud, String idUsuario, String comunidad, String tipoAnotacion, String descripcion, String imagen) {
 		
 		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
 		nombresArchivos.add(new BasicNameValuePair("usuario", idUsuario));

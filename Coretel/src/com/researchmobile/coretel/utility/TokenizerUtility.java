@@ -71,104 +71,104 @@ public class TokenizerUtility {
 	public Drawable iconoResource(Context context, String titulo) {
 		String url = icono(titulo);
 		
-		if (url.equalsIgnoreCase("img/markers/2hand.png")){
-			return context.getResources().getDrawable(R.drawable.hand);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/360degrees.png")){
-			return context.getResources().getDrawable(R.drawable.degrees);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/abduction.png")){
-			return context.getResources().getDrawable(R.drawable.abduction);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/aboriginal.png")){
-			return context.getResources().getDrawable(R.drawable.aboriginal);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/accesdenied.png")){
-			return context.getResources().getDrawable(R.drawable.accesdenied);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/acupuncture.png")){
-			return context.getResources().getDrawable(R.drawable.acupuncture);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/administration.png")){
-			return context.getResources().getDrawable(R.drawable.administration);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/administrativeboundary.png")){
-			return context.getResources().getDrawable(R.drawable.administrativeboundary);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/aed-2.png")){
-			return context.getResources().getDrawable(R.drawable.aed);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/agritourism.png")){
-			return context.getResources().getDrawable(R.drawable.agritourism);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/air_fixwing.png")){
-			return context.getResources().getDrawable(R.drawable.air_fixwing);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/aircraftcarrier.png")){
-			return context.getResources().getDrawable(R.drawable.aircraftcarrier);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/aircraftsmall.png")){
-			return context.getResources().getDrawable(R.drawable.aircraftsmall);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/airport.png")){
-			return context.getResources().getDrawable(R.drawable.airport);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/airport_apron.png")){
-			return context.getResources().getDrawable(R.drawable.airport_apron);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/airport_runway.png")){
-			return context.getResources().getDrawable(R.drawable.airport_runway);
-		}
-		
-		if (url.equalsIgnoreCase("img/markers/airport_terminal.png")){
-			return context.getResources().getDrawable(R.drawable.airport_terminal);
-		}
-		
 		if (url.equalsIgnoreCase("img/markers/airshow-2.png")){
-			return context.getResources().getDrawable(R.drawable.airshow);
+			return context.getResources().getDrawable(R.drawable.icono0);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/algae.png")){
-			return context.getResources().getDrawable(R.drawable.algae);
+		if (url.equalsIgnoreCase("img/markers/anniversary.png")){
+			return context.getResources().getDrawable(R.drawable.icono1);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/alien.png")){
-			return context.getResources().getDrawable(R.drawable.alien);
+		if (url.equalsIgnoreCase("img/markers/anthropo.png")){
+			return context.getResources().getDrawable(R.drawable.icono2);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/alligator.png")){
-			return context.getResources().getDrawable(R.drawable.alligator);
+		if (url.equalsIgnoreCase("img/markers/aquarium.png")){
+			return context.getResources().getDrawable(R.drawable.icono3);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/amphitheater.png")){
-			return context.getResources().getDrawable(R.drawable.amphitheat);
+		if (url.equalsIgnoreCase("img/markers/art-museum-2.png")){
+			return context.getResources().getDrawable(R.drawable.icono4);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/amphitheater-2.png")){
-			return context.getResources().getDrawable(R.drawable.amphitheater);
+		if (url.equalsIgnoreCase("img/markers/billiard-2.png")){
+			return context.getResources().getDrawable(R.drawable.icono5);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/anchorpier.png")){
-			return context.getResources().getDrawable(R.drawable.anchorpier);
+		if (url.equalsIgnoreCase("img/markers/bowling.png")){
+			return context.getResources().getDrawable(R.drawable.icono6);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/anemometer_mono.png")){
-			return context.getResources().getDrawable(R.drawable.anemometer_mono);
+		if (url.equalsIgnoreCase("img/markers/bullfight.png")){
+			return context.getResources().getDrawable(R.drawable.icono7);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/bustour.png")){
+			return context.getResources().getDrawable(R.drawable.icono8);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/casino-2.png")){
+			return context.getResources().getDrawable(R.drawable.icono9);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/cinema.png")){
+			return context.getResources().getDrawable(R.drawable.icono10);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/circus.png")){
+			return context.getResources().getDrawable(R.drawable.icono11);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/coins.png")){
+			return context.getResources().getDrawable(R.drawable.icono12);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/comedyclub.png")){
+			return context.getResources().getDrawable(R.drawable.icono13);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/dance_class.png")){
+			return context.getResources().getDrawable(R.drawable.icono14);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/dancinghall.png")){
+			return context.getResources().getDrawable(R.drawable.icono15);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/dinopark.png")){
+			return context.getResources().getDrawable(R.drawable.icono16);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/ferriswheel.png")){
+			return context.getResources().getDrawable(R.drawable.icono17);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/festival.png")){
+			return context.getResources().getDrawable(R.drawable.icono18);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/fireworks.png")){
+			return context.getResources().getDrawable(R.drawable.icono19);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/fishing.png")){
+			return context.getResources().getDrawable(R.drawable.icono20);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/geocaching-3.png")){
+			return context.getResources().getDrawable(R.drawable.icono21);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/historical_museum.png")){
+			return context.getResources().getDrawable(R.drawable.icono22);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/hookah_final.png")){
+			return context.getResources().getDrawable(R.drawable.icono23);
+		}
+		
+		if (url.equalsIgnoreCase("img/markers/jazzclub.png")){
+			return context.getResources().getDrawable(R.drawable.icono24);
 		}
 		
 		return context.getResources().getDrawable(R.drawable.marker);

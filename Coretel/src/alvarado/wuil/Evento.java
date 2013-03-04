@@ -461,7 +461,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			    String descripcion = getDescripcionTextView().getText().toString();
 			    String imagen = fotoReducida();
 				RespuestaWS respuesta = new RespuestaWS();
-				request.MandarEvento(titulo, getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
+				request.MandarEvento(getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
 				if (respuesta.isResultado()){
 					getMensaje().VerMensaje(this, respuesta.getMensaje());
 					finish();
