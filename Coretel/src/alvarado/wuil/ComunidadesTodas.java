@@ -22,9 +22,7 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class Comunidades extends Activity implements OnClickListener{
-	private Button agregarButton;
-	private Button explorarButton;
+public class ComunidadesTodas extends Activity implements OnClickListener{
 	private ListView comunidadesListView;
 	private CatalogoComunidad catalogo;
 	private CatalogoMiembro catalogoMiembro;
@@ -34,7 +32,7 @@ public class Comunidades extends Activity implements OnClickListener{
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.comunidades);
+		setContentView(R.layout.comunidadestodas);
 		
 //		Bundle bundle = (Bundle)getIntent().getExtras();
 //		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
@@ -42,11 +40,7 @@ public class Comunidades extends Activity implements OnClickListener{
 		
 		new buscaComunidadesAsync().execute("");
 		
-		setAgregarButton((Button)findViewById(R.id.comunidades_agregar_button));
-		setExplorarButton((Button)findViewById(R.id.explorar_comunidades_button));
-		getAgregarButton().setOnClickListener(this);
-		getExplorarButton().setOnClickListener(this);
-		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
+		setComunidadesListView((ListView)findViewById(R.id.comunidadestodas_lista_listview));
 		
 	}
 	
@@ -56,7 +50,7 @@ public class Comunidades extends Activity implements OnClickListener{
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(Comunidades.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd = ProgressDialog. show(ComunidadesTodas.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 
@@ -83,8 +77,8 @@ public class Comunidades extends Activity implements OnClickListener{
     		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
     		if (getCatalogo().getRespuestaWS().isResultado()){
     			getComunidadesListView().setAdapter(new ArrayAdapter<String>(this, 
-    					R.layout.lista_lobby,
-    					R.id.lista_lobby_textview,
+    					R.layout.lista_solicitar_comunidad,
+    					R.id.lista_solicitar_textview,
     					ListaComunidades()));
     					getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     				    
@@ -101,7 +95,7 @@ public class Comunidades extends Activity implements OnClickListener{
     private void buscaComunidades(){
     	Log.e("pio", "buscar comunidades");
     	RequestWS request = new RequestWS();
-    	setCatalogo(request.CargarComunidades(User.getUserId()));
+    	setCatalogo(request.CargarComunidadesTodas(User.getUserId()));
     }
 	
 	// Clase para ejecutar en Background
@@ -110,7 +104,7 @@ public class Comunidades extends Activity implements OnClickListener{
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(Comunidades.this, "VERIFICANDO DATOS",
+                pd = ProgressDialog. show(ComunidadesTodas.this, "VERIFICANDO DATOS",
                             "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
@@ -130,7 +124,7 @@ public class Comunidades extends Activity implements OnClickListener{
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                Intent intent = new Intent(Comunidades.this, Comunidad.class);
+                Intent intent = new Intent(ComunidadesTodas.this, Comunidad.class);
 		        intent.putExtra("catalogoMiembro", getCatalogoMiembro());
 		        intent.putExtra("detallecomunidad", getDetalleComunidad());
 		        startActivity(intent);
@@ -177,34 +171,16 @@ public class Comunidades extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View view) {
-		if (view == getAgregarButton()){
-			AgregarComunidad();
-		}else if(view == getExplorarButton()){
-			explorarComunidades();
-		}
+		
 		
 	}
 
-	private void explorarComunidades(){
-		Intent intent = new Intent(Comunidades.this, ComunidadesTodas.class);
-		startActivity(intent);
-	}
 
 	private void AgregarComunidad() {
-		Intent intent = new Intent(Comunidades.this, CreaComunidad.class);
+		Intent intent = new Intent(ComunidadesTodas.this, CreaComunidad.class);
 		startActivity(intent);
 		
 	}
-
-	public Button getAgregarButton() {
-		return agregarButton;
-	}
-
-
-	public void setAgregarButton(Button agregarButton) {
-		this.agregarButton = agregarButton;
-	}
-
 
 	public ListView getComunidadesListView() {
 		return comunidadesListView;
@@ -248,12 +224,4 @@ public class Comunidades extends Activity implements OnClickListener{
 	public void setSelect(String select) {
 		this.select = select;
 	}
-	public Button getExplorarButton() {
-		return explorarButton;
-	}
-	public void setExplorarButton(Button explorarButton) {
-		this.explorarButton = explorarButton;
-	}
-	
-	
 }

@@ -62,6 +62,7 @@ public class RequestWS {
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
 	private static final String WS_RECUPERARCLAVE = "ws_forgot.php?email=";
+	private static final String WS_COMUNIDADESTODAS = "ws_comunidades.php?usuario=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -145,6 +146,48 @@ public class RequestWS {
 			return respuesta;
 		}
 		return null;
+	}
+	
+	public CatalogoComunidad CargarComunidadesTodas(String id) {
+		Log.e("TT", "buscando anotaciones, idusuario = " + id);
+		JSONObject jsonObject = null;
+		String finalURL = WS_COMUNIDADESTODAS + User.getUserId();
+		RespuestaWS respuesta = new RespuestaWS();
+		CatalogoComunidad catalogo = new CatalogoComunidad();
+		try{
+			jsonObject = connectWS.ComunidadesTodas(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				if (jsonObject.has("comunidad")){
+					JSONArray jsonArray = jsonObject.getJSONArray("comunidad");
+					int tamano = jsonArray.length();
+					DetalleComunidad[] comunidad = new DetalleComunidad[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject json = jsonArray.getJSONObject(i);
+						DetalleComunidad com = new DetalleComunidad();
+						com.setId(json.getString("id"));
+						com.setNombre(json.getString("nombre"));
+						comunidad[i] = com;
+					}
+					catalogo.setRespuestaWS(respuesta);
+					catalogo.setComunidad(comunidad);
+					return catalogo;
+				}else{
+					return catalogo;
+				}
+			}else{
+				respuesta.setResultado(false);
+				respuesta.setMensaje("No se pudieron cargar las comunidades");
+				catalogo.setRespuestaWS(respuesta);
+				return catalogo;
+			}
+		}catch (Exception exception){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("No se pudieron cargar las comunidades");
+			catalogo.setRespuestaWS(respuesta);
+			return catalogo;
+		}
 	}
 	
 	public CatalogoComunidad CargarComunidades(String id) {
