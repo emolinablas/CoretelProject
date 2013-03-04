@@ -63,6 +63,7 @@ public class RequestWS {
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
 	private static final String WS_RECUPERARCLAVE = "ws_forgot.php?email=";
 	private static final String WS_COMUNIDADESTODAS = "ws_comunidades.php?usuario=";
+	private static final String WS_ENVIARSOLICITUD = "ws_solicitud.php?comunidad=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -367,6 +368,24 @@ public class RequestWS {
 			}
 		}catch(Exception exception){
 			
+		}
+		return null;
+	}
+	
+	public RespuestaWS solicitarComunidad(String idComunidad){
+		JSONObject jsonObject = null;
+		String finalURL = WS_ENVIARSOLICITUD + idComunidad + "&usuario=" + User.getUserId();
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.solicitarComunidad(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				
+				return respuesta;
+			}
+		}catch(Exception exception){
+			return respuesta;
 		}
 		return null;
 	}

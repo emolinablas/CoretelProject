@@ -11,13 +11,13 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.DetalleComunidad;
+import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -29,6 +29,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 	private DetalleComunidad detalleComunidad;
 	private ProgressDialog pd = null;
 	private String select;
+	private RespuestaWS respuesta;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 //		Bundle bundle = (Bundle)getIntent().getExtras();
 //		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
 		setCatalogo(new CatalogoComunidad());
+		setRespuesta(new RespuestaWS());
 		
 		new buscaComunidadesAsync().execute("");
 		
@@ -86,7 +88,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
     			    @Override
     			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
     			    	setSelect(a.getItemAtPosition(position).toString());
-    			    	new MiembrosAsync().execute("");
+    			    	new SolicitarAsync().execute("");
     			    }
     			});
     		}
@@ -99,7 +101,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
     }
 	
 	// Clase para ejecutar en Background
-    class MiembrosAsync extends AsyncTask<String, Integer, Integer> {
+    class SolicitarAsync extends AsyncTask<String, Integer, Integer> {
 
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
@@ -113,7 +115,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
           @Override
           protected Integer doInBackground(String... urlString) {
                 try {
-                	CargarDatos(getSelect());
+                	enviarSolicitud(getSelect());
 
                } catch (Exception exception) {
 
@@ -124,15 +126,15 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                Intent intent = new Intent(ComunidadesTodas.this, Comunidad.class);
-		        intent.putExtra("catalogoMiembro", getCatalogoMiembro());
-		        intent.putExtra("detallecomunidad", getDetalleComunidad());
-		        startActivity(intent);
+                if (getRespuesta() != null){
+                	Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
+                }
+                
          }
    }
 
 	
-	private void CargarDatos(String select) {
+	private void enviarSolicitud(String select) {
 		String idComunidad = "";
 		int tamano = getCatalogo().getComunidad().length;
 		for (int i = 0; i < tamano; i++){
@@ -145,7 +147,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 			ConnectState con = new ConnectState();
 			if (con.isConnectedToInternet(this)){
 				RequestWS request = new RequestWS();
-				setDetalleComunidad(request.DetalleComunidad(idComunidad));
+				setRespuesta(request.solicitarComunidad(idComunidad));
 				if(getDetalleComunidad().getRespuestaWS().isResultado()){
 					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
 					if (getCatalogoMiembro().getRespuestaWS().isResultado()){
@@ -224,4 +226,12 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 	public void setSelect(String select) {
 		this.select = select;
 	}
+	public RespuestaWS getRespuesta() {
+		return respuesta;
+	}
+	public void setRespuesta(RespuestaWS respuesta) {
+		this.respuesta = respuesta;
+	}
+	
+	
 }
