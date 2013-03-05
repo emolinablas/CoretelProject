@@ -72,103 +72,103 @@ public class TokenizerUtility {
 	public Drawable iconoResource(Context context, String titulo) {
 		String url = icono(titulo);
 		Log.e("TT", "icono del evento = " + url);
-		if (url.equalsIgnoreCase("img/markers/yellow/aboriginal.png")){
+		if (nombrePin(url).equalsIgnoreCase("aboriginal.png")){
 			return context.getResources().getDrawable(R.drawable.icono0);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/anniversary.png")){
+		if (nombrePin(url).equalsIgnoreCase("anniversary.png")){
 			return context.getResources().getDrawable(R.drawable.icono1);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/bustour.png")){
+		if (nombrePin(url).equalsIgnoreCase("bustour.png")){
 			return context.getResources().getDrawable(R.drawable.icono2);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/caraccident.png")){
+		if (nombrePin(url).equalsIgnoreCase("caraccident.png")){
 			return context.getResources().getDrawable(R.drawable.icono3);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/clock.png")){
+		if (nombrePin(url).equalsIgnoreCase("clock.png")){
 			return context.getResources().getDrawable(R.drawable.icono4);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/crimescene.png")){
+		if (nombrePin(url).equalsIgnoreCase("crimescene.png")){
 			return context.getResources().getDrawable(R.drawable.icono5);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/cruiseship.png")){
+		if (nombrePin(url).equalsIgnoreCase("cruiseship.png")){
 			return context.getResources().getDrawable(R.drawable.icono6);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/dogs_leash.png")){
+		if (nombrePin(url).equalsIgnoreCase("dogs_leash.png")){
 			return context.getResources().getDrawable(R.drawable.icono7);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/fire.png")){
+		if (nombrePin(url).equalsIgnoreCase("fire.png")){
 			return context.getResources().getDrawable(R.drawable.icono8);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/flag-export.png")){
+		if (nombrePin(url).equalsIgnoreCase("flag-export.png")){
 			return context.getResources().getDrawable(R.drawable.icono9);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/information.png")){
+		if (nombrePin(url).equalsIgnoreCase("information.png")){
 			return context.getResources().getDrawable(R.drawable.icono10);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/linedown.png")){
+		if (nombrePin(url).equalsIgnoreCase("linedown.png")){
 			return context.getResources().getDrawable(R.drawable.icono11);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/palm-tree-export.png")){
+		if (nombrePin(url).equalsIgnoreCase("palm-tree-export.png")){
 			return context.getResources().getDrawable(R.drawable.icono12);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/party-2.png")){
+		if (nombrePin(url).equalsIgnoreCase("party-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono13);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/pirates.png")){
+		if (nombrePin(url).equalsIgnoreCase("pirates.png")){
 			return context.getResources().getDrawable(R.drawable.icono14);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/planecrash.png")){
+		if (nombrePin(url).equalsIgnoreCase("planecrash.png")){
 			return context.getResources().getDrawable(R.drawable.icono15);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/radiation.png")){
+		if (nombrePin(url).equalsIgnoreCase("radiation.png")){
 			return context.getResources().getDrawable(R.drawable.icono16);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/regroup.png")){
+		if (nombrePin(url).equalsIgnoreCase("regroup.png")){
 			return context.getResources().getDrawable(R.drawable.icono17);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/rescue-2.png")){
+		if (nombrePin(url).equalsIgnoreCase("rescue-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono18);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/revolt.png")){
+		if (nombrePin(url).equalsIgnoreCase("revolt.png")){
 			return context.getResources().getDrawable(R.drawable.icono19);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/shooting.png")){
+		if (nombrePin(url).equalsIgnoreCase("shooting.png")){
 			return context.getResources().getDrawable(R.drawable.icono20);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/star-3.png")){
+		if (nombrePin(url).equalsIgnoreCase("star-3.png")){
 			return context.getResources().getDrawable(R.drawable.icono21);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/tornado-2.png")){
+		if (nombrePin(url).equalsIgnoreCase("tornado-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono22);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/walkingtour.png")){
+		if (nombrePin(url).equalsIgnoreCase("walkingtour.png")){
 			return context.getResources().getDrawable(R.drawable.icono23);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/yellow/world.png")){
+		if (nombrePin(url).equalsIgnoreCase("world.png")){
 			return context.getResources().getDrawable(R.drawable.icono24);
 		}
 		
@@ -190,6 +190,21 @@ public class TokenizerUtility {
 		}
 		
 		return vector[posicion];
+	}
+	
+	private String nombrePin(String icono){
+		
+		StringTokenizer tokenizer = new StringTokenizer(icono, "/");
+		int i = 0;
+		Log.e("TT", "tamaño tokenizer = " + tokenizer.countTokens());
+		String[] vector = new String[tokenizer.countTokens()];
+		int tamano = vector.length;
+		while(tokenizer.hasMoreTokens()){
+			vector[i] = tokenizer.nextToken();
+			i++;
+		}
+		Log.e("TT", "tokenizer nombrepin = " + vector[tamano - 1]);
+		return vector[tamano - 1];
 	}
 
 }

@@ -361,21 +361,23 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
     }
     private void VerificarPuntos(List<GeoPoint> list) {
-    	int tamano = getCatalogoAnotacion().getAnotacion().length;
-    	for (int i = 0; i < tamano; i++){
-    		list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
-    		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
-    			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
-    		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
-    			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
-    		agregaPuntos(list.get(i), titulo, desc);
+    	if (getCatalogoAnotacion().getAnotacion() != null){
+    		int tamano = getCatalogoAnotacion().getAnotacion().length;
+        	for (int i = 0; i < tamano; i++){
+        		list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
+        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
+        		agregaPuntos(list.get(i), titulo, desc);
+        	}
     	}
     }
 
@@ -432,7 +434,7 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
             	try{
             		mapController.animateTo(myLocationOverlay.getMyLocation());
             	}catch(Exception exception){
-            		Toast.makeText(getBaseContext(), "No es posible obtener su ubicación", Toast.LENGTH_SHORT).show();
+            		Log.e("TT", "MapWuil error buscando posicion");
             	}
             	
             }
