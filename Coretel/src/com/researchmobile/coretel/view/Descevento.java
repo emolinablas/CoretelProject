@@ -24,8 +24,6 @@ import com.researchmobile.coretel.ws.RequestWS;
 public class Descevento extends Activity implements OnClickListener{
 	private TipoAnotacion tipoAnotacion;
 	private TextView nombreTextView;
-	private TextView activoTextView;
-	private TextView incidenteTextView;
 	private TextView descripcionTextView;
 	private ImageView iconoImageView;
 	private Button borrarButton;
@@ -41,8 +39,7 @@ public class Descevento extends Activity implements OnClickListener{
 		setTipoAnotacion((TipoAnotacion)bundle.get("anotacion"));
 		
 		setNombreTextView((TextView)findViewById(R.id.descevento_nombre_textview));
-		setActivoTextView((TextView)findViewById(R.id.descevento_activo_textview));
-		setIncidenteTextView((TextView)findViewById(R.id.descevento_incidente_textview));
+
 		setDescripcionTextView((TextView)findViewById(R.id.descevento_descripcion_textview));
 		setIconoImageView((ImageView)findViewById(R.id.descevento_icono_imageview));
 		setBorrarButton((Button)findViewById(R.id.descevento_borrar_button));
@@ -53,8 +50,7 @@ public class Descevento extends Activity implements OnClickListener{
 		
 		if (getTipoAnotacion() != null){
 			getNombreTextView().setText(getTipoAnotacion().getNombre());
-			getActivoTextView().setText(getTipoAnotacion().getActivo());
-			getIncidenteTextView().setText(getTipoAnotacion().getIncidente());
+	
 			getDescripcionTextView().setText(getTipoAnotacion().getNombre());
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inSampleSize = 0;
@@ -192,25 +188,6 @@ public class Descevento extends Activity implements OnClickListener{
 		this.nombreTextView = nombreTextView;
 	}
 
-
-	public TextView getActivoTextView() {
-		return activoTextView;
-	}
-
-
-	public void setActivoTextView(TextView activoTextView) {
-		this.activoTextView = activoTextView;
-	}
-
-
-	public TextView getIncidenteTextView() {
-		return incidenteTextView;
-	}
-
-
-	public void setIncidenteTextView(TextView incidenteTextView) {
-		this.incidenteTextView = incidenteTextView;
-	}
 
 
 	public TextView getDescripcionTextView() {

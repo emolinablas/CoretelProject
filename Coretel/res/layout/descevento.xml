@@ -5,32 +5,37 @@
     android:orientation="vertical" >
 
     <!-- HEADER -->
-    <LinearLayout
-       android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
-        android:gravity="left|center"
-        style="@style/Layout.header">
 
-        <TextView
-            android:id="@+id/textView1"
-            style="@style/Text.Titulo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tipo Evento"/>
+    <LinearLayout
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="left|center"
+        android:orientation="horizontal" >
         
-        <LinearLayout 
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
-        android:gravity="right"
-        style="@style/Layout.header">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textView1"
+                style="@style/Text.Titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="70dp"
+                android:text="Tipo Evento" />
             
         <Button
-        android:id="@+id/editar_edit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit" />
+            android:id="@+id/editar_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Editar"
+            android:textColor="#ffffff" />
             
         </LinearLayout>
 
@@ -49,149 +54,133 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
         style="@style/Layout.body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.96"
-        android:background="@drawable/values_background"
+        android:background="@color/background_body"
         android:gravity="right"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/textView2"
-            style="@style/Text.Label"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Tipos de Evento"
-            android:textColor="#ffffff" />
+        android:orientation="vertical"
+        android:padding="0dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="180sp"
-                android:layout_height="wrap_content"
-                android:text="Nombre"
-                android:textColor="@color/background_body" />
-
-            <TextView
-                android:id="@+id/descevento_nombre_textview"
-                style="@style/Text.Value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/background_textview"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/Text.Label"
-                android:layout_width="180sp"
-                android:layout_height="wrap_content"
-                android:text="Icono"
-                android:textColor="@color/background_body" />
-
-            <ImageView
-                android:id="@+id/descevento_icono_imageview"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
-                android:src="@drawable/alert" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/textView6"
-                style="@style/Text.Label"
-                android:layout_width="180sp"
-                android:layout_height="wrap_content"
-                android:text="Activo"
-                android:textColor="@color/background_body" />
-
-            <TextView
-                android:id="@+id/descevento_activo_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="" style="@style/Text.Value"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/textView5"
-                style="@style/Text.Label"
-                android:layout_width="180sp"
-                android:layout_height="wrap_content"
-                android:text="Es incidente:"
-                android:textColor="@color/background_body" />
-
-            <TextView
-                android:id="@+id/descevento_incidente_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="" style="@style/Text.Value"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.40"
-            android:background="@drawable/background_textview"
+            android:layout_height="fill_parent"
+            android:background="@drawable/patron_de_fondo_vertical"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descripción:" style="@style/Text.Label"/>
+                android:layout_margin="10dp"
+                android:background="@drawable/button_background_clear"
+                android:orientation="vertical"
+                android:padding="0dp" >
 
-            <TextView
-                android:id="@+id/descevento_descripcion_textview"
-                android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/background_textview" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="180sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Nombre" />
+
+                    <TextView
+                        android:id="@+id/descevento_nombre_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/background_textview" >
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        style="@style/Text.Label"
+                        android:layout_width="180sp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Icono" />
+
+                    <ImageView
+                        android:id="@+id/descevento_icono_imageview"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/alert" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/background_textview"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        style="@style/Text.Label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Descripción:" />
+
+                    <TextView
+                        android:id="@+id/descevento_descripcion_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="7sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/descevento_borrar_button"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="7sp"
-                android:hint="" />
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_background_clear"
+                android:text="Eliminar" />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <!-- FOOTER -->
-    <LinearLayout
-        android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer" android:gravity="right|center">
 
-        <Button
-            android:id="@+id/descevento_borrar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/basurero" />
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        style="@style/Layout.footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.09"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="right|center"
+        android:orientation="vertical" >
 
     </LinearLayout>
 

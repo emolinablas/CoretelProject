@@ -5,16 +5,21 @@
     android:orientation="vertical" style="@style/Layout.principal">
 
     <!-- HEADER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="vertical"
-        style="@style/Layout.header">
+        android:id="@+id/linearLayout1"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:orientation="vertical" >
         
-        <TextView 
+        <TextView
             style="@style/Text.Titulo"
-            android:text="EVENTOS"/>"
+            android:gravity="center"
+            android:text="Eventos" />
+
+"
         
     </LinearLayout>
     
@@ -37,11 +42,15 @@
     </LinearLayout>
     
     <!-- FOOTER -->
+
     	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer">
+    	    android:id="@+id/linearLayout3"
+    	    style="@style/Layout.footer"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="0.04"
+    	    android:background="@drawable/background_footer_iphone"
+    	    android:orientation="vertical" >
+
         </LinearLayout>
 </LinearLayout>

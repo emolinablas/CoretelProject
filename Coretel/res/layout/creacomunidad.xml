@@ -8,6 +8,36 @@
     
     <!-- BODY -->
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone" >
+
+        <Button
+            android:id="@+id/creacomunidad_guardar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Aplicar"
+            android:textColor="#ffffff"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Cancelar"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout2"
         style="@style/Layout.body"
@@ -24,11 +54,12 @@
             android:text="Nombre de la comunidad"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         
-        <EditText 
+        <EditText
             android:id="@+id/creacomunidad_nombre_edittext"
             android:layout_width="230sp"
             android:layout_height="wrap_content"
-            android:hint="Nombre Comunidad"/>
+            android:background="@drawable/background_edittext"
+            android:hint="Nombre Comunidad" />
 
         <TextView
             android:id="@+id/textView2"
@@ -37,26 +68,17 @@
             android:text="Descripción"
             android:textAppearance="?android:attr/textAppearanceMedium" />
         
-        <EditText 
+        <EditText
             android:id="@+id/creacomunidad_descripcion_edittext"
             android:layout_width="230sp"
             android:layout_height="wrap_content"
-            android:hint="Descripcion"/>
+            android:background="@drawable/background_edittext"
+            android:hint="Descripcion" />
         
         <Spinner 
             android:id="@+id/creacomunidad_tipo_spinner"
             android:layout_width="130sp"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/creacomunidad_guardar_button"
-            android:layout_width="230dp"
-            android:layout_height="45dp"
-            android:background="@drawable/boton_background"
-            android:text="Crear"
-            android:textColor="#ffffff"
-            android:textSize="25sp"
-            android:textStyle="bold" />
             
     </LinearLayout>
     
