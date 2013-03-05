@@ -199,12 +199,17 @@ public class TokenizerUtility {
 		Log.e("TT", "tamaño tokenizer = " + tokenizer.countTokens());
 		String[] vector = new String[tokenizer.countTokens()];
 		int tamano = vector.length;
-		while(tokenizer.hasMoreTokens()){
-			vector[i] = tokenizer.nextToken();
-			i++;
+		if (tamano > 0){
+			while(tokenizer.hasMoreTokens()){
+				vector[i] = tokenizer.nextToken();
+				i++;
+			}
+			Log.e("TT", "tokenizer nombrepin = " + vector[tamano - 1]);
+			return vector[tamano - 1];
 		}
-		Log.e("TT", "tokenizer nombrepin = " + vector[tamano - 1]);
-		return vector[tamano - 1];
+		
+		return "";
+		
 	}
 
 }
