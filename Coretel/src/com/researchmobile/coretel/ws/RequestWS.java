@@ -263,7 +263,7 @@ public class RequestWS {
 				
 				if (tamano > 0){
 					DetalleComunidad com = new DetalleComunidad();
-					com.setId("1000");
+					com.setId("100000");
 					com.setNombre("Todos");
 					comunidad[tamano] = com;
 					

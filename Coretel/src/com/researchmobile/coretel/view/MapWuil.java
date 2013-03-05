@@ -41,15 +41,13 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
-import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.DetalleComunidad;
-import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class MapWuil extends MapActivity implements OnItemClickListener{
+public class MapWuil extends MapActivity implements OnItemClickListener, OnClickListener{
 	private static final String LOG = "CORETEL-MapWuil";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
@@ -92,48 +90,164 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         setContentView(R.layout.mapa);
         setRequestWS(new RequestWS());
         
+        setBtnAnimar((Button)findViewById(R.id.BtnAnimar));
+        setBtnCentrar((Button)findViewById(R.id.BtnCentrar));
+        setBtnFilter((Button)findViewById(R.id.filter_button_mapa));
+        setBtnReload((Button)findViewById(R.id.reload_button_mapa));
+        setBtnSatelite((Button)findViewById(R.id.BtnSatelite));
+        getBtnAnimar().setOnClickListener(this);
+        getBtnCentrar().setOnClickListener(this);
+        getBtnFilter().setOnClickListener(this);
+        getBtnReload().setOnClickListener(this);
+        getBtnSatelite().setOnClickListener(this);
+        
+        bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
+    	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
+    	lView = (ListView) findViewById(R.id.lista);
+        lView.setOnItemClickListener(this);
+    	comunidadesFilter.setOnItemClickListener(this);
+        
         new buscaAnotacionesAsync().execute("");
     }
     
+	@Override
+	public void onClick(View v) {
+		if (v == getBtnAnimar()){
+			opcionAnimar();
+		}else if (v == getBtnCentrar()){
+			opcionCentrar();
+		}else if (v == getBtnFilter()){
+			opcionFiltrar();
+		}else if (v == getBtnReload()){
+			opcionReload();
+		}else if (v == getBtnSatelite()){
+			opcionSatelite();
+		}
+		
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int arg2, long arg3) {
+		if (adapterView == lView){
+			collapseMenu();
+			opcionesMenu(arg2);
+		}else if (adapterView == comunidadesFilter){
+			DetalleComunidad comunidad = (DetalleComunidad) adapterView.getItemAtPosition(arg2);
+			bubbleFilterLayout.setVisibility(View.GONE);
+			filtrarComunidades(comunidad);
+		}
+	}
+	
+	private void filtrarComunidades(DetalleComunidad comunidad){
+		mapOverlays.clear();
+		int tamano = getCatalogoAnotacion().getAnotacion().length;
+    	for (int i = 0; i < tamano; i++){
+    		if (getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad().equalsIgnoreCase(comunidad.getId())){
+    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
+        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
+        		agregaPuntos(list.get(i), titulo, desc);
+    		}else if (comunidad.getId().equalsIgnoreCase("100000")){
+    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
+        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
+        		agregaPuntos(list.get(i), titulo, desc);
+    		}
+    	}
+	}
+	
+	private void opcionSatelite() {
+		try {
+			if (mapView.isSatellite()) {
+				mapView.setSatellite(false);
+			} else {
+				mapView.setSatellite(true);
+			}
+		} catch (Exception exception) {
+
+		}
+	}
+	
+	private void opcionReload() {
+		try{
+			mapOverlays.clear();
+			new buscaAnotacionesAsync().execute("");
+		}catch(Exception exception){
+			
+		}
+	}
+	
+	private void opcionFiltrar() {
+		try{
+			if (bubbleFilterLayout.getVisibility() == View.VISIBLE) {
+				bubbleFilterLayout.setVisibility(View.GONE);
+			} else {
+				bubbleFilterLayout.setVisibility(View.VISIBLE);
+				new filtrarComunidadesAsync().execute("");
+
+			}
+		}catch(Exception exception){
+			
+		}
+	}
+	
+
+	private void opcionCentrar() {
+		try {
+			GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation()
+					.getLatitudeE6(), myLocationOverlay.getMyLocation()
+					.getLongitudeE6());
+
+			list.add(loc);
+			agregaPuntos(loc, "nuevo", "nuevo punto");
+			mapController.animateTo(myLocationOverlay.getMyLocation());
+		} catch (Exception exception) {
+
+		}
+
+	}
+	private void opcionAnimar() {
+		try {
+			GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation()
+					.getLatitudeE6(), myLocationOverlay.getMyLocation()
+					.getLongitudeE6());
+
+			mapController.animateTo(loc);
+
+			int zoomActual = mapView.getZoomLevel();
+			for (int i = zoomActual; i < 10; i++) {
+				mapController.zoomIn();
+			}
+		} catch (Exception exception) {
+
+		}
+
+	}
     private void inicializar(){
-    	
-    	btnFilter = (Button)findViewById(R.id.filter_button_mapa);
-    	btnReload = (Button)findViewById(R.id.reload_button_mapa);
-    	bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
-    	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
-    	btnReload = (Button)findViewById(R.id.reload_button_mapa);
-    	btnFilter.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (bubbleFilterLayout.getVisibility() == View.VISIBLE){
-					bubbleFilterLayout.setVisibility(View.GONE);
-				}else{
-					bubbleFilterLayout.setVisibility(View.VISIBLE);
-					new filtrarComunidadesAsync().execute("");
-					
-				}
-			}
-		});
-    	
-    	
-    	btnReload.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mapOverlays.clear();
-				new buscaAnotacionesAsync().execute("");
-				
-			}
-		});
-    	
     	/***
          * MENU
          */
         
         String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 
-      lView = (ListView) findViewById(R.id.lista);
       // Set option as Multiple Choice. So that user can able to select more the one option from list
       lView.setAdapter(new ArrayAdapter<String>(this,
       android.R.layout.simple_list_item_1, lv_items));
@@ -143,9 +257,6 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         
 //        Bundle bundle = (Bundle)getIntent().getExtras();
 //        setCatalogoAnotacion((CatalogoAnotacion)bundle.get("anotaciones"));
-        btnSatelite = (Button)findViewById(R.id.BtnSatelite);
-        btnCentrar = (Button)findViewById(R.id.BtnCentrar);
-        btnAnimar = (Button)findViewById(R.id.BtnAnimar);
         inicializeMap();
         mapOverlays = mapView.getOverlays();
         
@@ -160,60 +271,6 @@ public class MapWuil extends MapActivity implements OnItemClickListener{
         		agregaPuntos(loc, "nuevo", "nuevo punto");
         	}
         });
-        	
-		btnSatelite.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				try{
-					if (mapView.isSatellite()){
-						mapView.setSatellite(false);
-					}else{
-						mapView.setSatellite(true);
-					}
-				}catch(Exception exception){
-					
-				}
-				
-			}
-		});
-
-		btnCentrar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				try{
-					GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation().getLatitudeE6(), 
-							myLocationOverlay.getMyLocation().getLongitudeE6());
-					
-					list.add(loc);
-	        		agregaPuntos(loc, "nuevo", "nuevo punto");
-	                mapController.animateTo(myLocationOverlay.getMyLocation());
-	            }catch(Exception exception){
-					
-				}
-		}
-		});
-
-		btnAnimar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				try {
-					GeoPoint loc = new GeoPoint(myLocationOverlay
-							.getMyLocation().getLatitudeE6(), myLocationOverlay
-							.getMyLocation().getLongitudeE6());
-
-					mapController.animateTo(loc);
-
-					int zoomActual = mapView.getZoomLevel();
-					for (int i = zoomActual; i < 10; i++) {
-						mapController.zoomIn();
-					}
-				} catch (Exception exception) {
-
-				}
-
-			}
-		});
-	
     }
     
 
@@ -545,12 +602,6 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
        alert.show();
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		collapseMenu();
-		opcionesMenu(arg2);
-		
-	}
 	
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	      if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -577,6 +628,46 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 		this.requestWS = requestWS;
 	}
 
-    
-    
+	public Button getBtnSatelite() {
+		return btnSatelite;
+	}
+
+	public void setBtnSatelite(Button btnSatelite) {
+		this.btnSatelite = btnSatelite;
+	}
+
+	public Button getBtnCentrar() {
+		return btnCentrar;
+	}
+
+	public void setBtnCentrar(Button btnCentrar) {
+		this.btnCentrar = btnCentrar;
+	}
+
+	public Button getBtnAnimar() {
+		return btnAnimar;
+	}
+
+	public void setBtnAnimar(Button btnAnimar) {
+		this.btnAnimar = btnAnimar;
+	}
+
+	public Button getBtnFilter() {
+		return btnFilter;
+	}
+
+	public void setBtnFilter(Button btnFilter) {
+		this.btnFilter = btnFilter;
+	}
+
+	public Button getBtnReload() {
+		return btnReload;
+	}
+
+	public void setBtnReload(Button btnReload) {
+		this.btnReload = btnReload;
+	}
+	
+	
+
 }
