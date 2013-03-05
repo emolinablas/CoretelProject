@@ -53,7 +53,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
             android:background="@drawable/patron_de_fondo_vertical"
             android:orientation="vertical" >
 
@@ -94,12 +95,22 @@
             <ListView
                 android:id="@+id/comunidad_lista_listview"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="219dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/background_list_view"
                 android:cacheColorHint="#00000000" >
 
             </ListView>
+
+            <Button
+                android:id="@+id/comunidad_borrar_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_background_clear"
+                android:text="Eliminar" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -111,6 +122,7 @@
         style="@style/Layout.footer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.04"
         android:background="@drawable/background_footer_iphone"
         android:gravity="right|center"
         android:orientation="vertical" >
@@ -119,14 +131,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right|center">
-            
-            <Button
-                android:id="@+id/comunidad_borrar_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_background_iphone_gray"
-                android:text="Elimina"
-                android:textColor="#ffffff" />
             
         </LinearLayout>
 
