@@ -49,7 +49,8 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_edittext"
                     android:ems="10"
-                    android:hint="Contraseña" />
+                    android:hint="Contraseña"
+                    android:inputType="textPassword" />
 
                 <TextView
                     android:id="@+id/textView1"

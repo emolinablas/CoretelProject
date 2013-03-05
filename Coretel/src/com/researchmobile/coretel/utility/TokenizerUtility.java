@@ -2,10 +2,11 @@ package com.researchmobile.coretel.utility;
 
 import java.util.StringTokenizer;
 
-import alvarado.wuil.R;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import com.researchmobile.coretel.view.R;
 
 public class TokenizerUtility {
 	
@@ -70,104 +71,104 @@ public class TokenizerUtility {
 	
 	public Drawable iconoResource(Context context, String titulo) {
 		String url = icono(titulo);
-		
-		if (url.equalsIgnoreCase("img/markers/airshow-2.png")){
+		Log.e("TT", "icono del evento = " + url);
+		if (url.equalsIgnoreCase("img/markers/yellow/aboriginal.png")){
 			return context.getResources().getDrawable(R.drawable.icono0);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/anniversary.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/anniversary.png")){
 			return context.getResources().getDrawable(R.drawable.icono1);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/anthropo.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/bustour.png")){
 			return context.getResources().getDrawable(R.drawable.icono2);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/aquarium.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/caraccident.png")){
 			return context.getResources().getDrawable(R.drawable.icono3);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/art-museum-2.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/clock.png")){
 			return context.getResources().getDrawable(R.drawable.icono4);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/billiard-2.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/crimescene.png")){
 			return context.getResources().getDrawable(R.drawable.icono5);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/bowling.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/cruiseship.png")){
 			return context.getResources().getDrawable(R.drawable.icono6);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/bullfight.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/dogs_leash.png")){
 			return context.getResources().getDrawable(R.drawable.icono7);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/bustour.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/fire.png")){
 			return context.getResources().getDrawable(R.drawable.icono8);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/casino-2.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/flag-export.png")){
 			return context.getResources().getDrawable(R.drawable.icono9);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/cinema.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/information.png")){
 			return context.getResources().getDrawable(R.drawable.icono10);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/circus.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/linedown.png")){
 			return context.getResources().getDrawable(R.drawable.icono11);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/coins.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/palm-tree-export.png")){
 			return context.getResources().getDrawable(R.drawable.icono12);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/comedyclub.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/party-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono13);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/dance_class.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/pirates.png")){
 			return context.getResources().getDrawable(R.drawable.icono14);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/dancinghall.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/planecrash.png")){
 			return context.getResources().getDrawable(R.drawable.icono15);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/dinopark.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/radiation.png")){
 			return context.getResources().getDrawable(R.drawable.icono16);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/ferriswheel.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/regroup.png")){
 			return context.getResources().getDrawable(R.drawable.icono17);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/festival.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/rescue-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono18);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/fireworks.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/revolt.png")){
 			return context.getResources().getDrawable(R.drawable.icono19);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/fishing.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/shooting.png")){
 			return context.getResources().getDrawable(R.drawable.icono20);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/geocaching-3.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/star-3.png")){
 			return context.getResources().getDrawable(R.drawable.icono21);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/historical_museum.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/tornado-2.png")){
 			return context.getResources().getDrawable(R.drawable.icono22);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/hookah_final.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/walkingtour.png")){
 			return context.getResources().getDrawable(R.drawable.icono23);
 		}
 		
-		if (url.equalsIgnoreCase("img/markers/jazzclub.png")){
+		if (url.equalsIgnoreCase("img/markers/yellow/world.png")){
 			return context.getResources().getDrawable(R.drawable.icono24);
 		}
 		

@@ -5,20 +5,28 @@ import java.io.Serializable;
 public class Anotacion implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private String idAnotacion;
-	private String idcomunidad;
 	private String descripcion;
-	private String fecha_registro;
 	private int activo;
-	private String usuario_anoto;
-	private String tipo_anotacion;
-	private String nombreUsuario;
-	private String nombreComunidad;
-	private String nombreTipoAnotacion;
-	private String icono;
-	private String imagen;
+	private int idEstado;
+	private String fecha_registro;
 	private float latitud;
 	private float longitud;
+	private String imagen;
+	private String nombreComunidad;
+	private String nombreUsuario;
+	private String idAnotacion;
+	private String estadoAnotacion;
+	private String nombreTipoAnotacion;
+	private String icono;
+	private String visto;
+	private String asignado;
+	private String respuesta;
+	private String nombreSupervisor;
+	private String orden;
+	private String idcomunidad;
+	private String formatFechaAsignado;
+	private String haceTiempo;
+	
 	public String getIdAnotacion() {
 		return idAnotacion;
 	}
@@ -61,18 +69,6 @@ public class Anotacion implements Serializable{
 	public void setActivo(int activo) {
 		this.activo = activo;
 	}
-	public String getUsuario_anoto() {
-		return usuario_anoto;
-	}
-	public void setUsuario_anoto(String usuario_anoto) {
-		this.usuario_anoto = usuario_anoto;
-	}
-	public String getTipo_anotacion() {
-		return tipo_anotacion;
-	}
-	public void setTipo_anotacion(String tipo_anotacion) {
-		this.tipo_anotacion = tipo_anotacion;
-	}
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -103,7 +99,58 @@ public class Anotacion implements Serializable{
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-	
-	
-
+	public int getIdEstado() {
+		return idEstado;
+	}
+	public void setIdEstado(int idEstado) {
+		this.idEstado = idEstado;
+	}
+	public String getEstadoAnotacion() {
+		return estadoAnotacion;
+	}
+	public void setEstadoAnotacion(String estadoAnotacion) {
+		this.estadoAnotacion = estadoAnotacion;
+	}
+	public String getVisto() {
+		return visto;
+	}
+	public void setVisto(String visto) {
+		this.visto = visto;
+	}
+	public String getAsignado() {
+		return asignado;
+	}
+	public void setAsignado(String asignado) {
+		this.asignado = asignado;
+	}
+	public String getRespuesta() {
+		return respuesta;
+	}
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+	public String getNombreSupervisor() {
+		return nombreSupervisor;
+	}
+	public void setNombreSupervisor(String nombreSupervisor) {
+		this.nombreSupervisor = nombreSupervisor;
+	}
+	public String getOrden() {
+		return orden;
+	}
+	public void setOrden(String orden) {
+		this.orden = orden;
+	}
+	public String getFormatFechaAsignado() {
+		return formatFechaAsignado;
+	}
+	public void setFormatFechaAsignado(String formatFechaAsignado) {
+		this.formatFechaAsignado = formatFechaAsignado;
+	}
+	public String getHaceTiempo() {
+		return haceTiempo;
+	}
+	public void setHaceTiempo(String haceTiempo) {
+		this.haceTiempo = haceTiempo;
+	}
 }

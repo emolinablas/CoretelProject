@@ -1,6 +1,5 @@
 package com.researchmobile.coretel.utility;
 
-import alvarado.wuil.R;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -8,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.researchmobile.coretel.view.R;
 
 public class ImageAdapter extends BaseAdapter {
 	private Context mContext;
@@ -66,31 +67,31 @@ public class ImageAdapter extends BaseAdapter {
     
     // references to our images
     private String[] mMarkers = {
-    		"img/markers/airshow-2.png",
-    		"img/markers/anniversary.png",
-    		"img/markers/anthropo.png",
-    		"img/markers/aquarium.png",
-    		"img/markers/art-museum-2.png",
-    		"img/markers/billiard-2.png",
-    		"img/markers/bowling.png",
-    		"img/markers/bullfight.png",
-    		"img/markers/bustour.png",
-    		"img/markers/casino-2.png",
-    		"img/markers/cinema.png",
-    		"img/markers/circus.png",
-    		"img/markers/coins.png",
-    		"img/markers/comedyclub.png",
-    		"img/markers/dance_class.png",
-    		"img/markers/dancinghall.png",
-    		"img/markers/dinopark.png",
-    		"img/markers/ferriswheel.png",
-    		"img/markers/festival.png",
-    		"img/markers/fireworks.png",
-    		"img/markers/fishing.png",
-    		"img/markers/geocaching-3.png",
-    		"img/markers/historical_museum.png",
-    		"img/markers/hookah_final.png",
-    		"img/markers/jazzclub.png.png",
+    		"img/markers/yellow/aboriginal.png",
+    		"img/markers/yellow/anniversary.png",
+    		"img/markers/yellow/bustour.png",
+    		"img/markers/yellow/caraccident.png",
+    		"img/markers/yellow/clock.png",
+    		"img/markers/yellow/crimescene.png",
+    		"img/markers/yellow/cruiseship.png",
+    		"img/markers/yellow/dogs_leash.png",
+    		"img/markers/yellow/fire.png",
+    		"img/markers/yellow/flag-export.png",
+    		"img/markers/yellow/information.png",
+    		"img/markers/yellow/linedown.png",
+    		"img/markers/yellow/palm-tree-export.png",
+    		"img/markers/yellow/party-2.png",
+    		"img/markers/yellow/pirates.png",
+    		"img/markers/yellow/planecrash.png",
+    		"img/markers/yellow/radiation.png",
+    		"img/markers/yellow/regroup.png",
+    		"img/markers/yellow/rescue-2.png",
+    		"img/markers/yellow/revolt.png",
+    		"img/markers/yellow/shooting.png",
+    		"img/markers/yellow/star-3.png",
+    		"img/markers/yellow/tornado-2.png",
+    		"img/markers/yellow/walkingtour.png",
+    		"img/markers/yellow/world.png",
     };
     private Integer[] mThumbIds = {
             R.drawable.icono0, 

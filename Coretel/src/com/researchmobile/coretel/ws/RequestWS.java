@@ -41,7 +41,7 @@ import com.researchmobile.coretel.entity.Usuario;
 public class RequestWS {
 	private static final String WS_LOGIN = "ws_login.php?usuario=";
 	private static final String WS_COMUNIDADES = "ws_comunidad.php?id=";
-	private static final String WS_ANOTACIONES = "ws_anotacion.php?comunidad=";
+	private static final String WS_ANOTACIONES = "ws_anotacion.php?usuario=";
 	private static final String WS_DATOSUSUARIO = "ws_usuario.php?id=";
 	private static final String WS_CREAUSUARIO = "login.actions.php?client=1&a=add&email=";
 	private static final String WS_MISCOMUNIDADES = "dashboard.comunidades.usuario.php?usuario=";
@@ -67,25 +67,41 @@ public class RequestWS {
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
-	public boolean Login(User user){
+	public RespuestaWS Login(User user){
 		JSONObject jsonObject = null;
 		String finalURL = WS_LOGIN + user.getUsername() + "&clave=" + user.getPassword();
-		boolean respuesta = false;
+		RespuestaWS respuesta = new RespuestaWS();
 		try {
 			jsonObject = connectWS.Login(finalURL);
 			if (jsonObject != null){
 				User user_t = new User();
-				respuesta = Boolean.parseBoolean(jsonObject.getString("resultado"));
-				JSONArray datosUsuario = jsonObject.getJSONArray("usuario");
-				JSONObject id = (JSONObject) datosUsuario.get(0);
-				user_t.setUserId(id.getString("id"));
-				user.setEmail(id.getString("email"));
-				System.out.println("resultado = " + respuesta);
+				respuesta.setResultado(Boolean.parseBoolean(jsonObject.getString("resultado")));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				if (respuesta.isResultado()){
+					JSONArray datosUsuario = jsonObject.getJSONArray("usuario");
+					JSONObject id = (JSONObject) datosUsuario.get(0);
+					user_t.setUserId(id.getString("id"));
+					User.setFechaRegistro(id.getString("fecha_registro"));
+					User.setIdTipoUsuario(id.getString("id_tipo_usuario"));
+					User.setActivo(id.getString("activo"));
+					User.setNombre(id.getString("nombre"));
+					user_t.setEmail(id.getString("email"));
+					User.setTelefono(id.getString("telefono"));
+					User.setAvatar(id.getString("avatar"));
+					User.setIdPadre(id.getString("id_padre"));
+					User.setNivel(id.getString("nivel"));
+					User.setSuperUsuario(id.getString("super_usuario"));
+					User.setSupervisorUsuario(id.getString("supervisor_usuario"));
+				}
 				return respuesta;
 			}else{
+				respuesta.setResultado(false);
+				respuesta.setMensaje("Intente nuevamente");
 				return respuesta;
 			}
 		} catch (JSONException e) {
+			respuesta.setResultado(false);
+			respuesta.setMensaje("Problemas de conexion");
 			return respuesta;
 		}
 	}
@@ -426,21 +442,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 
     try {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        Log.e("LOG", "Prueba envio foto");
+        Log.e("LOG", "Prueba envio foto 1");
 
         for(int index=0; index < nameValuePairs.size(); index++) {
             if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
+            	Log.e("LOG", "Prueba envio foto 2");
                 // If the key equals to "image", we use FileBody to transfer the data
                 entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
+                Log.e("LOG", "Prueba envio foto 2");
             } else {
                 // Normal string data
                 entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
+                Log.e("LOG", "Prueba envio foto 3");
             }
         }
 
+        Log.e("LOG", "Prueba envio foto 4");
         httpPost.setEntity(entity);
 
+        Log.e("LOG", "Prueba envio foto 5");
         HttpResponse response = httpClient.execute(httpPost, localContext);
+        Log.e("LOG", "Prueba envio foto 6");
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -866,16 +888,11 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 
-	public CatalogoAnotacion CargarAnotaciones(TipoAnotacion[] total) {
+	public CatalogoAnotacion CargarAnotaciones() {
 		CatalogoAnotacion catalogo = new CatalogoAnotacion();
 		RespuestaWS respuesta = new RespuestaWS();
 		JSONObject jsonObject = null;
-		Log.e("TT", "total tipos = " + total.length);
-		ArrayList<Anotacion> anotacionesList = new ArrayList<Anotacion>();
-		
-		for (int an = 0; an < total.length; an++){
-			Log.e("TT", "recorriendo tipos anotacion = " + total[an].getNombre());
-			String finalURL = WS_ANOTACIONES + total[an].getComunidad() + "&tipo_anotacion=" + total[an].getId();
+			String finalURL = WS_ANOTACIONES + User.getUserId();
 			Log.e("TT", "anotaciones = " + finalURL);
 			try{
 				jsonObject = connectWS.CatalogoAnotacion(finalURL);
@@ -888,50 +905,61 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 					catalogo.setRespuesta((RespuestaWS)respuesta);
 					Log.d("TT", "respuesta en catalogo");
 					Log.e("TT", catalogo.getRespuesta().getMensaje());
-					JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
-				
-					for (int i = 0; i < anotacionesa.length(); i++){
-						JSONObject jsonTemp = anotacionesa.getJSONObject(i);
-						Anotacion anota = new Anotacion();
-						anota.setIdAnotacion(jsonTemp.getString("id"));
-						anota.setDescripcion(jsonTemp.getString("descripcion"));
-						anota.setTipo_anotacion(jsonTemp.getString("tipo_anotacion"));
-						anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
-						anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
-						anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
-						anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
-						anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
-						anota.setUsuario_anoto(jsonTemp.getString("usuario_anoto"));
-						anota.setIdcomunidad(jsonTemp.getString("comunidad"));
-						anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
-						anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
-						anota.setIcono(jsonTemp.getString("icono"));
-						anota.setImagen(jsonTemp.getString("archivo"));
-						anotacionesList.add(anota);
-						Log.e("TT", "anotacion guardada");
-						Log.e("TT", "id = " + anota.getIdAnotacion());
-						Log.e("TT", "idcomunidad = " + anota.getIdcomunidad());
+					if (respuesta.isResultado()){
+						JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
+						Anotacion[] anotacion = new Anotacion[anotacionesa.length()];
+						for (int i = 0; i < anotacionesa.length(); i++){
+							JSONObject jsonTemp = anotacionesa.getJSONObject(i);
+							Anotacion anota = new Anotacion();
+							anota.setIdAnotacion(jsonTemp.getString("id"));
+							Log.e("TT", "campo anotacion");
+							anota.setDescripcion(jsonTemp.getString("descripcion"));
+							Log.e("TT", "campo anotacion");
+							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
+							Log.e("TT", "campo anotacion");
+							anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
+							Log.e("TT", "campo anotacion");
+							anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
+							Log.e("TT", "campo anotacion");
+							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
+							Log.e("TT", "campo anotacion");
+							anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
+							Log.e("TT", "campo anotacion");
+							anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
+							Log.e("TT", "campo anotacion");
+							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
+							Log.e("TT", "campo anotacion");
+							anota.setIdcomunidad(jsonTemp.getString("id_comunidad"));
+							Log.e("TT", "campo anotacion");
+							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
+							Log.e("TT", "campo anotacion");
+							anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
+							Log.e("TT", "campo anotacion");
+							anota.setIcono(jsonTemp.getString("icono"));
+							Log.e("TT", "campo anotacion");
+							anota.setImagen(jsonTemp.getString("archivo"));
+							Log.e("TT", "campo anotacion");
+							anotacion[i] = anota;
+							Log.e("TT", "anotacion guardada");
+							Log.e("TT", "id = " + anota.getIdAnotacion());
+							Log.e("TT", "idcomunidad = " + anota.getIdcomunidad());
+						}
+						catalogo.setAnotacion(anotacion);
 					}
+					return catalogo;
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("no se puedieron cargar las anotaciones");
+					catalogo.setRespuesta(respuesta);
+					return catalogo;
 				}
 			}catch(Exception exception){
-				return null;
+				respuesta.setResultado(false);
+				respuesta.setMensaje("Ocurrio un error en la carga de anotaciones");
+				catalogo.setRespuesta(respuesta);
+				return catalogo;
 			}
-		}
-		int tamano = anotacionesList.size();
-		Anotacion[] anotacionesFinal = new Anotacion[tamano];
-		for (int a = 0; a < tamano; a++){
-			anotacionesFinal[a] = anotacionesList.get(a);
-		}
-		catalogo.setAnotacion(anotacionesFinal);
-		
-		return catalogo;		
 	}
-
-	
-
-	
-
-	
 }
 		/*	
 		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=1";
