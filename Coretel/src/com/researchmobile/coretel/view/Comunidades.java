@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
@@ -38,6 +39,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	private ProgressDialog pd = null;
 	private String select;
 	
+	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -58,6 +60,8 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		
 //		Bundle bundle = (Bundle)getIntent().getExtras();
 //		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
+		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        getNombreUsuarioTextView().setText(User.getNombre());
 		setCatalogo(new CatalogoComunidad());
 		
 		new buscaComunidadesAsync().execute("");
@@ -380,6 +384,14 @@ private void opcionesMenu(int opcion){
 	}
 	public void setExplorarButton(Button explorarButton) {
 		this.explorarButton = explorarButton;
+	}
+
+	public TextView getNombreUsuarioTextView() {
+		return nombreUsuarioTextView;
+	}
+
+	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+		this.nombreUsuarioTextView = nombreUsuarioTextView;
 	}
 	
 	

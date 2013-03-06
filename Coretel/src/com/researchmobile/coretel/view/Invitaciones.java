@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
@@ -66,6 +67,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	 * Verificar el uso en OnItemClickListener()
 	 * Componentes para menu Slide
 	 */
+	
+	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -84,6 +87,9 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invitaciones_menu);
+        
+        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        getNombreUsuarioTextView().setText(User.getNombre());
         
         setCatalogoInvitacion(new CatalogoInvitacion());
         setCatalogoInvitacionEnviado(new CatalogoInvitacion());
@@ -565,6 +571,14 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 
 	public void setInvitaComunidad(String invitaComunidad) {
 		this.invitaComunidad = invitaComunidad;
+	}
+
+	public TextView getNombreUsuarioTextView() {
+		return nombreUsuarioTextView;
+	}
+
+	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+		this.nombreUsuarioTextView = nombreUsuarioTextView;
 	}
 
 	

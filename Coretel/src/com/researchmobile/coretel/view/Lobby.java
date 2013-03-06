@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.User;
@@ -45,6 +46,7 @@ public class Lobby extends Activity implements OnItemClickListener{
 	 * Verificar el uso en OnItemClickListener()
 	 * Componentes para menu Slide
 	 */
+	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -62,6 +64,9 @@ public class Lobby extends Activity implements OnItemClickListener{
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lobby_menu);
+		
+		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        getNombreUsuarioTextView().setText(User.getNombre());
 		setUsuario(new Usuario());
 		setOpcionesListView((ListView)findViewById(R.id.lobby_opciones_listview));
 		setConnectState(new ConnectState());
@@ -302,4 +307,13 @@ public class Lobby extends Activity implements OnItemClickListener{
 	public void setEstadoComunidad(boolean estadoComunidad) {
 		this.estadoComunidad = estadoComunidad;
 	}
+
+	public TextView getNombreUsuarioTextView() {
+		return nombreUsuarioTextView;
+	}
+
+	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+	
 }

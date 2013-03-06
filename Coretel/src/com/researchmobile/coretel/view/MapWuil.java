@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -56,6 +57,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	private MapItemizedOverlaySelect itemizedoverlay;
 	private CatalogoAnotacion catalogoAnotacion;
 	
+	
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
 	private Button btnAnimar = null;
@@ -69,6 +71,8 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	private RelativeLayout headerPanel;
 	private RelativeLayout menuPanel;
 	private int panelWidth;
+	
+	private TextView nombreUsuarioTextView;
 	private ImageView menuViewButton;
 	private ListView lView;
 	private ListView comunidadesFilter;
@@ -90,6 +94,8 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         setContentView(R.layout.mapa);
         setRequestWS(new RequestWS());
         
+        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        getNombreUsuarioTextView().setText(User.getNombre());
         setBtnAnimar((Button)findViewById(R.id.BtnAnimar));
         setBtnCentrar((Button)findViewById(R.id.BtnCentrar));
         setBtnFilter((Button)findViewById(R.id.filter_button_mapa));
@@ -669,7 +675,13 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 	public void setBtnReload(Button btnReload) {
 		this.btnReload = btnReload;
 	}
-	
-	
 
+	public TextView getNombreUsuarioTextView() {
+		return nombreUsuarioTextView;
+	}
+
+	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+	
 }
