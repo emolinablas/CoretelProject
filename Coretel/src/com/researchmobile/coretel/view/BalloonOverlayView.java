@@ -72,23 +72,33 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	 
 	 public void setData(Item item, final Context mContext) {
 	  setMiItem(item);
+	  System.out.println("EN EL ITEM");
 	  System.out.println(getMiItem().getSnippet());
 	  System.out.println(getMiItem().getTitle());
 	  System.out.println(getMiItem().getPoint().getLatitudeE6()+"");
 	  System.out.println(getMiItem().getPoint().getLongitudeE6()+"");
 	  layout.setVisibility(VISIBLE);
-	  if (item.getTitle() != null && item.getTitle().length() > 0) {
-	   title.setVisibility(VISIBLE);
-	   title.setText(tokenizer.titulo(item.getTitle()));
-	  } else {
-	   title.setVisibility(GONE);
+	  if (getMiItem().getTitle().equalsIgnoreCase("nuevo")){
+		  title.setVisibility(VISIBLE);
+		  title.setText(tokenizer.titulo(item.getTitle()));
+		  snippet.setVisibility(VISIBLE);
+		  snippet.setText(tokenizer.descripcion(item.getSnippet()));
+	  }else{
+		  if (item.getTitle() != null && item.getTitle().length() > 0) {
+			   title.setVisibility(VISIBLE);
+			   title.setText(tokenizer.titulo(item.getTitle()));
+			  } else {
+			   title.setVisibility(GONE);
+			  }
+			  if (item.getSnippet() != null && item.getSnippet().length() > 0) {
+			   snippet.setVisibility(VISIBLE);
+			   snippet.setText(tokenizer.descripcion(item.getSnippet()));
+			  } else {
+			   snippet.setVisibility(GONE);
+			  }
 	  }
-	  if (item.getSnippet() != null && item.getSnippet().length() > 0) {
-	   snippet.setVisibility(VISIBLE);
-	   snippet.setText(tokenizer.descripcion(item.getSnippet()));
-	  } else {
-	   snippet.setVisibility(GONE);
-	  }
+	  
+	  
 	  
 	 }
 

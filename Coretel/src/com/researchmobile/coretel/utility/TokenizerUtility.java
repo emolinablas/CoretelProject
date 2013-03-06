@@ -176,10 +176,8 @@ public class TokenizerUtility {
 	}
 	
 	private String buscar(String anotacion, int posicion){
-		Log.e("TT", "tokenizer - string = " + anotacion + " posicion = " + posicion);
 		StringTokenizer tokenizer = new StringTokenizer(anotacion, SEPARADOR);
 		int i = 0;
-		Log.e("TT", "tamaño tokenizer = " + tokenizer.countTokens());
 		if (tokenizer.countTokens() < 5){
 			return "";
 		}
@@ -196,7 +194,6 @@ public class TokenizerUtility {
 		
 		StringTokenizer tokenizer = new StringTokenizer(icono, "/");
 		int i = 0;
-		Log.e("TT", "tamaño tokenizer = " + tokenizer.countTokens());
 		String[] vector = new String[tokenizer.countTokens()];
 		int tamano = vector.length;
 		if (tamano > 0){
@@ -204,7 +201,6 @@ public class TokenizerUtility {
 				vector[i] = tokenizer.nextToken();
 				i++;
 			}
-			Log.e("TT", "tokenizer nombrepin = " + vector[tamano - 1]);
 			return vector[tamano - 1];
 		}
 		
