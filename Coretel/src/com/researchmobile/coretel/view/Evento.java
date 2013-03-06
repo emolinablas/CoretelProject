@@ -1,6 +1,7 @@
 /**
  * datos a buscar en TukenizerUtility
 
+
  * getTitulo
  * titulo - idAnotacion - idComunidad - usuarioAnoto - tipoAnotacion - icono
  * 
@@ -71,6 +72,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Button borrarButton;
 	private Button guardarButton;
 	private Button descripcionButton;
+	private Button regresarButton;
 	private LinearLayout imagenLayout;
 	private ImageView fotoEvento;
 	private String pathFoto;
@@ -80,6 +82,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private String descripcion;
 	private Mensaje mensaje;
 	private Fecha fecha;
+	private boolean eventoNuevo = true;
 	
 	private TextView fechaTextView;
 	private TextView latitudTextView;
@@ -116,10 +119,12 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setGuardarButton((Button)findViewById(R.id.evento_save_button));
 		setDescripcionButton((Button)findViewById(R.id.evento_descripcion_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
+		setRegresarButton((Button)findViewById(R.id.evento_regresar_button));
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getDescripcionButton().setOnClickListener(this);
+		getRegresarButton().setOnClickListener(this);
 		
 		setImagenLayout((LinearLayout)findViewById(R.id.evento_imagen_layout));
 		getImagenLayout().setVisibility(View.INVISIBLE);
@@ -143,22 +148,23 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private void iniciaNuevo(){
+		eventoNuevo = true;
 		getFechaTextView().setText(getFecha().FechaHoy());
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
+		getBorrarButton().setText("Cancelar");
 	}
 	
 	private void verEvento(){
-		if (!User.getUserId().equalsIgnoreCase(tokenizer.usuarioAnoto(getTitulo()))){
-			getBorrarButton().setEnabled(false);
-		}
+		eventoNuevo = false;
 		getComunidadSpinner().setEnabled(false);
 		getTipoEventoSpinnet().setEnabled(false);
+		
+		getDescripcionButton().setEnabled(false);
 		getCameraButton().setEnabled(false);
 		getGuardarButton().setEnabled(false);
 		getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
-//		getComunidadTextView().setText(tokenizer.nombreComunidad(getDescripcion()));
-//		getTipoTextView().setText(tokenizer.tipoAnotacion(getTitulo()));
+		getDescripcionTextView().setText(tokenizer.descripcion(getDescripcion()));
 		getLatitudTextView().setText(getLatitud());
 		getLongitudTextView().setText(getLongitud());
 	}
@@ -313,8 +319,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
-			finish();
-
+			regresar();
 		}
 	}
 
@@ -327,14 +332,26 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	public void onClick(View view) {
 		if (view == getCameraButton()){
 			fotografiaDialog();
-		}else if (view == getBorrarButton()){
-			borrarEvento();
 		}else if (view == getGuardarButton()){
 			dialogEnviar();
 		}else if (view == getDescripcionButton()){
 			dialogDescripcion();
+		}else if (view == getBorrarButton()){
+			System.out.println("evento nuevo = " + eventoNuevo);
+			if (eventoNuevo){
+				regresar();
+			}else{
+				borrarEvento();
+			}
+		}else if (view == getRegresarButton()){
+			regresar();
 		}
 //			mostrarGaleria();
+	}
+	
+	private void regresar(){
+		Intent intent = new Intent(Evento.this, MapWuil.class);
+		startActivity(intent);
 	}
 	
 	private void mostrarGaleria(){
@@ -460,7 +477,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 				request.MandarEvento(getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
 				if (respuesta.isResultado()){
 					getMensaje().VerMensaje(this, respuesta.getMensaje());
-					finish();
+					regresar();
 				}
 			}
 		}catch(Exception exception){
@@ -838,6 +855,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setDescripcionButton(Button descripcionButton) {
 		this.descripcionButton = descripcionButton;
+	}
+
+	public Button getRegresarButton() {
+		return regresarButton;
+	}
+
+	public void setRegresarButton(Button regresarButton) {
+		this.regresarButton = regresarButton;
 	}
 	
 }
