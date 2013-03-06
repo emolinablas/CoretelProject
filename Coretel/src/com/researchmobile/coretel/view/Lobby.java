@@ -5,11 +5,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.User;
@@ -18,7 +26,7 @@ import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class Lobby extends Activity{
+public class Lobby extends Activity implements OnItemClickListener{
 	
 	private ConnectState connectState;
 	private Mensaje mensaje;
@@ -31,9 +39,29 @@ public class Lobby extends Activity{
 	private boolean estadoPerfil;
 	private boolean estadoComunidad;
 	
+	/**
+	 * Metodos para menu Slide
+	 * prepararMenu(), animationMenu(), expandMenu(), collapseMenu(), opcionesMenu(int opcion).
+	 * Verificar el uso en OnItemClickListener()
+	 * Componentes para menu Slide
+	 */
+	private ListView lView;
+	private LinearLayout slidingPanel;
+	private boolean isExpanded;
+	private DisplayMetrics metrics;	
+	private RelativeLayout headerPanel;
+	private RelativeLayout menuPanel;
+	private int panelWidth;
+	private ImageView menuViewButton;
+	
+	FrameLayout.LayoutParams menuPanelParameters;
+	FrameLayout.LayoutParams slidingPanelParameters;
+	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams listViewParameters;
+	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lobby);
+		setContentView(R.layout.lobby_menu);
 		setUsuario(new Usuario());
 		setOpcionesListView((ListView)findViewById(R.id.lobby_opciones_listview));
 		setConnectState(new ConnectState());
@@ -45,14 +73,21 @@ public class Lobby extends Activity{
 				ListaOpciones()));
 			    getOpcionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			    
-		getOpcionesListView().setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		        if (position == 0){
-		        	new PerfilAsync().execute("0");
-		        }
-		    }
-		});
+			    prepararMenu();
+	
+		getOpcionesListView().setOnItemClickListener(this);
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
+		if (adapter == lView){
+			collapseMenu();
+			opcionesMenu(position);
+		}else if(adapter == getOpcionesListView()){
+			if (position == 0){
+				new PerfilAsync().execute("0");
+			}
+		}
 	}
 	
 	// Clase para ejecutar en Background
@@ -111,8 +146,104 @@ public class Lobby extends Activity{
 		}
 	}
 	
+	private void prepararMenu(){
+		/***
+         * MENU
+         */
+		lView = (ListView) findViewById(R.id.lista);
+        
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+
+      // Set option as Multiple Choice. So that user can able to select more the one option from list
+      lView.setAdapter(new ArrayAdapter<String>(this,
+      android.R.layout.simple_list_item_1, lv_items));
+      lView.setOnItemClickListener(this);
+      animationMenu();
+      
+    }
+	
+	private void animationMenu(){
+    	//Initialize
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		panelWidth = (int) ((metrics.widthPixels)*0.75);
+	
+		headerPanel = (RelativeLayout) findViewById(R.id.header);
+		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
+		headerPanelParameters.width = metrics.widthPixels;
+		headerPanel.setLayoutParams(headerPanelParameters);
+		
+		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
+		menuPanelParameters.width = panelWidth;
+		menuPanel.setLayoutParams(menuPanelParameters);
+		
+		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
+		slidingPanelParameters.width = metrics.widthPixels;
+		slidingPanel.setLayoutParams(slidingPanelParameters);
+		
+		//Slide the Panel	
+		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+		menuViewButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if(!isExpanded){
+		    		expandMenu();
+		    	}else{
+		    		collapseMenu();
+		    	}         	   
+		    }
+		});
+	}
+	
+	private void expandMenu(){
+    	//Expand
+    	isExpanded = true;
+		new ExpandAnimation(slidingPanel, panelWidth,
+	    Animation.RELATIVE_TO_SELF, 0.0f,
+	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+    }
+    
+    private void collapseMenu(){
+    	//Collapse
+    	isExpanded = false;
+		new CollapseAnimation(slidingPanel,panelWidth,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+    }
+    
+    private void opcionesMenu(int opcion){
+		switch(opcion){
+		case 0:
+			Intent intentMapa = new Intent(Lobby.this, MapWuil.class);
+			startActivity(intentMapa);
+			break;
+		case 1:
+			Intent intentComunidades = new Intent(Lobby.this, Comunidades.class);
+			startActivity(intentComunidades);
+			break;
+		case 2:
+			Intent intentInvitaciones = new Intent(Lobby.this, Invitaciones.class);
+			startActivity(intentInvitaciones);
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			collapseMenu();
+			break;
+		case 5:
+			Intent intentCerrar = new Intent(Lobby.this, Login.class);
+			startActivity(intentCerrar);
+			break;
+	    default:
+	        break;
+
+		}
+	}
+	
 	private String[] ListaOpciones(){
-		String [] opciones = {"Mi Perfil"};
+		String [] opciones = {"Mi Perfil", "Avatar"};
 		return opciones;
 	}
 
@@ -171,6 +302,4 @@ public class Lobby extends Activity{
 	public void setEstadoComunidad(boolean estadoComunidad) {
 		this.estadoComunidad = estadoComunidad;
 	}
-	
-	
 }

@@ -62,7 +62,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	
 	/**
 	 * Metodos para menu Slide
-	 * prepararMenu(), animationMenu(), expandMenu(), collapseMenu()
+	 * prepararMenu(), animationMenu(), expandMenu(), collapseMenu(), opcionesMenu(int opcion).
+	 * Verificar el uso en OnItemClickListener()
 	 * Componentes para menu Slide
 	 */
 	private ListView lView;
