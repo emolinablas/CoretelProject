@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -52,10 +60,29 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	private String invitaEmail;
 	private String invitaComunidad;
 	
+	/**
+	 * Metodos para menu Slide
+	 * prepararMenu(), animationMenu(), expandMenu(), collapseMenu()
+	 * Componentes para menu Slide
+	 */
+	private ListView lView;
+	private LinearLayout slidingPanel;
+	private boolean isExpanded;
+	private DisplayMetrics metrics;	
+	private RelativeLayout headerPanel;
+	private RelativeLayout menuPanel;
+	private int panelWidth;
+	private ImageView menuViewButton;
+	
+	FrameLayout.LayoutParams menuPanelParameters;
+	FrameLayout.LayoutParams slidingPanelParameters;
+	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams listViewParameters;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.invitaciones);
+        setContentView(R.layout.invitaciones_menu);
         
         setCatalogoInvitacion(new CatalogoInvitacion());
         setCatalogoInvitacionEnviado(new CatalogoInvitacion());
@@ -75,10 +102,43 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-//		if (view == getInvitacionesListView()){
+		if (adapter == getInvitacionesListView()){
 			setInvitacion((Invitacion)adapter.getItemAtPosition(position));
 			dialogInvitacion();
-//		}
+		}else if(adapter == lView){
+			collapseMenu();
+			opcionesMenu(position);
+		}
+	}
+	
+	private void opcionesMenu(int opcion){
+		switch(opcion){
+		case 0:
+			Intent intentMapa = new Intent(Invitaciones.this, MapWuil.class);
+			startActivity(intentMapa);
+			break;
+		case 1:
+			Intent intentComunidades = new Intent(Invitaciones.this, Comunidades.class);
+			startActivity(intentComunidades);
+			break;
+		case 2:
+			new InvitacionesAsync().execute("");
+			break;
+		case 3:
+			Intent intentLobby = new Intent(Invitaciones.this, Lobby.class);
+			startActivity(intentLobby);
+			break;
+		case 4:
+			collapseMenu();
+			break;
+		case 5:
+			Intent intentCerrar = new Intent(Invitaciones.this, Login.class);
+			startActivity(intentCerrar);
+			break;
+	    default:
+	        break;
+
+		}
 	}
 	
 	@Override
@@ -87,6 +147,72 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			new invitarAsync().execute("");
 		}
 	}
+	
+	private void prepararMenu(){
+		/***
+         * MENU
+         */
+		lView = (ListView) findViewById(R.id.lista);
+        
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+
+      // Set option as Multiple Choice. So that user can able to select more the one option from list
+      lView.setAdapter(new ArrayAdapter<String>(this,
+      android.R.layout.simple_list_item_1, lv_items));
+      lView.setOnItemClickListener(this);
+      animationMenu();
+      
+    }
+	
+	private void animationMenu(){
+    	//Initialize
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		panelWidth = (int) ((metrics.widthPixels)*0.75);
+	
+		headerPanel = (RelativeLayout) findViewById(R.id.header);
+		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
+		headerPanelParameters.width = metrics.widthPixels;
+		headerPanel.setLayoutParams(headerPanelParameters);
+		
+		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
+		menuPanelParameters.width = panelWidth;
+		menuPanel.setLayoutParams(menuPanelParameters);
+		
+		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
+		slidingPanelParameters.width = metrics.widthPixels;
+		slidingPanel.setLayoutParams(slidingPanelParameters);
+		
+		//Slide the Panel	
+		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+		menuViewButton.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		    	if(!isExpanded){
+		    		expandMenu();
+		    	}else{
+		    		collapseMenu();
+		    	}         	   
+		    }
+		});
+	}
+	
+	private void expandMenu(){
+    	//Expand
+    	isExpanded = true;
+		new ExpandAnimation(slidingPanel, panelWidth,
+	    Animation.RELATIVE_TO_SELF, 0.0f,
+	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+    }
+    
+    private void collapseMenu(){
+    	//Collapse
+    	isExpanded = false;
+		new CollapseAnimation(slidingPanel,panelWidth,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+    }
 	
 	private void dialogInvitacion() {
 		 new AlertDialog.Builder(this)
@@ -279,6 +405,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
+                prepararMenu();
                 try{
                 	if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
                     	llenaLista();
