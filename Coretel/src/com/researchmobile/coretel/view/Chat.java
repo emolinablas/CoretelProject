@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,7 @@ public class Chat extends Activity implements OnClickListener, OnKeyListener{
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.chat);
 		setAgregarEditText((EditText)findViewById(R.id.chat_agregar_edittext));
 		getAgregarEditText().setOnKeyListener(this);

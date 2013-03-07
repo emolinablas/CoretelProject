@@ -3,6 +3,7 @@ package com.researchmobile.coretel.view;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	
 	public void onCreate(Bundle saveInstanceState){
 		super.onCreate(saveInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.detallemiembro);
 	
 		Bundle bundle = getIntent().getExtras();

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -67,6 +68,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("ENTRANDO AL CHAT");
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.group_chat);
 		
 		Bundle bundle = getIntent().getExtras();

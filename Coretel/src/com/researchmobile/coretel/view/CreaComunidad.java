@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,7 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	
 	public void onCreate(Bundle b){
 		super.onCreate(b);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.creacomunidad);
 		setMensaje(new Mensaje());
 		
