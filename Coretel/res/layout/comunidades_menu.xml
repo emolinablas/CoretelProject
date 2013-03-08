@@ -29,11 +29,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="left|center">
                 
-                <ImageView 
+                <ImageView
                     android:id="@+id/mapa_avatar"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/camera"/>
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/camera" />
                 
                 <TextView
                 android:text="Usuario Conectado"

@@ -8,15 +8,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -187,8 +189,12 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		if (event.equalsIgnoreCase("escribir_mensaje")){
 			Log.e("CHAT", "escribir_mensaje");
 			try{
-				String mensaje = arguments.toString();
 				insertaMensaje(arguments.getString(1), arguments.getString(0).toString());
+				if (arguments.getString(1).equalsIgnoreCase(User.getNombre())){
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		            imm.hideSoftInputFromWindow(getMensajeEditText().getWindowToken(), 0);
+				}
+				new chatAsync().execute("");
 			}catch(Exception exception){
 				System.out.println("ERROR:"+exception.getMessage());
 			}
@@ -228,16 +234,16 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 			try{
 			
 			arguments2.put(mensaje);
-			arguments2.put(User.getUsername());//no el username sino el NOMBRE del don osea LUIS GONZALEZ no LUIS
-			arguments2.put("img/avatars/60765793imagen.jpg");//envais el avatar que te mando en el LOGIN
+			arguments2.put(User.getNombre());//no el username sino el NOMBRE del don osea LUIS GONZALEZ no LUIS
+			arguments2.put(User.getAvatar());//envais el avatar que te mando en el LOGIN
 			
 		    
 //			EnvÌa el mensaje
 			getClient().emit("ingresoMensaje", arguments2);
 			llenaListaUsuarios(getListaUsuarios());
 			getClient().connect();
-			}
 			
+			}
 			catch(Exception e){
 			}
 		}
@@ -270,8 +276,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
          protected Integer doInBackground(String... urlString) {
                 try {
                 	setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
-        	        getListChat().setAdapter(getAdapter());
-        	        
+                	getListChat().setAdapter(getAdapter());
                } catch (Exception exception) {
 
                }
@@ -280,8 +285,8 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 
          // Metodo con las instrucciones al finalizar lo ejectuado en background
          protected void onPostExecute(Integer resultado) {
-        	 int total = getListChat().getCount();
- 	        getListChat().setSelection(total);
+        	 int t = getAdapter().getCount();
+         	getListChat().setSelection(t);
          }
 
    }

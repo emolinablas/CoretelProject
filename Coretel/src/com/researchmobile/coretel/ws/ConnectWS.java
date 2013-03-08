@@ -238,9 +238,8 @@ public class ConnectWS {
 			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
 			System.out.println("DatosUsuario - url = " + urlCon);
 			InputStream inputStream = urlConnection.getInputStream();
-			
 			String responseInputStream = convertStreamToString(inputStream);
-			System.out.println(responseInputStream);
+			System.out.println("comunidades is = " + responseInputStream);
 			jsonArray = new JSONArray(responseInputStream);
 			return jsonArray;
 		} catch (Exception exception) {

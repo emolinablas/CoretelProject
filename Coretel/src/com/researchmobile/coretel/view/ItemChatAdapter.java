@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,7 @@ public class ItemChatAdapter extends BaseAdapter {
 		
 		
 		View vi=convertView;
+		Bitmap miAvatar = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
 		drawablePropio = activity.getResources().getDrawable(R.drawable.bubble_mime_green);
 		drawableOtro = activity.getResources().getDrawable(R.drawable.bubble_mime_gray);
         if(convertView == null) {
@@ -67,7 +70,7 @@ public class ItemChatAdapter extends BaseAdapter {
         int layoutRight = RelativeLayout.RIGHT_OF;
         int layoutLeft = RelativeLayout.LEFT_OF;
         
-        RelativeLayout.LayoutParams paramsImage = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsImage = new RelativeLayout.LayoutParams(70, 70);
         RelativeLayout.LayoutParams paramsLayout = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         
         if (User.getUsername().equalsIgnoreCase(item.getNombre())){
@@ -81,39 +84,11 @@ public class ItemChatAdapter extends BaseAdapter {
         }
                     
         image.setLayoutParams(paramsImage);
+        image.setImageBitmap(miAvatar);
         layoutItem.setLayoutParams(paramsLayout);
         
         TextView mensaje = (TextView) vi.findViewById(R.id.item_chat_mensaje_textview);
         mensaje.setText(item.getNombre() + ": " + item.getMensaje());
-        
-        /*
-        TextView nombre = (TextView) vi.findViewById(R.id.item_chat_nombre);
-        
-        nombre.setText(item.getNombre());
-        
-        Color mcolor = new Color();
-        
-        LinearLayout layout = (LinearLayout) vi.findViewById(R.id.item_chat_layout);
-        if (item.getMensaje().equalsIgnoreCase("1")){
-        	nombre.setTextColor(Color.BLACK);
-        }else if (item.getMensaje().equalsIgnoreCase("2")){
-        	nombre.setTextColor(Color.BLUE);
-        }else if (item.getMensaje().equalsIgnoreCase("3")){
-        	nombre.setTextColor(Color.CYAN);
-        }else if (item.getMensaje().equalsIgnoreCase("4")){
-        	nombre.setTextColor(Color.DKGRAY);
-        }else if (item.getMensaje().equalsIgnoreCase("5")){
-        	nombre.setTextColor(Color.GRAY);
-        }else if (item.getMensaje().equalsIgnoreCase("6")){
-        	nombre.setTextColor(Color.rgb(179, 199, 223));
-        }else if (item.getMensaje().equalsIgnoreCase("7")){
-        	nombre.setTextColor(Color.MAGENTA);
-        }else if (item.getMensaje().equalsIgnoreCase("8")){
-        	nombre.setTextColor(Color.RED);
-        }else if (item.getMensaje().equalsIgnoreCase("9")){
-        	nombre.setTextColor(Color.TRANSPARENT);
-        }
-        */
         
         return vi;
 	}

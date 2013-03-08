@@ -3,9 +3,12 @@ package com.researchmobile.coretel.view;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -47,6 +50,7 @@ public class Lobby extends Activity implements OnItemClickListener{
 	 * Verificar el uso en OnItemClickListener()
 	 * Componentes para menu Slide
 	 */
+	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
@@ -71,6 +75,7 @@ public class Lobby extends Activity implements OnItemClickListener{
         getNombreUsuarioTextView().setText(User.getNombre());
 		setUsuario(new Usuario());
 		setOpcionesListView((ListView)findViewById(R.id.lobby_opciones_listview));
+		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
 		setConnectState(new ConnectState());
 		setMensaje(new Mensaje());
 		setRequestWS(new RequestWS());
@@ -83,6 +88,12 @@ public class Lobby extends Activity implements OnItemClickListener{
 			    prepararMenu();
 	
 		getOpcionesListView().setOnItemClickListener(this);
+		try{
+			Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+			getAvatarImageView().setImageBitmap(image);
+		}catch(Exception exception){
+			Log.e("TT", "no existe la imagen");
+		}
 	}
 	
 	@Override
@@ -316,6 +327,14 @@ public class Lobby extends Activity implements OnItemClickListener{
 
 	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+
+	public ImageView getAvatarImageView() {
+		return avatarImageView;
+	}
+
+	public void setAvatarImageView(ImageView avatarImageView) {
+		this.avatarImageView = avatarImageView;
 	}
 	
 }

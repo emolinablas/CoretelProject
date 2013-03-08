@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -68,7 +70,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	 * Verificar el uso en OnItemClickListener()
 	 * Componentes para menu Slide
 	 */
-	
+	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
@@ -102,6 +104,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
         setInvitacionesListView((ListView)findViewById(R.id.invitaciones_listview));
         setInvitacionesEnviadasListView((ListView)findViewById(R.id.invitaciones_enviadas_listview));
         setInvitarButton((Button)findViewById(R.id.invitaciones_agregar_button));
+        setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
         getInvitarButton().setOnClickListener(this);
         getInvitacionesListView().setOnItemClickListener(this);
         getInvitacionesEnviadasListView().setOnItemClickListener(this);
@@ -459,6 +462,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     public void buscarInvitaciones(){
     	setCatalogoInvitacion(getRequestWS().buscarInvitaciones());
     	setCatalogoInvitacionEnviado(getRequestWS().buscaInvitacionesEnviadas());
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		getAvatarImageView().setImageBitmap(image);
     }
 
 	public ListView getInvitacionesListView() {
@@ -581,6 +586,14 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 
 	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+
+	public ImageView getAvatarImageView() {
+		return avatarImageView;
+	}
+
+	public void setAvatarImageView(ImageView avatarImageView) {
+		this.avatarImageView = avatarImageView;
 	}
 
 	

@@ -50,7 +50,7 @@ import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListe
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class MapWuil extends MapActivity implements OnItemClickListener, OnClickListener{
-	private static final String LOG = "CORETEL-MapWuil";
+	private static final String LOG = "pio";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
 	private MapView mapView;
@@ -73,6 +73,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	private RelativeLayout menuPanel;
 	private int panelWidth;
 	
+	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
 	private ImageView menuViewButton;
 	private ListView lView;
@@ -103,17 +104,30 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         setBtnFilter((Button)findViewById(R.id.filter_button_mapa));
         setBtnReload((Button)findViewById(R.id.reload_button_mapa));
         setBtnSatelite((Button)findViewById(R.id.BtnSatelite));
+        setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
         getBtnAnimar().setOnClickListener(this);
         getBtnCentrar().setOnClickListener(this);
         getBtnFilter().setOnClickListener(this);
         getBtnReload().setOnClickListener(this);
         getBtnSatelite().setOnClickListener(this);
         
+        setMenuViewButton((ImageView) findViewById(R.id.menuViewButton));
+        getMenuViewButton().setOnClickListener(this);
         bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
     	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
     	lView = (ListView) findViewById(R.id.lista);
         lView.setOnItemClickListener(this);
     	comunidadesFilter.setOnItemClickListener(this);
+    	
+    	String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+
+		// Set option as Multiple Choice. So that user can able to select more
+		// the one option from list
+		lView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lv_items));
+		lView.setOnItemClickListener(this);
+		animationMenu();
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		getAvatarImageView().setImageBitmap(image);
         
         new buscaAnotacionesAsync().execute("");
     }
@@ -130,10 +144,18 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 			opcionReload();
 		}else if (v == getBtnSatelite()){
 			opcionSatelite();
+		}else if (v == getMenuViewButton()){
+			startMenu();
 		}
-		
 	}
 	
+	public void startMenu() {
+		if (!isExpanded) {
+			expandMenu();
+		} else {
+			collapseMenu();
+		}
+	}
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int arg2, long arg3) {
 		if (adapterView == lView){
@@ -249,68 +271,56 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 		}
 
 	}
-    private void inicializar(){
-    	/***
-         * MENU
-         */
-        
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 
-      // Set option as Multiple Choice. So that user can able to select more the one option from list
-      lView.setAdapter(new ArrayAdapter<String>(this,
-      android.R.layout.simple_list_item_1, lv_items));
-      lView.setOnItemClickListener(this);
-      animationMenu();
-        
-        
-//        Bundle bundle = (Bundle)getIntent().getExtras();
-//        setCatalogoAnotacion((CatalogoAnotacion)bundle.get("anotaciones"));
-        inicializeMap();
-        mapOverlays = mapView.getOverlays();
-        
-    	
-        itemizedoverlay = new MapItemizedOverlaySelect();     
-        mapOverlays.add(itemizedoverlay);    
-        VerificarPuntos(list);
-        itemizedoverlay.setOnSelectPOIListener(new OnSelectPOIListener() {   
-        	public void onSelectPOI(int latitud, int longitud) {
-        		GeoPoint loc = new GeoPoint((int)(latitud), (int)(longitud));
-        		list.add(loc);
-        		agregaPuntos(loc, "nuevo", "nuevo punto");
-        	}
-        });
-    }
+	private void inicializar() {
+		/***
+		 * MENU
+		 */
+
+		
+
+		inicializeMap();
+		mapOverlays = mapView.getOverlays();
+
+		itemizedoverlay = new MapItemizedOverlaySelect();
+		mapOverlays.add(itemizedoverlay);
+		VerificarPuntos(list);
+		itemizedoverlay.setOnSelectPOIListener(new OnSelectPOIListener() {
+			public void onSelectPOI(int latitud, int longitud) {
+				GeoPoint loc = new GeoPoint((int) (latitud), (int) (longitud));
+				list.add(loc);
+				agregaPuntos(loc, "nuevo", "nuevo punto");
+			}
+		});
+	}
     
+	// Clase para ejecutar en Background
+	class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
 
-//Clase para ejecutar en Background
-class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				cargarAnotaciones();
+			} catch (Exception exception) {
 
-      // Metodo que prepara lo que usara en background, Prepara el progress
-      @Override
-      protected void onPreExecute() {
-            pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
-            pd.setCancelable( false);
-     }
+			}
+			return null;
+		}
 
-      // Metodo con las instrucciones que se realizan en background
-      @Override
-      protected Integer doInBackground(String... urlString) {
-            try {
-            	cargarAnotaciones();
-           } catch (Exception exception) {
-
-           }
-            return null ;
-     }
-
-      // Metodo con las instrucciones al finalizar lo ejectuado en background
-      protected void onPostExecute(Integer resultado) {
-            pd.dismiss();
-            inicializar();
-
-     }
-}
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			inicializar();
+		}
+	}
 
 	private void cargarAnotaciones() {
 		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
@@ -339,19 +349,7 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
 		slidingPanelParameters.width = metrics.widthPixels;
 		slidingPanel.setLayoutParams(slidingPanelParameters);
-		
-		//Slide the Panel	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-		menuViewButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if(!isExpanded){
-		    		expandMenu();
-		    	}else{
-		    		collapseMenu();
-		    	}         	   
-		    }
-		});
-    }
+	}
     
     private void expandMenu(){
     	//Expand
@@ -684,6 +682,22 @@ class buscaAnotacionesAsync extends AsyncTask<String, Integer, Integer> {
 
 	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+
+	public ImageView getAvatarImageView() {
+		return avatarImageView;
+	}
+
+	public void setAvatarImageView(ImageView avatarImageView) {
+		this.avatarImageView = avatarImageView;
+	}
+
+	public ImageView getMenuViewButton() {
+		return menuViewButton;
+	}
+
+	public void setMenuViewButton(ImageView menuViewButton) {
+		this.menuViewButton = menuViewButton;
 	}
 	
 }

@@ -25,9 +25,9 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +38,7 @@ import com.researchmobile.coretel.entity.ChatUtility;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Login extends Activity implements OnClickListener, OnKeyListener{
@@ -58,6 +59,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private RequestWS requestWS;
      private RespuestaWS respuesta;
      private AlertDialog.Builder dialogActiveGPS = null;
+     private RMFile rmFile = new RMFile();
      
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -133,7 +135,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                setRespuesta(request.Login(getUser()));
                if (getRespuesta().isResultado()){
             	   setLogeado(true);
-            	   createDirIfNotExists();
+            	   rmFile.downloadImage("http://23.23.1.2/" + User.getAvatar());
 //            	   CargarAnotaciones();
 //            	   RegistrarChat();
                     return true;

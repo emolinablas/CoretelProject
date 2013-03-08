@@ -3,6 +3,8 @@ package com.researchmobile.coretel.view;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -40,6 +42,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	private ProgressDialog pd = null;
 	private String select;
 	
+	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private LinearLayout slidingPanel;
@@ -73,6 +76,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		getAgregarButton().setOnClickListener(this);
 		getExplorarButton().setOnClickListener(this);
 		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
+		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
 		lView = (ListView) findViewById(R.id.lista);
 		
 		prepararMenu();
@@ -235,6 +239,8 @@ private void opcionesMenu(int opcion){
     	Log.e("pio", "buscar comunidades");
     	RequestWS request = new RequestWS();
     	setCatalogo(request.CargarComunidades(User.getUserId()));
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		getAvatarImageView().setImageBitmap(image);
     }
 	
 	// Clase para ejecutar en Background
@@ -394,6 +400,14 @@ private void opcionesMenu(int opcion){
 
 	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+
+	public ImageView getAvatarImageView() {
+		return avatarImageView;
+	}
+
+	public void setAvatarImageView(ImageView avatarImageView) {
+		this.avatarImageView = avatarImageView;
 	}
 	
 	
