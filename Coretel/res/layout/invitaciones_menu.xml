@@ -110,8 +110,8 @@
 
                 <Button
                     android:id="@+id/invitaciones_agregar_button"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/plus" />
             </LinearLayout>
 
@@ -129,45 +129,97 @@
 		        android:layout_weight="1"
 		        android:background="#D1D5E0" >
 
-		        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/patron_de_fondo_vertical"
-            android:orientation="vertical" >
+		        <ScrollView
+		            android:id="@+id/scrollView1"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentBottom="true"
+		            android:layout_alignParentTop="true"
+		            android:background="@drawable/patron_de_fondo_vertical" >
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Invitaciones Recibidas" />
+		            <LinearLayout
+		                android:layout_width="match_parent"
+		                android:layout_height="match_parent" >
 
-            <ListView
-                android:id="@+id/invitaciones_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/background_list_view" >
+		                <LinearLayout
+		                    android:layout_width="match_parent"
+		                    android:layout_height="wrap_content"
+		                    android:orientation="vertical" >
 
-            </ListView>
+		                    <TextView
+		                        android:id="@+id/textView3"
+		                        style="@style/Text.Label"
+		                        android:layout_width="fill_parent"
+		                        android:layout_height="wrap_content"
+		                        android:layout_marginLeft="10dp"
+		                        android:layout_marginTop="10dp"
+		                        android:text="Invitaciones Recibidas" />
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Invitaciones Enviadas" />
+		                    <ListView
+		                        android:id="@+id/invitaciones_listview"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="wrap_content"
+		                        android:layout_margin="10dp"
+		                        android:background="@drawable/background_list_view_celeste" >
+		                    </ListView>
 
-            <ListView
-                android:id="@+id/invitaciones_enviadas_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-            </ListView>
-        </LinearLayout>
+		                    <TextView
+		                        android:id="@+id/textView3"
+		                        style="@style/Text.Label"
+		                        android:layout_width="fill_parent"
+		                        android:layout_height="wrap_content"
+		                        android:layout_marginLeft="10dp"
+		                        android:layout_marginTop="10dp"
+		                        android:text="Invitaciones Enviadas" />
+
+		                    <ListView
+		                        android:id="@+id/invitaciones_enviadas_listview"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="wrap_content"
+		                        android:layout_margin="10dp"
+		                        android:background="@drawable/background_list_view_celeste" >
+		                    </ListView>
+
+		                    <TextView
+		                        android:id="@+id/textView1"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="wrap_content"
+		                        android:layout_marginLeft="10dp"
+		                        android:text="Solicitud de Suscripción Recibida"
+		                        android:textColor="@color/text_label"
+		                        android:textStyle="bold" />
+
+		                    <ListView
+		                        android:id="@+id/solicitudes_recibidas_listView"
+		                        android:layout_width="match_parent"
+		                        android:layout_height="wrap_content"
+		                        android:layout_margin="10dp"
+		                        android:background="@drawable/background_list_view_verde" >
+
+		                    </ListView>
+
+		                    <TextView
+		                        android:id="@+id/solicitud_enviada_textView"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="wrap_content"
+		                        android:layout_marginLeft="10dp"
+		                        android:text="Solicitud de Suscripción Enviada"
+		                        android:textColor="@color/text_label"
+		                        android:textStyle="bold" />
+
+		                    <ListView
+		                        android:id="@+id/listView1"
+		                        android:layout_width="match_parent"
+		                        android:layout_height="wrap_content"
+		                        android:layout_margin="10dp"
+		                        android:background="@drawable/background_list_view_verde" >
+
+		                    </ListView>
+
+		                </LinearLayout>
+
+		            </LinearLayout>
+		        </ScrollView>
 
       
 		    </RelativeLayout>

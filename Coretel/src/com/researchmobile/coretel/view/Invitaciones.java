@@ -108,7 +108,9 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
         getInvitarButton().setOnClickListener(this);
         getInvitacionesListView().setOnItemClickListener(this);
         getInvitacionesEnviadasListView().setOnItemClickListener(this);
-        
+        prepararMenu();
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		getAvatarImageView().setImageBitmap(image);
         new InvitacionesAsync().execute("");
     }
 
@@ -417,7 +419,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                prepararMenu();
+                
                 try{
                 	if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
                     	llenaLista();
@@ -461,9 +463,9 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     
     public void buscarInvitaciones(){
     	setCatalogoInvitacion(getRequestWS().buscarInvitaciones());
+    	System.out.println("Invitaci—n recibida con exito " + getCatalogoInvitacion().getInvitacion()[0].getId());
     	setCatalogoInvitacionEnviado(getRequestWS().buscaInvitacionesEnviadas());
-    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
+    
     }
 
 	public ListView getInvitacionesListView() {

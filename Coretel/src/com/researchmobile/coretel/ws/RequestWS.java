@@ -50,7 +50,7 @@ public class RequestWS {
 	private static final String WS_MANDAREVENTO = "dashboard.anotaciones.actions.php?idusuario=";
 	private static final String WS_CREACOMUNIDAD = "ws_crear_comunidad.php?usuario=";
 	private static final String WS_CAMBIARCLAVE = "ws_update_usuario.php?action=clave&id=";
-	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&email=";
+	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&usuario=";
 	private static final String WS_ENVIARINVITACION = "ws_invitacion.php?&invita=";
 	private static final String WS_VERINVITACIONESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
@@ -722,7 +722,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	public CatalogoInvitacion buscarInvitaciones() {
 		CatalogoInvitacion invitaciones = new CatalogoInvitacion();
 		JSONObject jsonObject = null;
-		String finalURL = WS_VERINVITACIONES + User.getEmail();
+		String finalURL = WS_VERINVITACIONES + User.getUserId();
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
 			jsonObject = connectWS.buscarInvitaciones(finalURL);
@@ -731,7 +731,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
 				invitaciones.setRespuestaWS(respuesta);
 				
-				JSONArray jsonArray = jsonObject.getJSONArray("invitacion");
+				JSONArray jsonArray = jsonObject.getJSONArray("invitacion_recibida");
 				
 				int tamano = jsonArray.length();
 				if (tamano > 0){
@@ -754,13 +754,16 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 						invitacionTemp.setUsuarioInvita((temp.getString("usuarioInvita")));
 						invitacionTemp.setMiembros((temp.getString("miembros")));
 						invitacion[i] = invitacionTemp;
+						System.out.println("invitacion " + invitacionTemp.getId());
 					}
 					invitaciones.setInvitacion(invitacion);
+					System.out.println("invitacion asignada "+ invitaciones.getInvitacion()[0].getId());
 					
 				}
 				return invitaciones;
 			}else{
-				return null;
+				System.out.println("No se retornar‡n las invitaciones, json null");
+				return null;				
 			}
 		}catch(Exception exception){
 			return null;
