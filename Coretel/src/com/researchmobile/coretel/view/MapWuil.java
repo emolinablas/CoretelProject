@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -64,7 +67,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	private Button btnAnimar = null;
 	private Button btnFilter = null;
 	private Button btnReload = null;
+	private Button btnTipoComunidad = null;
+	private Button btnLugares = null;
 	private LinearLayout bubbleFilterLayout = null;
+	private LinearLayout bubbleLugaresLayout = null;
 	//Declare
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -78,6 +84,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	private ImageView menuViewButton;
 	private ListView lView;
 	private ListView comunidadesFilter;
+	private ListView lugaresFilter;
 	private ProgressDialog pd = null;
 	private CatalogoComunidad catalogoComunidad;
 	private TokenizerUtility tokenizer =new TokenizerUtility();
@@ -104,27 +111,40 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         setBtnFilter((Button)findViewById(R.id.filter_button_mapa));
         setBtnReload((Button)findViewById(R.id.reload_button_mapa));
         setBtnSatelite((Button)findViewById(R.id.BtnSatelite));
+        setBtnTipoComunidad((Button)findViewById(R.id.BtnTipoComunidad));
+        setBtnLugares((Button)findViewById(R.id.BtnLugares));
         setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
         getBtnAnimar().setOnClickListener(this);
         getBtnCentrar().setOnClickListener(this);
         getBtnFilter().setOnClickListener(this);
         getBtnReload().setOnClickListener(this);
         getBtnSatelite().setOnClickListener(this);
+        getBtnTipoComunidad().setOnClickListener(this);
+        getBtnLugares().setOnClickListener(this);
         
         setMenuViewButton((ImageView) findViewById(R.id.menuViewButton));
         getMenuViewButton().setOnClickListener(this);
         bubbleFilterLayout = (LinearLayout)findViewById(R.id.bubble_filter_layout);
+        bubbleLugaresLayout = (LinearLayout)findViewById(R.id.bubble_lugares_layout);
     	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
+    	lugaresFilter = (ListView)findViewById(R.id.lugares_filter);
     	lView = (ListView) findViewById(R.id.lista);
         lView.setOnItemClickListener(this);
     	comunidadesFilter.setOnItemClickListener(this);
+    	lugaresFilter.setOnItemClickListener(this);
     	
     	String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+    	String lugares_items[] = { "Hoteles", "Restaurantes", "Cafetería", "Otros"};
 
 		// Set option as Multiple Choice. So that user can able to select more
 		// the one option from list
 		lView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lv_items));
 		lView.setOnItemClickListener(this);
+		
+		lugaresFilter.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lugares_items));
+		lugaresFilter.setOnItemClickListener(this);
+		
+		
 		animationMenu();
     	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
 		getAvatarImageView().setImageBitmap(image);
@@ -146,6 +166,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 			opcionSatelite();
 		}else if (v == getMenuViewButton()){
 			startMenu();
+		}else if (v == getBtnTipoComunidad()){
+			dialogTiposComunidades(this);
+		}else if (v == getBtnLugares()){
+			opcionLugares();
 		}
 	}
 	
@@ -156,6 +180,44 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 			collapseMenu();
 		}
 	}
+	
+	public void dialogTiposComunidades(final Context activity) {
+
+        final Dialog myDialog = new Dialog(activity);
+        myDialog.setContentView(R.layout.messagescreen);
+        myDialog.setTitle("Opciones");
+        myDialog.setCancelable(false);
+        
+        Button cerrar = (Button) myDialog.findViewById(R.id.cerrar_in);
+        cerrar.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        Button login = (Button) myDialog.findViewById(R.id.log_in);
+        login.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+    			startActivity(intentComunidades);
+                myDialog.dismiss();
+            }
+        });
+
+        Button createAccount= (Button) myDialog.findViewById(R.id.create_account);
+        createAccount.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+    			startActivity(intentComunidades);
+                myDialog.dismiss();
+            }
+        });
+
+
+        myDialog.show();
+
+    }
+	
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int arg2, long arg3) {
 		if (adapterView == lView){
@@ -220,6 +282,20 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 		try{
 			mapOverlays.clear();
 			new buscaAnotacionesAsync().execute("");
+		}catch(Exception exception){
+			
+		}
+	}
+	
+	private void opcionLugares() {
+		try{
+			if (bubbleLugaresLayout.getVisibility() == View.VISIBLE) {
+				bubbleLugaresLayout.setVisibility(View.GONE);
+			} else {
+				bubbleLugaresLayout.setVisibility(View.VISIBLE);
+//				new filtrarComunidadesAsync().execute("");
+
+			}
 		}catch(Exception exception){
 			
 		}
@@ -699,5 +775,21 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	public void setMenuViewButton(ImageView menuViewButton) {
 		this.menuViewButton = menuViewButton;
 	}
-	
+
+	public Button getBtnTipoComunidad() {
+		return btnTipoComunidad;
+	}
+
+	public void setBtnTipoComunidad(Button btnTipoComunidad) {
+		this.btnTipoComunidad = btnTipoComunidad;
+	}
+
+	public Button getBtnLugares() {
+		return btnLugares;
+	}
+
+	public void setBtnLugares(Button btnLugares) {
+		this.btnLugares = btnLugares;
+	}
+
 }

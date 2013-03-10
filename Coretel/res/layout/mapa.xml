@@ -159,6 +159,30 @@
 		            </ListView>
 
 		        </LinearLayout>
+		        
+		        <LinearLayout
+		        android:id="@+id/bubble_lugares_layout"
+		        android:layout_width="250dp"
+		        android:layout_height="300dp"
+		        android:background="@drawable/bubble_lugares"
+		        android:orientation="vertical"
+		        android:visibility="gone"
+		        android:layout_alignParentBottom="true"
+		        android:layout_centerInParent="true" >
+
+		        <TextView
+		            android:id="@+id/textView1"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Lugares"
+		            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+		        <ListView
+		            android:id="@+id/lugares_filter"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content" >
+		        </ListView>
+		    </LinearLayout>
 
 		    </RelativeLayout>
 
@@ -200,7 +224,7 @@
 		            android:background="@drawable/reload" />
 
 		        <Button
-		            android:id="@+id/button1"
+		            android:id="@+id/BtnLugares"
 		            android:layout_width="25dp"
 		            android:layout_height="25dp"
 		            android:layout_alignBottom="@+id/BtnAnimar"
@@ -209,7 +233,7 @@
 		            android:background="@drawable/recomendados" />
 
 		        <Button
-		            android:id="@+id/button2"
+		            android:id="@+id/BtnTipoComunidad"
 		            android:layout_width="25dp"
 		            android:layout_height="20dp"
 		            android:layout_alignBaseline="@+id/BtnSatelite"
