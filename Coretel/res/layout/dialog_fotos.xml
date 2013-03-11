@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <Button
+        android:id ="@+id/dialog_fotos_cerrar"
+        android:layout_width ="250dp"
+        android:layout_height ="wrap_content"
+        android:layout_gravity ="center_horizontal"
+        android:layout_marginTop ="10dp"
+        android:background ="@drawable/boton_background"
+        android:text ="Cerrar" >
+    </Button >
+   
+    <Button
+        android:id ="@+id/dialog_fotos_album"
+        android:layout_width ="250dp"
+        android:layout_height ="wrap_content"
+        android:layout_gravity ="center_horizontal"
+        android:layout_marginTop ="15dp"
+        android:background ="@drawable/boton_background"
+        android:text ="Albums de Fotos" >
+    </Button >
+   
+    <Button
+        android:id ="@+id/dialog_fotos_tomar"
+        android:layout_width ="250dp"
+        android:layout_height ="wrap_content"
+        android:layout_gravity ="center_horizontal"
+        android:layout_marginTop ="10dp"
+        android:background ="@drawable/boton_background"
+        android:text ="Tomar Foto" >
+    </Button >
+    
+
+</LinearLayout>

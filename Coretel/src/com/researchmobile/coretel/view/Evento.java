@@ -25,7 +25,9 @@ import java.net.URLConnection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -40,9 +42,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -68,7 +70,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	final static int CAMERA_RESULT = 0;
 	private static int TAKE_PICTURE = 1;
 	private static int SELECT_PICTURE = 2;
-	
 	private Button cameraButton;
 	private Button borrarButton;
 	private Button guardarButton;
@@ -84,7 +85,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private Mensaje mensaje;
 	private Fecha fecha;
 	private boolean eventoNuevo = true;
-	
 	private TextView fechaTextView;
 	private TextView latitudTextView;
 	private TextView longitudTextView;
@@ -143,8 +143,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else{
 			verEvento();
 		}
-		
-		
+//		Inicia Busqueda de comunidades en background
 		new ComunidadesAsync().execute("");
 		
 	}
@@ -175,17 +174,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		Comunidades();
 		getComunidadSpinner().setOnItemSelectedListener(
 				new AdapterView.OnItemSelectedListener() {
-					public void onItemSelected(AdapterView<?> parent,
-							android.view.View v, int position, long id) {
+					public void onItemSelected(AdapterView<?> parent, android.view.View v, int position, long id) {
 						TipoAnotacion();
-
 					}
 
 					public void onNothingSelected(AdapterView<?> parent) {
 						// textView.setText("");
 					}
 				});
-		
 	}
 
 	private void Comunidades() {
@@ -333,7 +329,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	@Override
 	public void onClick(View view) {
 		if (view == getCameraButton()){
-			fotografiaDialog();
+			dialogFotos(this);
 		}else if (view == getGuardarButton()){
 			dialogEnviar();
 		}else if (view == getDescripcionButton()){
@@ -348,7 +344,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}else if (view == getRegresarButton()){
 			regresar();
 		}
-//			mostrarGaleria();
 	}
 	
 	private void regresar(){
@@ -402,6 +397,45 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	}
 	
+	public void dialogFotos (final Context activity) {
+
+        final Dialog myDialog = new Dialog(activity);
+        myDialog.setContentView(R.layout.dialog_fotos);
+        myDialog.setTitle( "Opciones" );
+        myDialog.setCancelable( false );
+       
+        Button cerrar = (Button) myDialog.findViewById(R.id.dialog_fotos_cerrar);
+        cerrar.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        Button album = (Button) myDialog.findViewById(R.id.dialog_fotos_album);
+        album.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+            	mostrarGaleria();
+//            	galeria = true;
+                myDialog.dismiss();
+            }
+        });
+
+        Button camara= (Button) myDialog.findViewById(R.id.dialog_fotos_tomar);
+        camara.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+            	
+            	ActivarCamara();
+//            	galeria = false;
+                myDialog.dismiss();
+            }
+        });
+
+
+        myDialog.show();
+
+    }
+
+	
 	private void dialogDescripcion() {
         LayoutInflater factory = LayoutInflater.from(Evento.this);
        
@@ -450,6 +484,15 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
                     	  MostrarImagen();
                      }
          });
+        
+        albumButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mostrarGaleria();
+				
+			}
+		});
        alert.setTitle( "Agregar Fotografía");
        alert.setView(textEntryView);
        
@@ -488,11 +531,15 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private String fotoReducida(){
+		
 		String fotonueva = "/captura.jpg";
 		BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 0;
-        Bitmap bm = BitmapFactory.decodeFile("sdcard" + getPathFoto());
-
+        Bitmap bm = BitmapFactory.decodeFile(getPathFoto());
+//        }else{
+//        	bm = BitmapFactory.decodeFile("sdcard/" + getPathFoto());
+//        }
+        
         File file = new File("sdcard" + fotonueva);
         try {
         file.createNewFile();
@@ -534,22 +581,52 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	  	Intent cIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 		//startActivityForResult(cIntent, CAMERA_RESULT); 
 		//asignar nombre y direccion a la imagen
-		setPathFoto("/foto1-even.jpg");
+		setPathFoto("sdcard/foto1-even.jpg");
 		String path = "/mifoto.jpg";
 		//crear nuevo archivo (imagen)
-		File f = new File(Environment.getExternalStorageDirectory() + getPathFoto());
+		File f = new File(getPathFoto());
 		Uri uri = Uri.fromFile(f);
 		cIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		startActivityForResult(cIntent, CAMERA_RESULT);
+		verImagen();
+//		origenAlbum = false;
 	}
 
 	private void verImagen() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Log.e("Log", "ver foto = sdcard" + getPathFoto());
-        Bitmap bm = BitmapFactory.decodeFile("sdcard" + getPathFoto(), options);
+        Bitmap bm = BitmapFactory.decodeFile(getPathFoto(), options);
         getFotoEvento().setImageBitmap(bm);
+//        setGaleria(false);
 	}
+	
+	private void verImagenGaleria() {
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 0;
+		Log.e("Log", "ver foto galeria = " + getPathFoto());
+        Bitmap bm = BitmapFactory.decodeFile(getPathFoto(), options);
+        getFotoEvento().setImageBitmap(bm);
+//        origenAlbum = true;
+	}
+	
+	/**
+     * Funci—n que se ejecuta cuando concluye el intent en el que se solicita una imagen
+     * ya sea de la c‡mara o de la galer’a
+     */
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	/**
+    	 * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
+    	 */
+    	if (requestCode == SELECT_PICTURE){
+    		if (data != null){
+//    			origenAlbum = true;
+    			setPathFoto(data.getData().getPath());
+    			System.out.println("aaa " + data.getData().getPath());
+    			verImagenGaleria();
+    		}
+    	}
+    }
 	
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -660,20 +737,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}
 	}
 	
-	/**
-     * Funci—n que se ejecuta cuando concluye el intent en el que se solicita una imagen
-     * ya sea de la c‡mara o de la galer’a
-     */
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    	/**
-    	 * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
-    	 */
-    	if (requestCode == SELECT_PICTURE){
-    		if (data != null){
-    			setPathFoto(data.getDataString());
-    		}
-    	}
-    }
+	
 
 	public Button getCameraButton() {
 		return cameraButton;
@@ -866,5 +930,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	public void setRegresarButton(Button regresarButton) {
 		this.regresarButton = regresarButton;
 	}
+
 	
 }
