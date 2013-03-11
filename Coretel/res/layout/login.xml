@@ -88,7 +88,9 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/background_edittext"
                     android:ems="10"
-                    android:hint="Usuario" />
+                    android:hint="Usuario">
+                <requestFocus />
+                </EditText>
 
                 <Button
                     android:id="@+id/login_entrar_button"

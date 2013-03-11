@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -40,7 +37,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	private long idChat = 0;
 	private EditText mensajeEditText;
 	protected static final String TAG = null;
-	
+	private boolean historialCargado = false;
 	
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -48,7 +45,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	private RelativeLayout headerPanel;
 	private RelativeLayout menuPanel;
 	private int panelWidth;
-	private ImageView menuViewButton;
+	private Button menuViewButton;
 	private ListView lView;
 	private SocketIOClient client;
 	private String[] listaUsuarios;
@@ -117,7 +114,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 				// TODO Auto-generated method stub
 				 Log.d(TAG, String.format("Got event %s: %s", event, arguments.toString()));
 				 mensajeCapturado(event, arguments);
-				 System.out.println("se tuvo un eveto");
+				
 				 
 			}
 		}));
@@ -155,9 +152,9 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 	
 	private void mensajeCapturado(String event, JSONArray arguments){
 //		Muestra lo que recibe del servidor
-		Log.e("pio", "mensaje capturado = " + arguments.toString());
-		Log.e("CHAT", "Evento capturado = " + event);
-
+		Log.v("CHAT", "mensaje capturado = " + arguments.toString());
+		Log.v("CHAT", "Evento capturado = " + event);
+/*
 		if (event.equalsIgnoreCase("usuarios_online")){
 			try {
 				JSONArray usuarios = arguments.getJSONArray(0);
@@ -176,48 +173,52 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 				e.printStackTrace();
 			}
 		}
-
+*/
+		/*
 		if (event.equalsIgnoreCase("saludador")){
 			Log.e("CHAT", "inicia Saludador");
 			try{
  				String mensaje = arguments.getString(0);
-				insertaMensaje(User.getUsername(), mensaje);
+				insertaMensaje(User.getNombre(), mensaje, User.getAvatar());
+				new chatAsync().execute("");
 			}catch(Exception exception){
 				
 			}
 		}
+		*/
 		if (event.equalsIgnoreCase("escribir_mensaje")){
 			Log.e("CHAT", "escribir_mensaje");
 			try{
-				insertaMensaje(arguments.getString(1), arguments.getString(0).toString());
-				if (arguments.getString(1).equalsIgnoreCase(User.getNombre())){
-					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		            imm.hideSoftInputFromWindow(getMensajeEditText().getWindowToken(), 0);
-				}
+				insertaMensaje(arguments.getString(1), arguments.getString(0).toString(), arguments.getString(2));
 				new chatAsync().execute("");
 			}catch(Exception exception){
 				System.out.println("ERROR:"+exception.getMessage());
 			}
 		}
+		
 		if (event.equalsIgnoreCase("enviar_historial")){
-			
-			
-			try {
-				JSONArray jsonArray = (JSONArray) arguments.getJSONArray(0);
-				int histo = jsonArray.length();
-				Log.e("TT", "historial capturado numero = " + histo);
-				for (int i = 0; i < histo; i++){
-					JSONObject json = (JSONObject) jsonArray.get(i);
-					String nombreH = json.getString("usuario");
-					String mensajeH = json.getString("mensaje");
-					insertaMensaje(nombreH, mensajeH);
+			if (!historialCargado){
+				historialCargado = true;
+				try {
+					JSONArray jsonArray = (JSONArray) arguments.getJSONArray(0);
+					int histo = jsonArray.length();
+					Log.e("TT", "historial capturado numero = " + histo);
+					for (int i = 0; i < histo; i++){
+						JSONObject json = (JSONObject) jsonArray.get(i);
+						String nombreH = json.getString("usuario");
+						String mensajeH = json.getString("mensaje");
+						String avatarH = json.getString("avatar");
+						insertaMensaje(nombreH, mensajeH, avatarH);
+						Log.v("CHAT", "historial capturado = " + jsonArray.get(i));
+//						new chatAsync().execute("");
+					}
+					new chatAsync().execute("");
+					
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				new chatAsync().execute("");
-				Log.e("TT", "historial capturado = " + jsonArray.get(0));
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		
@@ -240,7 +241,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		    
 //			EnvÌa el mensaje
 			getClient().emit("ingresoMensaje", arguments2);
-			llenaListaUsuarios(getListaUsuarios());
+//			llenaListaUsuarios(getListaUsuarios());
 			getClient().connect();
 			
 			}
@@ -250,9 +251,9 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		
 	}
 	
-	private void insertaMensaje(String usuario, String mensaje){
+	private void insertaMensaje(String usuario, String mensaje, String avatar){
 		try{
-			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje);
+			ItemChat miItem = new ItemChat(idChat++, usuario, mensaje, avatar);
 			getItemsCompra().add(miItem);
 	        
 		}catch(Exception exception){
@@ -268,7 +269,7 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                
+             
          }
 
           // Metodo con las instrucciones que se realizan en background
@@ -276,7 +277,8 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
          protected Integer doInBackground(String... urlString) {
                 try {
                 	setAdapter(new ItemChatAdapter(GroupChat.this, getItemsCompra()));
-                	getListChat().setAdapter(getAdapter());
+                	
+                	
                } catch (Exception exception) {
 
                }
@@ -285,8 +287,10 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 
          // Metodo con las instrucciones al finalizar lo ejectuado en background
          protected void onPostExecute(Integer resultado) {
-        	 int t = getAdapter().getCount();
-         	getListChat().setSelection(t);
+        	 int tamano = getAdapter().getCount();
+        	 getListChat().setSelection(tamano);
+        	 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+	            imm.hideSoftInputFromWindow(getMensajeEditText().getWindowToken(), 0);
          }
 
    }
@@ -321,26 +325,10 @@ public class GroupChat extends Activity implements OnClickListener, OnItemClickL
 		slidingPanel.setLayoutParams(slidingPanelParameters);
 		
 		//Slide the Panel	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+		menuViewButton = (Button) findViewById(R.id.menuViewButton);
 		menuViewButton.setOnClickListener(new OnClickListener() {
 		    public void onClick(View v) {
-		    	if(!isExpanded){
-		    		isExpanded = true;   		    				        		
-		        	
-		    		//Expand
-		    		new ExpandAnimation(slidingPanel, panelWidth,
-		    	    Animation.RELATIVE_TO_SELF, 0.0f,
-		    	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);		    			         	    
-		    	}else{
-		    		isExpanded = false;
-		    		
-		    		//Collapse
-		    		new CollapseAnimation(slidingPanel,panelWidth,
-            	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-            	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-		   
-					
-		    	}         	   
+		    	finish();     	   
 		    }
 		});
 	}
