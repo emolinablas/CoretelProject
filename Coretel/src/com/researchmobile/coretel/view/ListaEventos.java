@@ -53,14 +53,8 @@ public class ListaEventos extends Activity implements OnItemClickListener{
     }
 	
 	private void buscaEventos(){
-		//Cargar Tipo de anotaciones por comunidades(idcomunidad)
-		CatalogoTipoAnotacion tipoAnotaciones = new CatalogoTipoAnotacion();
-		tipoAnotaciones = getRequest().BuscarTiposEventos(getIdComunidad());
-		
-		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
 		RequestWS request = new RequestWS();
-//		setCatalogoAnotacion(request.CargarAnotaciones(tipoAnotaciones.getTipoAnotacion()));
-		System.out.println(getCatalogoAnotacion().getRespuesta().getMensaje());
+		setCatalogoAnotacion(request.CargarAnotacionesComunidad(getIdComunidad()));
 		
 	}
 	 // Clase para ejecutar en Background

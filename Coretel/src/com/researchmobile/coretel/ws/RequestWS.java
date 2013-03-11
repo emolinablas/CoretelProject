@@ -900,15 +900,10 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 			Log.e("TT", "anotaciones = " + finalURL);
 			try{
 				jsonObject = connectWS.CatalogoAnotacion(finalURL);
-				Log.e("TT", "RequestWS - encontrado");
 				if (jsonObject != null){
-					Log.e("TT", "json != null");
 					respuesta.setResultado(jsonObject.getBoolean("resultado"));
 					respuesta.setMensaje(jsonObject.getString("mensaje"));
-					Log.d("TT", "mensaje capturado");
 					catalogo.setRespuesta((RespuestaWS)respuesta);
-					Log.d("TT", "respuesta en catalogo");
-					Log.e("TT", catalogo.getRespuesta().getMensaje());
 					if (respuesta.isResultado()){
 						JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
 						Anotacion[] anotacion = new Anotacion[anotacionesa.length()];
@@ -916,37 +911,71 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 							JSONObject jsonTemp = anotacionesa.getJSONObject(i);
 							Anotacion anota = new Anotacion();
 							anota.setIdAnotacion(jsonTemp.getString("id"));
-							Log.e("TT", "campo anotacion");
 							anota.setDescripcion(jsonTemp.getString("descripcion"));
-							Log.e("TT", "campo anotacion");
 							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
-							Log.e("TT", "campo anotacion");
 							anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
-							Log.e("TT", "campo anotacion");
 							anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
-							Log.e("TT", "campo anotacion");
 							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
-							Log.e("TT", "campo anotacion");
 							anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
-							Log.e("TT", "campo anotacion");
 							anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
-							Log.e("TT", "campo anotacion");
 							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
-							Log.e("TT", "campo anotacion");
 							anota.setIdcomunidad(jsonTemp.getString("id_comunidad"));
-							Log.e("TT", "campo anotacion");
 							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
-							Log.e("TT", "campo anotacion");
 							anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
-							Log.e("TT", "campo anotacion");
 							anota.setIcono(jsonTemp.getString("icono"));
-							Log.e("TT", "campo anotacion");
 							anota.setImagen(jsonTemp.getString("archivo"));
-							Log.e("TT", "campo anotacion");
 							anotacion[i] = anota;
-							Log.e("TT", "anotacion guardada");
-							Log.e("TT", "id = " + anota.getIdAnotacion());
-							Log.e("TT", "idcomunidad = " + anota.getIdcomunidad());
+						}
+						catalogo.setAnotacion(anotacion);
+					}
+					return catalogo;
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("no se puedieron cargar las anotaciones");
+					catalogo.setRespuesta(respuesta);
+					return catalogo;
+				}
+			}catch(Exception exception){
+				respuesta.setResultado(false);
+				respuesta.setMensaje("Ocurrio un error en la carga de anotaciones");
+				catalogo.setRespuesta(respuesta);
+				return catalogo;
+			}
+	}
+	
+	public CatalogoAnotacion CargarAnotacionesComunidad(String idComunidad) {
+		CatalogoAnotacion catalogo = new CatalogoAnotacion();
+		RespuestaWS respuesta = new RespuestaWS();
+		JSONObject jsonObject = null;
+			String finalURL = WS_ANOTACIONES + User.getUserId() + "&comunidad=" + idComunidad;
+			Log.e("TT", "anotaciones = " + finalURL);
+			try{
+				jsonObject = connectWS.CatalogoAnotacion(finalURL);
+				if (jsonObject != null){
+					respuesta.setResultado(jsonObject.getBoolean("resultado"));
+					respuesta.setMensaje(jsonObject.getString("mensaje"));
+					catalogo.setRespuesta((RespuestaWS)respuesta);
+					if (respuesta.isResultado()){
+						JSONArray anotacionesa = jsonObject.getJSONArray("anotacion");
+						Anotacion[] anotacion = new Anotacion[anotacionesa.length()];
+						for (int i = 0; i < anotacionesa.length(); i++){
+							JSONObject jsonTemp = anotacionesa.getJSONObject(i);
+							Anotacion anota = new Anotacion();
+							anota.setIdAnotacion(jsonTemp.getString("id"));
+							anota.setDescripcion(jsonTemp.getString("descripcion"));
+							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
+							anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
+							anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
+							anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
+							anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
+							anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
+							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
+							anota.setIdcomunidad(jsonTemp.getString("id_comunidad"));
+							anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
+							anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
+							anota.setIcono(jsonTemp.getString("icono"));
+							anota.setImagen(jsonTemp.getString("archivo"));
+							anotacion[i] = anota;
 						}
 						catalogo.setAnotacion(anotacion);
 					}
@@ -965,54 +994,3 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 			}
 	}
 }
-		/*	
-		String finalURL = WS_ANOTACIONES + "1&tipo_anotacion=1";
-		try{
-			jsonObject = connectWS.CatalogoAnotacion(finalURL);
-			if (jsonObject != null){
-				System.out.println("json != null");
-				respuesta.setResultado(jsonObject.getBoolean("resultado"));
-				respuesta.setMensaje(jsonObject.getString("mensaje"));
-				Log.d("WA-ANOTACION", "mensaje capturado");
-				catalogo.setRespuesta((RespuestaWS)respuesta);
-				Log.d("WA-ANOTACION", "respuesta en catalogo");
-				System.out.println("RequestWS" + catalogo.getRespuesta().getMensaje());
-				JSONArray anotaciones = jsonObject.getJSONArray("anotacion");
-				Anotacion[] anotacion = new Anotacion[anotaciones.length()]; 
-				for (int i = 0; i < anotaciones.length(); i++){
-					JSONObject jsonTemp = anotaciones.getJSONObject(i);
-					Anotacion anota = new Anotacion();
-					anota.setIdAnotacion(jsonTemp.getString("id"));
-					anota.setDescripcion(jsonTemp.getString("descripcion"));
-					anota.setTipo_anotacion(jsonTemp.getString("tipo_anotacion"));
-					anota.setLatitud(Float.parseFloat(jsonTemp.getString("latitud")));
-					anota.setLongitud(Float.parseFloat(jsonTemp.getString("longitud")));
-					anota.setNombreTipoAnotacion(jsonTemp.getString("nombreTipoAnotacion"));
-					anota.setFecha_registro(jsonTemp.getString("fecha_registro"));
-					anota.setActivo(Integer.parseInt(jsonTemp.getString("activo")));
-					anota.setUsuario_anoto(jsonTemp.getString("usuario_anoto"));
-					anota.setIdcomunidad(jsonTemp.getString("comunidad"));
-					anota.setNombreUsuario(jsonTemp.getString("nombreUsuario"));
-					anota.setNombreComunidad(jsonTemp.getString("nombreComunidad"));
-					anota.setIcono(jsonTemp.getString("icono"));
-					anotacion[i] = anota;
-				}
-				catalogo.setAnotacion(anotacion);
-				return catalogo;
-			}else{
-				respuesta.setResultado(false);
-				respuesta.setMensaje("Error de conexión");
-				catalogo.setRespuesta(respuesta);
-				return catalogo;
-			}
-		}catch(Exception exception){
-			respuesta.setResultado(false);
-			respuesta.setMensaje("Error de conexión");
-			catalogo.setRespuesta(respuesta);
-			System.out.println(exception);
-			return catalogo;
-		}
-		*/
-		
-
-
