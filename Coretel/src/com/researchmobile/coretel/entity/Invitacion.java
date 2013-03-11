@@ -24,18 +24,23 @@ public class Invitacion implements Serializable{
 	public String toString(){
 		String estP = "Pendiente";
 		String estA = "Aceptado";
+		String estR = "Rechazado";
 		
 		if(nombreUsuario == "null"){
 		if(estado == "1"){
 		return email + "\n" + nombreComunidad + "   " + estA;
-		}else{
+		}else if (estado == "0"){
 		return email + "\n" + nombreComunidad + "   " + estP;
+		}else{
+			return email + "\n" + nombreComunidad + "   " + estR;
 		}
 		}else{
 			if(estado == "1"){
 				return nombreUsuario + "\n" + nombreComunidad + "   " + estA;
-				}else{
+				}else if(estado == "0"){
 				return nombreUsuario + "\n" + nombreComunidad + "   " + estP;
+				}else{
+					return email + "\n" + nombreComunidad + "   " + estR;
 				}
 		}
 	}

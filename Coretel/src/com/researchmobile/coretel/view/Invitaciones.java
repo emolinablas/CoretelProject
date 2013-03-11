@@ -240,11 +240,20 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
     }
 	
-	private void dialogInvitacion() {
+	private void dialogInvitacion() { // metodo para llamar al dialog
+		
+			String est;
+		 if(getInvitacion().getEstado()=="0") // verifico si el estado es realizado
+		 {
+			 est = "No respondido";
+		 }else if(getInvitacion().getEstado() =="1"){
+			 est = "Aceptado";
+		 }else{
+			 est = "Rechazada";
+		 }
 		 new AlertDialog.Builder(this)
-         .setIcon(this.getResources().getDrawable(R.drawable.alert))
-         .setTitle("Invitacion")
-         .setMessage("ÀQue desea hacer?")
+         .setTitle("Invitaci—n") 
+         .setMessage("Estado:             " + est + "\n" + "Invit—:                      " + getInvitacion().getUsuarioInvita() + "\n" + "Comunidad                  " + getInvitacion().getNombreComunidad() + "\n" + "Fecha de invitaci—n     " + getInvitacion().getFechaRegistro() + "\n" + "Email                        " + getInvitacion().getEmail())
          .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
                   setRespuesta("1");
@@ -255,6 +264,11 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
              public void onClick(DialogInterface dialog, int whichButton) {
                  setRespuesta("2");
                  new enviarRespuestaAsync().execute("");
+             }
+         })
+		 .setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
+             public void onClick(DialogInterface dialog, int whichButton) {
+                 setRespuesta("3");
              }
          })
          .show();
@@ -538,7 +552,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     
     public void llenaListaSolicitudEnviados(){
     	getSolicitudesEnviadasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
-    			R.layout.lista_lobby,
+    			R.layout.lista_invitacion_sin_boton,
     			R.id.lista_lobby_textview,
     			getCatalogoSolicitudEnviada().getSolicitud()));
     	
@@ -547,7 +561,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     
     public void llenaListaSolicitudRecibidos(){
     	getSolicitudesRecibidasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
-    			R.layout.lista_lobby,
+    			R.layout.lista_invitacion,
     			R.id.lista_lobby_textview,
     			getCatalogoSolicitudRecibida().getSolicitud()));
     	
@@ -556,7 +570,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     
     public void llenaLista(){
     	getInvitacionesListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
-				R.layout.lista_lobby,
+				R.layout.lista_invitacion,
 				R.id.lista_lobby_textview,
 				getCatalogoInvitacion().getInvitacion()));
     	
@@ -565,7 +579,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     
     public void llenaListaEnviados(){
     	getInvitacionesEnviadasListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
-				R.layout.lista_lobby,
+				R.layout.lista_invitacion_sin_boton,
 				R.id.lista_lobby_textview,
 				getCatalogoInvitacionEnviado().getInvitacion()));
     	
