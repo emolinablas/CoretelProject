@@ -13,105 +13,55 @@ import com.researchmobile.coretel.entity.Anotacion;
 
 public class DetalleEvento extends Activity implements OnClickListener{
 	
-	private TextView tituloTextView;
 	private TextView fechaTextView;
-	private TextView latitudTextView;
-	private TextView longitudTextView;
-	private TextView comunidadTextView;
 	private TextView tipoTextView;
 	private TextView descripcionTextView;
-	private Button verButton;
-	private ImageView fotoimageview;
-	private Anotacion anotacion;
-	
+	private TextView activoTextView;
+	private Button regresarButton;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.detalleevento);
-    
-   
-        
+
         Bundle bundle = getIntent().getExtras();
-//        setAnotacion((Anotacion)bundle.get("anotacion"));
+        String id = bundle.getString("id");
+        String fecha = bundle.getString("fecha");
+        String activo = bundle.getString("activo");
+        String tipo = bundle.getString("tipo");
+        String descripcion = bundle.getString("descripcion");
         
-        setTituloTextView((TextView)findViewById(R.id.detalleevento_titulo_textview));
         setFechaTextView((TextView)findViewById(R.id.detalleevento_fecha_textview));
-        setLatitudTextView((TextView)findViewById(R.id.detalleevento_latitud_textview));
-        setLongitudTextView((TextView)findViewById(R.id.detalleevento_longitud_textview));
-        setComunidadTextView((TextView)findViewById(R.id.detalleevento_comunidad_textview));
         setTipoTextView((TextView)findViewById(R.id.detalleevento_tipo_textview));
+        setActivoTextView((TextView)findViewById(R.id.detalleevento_activo_textview));
         setDescripcionTextView((TextView)findViewById(R.id.detalleevento_descripcion_textview));
-        setVerButton((Button)findViewById(R.id.detalleevento_ver_button));
-        setFotoImageView((ImageView)findViewById(R.id.detalleevento_foto_imageview));
+        setRegresarButton((Button)findViewById(R.id.detalleevento_regresar_button));
+        getRegresarButton().setOnClickListener(this);
         
-        /*
-        getTituloTextView().setText(getAnotacion().getDescripcion());
-        getFechaTextView().setText(getAnotacion().getFecha_registro());
-        getLatitudTextView().setText(String.valueOf(getAnotacion().getLatitud()));
-        getLongitudTextView().setText(String.valueOf(getAnotacion().getLongitud()));
-        getComunidadTextView().setText(getAnotacion().getIdcomunidad());
-        getTipoTextView().setText(getAnotacion().getTipo_anotacion());
-        getDescripcionTextView().setText(getAnotacion().getDescripcion());
-        */
-        getVerButton().setOnClickListener(this);
+        
+        getFechaTextView().setText(fecha);
+        getTipoTextView().setText(tipo);
+        getDescripcionTextView().setText(descripcion);
+        getActivoTextView().setText(activo);
+        
+    }
+    
+	@Override
+	public void onClick(View view) {
+		if (view == getRegresarButton()){
+			finish();
+		}
 	}
 	
 	private void setFotoImageView(ImageView findViewById) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-	public Button getVerButton() {
-		return verButton;
-	}
-
-
-	public void setVerButton(Button verButton) {
-		this.verButton = verButton;
-	}
-
-
-	public ImageView getFotoimageview() {
-		return fotoimageview;
-	}
-
-
-	public void setFotoimageview(ImageView fotoimageview) {
-		this.fotoimageview = fotoimageview;
-	}
-
-
-	public TextView getTituloTextView() {
-		return tituloTextView;
-	}
-	public void setTituloTextView(TextView tituloTextView) {
-		this.tituloTextView = tituloTextView;
-	}
 	public TextView getFechaTextView() {
 		return fechaTextView;
 	}
 	public void setFechaTextView(TextView fechaTextView) {
 		this.fechaTextView = fechaTextView;
-	}
-	public TextView getLatitudTextView() {
-		return latitudTextView;
-	}
-	public void setLatitudTextView(TextView latitudTextView) {
-		this.latitudTextView = latitudTextView;
-	}
-	public TextView getLongitudTextView() {
-		return longitudTextView;
-	}
-	public void setLongitudTextView(TextView longitudTextView) {
-		this.longitudTextView = longitudTextView;
-	}
-	public TextView getComunidadTextView() {
-		return comunidadTextView;
-	}
-	public void setComunidadTextView(TextView comunidadTextView) {
-		this.comunidadTextView = comunidadTextView;
 	}
 	public TextView getTipoTextView() {
 		return tipoTextView;
@@ -125,18 +75,16 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	public void setDescripcionTextView(TextView descripcionTextView) {
 		this.descripcionTextView = descripcionTextView;
 	}
-	public Anotacion getAnotacion() {
-		return anotacion;
+	public TextView getActivoTextView() {
+		return activoTextView;
 	}
-	public void setAnotacion(Anotacion anotacion) {
-		this.anotacion = anotacion;
+	public void setActivoTextView(TextView activoTextView) {
+		this.activoTextView = activoTextView;
 	}
-
-
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		
+	public Button getRegresarButton() {
+		return regresarButton;
 	}
-		
+	public void setRegresarButton(Button regresarButton) {
+		this.regresarButton = regresarButton;
+	}
 }

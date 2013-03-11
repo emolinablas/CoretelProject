@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left|center"
+    android:orientation="horizontal" >
+
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+
+        <TextView
+            android:id="@+id/listaevento_id_textview"
+            style="@style/Text.Label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        
+        <TextView
+            android:id="@+id/listaevento_fecha_textview"
+            style="@style/Text.Label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        
+        <TextView
+            android:id="@+id/listaevento_activo_textview"
+            style="@style/Text.Label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
+        
+        
+        <TextView
+            android:id="@+id/listaevento_tipo_textview"
+            style="@style/Text.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/listaevento_descripcion_textview"
+            style="@style/Text.Value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="32" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:gravity="right|center">
+            
+            <ImageView 
+                android:id="@+id/flecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_right"/>
+        </LinearLayout>
+</LinearLayout>

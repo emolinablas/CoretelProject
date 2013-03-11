@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- HEADER -->
 
@@ -13,13 +12,32 @@
         android:background="@drawable/background_footer_iphone"
         android:gravity="center"
         android:orientation="horizontal" >
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal"
+            >
+            
+            <Button
+                android:id="@+id/detalleevento_regresar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Cancelar"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView1"
             style="@style/Text.Titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Detalle Evento"/>
+            android:text="Registro Evento"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -27,29 +45,16 @@
             android:gravity="right"
             android:orientation="horizontal"
             >
-            <!-- 
-            <Button
-                android:id="@+id/detalleevento_gallery_button"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/gall" />
             
             <Button
-                android:id="@+id/detalleevento_capturar_button"
+                android:id="@+id/evento_save_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/camera" />
-            
-            <Button
-                android:id="@+id/detalleevento_save_button"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
-                android:background="@drawable/send" />
-                 -->
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Aplicar"
+                android:textColor="#ffffff" />
 
         </LinearLayout>
     </LinearLayout>
@@ -65,124 +70,33 @@
         android:background="#D1D5E0"
         android:gravity="top|center"
         android:orientation="vertical"
-        android:padding="0dp" >
+        android:padding="0dp" 
+        >
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollView1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/patron_de_fondo_vertical"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:background="@drawable/patron_de_fondo_vertical" >
 
-            <ScrollView
-                android:id="@+id/scrollView1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="372dp"
+                android:background="@drawable/background_textview"
+                android:orientation="vertical"
+                android:layout_margin="7dp" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="372dp"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        style="@style/Text.Label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Titulo" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_titulo_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/background_textview"
-                        android:ems="10"
-                        android:hint="Escriba un título" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" >
 
                     <TextView
                         android:id="@+id/textView3"
                         style="@style/Text.Label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Fecha" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_fecha_textview"
-                        style="@style/Text.Value"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/background_textview"
-                        android:text="20 de noviembre de 2012, 11:12" />
-
-                    <TextView
-                        android:id="@+id/textView5"
-                        style="@style/Text.Label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Ubicación" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_latitud_textview"
-                        style="@style/Text.Value"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/background_textview" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_longitud_textview"
-                        style="@style/Text.Value"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_textview" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        style="@style/Text.Label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Comunidad" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_comunidad_textview"
-                        style="@style/Text.Value"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_textview" />
-
-                    <TextView
-                        android:id="@+id/detalleevento_comunidad_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/background_textview" />
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        style="@style/Text.Label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
                         android:text="Tipo" />
 
                     <TextView
@@ -191,68 +105,97 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/background_textview" />
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:gravity="right|center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" >
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/textView3"
                         style="@style/Text.Label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Descripción" />
+                        android:text="Fecha" />
 
                     <TextView
-                        android:id="@+id/detalleevento_descripcion_textview"
+                        android:id="@+id/detalleevento_fecha_textview"
+                        style="@style/Text.Value"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/background_textview"
-                        android:ems="10"
-                        android:inputType="textMultiLine" />
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:gravity="right|center"/>
 
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center" >
-
-                        <Button
-                            android:id="@+id/detalleevento_ver_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/button_background_iphone_gray"
-                            android:text="Ver Imagen"
-                            android:textColor="#ffffff" />
-                    </LinearLayout>
-
-                    <ProgressBar
-                        android:id="@+id/barraProgreso"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true" />
-
-                    <LinearLayout
-                        android:id="@+id/detalleevento_imagen_layout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:background="#afafaf"
-                        android:gravity="center" >
-
-                        <ImageView
-                            android:id="@+id/detalleevento_foto_imageview"
-                            android:layout_width="295sp"
-                            android:layout_height="195sp"
-                            android:src="@drawable/camera" />
-                    </LinearLayout>
                 </LinearLayout>
-            </ScrollView>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" >
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Activo" />
 
+                    <TextView
+                        android:id="@+id/detalleevento_activo_textview"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:gravity="right|center" />
+
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Descripción" />
+
+                    <TextView
+                        android:id="@+id/detalleevento_descripcion_textview"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:gravity="right|center"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/evento_imagen_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#afafaf"
+                    android:gravity="center" >
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
     </LinearLayout>
 
     <!-- FOOTER -->
@@ -263,17 +206,31 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer_iphone"
-        android:gravity="right|center"
+        android:gravity="center"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/detalleevento_borrar_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background_iphone_gray"
-            android:text="Eliminar Evento"
-            android:textColor="#ffffff" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left" >
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right" >
+
+            <Button
+                android:id="@+id/evento_borrar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Borrar"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

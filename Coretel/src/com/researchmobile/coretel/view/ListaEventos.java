@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -90,18 +91,31 @@ public class ListaEventos extends Activity implements OnItemClickListener{
     public void llenarLista(){
     	setSimpleAdapter(new SimpleAdapter(this, 
         		myList(), 
-        		R.layout.lista_dos_campos,
-                new String[] {"titulo","description"}, 
-                new int[] {R.id.lista_titulo_textview, R.id.lista_descripcion_textview}));
+        		R.layout.lista_evento,
+                new String[] {"id","fecha", "activo", "tipo", "descripcion"}, 
+                new int[] {R.id.listaevento_id_textview, R.id.listaevento_fecha_textview, R.id.listaevento_activo_textview, R.id.listaevento_tipo_textview, R.id.listaevento_descripcion_textview}));
         getEventosListView().setAdapter(getSimpleAdapter());
         getEventosListView().setOnItemClickListener(this);
     }
 
 
 	
-	public void onItemClick(AdapterView<?> arg0, View arg1, int posicion, long id) {
-		// TODO Auto-generated method stub
-			IniciaDetalleEvento();
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+		HashMap<String, String> map = (HashMap)arg0.getItemAtPosition(position);
+		String selectedId = (String) map.get("id");
+		String selectedFecha = (String) map.get("fecha");
+		String selectedActivo = (String) map.get("activo");
+		String selectedTipo = (String) map.get("tipo");
+		String selectedDescripcion = (String) map.get("descripcion");
+		
+		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class);
+		intent.putExtra("id", selectedId);
+		intent.putExtra("fecha", selectedFecha);
+		intent.putExtra("activo", selectedActivo);
+		intent.putExtra("tipo", selectedTipo);
+		intent.putExtra("descripcion", selectedDescripcion);
+		startActivity(intent);
+//			IniciaDetalleEvento();
 		
 	}
 	
@@ -116,8 +130,11 @@ public class ListaEventos extends Activity implements OnItemClickListener{
 		if (getCatalogoAnotacion().getAnotacion().length > 0){
 			for (int i = 0; i < getCatalogoAnotacion().getAnotacion().length; i++){
 				HashMap<String, String> map = new HashMap<String, String>();
-		        map.put("titulo", getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion());
-		        map.put("description", getCatalogoAnotacion().getAnotacion()[i].getDescripcion());
+				map.put("id", getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion());
+		        map.put("fecha", getCatalogoAnotacion().getAnotacion()[i].getFecha_registro());
+		        map.put("activo", String.valueOf(getCatalogoAnotacion().getAnotacion()[i].getActivo()));
+		        map.put("tipo", getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion());
+		        map.put("descripcion", getCatalogoAnotacion().getAnotacion()[i].getDescripcion());
 		        mylist.add(map);
 			}
 		}
