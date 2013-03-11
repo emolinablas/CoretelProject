@@ -124,15 +124,15 @@
 		        android:background="#414141" />
 
 		    <RelativeLayout
-		        android:layout_width="fill_parent"
+		        android:layout_width="match_parent"
 		        android:layout_height="1dip"
 		        android:layout_weight="1"
 		        android:background="#D1D5E0" >
 
 		        <ScrollView
 		            android:id="@+id/scrollView1"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
+		            android:layout_width="match_parent"
+		            android:layout_height="match_parent"
 		            android:layout_alignParentBottom="true"
 		            android:layout_alignParentTop="true"
 		            android:background="@drawable/patron_de_fondo_vertical" >
@@ -153,7 +153,7 @@
 
 		                <ListView
 		                    android:id="@+id/invitaciones_listview"
-		                    android:layout_width="wrap_content"
+		                    android:layout_width="match_parent"
 		                    android:layout_height="wrap_content"
 		                    android:layout_margin="10dp"
 		                    android:background="@drawable/background_list_view_celeste" >
@@ -203,7 +203,7 @@
 		                    android:textStyle="bold" />
 
 		                <ListView
-		                    android:id="@+id/listView1"
+		                    android:id="@+id/solicitud_enviada_listView"
 		                    android:layout_width="match_parent"
 		                    android:layout_height="wrap_content"
 		                    android:layout_margin="10dp"

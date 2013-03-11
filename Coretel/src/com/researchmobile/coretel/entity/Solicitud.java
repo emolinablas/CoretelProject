@@ -16,9 +16,16 @@ public class Solicitud implements Serializable{
 	private String miembros;
 	
 	public String toString(){
-		return nombreComunidad + "\n" + estado;
+		String estP = "Pendiente";
+		String estA = "Aceptado";
+		
+			if(estado == "1"){
+				return nombreUsuario + "\n" + nombreComunidad + "   " + estA;
+				}else{
+				return nombreUsuario + "\n" + nombreComunidad + "   " + estP;
+				}
 	}
-	
+
 	public String getId() {
 		return id;
 	}

@@ -22,7 +22,22 @@ public class Invitacion implements Serializable{
 	private String miembros;
 	
 	public String toString(){
-		return nombreUsuario + "\n" + nombreComunidad + "   " + estado;
+		String estP = "Pendiente";
+		String estA = "Aceptado";
+		
+		if(nombreUsuario == "null"){
+		if(estado == "1"){
+		return email + "\n" + nombreComunidad + "   " + estA;
+		}else{
+		return email + "\n" + nombreComunidad + "   " + estP;
+		}
+		}else{
+			if(estado == "1"){
+				return nombreUsuario + "\n" + nombreComunidad + "   " + estA;
+				}else{
+				return nombreUsuario + "\n" + nombreComunidad + "   " + estP;
+				}
+		}
 	}
 	
 	public String getId() {

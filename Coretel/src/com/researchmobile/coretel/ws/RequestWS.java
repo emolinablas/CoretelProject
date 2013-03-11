@@ -29,11 +29,13 @@ import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoInvitacion;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
+import com.researchmobile.coretel.entity.CatalogoSolicitud;
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.Invitacion;
 import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.Solicitud;
 import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.entity.Usuario;
@@ -53,6 +55,7 @@ public class RequestWS {
 	private static final String WS_VERINVITACIONES = "ws_invitacion.php?&usuario=";
 	private static final String WS_ENVIARINVITACION = "ws_invitacion.php?&invita=";
 	private static final String WS_VERINVITACIONESENVIADAS = "ws_invitacion.php?&usuario=";
+	private static final String WS_VERSOLICITUDESRECIBIDAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
@@ -748,7 +751,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 						invitacionTemp.setUsuarioInvito((temp.getString("usuario_invito")));
 						invitacionTemp.setCodigoInvitacion((temp.getString("codigo_invitacion")));
 						invitacionTemp.setEmail(temp.getString("email"));
-						invitacionTemp.setTelefono(temp.getString("estado"));
+						invitacionTemp.setTelefono(temp.getString("telefono"));
+						invitacionTemp.setEstado(temp.getString("estado"));
 						invitacionTemp.setIntentos(temp.getString("intentos"));
 						invitacionTemp.setNombreUsuario(temp.getString("nombreUsuario"));
 						invitacionTemp.setNombreComunidad(temp.getString("nombreComunidad"));
@@ -799,7 +803,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 						invitacionTemp.setUsuarioInvito((temp.getString("usuario_invito")));
 						invitacionTemp.setCodigoInvitacion((temp.getString("codigo_invitacion")));
 						invitacionTemp.setEmail(temp.getString("email"));
-						invitacionTemp.setTelefono(temp.getString("estado"));
+						invitacionTemp.setTelefono(temp.getString("telefono"));
+						invitacionTemp.setEstado(temp.getString("estado"));
 						invitacionTemp.setIntentos(temp.getString("intentos"));
 						invitacionTemp.setNombreUsuario(temp.getString("nombreUsuario"));
 						invitacionTemp.setNombreComunidad(temp.getString("nombreComunidad"));
@@ -818,6 +823,114 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 			return null;
 		}
 	}
+	
+	
+	public CatalogoSolicitud buscarSolicitudesRecibidas() {
+		CatalogoSolicitud solicitudes = new CatalogoSolicitud();
+		JSONObject jsonObject = null;
+		String finalURL = WS_VERSOLICITUDESRECIBIDAS + User.getUserId();
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.buscarInvitaciones(finalURL);
+			if (jsonObject != null){
+				System.out.println("ENCONTRî EL JSON DE INVITACIONES RECIBIDAS");
+				
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				solicitudes.setRespuestaWS(respuesta);
+				
+				JSONArray jsonArray = jsonObject.getJSONArray("solicitud_recibida");
+				
+				int tamano = jsonArray.length();
+				System.out.println(jsonArray.length());
+				if (tamano > 0){
+					System.out.println("ENTRA AL IF PORQUE EL TAMA„O DEL ARRAY ES MAYOR");
+					Solicitud[] solicitud  = new Solicitud[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject temp = jsonArray.getJSONObject(i);
+						Solicitud solicitudTemp = new Solicitud();
+						solicitudTemp.setId(temp.getString("id"));
+						solicitudTemp.setFechaEnviada(temp.getString("fecha_enviada"));	
+						solicitudTemp.setEstado(temp.getString("estado"));			
+						solicitudTemp.setNombreUsuario(temp.getString("nombreUsuario"));			
+						solicitudTemp.setNombreComunidad(temp.getString("nombreComunidad"));
+						solicitud[i] = solicitudTemp;
+						
+						System.out.println("SOLICITUD RECIBIDA........SOLICITUD RECIBIDA");
+						System.out.println(solicitud[i].getNombreUsuario());
+					}
+					solicitudes.setSolicitud(solicitud);
+					
+				}
+				return solicitudes;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
+	public CatalogoSolicitud buscarSolicitudesEnviadas() {
+		CatalogoSolicitud solicitudes = new CatalogoSolicitud();
+		JSONObject jsonObject = null;
+		String finalURL = WS_VERSOLICITUDESRECIBIDAS + User.getUserId();
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.buscarInvitaciones(finalURL);
+			if (jsonObject != null){
+				System.out.println("ENCONTRî EL JSON DE INVITACIONES RECIBIDAS");
+				
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				solicitudes.setRespuestaWS(respuesta);
+				
+				JSONArray jsonArray = jsonObject.getJSONArray("solicitud_recibida");
+				
+				int tamano = jsonArray.length();
+				System.out.println(jsonArray.length());
+				if (tamano > 0){
+					System.out.println("ENTRA AL IF PORQUE EL TAMA„O DEL ARRAY ES MAYOR");
+					Solicitud[] solicitud  = new Solicitud[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject temp = jsonArray.getJSONObject(i);
+						Solicitud solicitudTemp = new Solicitud();
+						solicitudTemp.setId(temp.getString("id"));
+						System.out.println("Id de la solicitud " + temp.getString("id"));
+						solicitudTemp.setFechaEnviada(temp.getString("fecha_enviada"));
+						System.out.println("1");
+						solicitudTemp.setIdUsuario(temp.getString("id_usuario"));
+						System.out.println("1");
+						solicitudTemp.setIdComunidad(temp.getString("id_comunidad"));
+						System.out.println("1");
+						solicitudTemp.setEstado(temp.getString("estado"));
+						System.out.println("1");
+						solicitudTemp.setNombreUsuario(temp.getString("nombreUsuario"));
+						System.out.println("1");
+						solicitudTemp.setNombreComunidad(temp.getString("nombreComunidad"));
+						System.out.println("1");
+						solicitudTemp.setUsuarioCreo(temp.getString("usuarioCreo"));
+						System.out.println("1");
+						solicitudTemp.setMiembros(temp.getString("miembros"));
+						
+						System.out.println("asigno los parametros");
+						solicitud[i] = solicitudTemp;
+						
+						System.out.println("SOLICITUD RECIBIDA........SOLICITUD RECIBIDA");
+						System.out.println(solicitud[i].getNombreUsuario());
+					}
+					solicitudes.setSolicitud(solicitud);
+					
+				}
+				return solicitudes;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
 	
 	public Usuario CargarPerfil(String userId) {
 		System.out.println(userId);

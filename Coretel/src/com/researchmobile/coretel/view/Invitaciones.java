@@ -103,17 +103,23 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
         
         setCatalogoInvitacion(new CatalogoInvitacion());
         setCatalogoInvitacionEnviado(new CatalogoInvitacion());
+        setCatalogoSolicitudRecibida(new CatalogoSolicitud());
+        setCatalogoSolicitudEnviada(new CatalogoSolicitud());
         setRequestWS(new RequestWS());
         setRespuestaWS(new RespuestaWS());
         setCatalogoComunidad(new CatalogoComunidad());
         setRespuestaRespondidoWS(new RespuestaWS());
         setInvitacionesListView((ListView)findViewById(R.id.invitaciones_listview));
         setInvitacionesEnviadasListView((ListView)findViewById(R.id.invitaciones_enviadas_listview));
+        setSolicitudesRecibidasListView((ListView)findViewById(R.id.solicitudes_recibidas_listView));
+        setSolicitudesEnviadasListView((ListView)findViewById(R.id.solicitud_enviada_listView));
         setInvitarButton((Button)findViewById(R.id.invitaciones_agregar_button));
         setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
         getInvitarButton().setOnClickListener(this);
         getInvitacionesListView().setOnItemClickListener(this);
         getInvitacionesEnviadasListView().setOnItemClickListener(this);
+       // getSolicitudesRecibidasListView().setOnItemClickListener(this);
+       // getSolicitudesEnviadasListView().setOnItemClickListener(this);
         prepararMenu();
     	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
 		getAvatarImageView().setImageBitmap(image);
@@ -507,15 +513,21 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
                 
                 try{
                 	if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
+                		System.out.println("INVITACIONES RECIBIDAS");
                     	llenaLista();
+                    	
                     }
                 	if (getCatalogoInvitacionEnviado().getRespuestaWS().isResultado()){
+                		System.out.println("INVITACIONES ENVIADAS");
                 		llenaListaEnviados();
                 	}
-                	if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
+                	/*if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
+                		System.out.println("SOLICITUDES ENVIADAS");
                 		llenaListaSolicitudEnviados();
-                	}
+                	}*/
+                	System.out.println(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado());
                 	if(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado()){
+                		System.out.println("SOLICITUDES ENCONTRADAS RECIBIDAS");
                 		llenaListaSolicitudRecibidos();
                 	}
                 }catch(Exception exception){
@@ -571,15 +583,30 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	}
     
     public void buscarInvitaciones(){
+    	System.out.println("LLEGA ANTES DE SETEAR EL CATALOGO DE INVITACIONES");
+    	try{
     	setCatalogoInvitacion(getRequestWS().buscarInvitaciones());
-    	System.out.println("Invitaci—n recibida con exito " + getCatalogoInvitacion().getInvitacion()[0].getId());
+    	}catch(Exception e){
+    		System.out.println("No hay invitaciones recibidas");
+    	}
+    	try{
     	setCatalogoInvitacionEnviado(getRequestWS().buscaInvitacionesEnviadas());
-    
+    	}catch(Exception e){
+    		System.out.println("No hay invitaciones enviadas");
+    	}
+    	
+    	
     }
     
     public void buscarSolicitudes(){
-    	//setCatalogoSolicitudRecibida(getRequestWS().buscarSolicitudesRecibidas());
-    	System.out.println("Solicitud recibida con exito " + getCatalogoSolicitudRecibida().getSolicitud()[0].getId());
+    	System.out.println("BUSCA LAS SOLICITUDES");
+    	try{
+    	setCatalogoSolicitudRecibida(getRequestWS().buscarSolicitudesRecibidas());
+    	//System.out.println(getCatalogoSolicitudRecibida().getSolicitud()[0].getFechaEnviada());
+    	}catch(Exception e){
+    		System.out.println("ERROR AL BUSCAR LAS SUPERVISIONES Y SETEARLAS");
+    	}
+    	//System.out.println("Solicitud recibida con exito " + getCatalogoSolicitudRecibida().getSolicitud()[0].getId());
     	//setCatalogoSolicitudEnviada(getRequestWS().buscarSolicitudesEnviadas());
     }
 
