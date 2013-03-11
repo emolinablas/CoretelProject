@@ -128,7 +128,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	private void opcionesMenu(int opcion){
 		switch(opcion){
 		case 0:
-			Intent intentMapa = new Intent(Invitaciones.this, MapWuil.class);
+			Intent intentMapa = new Intent(Invitaciones.this, Mapa.class);
 			startActivity(intentMapa);
 			break;
 		case 1:

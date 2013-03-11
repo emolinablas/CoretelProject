@@ -18,13 +18,13 @@ public class RMFile {
 	
 public void downloadImage(String  fileUrl){
         
-	File file = new File("sdcard/pasalo/" + User.getAvatar());
+	File file = new File("sdcard/pasalo/" + fileUrl);
 	if (!file.exists()) {
-	  Log.d("test", "no existe la imagen");
+	  Log.d("test", "no existe la imagen = " + fileUrl);
 	  Log.e("URL", fileUrl);
       URL myFileUrl =null;
           try {
-              myFileUrl= new URL(fileUrl);
+              myFileUrl= new URL("http://23.23.1.2/" + fileUrl);
           } catch (MalformedURLException e) {
               // TODO Auto-generated catch block
           e.printStackTrace();
@@ -45,7 +45,7 @@ public void downloadImage(String  fileUrl){
               
               //***Para guardar la imagen en la SD
              
-              FileOutputStream out = new FileOutputStream("sdcard/pasalo/" + User.getAvatar());
+              FileOutputStream out = new FileOutputStream("sdcard/pasalo/" + fileUrl);
               
               byte[] buffer = new byte[1024];
               int len;

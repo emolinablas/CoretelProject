@@ -181,7 +181,7 @@ public class Comunidad extends Activity implements OnClickListener{
 	}
 
 	protected void IniciaMiembros() {
-		Intent intent = new Intent(Comunidad.this, Miembros.class);
+		Intent intent = new Intent(Comunidad.this, PruebaListaFoto.class);
 		intent.putExtra("catalogoMiembro", getCatalogoMiembro());
 		startActivity(intent);
 	}

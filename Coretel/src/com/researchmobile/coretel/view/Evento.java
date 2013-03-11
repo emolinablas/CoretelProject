@@ -352,7 +352,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private void regresar(){
-		Intent intent = new Intent(Evento.this, MapWuil.class);
+		Intent intent = new Intent(Evento.this, Mapa.class);
 		startActivity(intent);
 	}
 	
@@ -598,7 +598,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
                 pd.dismiss();
                 if (respuestaWS != null){
                 	if (respuestaWS.isResultado()){
-                		Intent intent = new Intent(Evento.this, MapWuil.class);
+                		Intent intent = new Intent(Evento.this, Mapa.class);
                 		startActivity(intent);
                 	}else{
                 		Toast.makeText(getBaseContext(), respuestaWS.getMensaje(), Toast.LENGTH_SHORT).show();

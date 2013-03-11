@@ -375,6 +375,7 @@ public class RequestWS {
 						miembroTemp.setNombreComunidad(mJson.getString("nombreComunidad"));
 						miembroTemp.setNombreUsuarioInvito(mJson.getString("nombreUsuarioInvito"));
 						miembroTemp.setEmail(mJson.getString("emailUsuario"));
+						miembroTemp.setAvatar(mJson.getString("avatar"));
 						miembro[i] = miembroTemp;
 						System.out.println("CatalogoMiembro - miembro cargado");
 					}

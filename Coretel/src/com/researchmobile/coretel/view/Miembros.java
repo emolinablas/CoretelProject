@@ -1,22 +1,33 @@
 package com.researchmobile.coretel.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.Miembro;
+import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.utility.RMFile;
 
-public class Miembros extends Activity implements OnClickListener{
+public class Miembros extends Activity implements OnClickListener, OnItemClickListener{
 	private ListView miembrosListView;
 	private CatalogoMiembro catalogoMiembro;
+	private ProgressDialog pd = null;
+	private RMFile rmFile = new RMFile();
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -26,24 +37,37 @@ public class Miembros extends Activity implements OnClickListener{
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setMiembrosListView((ListView)findViewById(R.id.miembros_lista_listview));
-		getMiembrosListView().setAdapter(new ArrayAdapter<Miembro>(this, 
-				R.layout.lista_lobby,
-				R.id.lista_lobby_textview,
-				getCatalogoMiembro().getMiembro()));
-				getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-			    
-			    getMiembrosListView().setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		        Miembro miembro = new Miembro();
-		        miembro = (Miembro)a.getItemAtPosition(position);
-		        Intent intent = new Intent(Miembros.this, DetalleMiembro.class);
-		        intent.putExtra("miembro", miembro);
-		        startActivity(intent);
-		    }
-		});
+		
+//		new miembrosAsync().execute("");
+		
+		int tamano = getCatalogoMiembro().getMiembro().length;
+		ArrayList<HashMap<String, Bitmap>> mylist = new ArrayList<HashMap<String, Bitmap>>();
+		if (tamano > 0) {
+			for (int i = 0; i < tamano; i++) {
+				rmFile.downloadImage("http://23.23.1.2/" + getCatalogoMiembro().getMiembro()[i].getAvatar());
+				Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("id", getCatalogoMiembro().getMiembro()[i].getId());
+//				map.put("avatar", image);
+				map.put("nombre", getCatalogoMiembro().getMiembro()[i].getNombreUsuario());
+//				mylist.add(map);
+			}
+		}
+
+		final SimpleAdapter mSchedule = new SimpleAdapter(this, mylist,
+				R.layout.lista_miembros, new String[] { "id", "avatar", "nombre" },
+				new int[] { R.id.lista_miembros_id, R.id.lista_miembros_avatar, R.id.lista_miembros_nombre });
+
+		getMiembrosListView().setAdapter(mSchedule);
+		getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
+	
+	
+	
+	
+	
+	
 	private String[] ListaMiembros() {
 		
 		int tamano = getCatalogoMiembro().getMiembro().length;
@@ -62,6 +86,50 @@ public class Miembros extends Activity implements OnClickListener{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> a, View arg1, int position, long arg3) {
+		Miembro miembro = new Miembro();
+        miembro = (Miembro)a.getItemAtPosition(position);
+        Intent intent = new Intent(Miembros.this, DetalleMiembro.class);
+        intent.putExtra("miembro", miembro);
+        startActivity(intent);
+		
+	}
+	
+	// Clase para ejecutar en Background
+	class miembrosAsync extends AsyncTask<String, Integer, Integer> {
+
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(Miembros.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				llenarLista();
+
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+
+		}
+	}
+
+	public void llenarLista() {
+
+		
+	}
 
 	public ListView getMiembrosListView() {
 		return miembrosListView;
@@ -78,6 +146,5 @@ public class Miembros extends Activity implements OnClickListener{
 	public void setCatalogoMiembro(CatalogoMiembro catalogoMiembro) {
 		this.catalogoMiembro = catalogoMiembro;
 	}
-	
-	
+
 }

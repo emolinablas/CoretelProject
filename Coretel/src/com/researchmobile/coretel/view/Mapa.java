@@ -52,7 +52,7 @@ import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class MapWuil extends MapActivity implements OnItemClickListener, OnClickListener{
+public class Mapa extends MapActivity implements OnItemClickListener, OnClickListener{
 	private static final String LOG = "pio";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
@@ -198,7 +198,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         Button login = (Button) myDialog.findViewById(R.id.log_in);
         login.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+            	Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
     			startActivity(intentComunidades);
                 myDialog.dismiss();
             }
@@ -207,7 +207,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         Button createAccount= (Button) myDialog.findViewById(R.id.create_account);
         createAccount.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+            	Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
     			startActivity(intentComunidades);
                 myDialog.dismiss();
             }
@@ -225,8 +225,10 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 			opcionesMenu(arg2);
 		}else if (adapterView == comunidadesFilter){
 			DetalleComunidad comunidad = (DetalleComunidad) adapterView.getItemAtPosition(arg2);
-			bubbleFilterLayout.setVisibility(View.GONE);
+			opcionFiltrar();
 			filtrarComunidades(comunidad);
+		}else if (adapterView == lugaresFilter){
+			opcionLugares();
 		}
 	}
 	
@@ -376,7 +378,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 		// Metodo que prepara lo que usara en background, Prepara el progress
 		@Override
 		protected void onPreExecute() {
-			pd = ProgressDialog.show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd = ProgressDialog.show(Mapa.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
 			pd.setCancelable(false);
 		}
 
@@ -542,22 +544,22 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 			new buscaAnotacionesAsync().execute("");
 			break;
 		case 1:
-			Intent intentComunidades = new Intent(MapWuil.this, Comunidades.class);
+			Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
 			startActivity(intentComunidades);
 			break;
 		case 2:
-			Intent intentInvitaciones = new Intent(MapWuil.this, Invitaciones.class);
+			Intent intentInvitaciones = new Intent(Mapa.this, Invitaciones.class);
 			startActivity(intentInvitaciones);
 			break;
 		case 3:
-			Intent intentLobby = new Intent(MapWuil.this, Lobby.class);
+			Intent intentLobby = new Intent(Mapa.this, Lobby.class);
 			startActivity(intentLobby);
 			break;
 		case 4:
 			new comunidadesAsync().execute("");
 			break;
 		case 5:
-			Intent intentCerrar = new Intent(MapWuil.this, Login.class);
+			Intent intentCerrar = new Intent(Mapa.this, Login.class);
 			startActivity(intentCerrar);
 			break;
         default:
@@ -572,7 +574,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd = ProgressDialog. show(Mapa.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 
@@ -609,7 +611,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(MapWuil.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+                pd = ProgressDialog. show(Mapa.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 
@@ -630,7 +632,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
                 pd.dismiss();
                 try{
                 	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
-                		ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(MapWuil.this, android.R.layout.simple_list_item_1, getCatalogoComunidad().getComunidad());
+                		ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(Mapa.this, android.R.layout.simple_list_item_1, getCatalogoComunidad().getComunidad());
     					comunidadesFilter.setAdapter(adaptador);
                     }else{
                     	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
@@ -653,7 +655,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
 	}
 	private void dialogComunidades(){
 		
-		LayoutInflater factory = LayoutInflater.from(MapWuil.this);
+		LayoutInflater factory = LayoutInflater.from(Mapa.this);
         
         final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
        
@@ -661,7 +663,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
         ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
         comunidadesSpinner.setAdapter(adaptador);
         
-        final AlertDialog.Builder alert = new AlertDialog.Builder(MapWuil.this );
+        final AlertDialog.Builder alert = new AlertDialog.Builder(Mapa.this );
 
        alert.setTitle( "Elija una comunidad");
        alert.setView(textEntryView);
@@ -671,7 +673,7 @@ public class MapWuil extends MapActivity implements OnItemClickListener, OnClick
                           public void onClick(DialogInterface arg0, int arg1) {
                         	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
                         	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
-                        	  Intent intentChat = new Intent(MapWuil.this, GroupChat.class);
+                        	  Intent intentChat = new Intent(Mapa.this, GroupChat.class);
                         	  intentChat.putExtra("comunidad", comunidad.getId());
                         	  startActivity(intentChat);
                                

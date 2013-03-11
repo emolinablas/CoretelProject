@@ -233,7 +233,7 @@ public class Lobby extends Activity implements OnItemClickListener{
     private void opcionesMenu(int opcion){
 		switch(opcion){
 		case 0:
-			Intent intentMapa = new Intent(Lobby.this, MapWuil.class);
+			Intent intentMapa = new Intent(Lobby.this, Mapa.class);
 			startActivity(intentMapa);
 			break;
 		case 1:

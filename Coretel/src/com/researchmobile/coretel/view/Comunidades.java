@@ -163,7 +163,7 @@ public void onItemClick(AdapterView<?> adapterView, View arg1, int arg2, long ar
 private void opcionesMenu(int opcion){
 	switch(opcion){
 	case 0:
-		Intent intentMapa = new Intent(Comunidades.this, MapWuil.class);
+		Intent intentMapa = new Intent(Comunidades.this, Mapa.class);
 		startActivity(intentMapa);
 		break;
 	case 1:

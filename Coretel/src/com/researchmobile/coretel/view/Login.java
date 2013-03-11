@@ -135,7 +135,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                setRespuesta(request.Login(getUser()));
                if (getRespuesta().isResultado()){
             	   setLogeado(true);
-            	   rmFile.downloadImage("http://23.23.1.2/" + User.getAvatar());
+            	   rmFile.downloadImage(User.getAvatar());
 //            	   CargarAnotaciones();
 //            	   RegistrarChat();
                     return true;
@@ -252,7 +252,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  		protected void onPostExecute(Integer resultado){
  			pd.dismiss();
  			if(isLogeado()){
- 				Intent intent = new Intent(Login.this, MapWuil.class);
+ 				Intent intent = new Intent(Login.this, Mapa.class);
 // 	            intent.putExtra("anotaciones", getCatalogoAnotacion());
  	            startActivity(intent);
  			}else{
