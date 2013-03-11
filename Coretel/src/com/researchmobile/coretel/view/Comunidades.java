@@ -1,7 +1,9 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,9 +11,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -23,7 +26,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
@@ -41,6 +46,8 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	private DetalleComunidad detalleComunidad;
 	private ProgressDialog pd = null;
 	private String select;
+	private RequestWS request;
+	private CatalogoComunidad catalogoComunidad;
 	
 	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
@@ -68,7 +75,8 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
         getNombreUsuarioTextView().setText(User.getNombre());
 		setCatalogo(new CatalogoComunidad());
-		
+		setCatalogoComunidad(new CatalogoComunidad());
+		setRequest(new RequestWS());
 		
 		new buscaComunidadesAsync().execute("");
 		
@@ -178,7 +186,8 @@ private void opcionesMenu(int opcion){
 		startActivity(intentLobby);
 		break;
 	case 4:
-		collapseMenu();
+		new comunidadesAsync().execute("");
+
 		break;
 	case 5:
 		Intent intentCerrar = new Intent(Comunidades.this, Login.class);
@@ -217,6 +226,82 @@ private void opcionesMenu(int opcion){
                 resultadoComunidades();
          }
     }
+    
+    class comunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+        // Metodo que prepara lo que usara en background, Prepara el progress
+        @Override
+        protected void onPreExecute() {
+              pd = ProgressDialog. show(Comunidades.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+              pd.setCancelable( false);
+       }
+
+        // Metodo con las instrucciones que se realizan en background
+        @Override
+        protected Integer doInBackground(String... urlString) {
+              try {
+              	buscarComunidades();
+
+             } catch (Exception exception) {
+
+             }
+              return null ;
+       }
+        
+        private void buscarComunidades(){
+    		setRequest(new RequestWS());
+    		setCatalogoComunidad(getRequest().CargarComunidades(User.getUserId()));
+    	}
+
+        // Metodo con las instrucciones al finalizar lo ejectuado en background
+        protected void onPostExecute(Integer resultado) {
+              pd.dismiss();
+              try{
+              	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                  	dialogComunidades();
+                  }else{
+                  	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                  }
+              }catch(Exception exception){
+              	
+              }
+       }
+ }
+    
+private void dialogComunidades(){
+		
+		LayoutInflater factory = LayoutInflater.from(Comunidades.this);
+        
+        final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
+       
+        final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_comunidades_spinner);
+        ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+        comunidadesSpinner.setAdapter(adaptador);
+        
+        final AlertDialog.Builder alert = new AlertDialog.Builder(Comunidades.this );
+
+       alert.setTitle( "Elija una comunidad");
+       alert.setView(textEntryView);
+       alert.setPositiveButton( "   OK   " ,
+                    new DialogInterface.OnClickListener() {
+                          @Override
+                          public void onClick(DialogInterface arg0, int arg1) {
+                        	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
+                        	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
+                        	  Intent intentChat = new Intent(Comunidades.this, GroupChat.class);
+                        	  intentChat.putExtra("comunidad", comunidad.getId());
+                        	  startActivity(intentChat);
+                               
+                         }
+                   });
+       alert.setNegativeButton( "CANCELAR" ,
+               new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface arg0, int arg1) {
+                   	}
+              });
+       alert.show();
+	}
     
     private void resultadoComunidades(){
     	if (getCatalogo() != null){
@@ -410,6 +495,22 @@ private void opcionesMenu(int opcion){
 
 	public void setAvatarImageView(ImageView avatarImageView) {
 		this.avatarImageView = avatarImageView;
+	}
+
+	public RequestWS getRequest() {
+		return request;
+	}
+
+	public void setRequest(RequestWS request) {
+		this.request = request;
+	}
+
+	public CatalogoComunidad getCatalogoComunidad() {
+		return catalogoComunidad;
+	}
+
+	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
+		this.catalogoComunidad = catalogoComunidad;
 	}
 	
 	

@@ -65,6 +65,7 @@ public class ItemChatAdapter extends BaseAdapter {
         
         ItemChat item = items.get(position);
         
+        
         int imageRight = RelativeLayout.ALIGN_PARENT_RIGHT;
         int imageLeft = RelativeLayout.ALIGN_PARENT_LEFT;
         int layoutRight = RelativeLayout.RIGHT_OF;
