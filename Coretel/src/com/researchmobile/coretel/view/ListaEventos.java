@@ -82,9 +82,12 @@ public class ListaEventos extends Activity implements OnItemClickListener{
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                if (getCatalogoAnotacion().getAnotacion().length > 0){
-                	llenarLista();
+                if (getCatalogoAnotacion().getAnotacion() != null){
+                	if (getCatalogoAnotacion().getAnotacion().length > 0){
+                    	llenarLista();
+                    }
                 }
+                
          }
     }
     

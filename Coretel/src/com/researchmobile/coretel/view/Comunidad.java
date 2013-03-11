@@ -32,6 +32,7 @@ public class Comunidad extends Activity implements OnClickListener{
 	private TextView descripcionTextView;
 	private Button guardarButton;
 	private Button borrarButton;
+	private Button comunidadesButton;
 	private ListView opcionesListView;
 	private CatalogoMiembro catalogoMiembro;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -59,6 +60,8 @@ public class Comunidad extends Activity implements OnClickListener{
 		getDescripcionTextView().setText(getDetalleComunidad().getDescripcion());
 		setGuardarButton((Button)findViewById(R.id.comunidades_guardar_button));
 		setBorrarButton((Button)findViewById(R.id.comunidad_borrar_button));
+		setComunidadesButton((Button)findViewById(R.id.comunidad_atras_button));
+		getComunidadesButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		setOpcionesListView((ListView)findViewById(R.id.comunidad_lista_listview));
@@ -198,6 +201,8 @@ public class Comunidad extends Activity implements OnClickListener{
 			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
 		}else if (view == getBorrarButton()){
 			eliminaDialog();
+		}else if (view == getComunidadesButton()){
+			finish();
 		}
 	}
 	
@@ -330,4 +335,16 @@ public class Comunidad extends Activity implements OnClickListener{
 	public void setCatalogoTipoAnotacion(CatalogoTipoAnotacion catalogoTipoAnotacion) {
 		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
 	}
+
+
+	public Button getComunidadesButton() {
+		return comunidadesButton;
+	}
+
+
+	public void setComunidadesButton(Button comunidadesButton) {
+		this.comunidadesButton = comunidadesButton;
+	}
+	
+	
 }

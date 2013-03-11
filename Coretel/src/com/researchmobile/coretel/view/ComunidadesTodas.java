@@ -5,13 +5,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,7 +27,7 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class ComunidadesTodas extends Activity implements OnClickListener{
+public class ComunidadesTodas extends Activity implements OnClickListener, TextWatcher{
 	private ListView comunidadesListView;
 	private CatalogoComunidad catalogo;
 	private CatalogoMiembro catalogoMiembro;
@@ -31,6 +35,10 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 	private ProgressDialog pd = null;
 	private String select;
 	private RespuestaWS respuesta;
+	private Button atrasButton;
+	private ArrayAdapter<String> adapter;
+	private EditText buscarEditText;
+	private Button borrarButton;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -41,10 +49,27 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 //		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
 		setCatalogo(new CatalogoComunidad());
 		setRespuesta(new RespuestaWS());
+		setAtrasButton((Button)findViewById(R.id.comunidadtodas_atras_button));
+		setBorrarButton((Button)findViewById(R.id.comunidadtodas_borrar_button));
+		getBorrarButton().setOnClickListener(this);
+		getAtrasButton().setOnClickListener(this);
+		setBuscarEditText((EditText)findViewById(R.id.comunidadtodas_buscar_edittext));
+		getBuscarEditText().addTextChangedListener(this);
 		
 		new buscaComunidadesAsync().execute("");
 		
 		setComunidadesListView((ListView)findViewById(R.id.comunidadestodas_lista_listview));
+		
+	}
+	
+	@Override
+	public void onClick(View view) {
+	
+		if (view == getAtrasButton()){
+			finish();
+		}else if (view == getBorrarButton()){
+			getBuscarEditText().setText("");
+		}
 		
 	}
 	
@@ -80,11 +105,15 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
     	if (getCatalogo() != null){
     		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
     		if (getCatalogo().getRespuestaWS().isResultado()){
-    			getComunidadesListView().setAdapter(new ArrayAdapter<String>(this, 
+    			
+    			setAdapter(new ArrayAdapter<String>(this, 
     					R.layout.lista_solicitar_comunidad,
     					R.id.lista_solicitar_textview,
     					ListaComunidades()));
     					getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    			
+    			
+    			getComunidadesListView().setAdapter(getAdapter());
     				    
     				    getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
     			    @Override
@@ -173,11 +202,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 	}
 
 
-	@Override
-	public void onClick(View view) {
-		
-		
-	}
+	
 
 
 	private void AgregarComunidad() {
@@ -233,6 +258,57 @@ public class ComunidadesTodas extends Activity implements OnClickListener{
 	}
 	public void setRespuesta(RespuestaWS respuesta) {
 		this.respuesta = respuesta;
+	}
+	public Button getAtrasButton() {
+		return atrasButton;
+	}
+	public void setAtrasButton(Button atrasButton) {
+		this.atrasButton = atrasButton;
+	}
+
+	@Override
+	public void afterTextChanged(Editable arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+			int arg3) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		getAdapter().getFilter().filter(s);
+        getAdapter().notifyDataSetChanged();
+
+		
+	}
+
+	public ArrayAdapter<String> getAdapter() {
+		return adapter;
+	}
+
+	public void setAdapter(ArrayAdapter<String> adapter) {
+		this.adapter = adapter;
+	}
+
+	public EditText getBuscarEditText() {
+		return buscarEditText;
+	}
+
+	public void setBuscarEditText(EditText buscarEditText) {
+		this.buscarEditText = buscarEditText;
+	}
+
+	public Button getBorrarButton() {
+		return borrarButton;
+	}
+
+	public void setBorrarButton(Button borrarButton) {
+		this.borrarButton = borrarButton;
 	}
 	
 	
