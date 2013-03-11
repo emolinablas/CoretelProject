@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -143,7 +143,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			startActivity(intentLobby);
 			break;
 		case 4:
-			collapseMenu();
+			new comunidadesAsync().execute("");
 			break;
 		case 5:
 			Intent intentCerrar = new Intent(Invitaciones.this, Login.class);
@@ -248,6 +248,84 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
          .show();
 	}
 	
+	class comunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+        // Metodo que prepara lo que usara en background, Prepara el progress
+        @Override
+        protected void onPreExecute() {
+              pd = ProgressDialog. show(Invitaciones.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+              pd.setCancelable( false);
+       }
+
+        // Metodo con las instrucciones que se realizan en background
+        @Override
+        protected Integer doInBackground(String... urlString) {
+              try {
+              	buscarComunidades();
+
+             } catch (Exception exception) {
+
+             }
+              return null ;
+       }
+
+        // Metodo con las instrucciones al finalizar lo ejectuado en background
+        protected void onPostExecute(Integer resultado) {
+              pd.dismiss();
+              try{
+              	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                  	dialogComunidades();
+                  }else{
+                  	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                  }
+              }catch(Exception exception){
+              	
+              }
+       }
+ }
+	
+	 private void dialogComunidades(){
+			
+			LayoutInflater factory = LayoutInflater.from(Invitaciones.this);
+	        
+	        final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
+	       
+	        final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_comunidades_spinner);
+	        ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+	        comunidadesSpinner.setAdapter(adaptador);
+	        
+	        final AlertDialog.Builder alert = new AlertDialog.Builder(Invitaciones.this );
+
+	       alert.setTitle( "Elija una comunidad");
+	       alert.setView(textEntryView);
+	       alert.setPositiveButton( "   OK   " ,
+	                    new DialogInterface.OnClickListener() {
+	                          @Override
+	                          public void onClick(DialogInterface arg0, int arg1) {
+	                        	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
+	                        	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
+	                        	  Intent intentChat = new Intent(Invitaciones.this, GroupChat.class);
+	                        	  intentChat.putExtra("comunidad", comunidad.getId());
+	                        	  startActivity(intentChat);
+	                               
+	                         }
+	                   });
+	       alert.setNegativeButton( "CANCELAR" ,
+	               new DialogInterface.OnClickListener() {
+	                     @Override
+	                     public void onClick(DialogInterface arg0, int arg1) {
+	                   	}
+	              });
+	       alert.show();
+		}
+		
+		
+		
+		
+		private void buscarComunidades(){
+			setRequestWS(new RequestWS());
+			setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+		}
 
 	public void dialogInvitar() {
 		LayoutInflater factory = LayoutInflater.from(Invitaciones.this);
