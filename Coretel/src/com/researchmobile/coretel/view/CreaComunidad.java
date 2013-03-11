@@ -27,6 +27,7 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	private Mensaje mensaje;
 	private Spinner tipoSpinner;
 	private RespuestaWS respuesta;
+	private Button cancelarButton;
 	
 	private ProgressDialog pd = null;
 	
@@ -41,6 +42,8 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		setDescripcionEditText((EditText)findViewById(R.id.creacomunidad_descripcion_edittext));
 		setTipoSpinner((Spinner)findViewById(R.id.creacomunidad_tipo_spinner));
 		setGuardarButton((Button)findViewById(R.id.creacomunidad_guardar_button));
+		setCancelarButton((Button)findViewById(R.id.creacomunidad_cancelar_button));
+		getCancelarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener( this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
@@ -76,6 +79,8 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	public void onClick(View v) {
 		if (v == getGuardarButton()){
 			new crearAsync().execute("");
+		}else if (v == getCancelarButton()){
+			finish();
 		}
 		
 	}
@@ -175,4 +180,14 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	public void setRespuesta(RespuestaWS respuesta) {
 		this.respuesta = respuesta;
 	}
+
+	public Button getCancelarButton() {
+		return cancelarButton;
+	}
+
+	public void setCancelarButton(Button cancelarButton) {
+		this.cancelarButton = cancelarButton;
+	}
+	
+	
 }
