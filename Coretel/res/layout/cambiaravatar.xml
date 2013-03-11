@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" style="@style/Layout.principal">
+
+    <!-- HEADER -->
+    
+    <!-- BODY -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone" >
+
+        <Button
+            android:id="@+id/cambiaravatar_cancelar_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Lobby"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@drawable/values_background"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/cambiaravatar_avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert" />
+        
+        <Button
+                    android:id="@+id/cambiaravatar_cambiar_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/boton_background"
+                    android:shadowColor="#00000F"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:text="Cambiar Avatar"
+                    android:textColor="#FFF"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/cambiaravatar_guardar_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_background_orange"
+                    android:shadowColor="#00000F"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="2"
+                    android:text="Guardar"
+                    android:textColor="#FFF"
+                    android:textSize="25sp" />
+            
+    </LinearLayout>
+    
+    <!-- FOOTER -->
+</LinearLayout>

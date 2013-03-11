@@ -287,7 +287,6 @@ private void dialogComunidades(){
                           @Override
                           public void onClick(DialogInterface arg0, int arg1) {
                         	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
-                        	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
                         	  Intent intentChat = new Intent(Comunidades.this, GroupChat.class);
                         	  intentChat.putExtra("comunidad", comunidad.getId());
                         	  startActivity(intentChat);

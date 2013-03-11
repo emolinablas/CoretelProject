@@ -105,7 +105,7 @@
             android:layout_height="48dp" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/lobby_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -115,17 +115,6 @@
                 android:background="@drawable/button_background_iphone_gray"
                 android:text="Logout"
                 android:textColor="#ffffff" />
-
-            <TextView
-                android:id="@+id/textView1"
-                style="@style/Text.Titulo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="86dp"
-                android:layout_toLeftOf="@+id/button1"
-                android:text="Lobby"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </RelativeLayout>
 

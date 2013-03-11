@@ -20,6 +20,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
 
-public class Lobby extends Activity implements OnItemClickListener{
+public class Lobby extends Activity implements OnItemClickListener, OnClickListener{
 	
 	private ConnectState connectState;
 	private Mensaje mensaje;
@@ -50,6 +51,7 @@ public class Lobby extends Activity implements OnItemClickListener{
 	private Usuario usuario;
 	private boolean estadoPerfil;
 	private boolean estadoComunidad;
+	private Button logoutButton;
 	
 	/**
 	 * Metodos para menu Slide
@@ -83,6 +85,8 @@ public class Lobby extends Activity implements OnItemClickListener{
 		setUsuario(new Usuario());
 		setOpcionesListView((ListView)findViewById(R.id.lobby_opciones_listview));
 		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
+		setLogoutButton((Button)findViewById(R.id.lobby_logout));
+		getLogoutButton().setOnClickListener(this);
 		setConnectState(new ConnectState());
 		setMensaje(new Mensaje());
 		setRequestWS(new RequestWS());
@@ -104,6 +108,14 @@ public class Lobby extends Activity implements OnItemClickListener{
 	}
 	
 	@Override
+	public void onClick(View view) {
+		if (view == getLogoutButton()){
+			salir();
+		}
+		
+	}
+	
+	@Override
 	public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
 		if (adapter == lView){
 			collapseMenu();
@@ -111,8 +123,20 @@ public class Lobby extends Activity implements OnItemClickListener{
 		}else if(adapter == getOpcionesListView()){
 			if (position == 0){
 				new PerfilAsync().execute("0");
+			}else if (position == 1){
+				cambiarAvatar();
 			}
 		}
+	}
+	
+	public void salir(){
+		Intent intent = new Intent(Lobby.this, Login.class);
+		startActivity(intent);
+	}
+	
+	public void cambiarAvatar(){
+		Intent intent = new Intent(Lobby.this, CambiarAvatar.class);
+		startActivity(intent);
 	}
 	
 	// Clase para ejecutar en Background
@@ -327,7 +351,6 @@ public class Lobby extends Activity implements OnItemClickListener{
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
                       	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
-                      	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
                       	  Intent intentChat = new Intent(Lobby.this, GroupChat.class);
                       	  intentChat.putExtra("comunidad", comunidad.getId());
                       	  startActivity(intentChat);
@@ -429,5 +452,15 @@ public class Lobby extends Activity implements OnItemClickListener{
 	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
 		this.catalogoComunidad = catalogoComunidad;
 	}
+
+	public Button getLogoutButton() {
+		return logoutButton;
+	}
+
+	public void setLogoutButton(Button logoutButton) {
+		this.logoutButton = logoutButton;
+	}
+
+	
 	
 }
