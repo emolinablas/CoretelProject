@@ -1,7 +1,9 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,9 +11,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
@@ -22,9 +25,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
+import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.entity.Usuario;
 import com.researchmobile.coretel.utility.ConnectState;
@@ -36,7 +42,8 @@ public class Lobby extends Activity implements OnItemClickListener{
 	private ConnectState connectState;
 	private Mensaje mensaje;
 	private User user;
-	private RequestWS requestWS; 
+	private RequestWS requestWS;
+	private CatalogoComunidad catalogoComunidad;
 	private ListView opcionesListView;
 	private CatalogoComunidad catalogo;
 	private ProgressDialog pd = null;
@@ -248,7 +255,7 @@ public class Lobby extends Activity implements OnItemClickListener{
 			
 			break;
 		case 4:
-			collapseMenu();
+			new comunidadesAsync().execute("");
 			break;
 		case 5:
 			Intent intentCerrar = new Intent(Lobby.this, Login.class);
@@ -265,6 +272,84 @@ public class Lobby extends Activity implements OnItemClickListener{
 		return opciones;
 	}
 
+	class comunidadesAsync extends AsyncTask<String, Integer, Integer> {
+
+        // Metodo que prepara lo que usara en background, Prepara el progress
+        @Override
+        protected void onPreExecute() {
+              pd = ProgressDialog. show(Lobby.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+              pd.setCancelable( false);
+       }
+
+        // Metodo con las instrucciones que se realizan en background
+        @Override
+        protected Integer doInBackground(String... urlString) {
+              try {
+              	buscarComunidades();
+
+             } catch (Exception exception) {
+
+             }
+              return null ;
+       }
+
+        // Metodo con las instrucciones al finalizar lo ejectuado en background
+        protected void onPostExecute(Integer resultado) {
+              pd.dismiss();
+              try{
+              	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                  	dialogComunidades();
+                  }else{
+                  	Toast.makeText(getBaseContext(), "no se encontraron comunidades", Toast.LENGTH_SHORT).show();
+                  }
+              }catch(Exception exception){
+              	
+              }
+       }
+ }
+ 
+ private void dialogComunidades(){
+		
+		LayoutInflater factory = LayoutInflater.from(Lobby.this);
+      
+      final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
+     
+      final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_comunidades_spinner);
+      ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+      comunidadesSpinner.setAdapter(adaptador);
+      
+      final AlertDialog.Builder alert = new AlertDialog.Builder(Lobby.this );
+
+     alert.setTitle( "Elija una comunidad");
+     alert.setView(textEntryView);
+     alert.setPositiveButton( "   OK   " ,
+                  new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                      	  DetalleComunidad comunidad = (DetalleComunidad)comunidadesSpinner.getSelectedItem();
+                      	  Toast.makeText(getBaseContext(), comunidad.getId(), Toast.LENGTH_SHORT).show();
+                      	  Intent intentChat = new Intent(Lobby.this, GroupChat.class);
+                      	  intentChat.putExtra("comunidad", comunidad.getId());
+                      	  startActivity(intentChat);
+                             
+                       }
+                 });
+     alert.setNegativeButton( "CANCELAR" ,
+             new DialogInterface.OnClickListener() {
+                   @Override
+                   public void onClick(DialogInterface arg0, int arg1) {
+                 	}
+            });
+     alert.show();
+	}
+	
+	
+	
+	
+	private void buscarComunidades(){
+		setRequestWS(new RequestWS());
+		setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+	}
 	public ListView getOpcionesListView() {
 		return opcionesListView;
 	}
@@ -335,6 +420,14 @@ public class Lobby extends Activity implements OnItemClickListener{
 
 	public void setAvatarImageView(ImageView avatarImageView) {
 		this.avatarImageView = avatarImageView;
+	}
+
+	public CatalogoComunidad getCatalogoComunidad() {
+		return catalogoComunidad;
+	}
+
+	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
+		this.catalogoComunidad = catalogoComunidad;
 	}
 	
 }
