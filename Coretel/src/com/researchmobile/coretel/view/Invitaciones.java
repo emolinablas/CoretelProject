@@ -168,7 +168,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
          */
 		lView = (ListView) findViewById(R.id.lista);
         
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesi—n" };
 
       // Set option as Multiple Choice. So that user can able to select more the one option from list
       lView.setAdapter(new ArrayAdapter<String>(this,

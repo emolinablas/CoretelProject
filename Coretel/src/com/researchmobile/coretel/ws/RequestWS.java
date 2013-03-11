@@ -782,7 +782,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
 				invitaciones.setRespuestaWS(respuesta);
 				
-				JSONArray jsonArray = jsonObject.getJSONArray("invitacion");
+				JSONArray jsonArray = jsonObject.getJSONArray("invitacion_enviada");
 				
 				int tamano = jsonArray.length();
 				if (tamano > 0){
