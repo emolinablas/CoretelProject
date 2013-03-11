@@ -69,6 +69,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
         getNombreUsuarioTextView().setText(User.getNombre());
 		setCatalogo(new CatalogoComunidad());
 		
+		
 		new buscaComunidadesAsync().execute("");
 		
 		setAgregarButton((Button)findViewById(R.id.comunidades_agregar_button));
@@ -78,6 +79,8 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
 		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
 		lView = (ListView) findViewById(R.id.lista);
+		Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		getAvatarImageView().setImageBitmap(image);
 		
 		prepararMenu();
 	}
@@ -239,8 +242,7 @@ private void opcionesMenu(int opcion){
     	Log.e("pio", "buscar comunidades");
     	RequestWS request = new RequestWS();
     	setCatalogo(request.CargarComunidades(User.getUserId()));
-    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
+    	
     }
 	
 	// Clase para ejecutar en Background
