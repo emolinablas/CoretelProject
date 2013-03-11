@@ -32,9 +32,11 @@ import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoInvitacion;
+import com.researchmobile.coretel.entity.CatalogoSolicitud;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.Invitacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.Solicitud;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.ws.RequestWS;
 /**
@@ -50,11 +52,15 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	
 	private ListView invitacionesListView;
 	private ListView invitacionesEnviadasListView;
+	private ListView solicitudesEnviadasListView;
+	private ListView solicitudesRecibidasListView;
 	private ProgressDialog pd = null;
 	private RequestWS requestWS;
 	private RespuestaWS respuestaWS;
 	private CatalogoInvitacion catalogoInvitacion;
 	private CatalogoInvitacion catalogoInvitacionEnviado;
+	private CatalogoSolicitud catalogoSolicitudEnviada;
+	private CatalogoSolicitud catalogoSolicitudRecibida;
 	private CatalogoComunidad catalogoComunidad;
 	private String respuesta;
 	private Invitacion invitacion;
@@ -232,7 +238,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 		 new AlertDialog.Builder(this)
          .setIcon(this.getResources().getDrawable(R.drawable.alert))
          .setTitle("Invitacion")
-         .setMessage("¿Que desea hacer?")
+         .setMessage("ÀQue desea hacer?")
          .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
                   setRespuesta("1");
@@ -372,7 +378,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(Invitaciones.this, "Buscando Comunidades", "ESPERE UN MOMENTO");
+                pd = ProgressDialog. show(Invitaciones.this, "Verificando...", "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 
@@ -487,6 +493,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
           protected Integer doInBackground(String... urlString) {
                 try {
                 	buscarInvitaciones();
+                	buscarSolicitudes();
 
                } catch (Exception exception) {
 
@@ -505,11 +512,35 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
                 	if (getCatalogoInvitacionEnviado().getRespuestaWS().isResultado()){
                 		llenaListaEnviados();
                 	}
+                	if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
+                		llenaListaSolicitudEnviados();
+                	}
+                	if(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado()){
+                		llenaListaSolicitudRecibidos();
+                	}
                 }catch(Exception exception){
                 	
                 }
          }
    }
+    
+    public void llenaListaSolicitudEnviados(){
+    	getSolicitudesEnviadasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
+    			R.layout.lista_lobby,
+    			R.id.lista_lobby_textview,
+    			getCatalogoSolicitudEnviada().getSolicitud()));
+    	
+    			getSolicitudesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
+    
+    public void llenaListaSolicitudRecibidos(){
+    	getSolicitudesRecibidasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
+    			R.layout.lista_lobby,
+    			R.id.lista_lobby_textview,
+    			getCatalogoSolicitudRecibida().getSolicitud()));
+    	
+    			getSolicitudesRecibidasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
     
     public void llenaLista(){
     	getInvitacionesListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
@@ -544,6 +575,12 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	System.out.println("Invitaci—n recibida con exito " + getCatalogoInvitacion().getInvitacion()[0].getId());
     	setCatalogoInvitacionEnviado(getRequestWS().buscaInvitacionesEnviadas());
     
+    }
+    
+    public void buscarSolicitudes(){
+    	//setCatalogoSolicitudRecibida(getRequestWS().buscarSolicitudesRecibidas());
+    	System.out.println("Solicitud recibida con exito " + getCatalogoSolicitudRecibida().getSolicitud()[0].getId());
+    	//setCatalogoSolicitudEnviada(getRequestWS().buscarSolicitudesEnviadas());
     }
 
 	public ListView getInvitacionesListView() {
@@ -674,6 +711,40 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 
 	public void setAvatarImageView(ImageView avatarImageView) {
 		this.avatarImageView = avatarImageView;
+	}
+
+	public CatalogoSolicitud getCatalogoSolicitudEnviada() {
+		return catalogoSolicitudEnviada;
+	}
+
+	public void setCatalogoSolicitudEnviada(CatalogoSolicitud catalogoSolicitudEnviada) {
+		this.catalogoSolicitudEnviada = catalogoSolicitudEnviada;
+	}
+
+	public CatalogoSolicitud getCatalogoSolicitudRecibida() {
+		return catalogoSolicitudRecibida;
+	}
+
+	public void setCatalogoSolicitudRecibida(CatalogoSolicitud catalogoSolicitudRecibida) {
+		this.catalogoSolicitudRecibida = catalogoSolicitudRecibida;
+	}
+
+	public ListView getSolicitudesEnviadasListView() {
+		return solicitudesEnviadasListView;
+	}
+
+	public void setSolicitudesEnviadasListView(
+			ListView solicitudesEnviadasListView) {
+		this.solicitudesEnviadasListView = solicitudesEnviadasListView;
+	}
+
+	public ListView getSolicitudesRecibidasListView() {
+		return solicitudesRecibidasListView;
+	}
+
+	public void setSolicitudesRecibidasListView(
+			ListView solicitudesRecibidasListView) {
+		this.solicitudesRecibidasListView = solicitudesRecibidasListView;
 	}
 
 	

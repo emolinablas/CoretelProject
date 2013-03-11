@@ -22,7 +22,7 @@ public class Invitacion implements Serializable{
 	private String miembros;
 	
 	public String toString(){
-		return nombreComunidad;
+		return nombreUsuario + "\n" + nombreComunidad + "   " + estado;
 	}
 	
 	public String getId() {
