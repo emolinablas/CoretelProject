@@ -521,10 +521,10 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
                 		System.out.println("INVITACIONES ENVIADAS");
                 		llenaListaEnviados();
                 	}
-                	/*if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
+                	if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
                 		System.out.println("SOLICITUDES ENVIADAS");
                 		llenaListaSolicitudEnviados();
-                	}*/
+                	}
                 	System.out.println(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado());
                 	if(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado()){
                 		System.out.println("SOLICITUDES ENCONTRADAS RECIBIDAS");
@@ -604,10 +604,15 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	setCatalogoSolicitudRecibida(getRequestWS().buscarSolicitudesRecibidas());
     	//System.out.println(getCatalogoSolicitudRecibida().getSolicitud()[0].getFechaEnviada());
     	}catch(Exception e){
-    		System.out.println("ERROR AL BUSCAR LAS SUPERVISIONES Y SETEARLAS");
+    		System.out.println("ERROR AL BUSCAR LAS SOLICITUDES RECIBIDAS Y SETEARLAS");
     	}
     	//System.out.println("Solicitud recibida con exito " + getCatalogoSolicitudRecibida().getSolicitud()[0].getId());
-    	//setCatalogoSolicitudEnviada(getRequestWS().buscarSolicitudesEnviadas());
+    	try{
+    	setCatalogoSolicitudEnviada(getRequestWS().buscarSolicitudesEnviadas());
+    	//System.out.println(getCatalogoSolicitudEnviada().getSolicitud()[0].getFechaEnviada());
+    	}catch(Exception e){
+    		System.out.println("ERROR AL BUSCAR LAS SOLICITUDES ENVIADAS Y SETEARLAS ");
+    	}
     }
 
 	public ListView getInvitacionesListView() {

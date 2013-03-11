@@ -56,6 +56,7 @@ public class RequestWS {
 	private static final String WS_ENVIARINVITACION = "ws_invitacion.php?&invita=";
 	private static final String WS_VERINVITACIONESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_VERSOLICITUDESRECIBIDAS = "ws_invitacion.php?&usuario=";
+	private static final String WS_VERSOLICITUDESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
@@ -874,18 +875,18 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	public CatalogoSolicitud buscarSolicitudesEnviadas() {
 		CatalogoSolicitud solicitudes = new CatalogoSolicitud();
 		JSONObject jsonObject = null;
-		String finalURL = WS_VERSOLICITUDESRECIBIDAS + User.getUserId();
+		String finalURL = WS_VERSOLICITUDESENVIADAS + User.getUserId();
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
 			jsonObject = connectWS.buscarInvitaciones(finalURL);
 			if (jsonObject != null){
-				System.out.println("ENCONTRî EL JSON DE INVITACIONES RECIBIDAS");
+				System.out.println("ENCONTRî EL JSON DE INVITACIONES ENVIADAS");
 				
 				respuesta.setResultado(jsonObject.getBoolean("resultado"));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
 				solicitudes.setRespuestaWS(respuesta);
 				
-				JSONArray jsonArray = jsonObject.getJSONArray("solicitud_recibida");
+				JSONArray jsonArray = jsonObject.getJSONArray("solicitud_enviada");
 				
 				int tamano = jsonArray.length();
 				System.out.println(jsonArray.length());
