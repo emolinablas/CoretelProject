@@ -60,6 +60,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	protected List<Overlay> mapOverlays;
 	private MapItemizedOverlaySelect itemizedoverlay;
 	private CatalogoAnotacion catalogoAnotacion;
+	private TextView tituloComunidad;
 	
 	
 	private Button btnSatelite = null;
@@ -121,6 +122,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         getBtnSatelite().setOnClickListener(this);
         getBtnTipoComunidad().setOnClickListener(this);
         getBtnLugares().setOnClickListener(this);
+        setTituloComunidad((TextView)findViewById(R.id.mapa_titulo_comunidad));
+        getTituloComunidad().setText("Todos");
         
         setMenuViewButton((ImageView) findViewById(R.id.menuViewButton));
         getMenuViewButton().setOnClickListener(this);
@@ -233,6 +236,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	}
 	
 	private void filtrarComunidades(DetalleComunidad comunidad){
+		getTituloComunidad().setText(comunidad.getNombre());
 		mapOverlays.clear();
 		int tamano = getCatalogoAnotacion().getAnotacion().length;
     	for (int i = 0; i < tamano; i++){
@@ -794,4 +798,13 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		this.btnLugares = btnLugares;
 	}
 
+	public TextView getTituloComunidad() {
+		return tituloComunidad;
+	}
+
+	public void setTituloComunidad(TextView tituloComunidad) {
+		this.tituloComunidad = tituloComunidad;
+	}
+
+	
 }
