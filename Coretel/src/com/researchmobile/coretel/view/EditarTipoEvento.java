@@ -20,7 +20,6 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 	private Button guardarButton;
 	private Button iconoButton;
 	private ImageView iconoEvento;
-	private CheckBox incidenteCheckBox;
 	
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -34,13 +33,10 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 		setGuardarButton((Button)findViewById(R.id.editartipoevento_guardar_button));
 		setIconoButton((Button)findViewById(R.id.editartipoevento_icono_button));
 		setIconoEvento((ImageView)findViewById(R.id.editartipoevento_icono_imageview));
-		setIncidenteCheckBox((CheckBox)findViewById(R.id.editartipoevento_incidente_checkbox));
 		getNombreEditText().setOnClickListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getIconoButton().setOnClickListener(this);
-		
-		
 	}
 
 	public EditText getNombreEditText() {
@@ -81,14 +77,6 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 
 	public void setIconoEvento(ImageView iconoEvento) {
 		this.iconoEvento = iconoEvento;
-	}
-
-	public CheckBox getIncidenteCheckBox() {
-		return incidenteCheckBox;
-	}
-
-	public void setIncidenteCheckBox(CheckBox incidenteCheckBox) {
-		this.incidenteCheckBox = incidenteCheckBox;
 	}
 
 	@Override

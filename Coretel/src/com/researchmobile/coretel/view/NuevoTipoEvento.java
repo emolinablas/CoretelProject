@@ -41,7 +41,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private String urlSeleccionado = "";
 	int seleccionado = 0;
 	private ImageView iconoEvento;
-	private CheckBox incidenteCheckBox;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -52,7 +51,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		setMensaje(new Mensaje());
 		setNombreEditText((EditText)findViewById(R.id.nuevotipoevento_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.nuevotipoevento_descripcion_edittext));
-		setIncidenteCheckBox((CheckBox)findViewById(R.id.nuevotipoevento_incidente_checkbox));
 		setGuardarButton((Button)findViewById(R.id.nuevotipoevento_guardar_button));
 		setIconoButton((Button)findViewById(R.id.nuevotipoevento_icono_button));
 		setIconoEvento((ImageView)findViewById(R.id.nuevotipoevento_icono_imageview));
@@ -128,12 +126,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 			ConnectState connect = new ConnectState();
 			String nombre = getNombreEditText().getText().toString();
 			String descripcion = getDescripcionEditText().getText().toString();
-			String incidente = "";
-			if (getIncidenteCheckBox().isChecked()){
-				incidente = "1";
-			}else{
-				incidente = "0";
-			}
+			String incidente = "1";
 			
 			if (connect.isConnectedToInternet(NuevoTipoEvento.this)){
 				RequestWS request = new RequestWS();
@@ -244,13 +237,6 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		this.iconoButton = iconoButton;
 	}
 
-	public CheckBox getIncidenteCheckBox() {
-		return incidenteCheckBox;
-	}
-
-	public void setIncidenteCheckBox(CheckBox incidenteCheckBox) {
-		this.incidenteCheckBox = incidenteCheckBox;
-	}
 	
 	
 }
