@@ -5,12 +5,14 @@
     android:orientation="vertical" >
 
     <!-- HEADER -->
+
     <LinearLayout
-       android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="horizontal"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
         android:gravity="left|center"
-        style="@style/Layout.header">
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textView1"
@@ -30,38 +32,55 @@
     </LinearLayout>
 
     <!-- BODY -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#D1D5E0"
         android:gravity="top|center"
-        style="@style/Layout.body">
+        android:orientation="vertical"
+        android:padding="0dp" >
 
-        <TextView
-            android:id="@+id/miembros_comunidad"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mis Comunidades"
-            style="@style/Text.Label"/>
-        
-            <ListView
-		        android:id="@+id/miembros_lista_listview"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" >
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
 
-    </ListView>
+            <TextView
+                android:id="@+id/miembros_comunidad"
+                style="@style/Text.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Mis Comunidades" />
+
+            <ListView
+                android:id="@+id/miembros_lista_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/background_list_view" >
+
+            </ListView>
+        </LinearLayout>
 
     </LinearLayout>
 
     <!-- FOOTER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	style="@style/Layout.footer" android:gravity="right|center">
+        android:id="@+id/linearLayout3"
+        style="@style/Layout.footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="right|center"
+        android:orientation="vertical" >
 
     </LinearLayout>
 

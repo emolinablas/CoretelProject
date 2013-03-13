@@ -1,84 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.principal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" style="@style/Layout.principal">
+    android:orientation="vertical" >
 
     <!-- HEADER -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout1"
-        android:layout_width ="fill_parent"
-        android:layout_height ="wrap_content"
-        android:orientation ="vertical"
-        style="@style/Layout.header">
+        android:id="@+id/linearLayout1"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:orientation="horizontal" >
         
-        <TextView 
+        <TextView
             style="@style/Text.Titulo"
-            android:text="NUEVO TIPO DE EVENTO"/>
+            android:layout_width="wrap_content"
+            android:text="NUEVO TIPO DE EVENTO" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/nuevotipoevento_guardar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Aplicar"
+                android:textColor="#ffffff"
+                android:textSize="10dp" />
+
+        </LinearLayout>
         
     </LinearLayout>
     
     <!-- BODY -->
+
     <LinearLayout
-        android:id ="@+id/linearLayout2"
-        android:layout_width ="fill_parent"
-        android:layout_height ="0dip"
-        android:layout_weight ="1"
-        android:orientation ="vertical"
-        style="@style/Layout.body">
-            <EditText 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:background="#D1D5E0"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            style="@style/Layout.body"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
+
+            <EditText
                 android:id="@+id/nuevotipoevento_nombre_edittext"
                 android:layout_width="250sp"
                 android:layout_height="wrap_content"
-                android:hint="Nombre"/>
-            
-            <EditText 
+                android:background="@drawable/background_edittext"
+                android:hint="Nombre" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
                 android:id="@+id/nuevotipoevento_descripcion_edittext"
                 android:layout_width="250sp"
                 android:layout_height="wrap_content"
-                android:hint="Descripcion"/>
-            
-            <CheckBox 
-                android:id="@+id/nuevotipoevento_incidente_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Es incidente"
-                android:textColor="#000"/>
-            
-            <LinearLayout 
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:hint="Descripcion" />
+
+            <LinearLayout
                 android:layout_width="250sp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                
-                <Button 
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <Button
                     android:id="@+id/nuevotipoevento_icono_button"
                     android:layout_width="200sp"
                     android:layout_height="wrap_content"
-                    android:text="ICONO"/>
-                
-                <ImageView 
+                    android:layout_gravity="left"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="left|center_vertical"
+                    android:text="ICONO" />
+
+                <ImageView
                     android:id="@+id/nuevotipoevento_icono_imageview"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-            
+        </LinearLayout>
+
     </LinearLayout>
     
     <!-- FOOTER -->
+
     	<LinearLayout
-        	android:id ="@+id/linearLayout3"
-        	android:layout_width ="fill_parent"
-        	android:layout_height ="wrap_content"
-        	android:orientation ="vertical"
-        	android:gravity="right"
-        	style="@style/Layout.footer">
-            
-    	    <Button 
-    	        android:id="@+id/nuevotipoevento_guardar_button"
-    	        android:layout_width="wrap_content"
-    	        android:layout_height="wrap_content"
-    	        android:background="@drawable/save"
-    	        />
+    	    android:id="@+id/linearLayout3"
+    	    style="@style/Layout.footer"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_weight="0.01"
+    	    android:background="@drawable/background_footer_iphone"
+    	    android:gravity="right"
+    	    android:orientation="vertical" >
+
         </LinearLayout>
 </LinearLayout>
