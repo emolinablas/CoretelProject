@@ -94,7 +94,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_edittext"
                     android:gravity="left"
-                    android:text="ICONO" />
+                    android:text="ICONO"
+                    android:textColor="#000000" />
 
             </LinearLayout>
 
