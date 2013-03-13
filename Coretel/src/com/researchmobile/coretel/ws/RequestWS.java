@@ -496,7 +496,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	public void cambiarAvatar(String imagen) {
 		Log.v("pio", "imagen = " + imagen);
 		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
-		nombresArchivos.add(new BasicNameValuePair("usuario", User.getUserId()));
+		nombresArchivos.add(new BasicNameValuePair("id", User.getUserId()));
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
 		post("http://23.23.1.2/WS/upload.avatar.php?", nombresArchivos);
 		
