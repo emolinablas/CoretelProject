@@ -64,7 +64,9 @@ public class RequestWS {
 	private static final String WS_ELIMINATIPOANOTACION = "ws_delete_tipo_anotacion.php?id=";
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
+	private static final String WS_ELIMINAMIEMBRO = "ws_sacarmiembro_comunidad.php?id=";
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
+	private static final String WS_EDITARCOMUNIDAD = "ws_update_comunidad.php?id=";
 	private static final String WS_RECUPERARCLAVE = "ws_forgot.php?email=";
 	private static final String WS_COMUNIDADESTODAS = "ws_comunidades.php?usuario=";
 	private static final String WS_ENVIARSOLICITUD = "ws_solicitud.php?comunidad=";
@@ -560,6 +562,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 	
+	public RespuestaWS editarComunidad(DetalleComunidad comunidad, String nombre, String descripcion) {
+		JSONObject jsonObject = null;
+//		ws_update_comunidad.php?id=idcomunidad&activo=[siempre es 1]&tipo_comunidad=1&usuario=[mi iddd usuario]&nombre=&descripcion&publica=1
+
+		String finalURL = WS_EDITARCOMUNIDAD + comunidad.getId() + "&activo=1&tipo_comunidad=1&usuario=" + User.getUserId() + "&nombre=" + nombre + "&descripcion=" + descripcion + "&publica=1";
+		String url = finalURL.replace(" ", "%20");
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.editarPerfil(url);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
 	public RespuestaWS eliminaTipoEvento(String idUsuario, String idTipoAnotacion) {
 		JSONObject jsonObject = null;
 		String finalURL = WS_ELIMINATIPOANOTACION + idTipoAnotacion + "&usuario=" + idUsuario;
@@ -586,6 +609,25 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
 			jsonObject = connectWS.eliminaComunidad(url);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+		return null;
+	}
+	
+	public RespuestaWS eliminarMiembro(Miembro miembro) {
+		JSONObject jsonObject = null;
+//		ws_sacarmiembro_comunidad.php?id=  USUARIOMIO&comunidad=IDCOMUNIDAD&idexpulsar=IDAEXPULSAR
+		String finalURL = WS_ELIMINAMIEMBRO + User.getUserId() + "&comunidad=" + miembro.getId_comunidad() + "&idexpulsar=" + miembro.getId();
+		String url = finalURL.replace(" ", "%20");
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.eliminaMiembro(url);
 			if (jsonObject != null){
 				respuesta.setResultado(jsonObject.getBoolean("resultado"));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
@@ -1043,4 +1085,5 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	}
 
 	
+
 }

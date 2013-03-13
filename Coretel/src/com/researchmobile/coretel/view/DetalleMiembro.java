@@ -2,7 +2,9 @@ package com.researchmobile.coretel.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,8 +12,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.Miembro;
+import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleMiembro extends Activity implements OnClickListener{
 
@@ -21,6 +26,9 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	private Miembro miembro;
 	private LinearLayout borrarButton;
 	private Button comunidadesButton;
+	private ProgressDialog pd = null;
+	private RequestWS request = new RequestWS();
+	private RespuestaWS respuesta = new RespuestaWS();
 	
 	public void onCreate(Bundle saveInstanceState){
 		super.onCreate(saveInstanceState);
@@ -49,7 +57,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		if (v == getComunidadesButton()){
 			finish();
 		}else if (v == getBorrarButton()){
-			dialogBorrar();
+			new eliminarAsync().execute("");
 		}
 		
 	}
@@ -69,9 +77,46 @@ public class DetalleMiembro extends Activity implements OnClickListener{
                 }
         })
         .show();
-        
+    }
+	
+	// Clase para ejecutar en Background
+	class eliminarAsync extends AsyncTask<String, Integer, Integer> {
 
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(DetalleMiembro.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				borrarMiembro();
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			if (respuesta != null){
+				Toast.makeText(getBaseContext(), respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
+				if (respuesta.isResultado()){
+					finish();
+				}
+			}
+
+		}
 	}
+	
+	public void borrarMiembro(){
+		respuesta = request.eliminarMiembro(getMiembro());
+	}
+
 	public Miembro getMiembro() {
 		return miembro;
 	}

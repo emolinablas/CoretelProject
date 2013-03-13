@@ -1,14 +1,20 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.DetalleComunidad;
+import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class EditarComunidad extends Activity implements OnClickListener{
 	private Button cancelarButton;
@@ -16,6 +22,9 @@ public class EditarComunidad extends Activity implements OnClickListener{
 	private EditText nombreEditText;
 	private EditText descripcionEditText;
 	private DetalleComunidad detalleComunidad;
+	private ProgressDialog pd = null;
+	private RespuestaWS respuesta = new RespuestaWS();
+	private RequestWS request = new RequestWS();
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -28,8 +37,8 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		setNombreEditText((EditText)findViewById(R.id.editarcomunidad_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.editarcomunidad_descripcion_edittext));
 		
-		getNombreEditText().setHint(getDetalleComunidad().getNombre());
-		getDescripcionEditText().setHint(getDetalleComunidad().getDescripcion());
+		getNombreEditText().setText(getDetalleComunidad().getNombre());
+		getDescripcionEditText().setText(getDetalleComunidad().getDescripcion());
 		getCancelarButton().setOnClickListener(this);
 		getAplicarButton().setOnClickListener(this);
 	}
@@ -39,11 +48,58 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		if (view == getCancelarButton()){
 			finish();
 		}else if (view == getAplicarButton()){
-		
+			new editarAsync().execute("");
 		}
 		
 	}
 	
+	// Clase para ejecutar en Background
+	class editarAsync extends AsyncTask<String, Integer, Integer> {
+
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(EditarComunidad.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				editarComunidad();
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			if (respuesta != null){
+				Toast.makeText(getBaseContext(), respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
+				if (respuesta.isResultado()){
+					Intent intent = new Intent(EditarComunidad.this, Comunidades.class);
+					startActivity(intent);
+				}
+			}
+
+		}
+	}
+	
+	public void editarComunidad(){
+		String nombre = getNombreEditText().getText().toString();
+		String descripcion = getDescripcionEditText().getText().toString();
+		if (nombre.equalsIgnoreCase("") || descripcion.equalsIgnoreCase("")){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("debe llenar todos los campos");
+		}else{
+			respuesta = request.editarComunidad(getDetalleComunidad(), nombre, descripcion);
+		}
+		
+	}
+
 	public Button getCancelarButton() {
 		return cancelarButton;
 	}
