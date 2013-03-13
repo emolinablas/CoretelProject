@@ -467,7 +467,10 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 
         Log.e("LOG", "Prueba envio foto 5");
         HttpResponse response = httpClient.execute(httpPost, localContext);
-        Log.e("LOG", "Prueba envio foto 6");
+        Log.e("LOG", "Prueba envio foto 6, response = " + response.getParams());
+        Log.e("LOG", "Prueba envio foto 6, response = " + response.hashCode());
+        Log.e("LOG", "Prueba envio foto 6, response = " + response.getStatusLine());
+        
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -485,88 +488,19 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
 		post("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
 		
-		/*
-		Log.d("TAG", "UPLOAD: SendMultipartFile");
-	    DefaultHttpClient httpclient = new DefaultHttpClient();
-	    HttpPost httppost = new HttpPost("http://23.23.1.2/WS/ws_crear_anotacion.php?");
-
-	    File file = new File("/sdcard" + imagen);
-
-	    Log.d("TAG", "UPLOAD: setting up multipart entity");
-
-	    MultipartEntity mpEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-	    Log.d("TAG", "UPLOAD: file length = " + file.length());
-	    Log.d("TAG", "UPLOAD: file exist = " + file.exists());
-
-	    try {
-	        mpEntity.addPart("Filedata", new FileBody(file, "image"));
-	        mpEntity.addPart("usuario", new StringBody(idUsuario));
-	        mpEntity.addPart("comunidad", new StringBody(comunidad));
-	        mpEntity.addPart("tipo_anotacion", new StringBody(tipoAnotacion));
-	        mpEntity.addPart("descripcion", new StringBody(descripcion));
-	        mpEntity.addPart("lat", new StringBody(latitud));
-	        mpEntity.addPart("lon", new StringBody(longitud));
-	    } catch (UnsupportedEncodingException e1) {
-	        Log.d("TAG", "UPLOAD: UnsupportedEncodingException");
-	        e1.printStackTrace();
-	    }
-
-	    httppost.setEntity(mpEntity);
-	    Log.d("TAG", "UPLOAD: executing request: " + httppost.getRequestLine());
-	    Log.d("TAG", "UPLOAD: request: " + httppost.getEntity().getContentType().toString());
-
-
-	    HttpResponse response;
-	    try {
-	        Log.d("TAG", "UPLOAD: about to execute");
-	        response = httpclient.execute(httppost);
-	        Log.d("TAG", "UPLOAD: executed");
-	        HttpEntity resEntity = response.getEntity();
-	        Log.d("TAG", "UPLOAD: respose code: " + response.getStatusLine().toString());
-	        if (resEntity != null) {
-	            Log.d("TAG", "UPLOAD: " + EntityUtils.toString(resEntity));
-	        }
-	        if (resEntity != null) {
-	            resEntity.consumeContent();
-	        }
-	    } catch (ClientProtocolException e) {
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-		*/
+		
 		return null;
 		
 	}
-		
 	
+	public void cambiarAvatar(String imagen) {
+		Log.v("pio", "imagen = " + imagen);
+		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
+		nombresArchivos.add(new BasicNameValuePair("usuario", User.getUserId()));
+		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
+		post("http://23.23.1.2/WS/upload.avatar.php?", nombresArchivos);
 		
-		/*
-		JSONObject jsonObject = null;
-		String finalURL = WS_MANDAREVENTO + idUsuario
-		+ "&a=add"
-		+"&inputtitulo=" + titulo 
-		+"&inputtipoevento=" + tipoAnotacion 
-		+"&inputdescripcion=" + descripcion 
-		+"&inputlon=" + longitud
-		+"&inputlat=" + latitud
-		+"&usuario_anoto=" + idUsuario
-		+"&comunidad=" + comunidad;
-		String url = finalURL.replace(" ", "%20");
-		RespuestaWS respuesta = new RespuestaWS();
-		try{
-			jsonObject = connectWS.MandarEvento(url);
-			if (jsonObject != null){
-				respuesta.setResultado(jsonObject.getBoolean("resultado"));
-				respuesta.setMensaje(jsonObject.getString("mensaje"));
-				return respuesta;
-			}else{
-				return null;
-			}
-		}catch(Exception exception){
-			return null;
-		}
-		*/
+	}
 	
 	public RespuestaWS enviarRespuestaInvitacion(Invitacion invitacion, String respuesta) {
 		JSONObject jsonObject = null;
@@ -1107,4 +1041,6 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 				return catalogo;
 			}
 	}
+
+	
 }

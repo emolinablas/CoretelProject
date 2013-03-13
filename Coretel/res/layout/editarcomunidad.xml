@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" style="@style/Layout.principal">
+
+    <!-- HEADER -->
+    
+    <!-- BODY -->
+    
+    <!-- FOOTER -->
+
+    	<ScrollView
+    	    android:id="@+id/scrollView1"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="match_parent"
+    	    android:layout_weight="0.1" >
+
+
+
+    	    <LinearLayout
+    	        android:id="@+id/linearLayout4"
+    	        android:layout_width="match_parent"
+    	        android:layout_height="fill_parent"
+    	        android:orientation="vertical" >
+
+    	        <RelativeLayout
+    	            android:layout_width="match_parent"
+    	            android:layout_height="wrap_content"
+    	            android:background="@drawable/background_footer_iphone" >
+
+    	             <Button
+    	                android:id="@+id/editarcomunidad_cancelar_button"
+    	                android:layout_width="wrap_content"
+    	                android:layout_height="wrap_content"
+    	                android:layout_alignLeft="@+id/textView1"
+    	                android:layout_alignTop="@+id/textView1"
+    	                android:background="@drawable/button_background_iphone_gray"
+    	                android:text="Cancelar"
+    	                android:textColor="#ffffff" />
+    	             
+    	             
+    	            <TextView
+    	                android:id="@+id/textView1"
+    	                style="@style/Text.Titulo"
+    	                android:text="Editar Comunidad"
+    	                android:gravity="center" />
+
+    	            <Button
+    	                android:id="@+id/editarcomunidad_guardar_button"
+    	                android:layout_width="wrap_content"
+    	                android:layout_height="wrap_content"
+    	                android:layout_alignRight="@+id/textView1"
+    	                android:layout_alignTop="@+id/textView1"
+    	                android:layout_marginRight="17dp"
+    	                android:background="@drawable/button_background_iphone_gray"
+    	                android:text="Aplicar"
+    	                android:textColor="#ffffff" />
+
+    	           
+
+    	        </RelativeLayout>
+
+    	        <LinearLayout
+    	            android:id="@+id/linearLayout2"
+    	            style="@style/Layout.body"
+    	            android:layout_width="match_parent"
+    	            android:layout_height="match_parent"
+    	            android:background="#D1D5E0"
+    	            android:orientation="vertical" >
+
+    	            <TextView
+    	                android:id="@+id/textView3"
+    	                style="@style/Text.Label"
+    	                android:layout_width="fill_parent"
+    	                android:layout_height="wrap_content"
+    	                android:layout_marginLeft="10dp"
+    	                android:layout_marginTop="10dp"
+    	                android:text="Nombre" />
+
+    	            <EditText
+    	                android:id="@+id/editarcomunidad_nombre_edittext"
+    	                android:layout_width="fill_parent"
+    	                android:layout_height="wrap_content"
+    	                android:layout_marginLeft="10dp"
+    	                android:layout_marginRight="10dp"
+    	                android:layout_marginTop="10dp"
+    	                android:background="@drawable/background_edittext"
+    	                android:hint="Nombre" >
+
+    	                <requestFocus />
+    	            </EditText>
+
+    	            <TextView
+    	                android:id="@+id/textView3"
+    	                style="@style/Text.Label"
+    	                android:layout_width="fill_parent"
+    	                android:layout_height="wrap_content"
+    	                android:layout_marginLeft="10dp"
+    	                android:layout_marginTop="10dp"
+    	                android:text="Descripcion" />
+
+    	            <EditText
+    	                android:id="@+id/editarcomunidad_descripcion_edittext"
+    	                android:layout_width="fill_parent"
+    	                android:layout_height="wrap_content"
+    	                android:layout_marginLeft="10dp"
+    	                android:layout_marginRight="10dp"
+    	                android:layout_marginTop="10dp"
+    	                android:background="@drawable/background_edittext"
+    	                android:hint="Descripcion" >
+
+    	            </EditText>
+    	            
+    	            
+
+    	        </LinearLayout>
+    	    </LinearLayout>
+
+    	</ScrollView>
+
+    	<LinearLayout
+    	    android:id="@+id/linearLayout3"
+    	    style="@style/Layout.footer"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="38dp"
+    	    android:background="@drawable/background_footer_iphone"
+    	    android:gravity="right"
+    	    android:orientation="vertical" >
+
+    	</LinearLayout>
+
+</LinearLayout>

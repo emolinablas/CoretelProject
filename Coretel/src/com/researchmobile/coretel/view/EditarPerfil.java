@@ -30,6 +30,7 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
 	private RequestWS request;
+	private Button cancelarButton;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -47,9 +48,11 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 		setTelefonoEditText((EditText)findViewById(R.id.editarperfil_telefono_edittext));
 		setUsuarioTextView((TextView)findViewById(R.id.editarperfil_usuario_textview));
 		setGuardarButton((Button)findViewById(R.id.editarperfil_guardar_button));
+		setCancelarButton((Button)findViewById(R.id.editarperfil_cancelar_button));
 		getGuardarButton().setOnClickListener(this);
 		
-		getNombreEditText().setText(getUsuario().getNombre());
+		
+		getNombreEditText().setHint(getUsuario().getNombre());
 		getEmailEditText().setText(getUsuario().getEmail());
 		getTelefonoEditText().setText(getUsuario().getTelefono());
 		getUsuarioTextView().setText(User.getUsername());
@@ -60,6 +63,8 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		if (view == getGuardarButton()){
 			dialogGuardar();
+		}else if (view == getCancelarButton()){
+			finish();
 		}
 		
 	}
@@ -188,6 +193,14 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 
 	public void setRequest(RequestWS request) {
 		this.request = request;
+	}
+
+	public Button getCancelarButton() {
+		return cancelarButton;
+	}
+
+	public void setCancelarButton(Button cancelarButton) {
+		this.cancelarButton = cancelarButton;
 	}
 	
 }

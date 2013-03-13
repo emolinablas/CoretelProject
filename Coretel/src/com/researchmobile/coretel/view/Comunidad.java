@@ -8,12 +8,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,9 +31,9 @@ import com.researchmobile.coretel.ws.RequestWS;
 public class Comunidad extends Activity implements OnClickListener{
 	private TextView nombreTextView;
 	private TextView descripcionTextView;
-	private Button guardarButton;
 	private Button borrarButton;
 	private Button comunidadesButton;
+	private Button editarComunidad;
 	private ListView opcionesListView;
 	private CatalogoMiembro catalogoMiembro;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -58,11 +59,11 @@ public class Comunidad extends Activity implements OnClickListener{
 		getNombreTextView().setText(getDetalleComunidad().getNombre());
 		setDescripcionTextView((TextView)findViewById(R.id.comunidad_descripcion_textview));
 		getDescripcionTextView().setText(getDetalleComunidad().getDescripcion());
-		setGuardarButton((Button)findViewById(R.id.comunidades_guardar_button));
 		setBorrarButton((Button)findViewById(R.id.comunidad_borrar_button));
 		setComunidadesButton((Button)findViewById(R.id.comunidad_atras_button));
+		setEditarComunidad((Button)findViewById(R.id.comunidad_editar_button));
+		getEditarComunidad().setOnClickListener(this);
 		getComunidadesButton().setOnClickListener(this);
-		getGuardarButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		setOpcionesListView((ListView)findViewById(R.id.comunidad_lista_listview));
 		
@@ -197,12 +198,14 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View view) {
-		if (view == getGuardarButton()){
-			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
-		}else if (view == getBorrarButton()){
+		if (view == getBorrarButton()){
 			eliminaDialog();
 		}else if (view == getComunidadesButton()){
 			finish();
+		}else if (view == getEditarComunidad()){
+			Intent intent = new Intent(Comunidad.this, EditarComunidad.class);
+			intent.putExtra("comunidad", getDetalleComunidad());
+			startActivity(intent);
 		}
 	}
 	
@@ -238,14 +241,6 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	public void setDescripcionTextView(TextView descripcionTextView) {
 		this.descripcionTextView = descripcionTextView;
-	}
-
-	public Button getGuardarButton() {
-		return guardarButton;
-	}
-
-	public void setGuardarButton(Button guardarButton) {
-		this.guardarButton = guardarButton;
 	}
 
 	public Button getBorrarButton() {
@@ -345,6 +340,16 @@ public class Comunidad extends Activity implements OnClickListener{
 	public void setComunidadesButton(Button comunidadesButton) {
 		this.comunidadesButton = comunidadesButton;
 	}
-	
-	
+
+
+	public Button getEditarComunidad() {
+		return editarComunidad;
+	}
+
+
+	public void setEditarComunidad(Button editarComunidad) {
+		this.editarComunidad = editarComunidad;
+	}
+
+
 }

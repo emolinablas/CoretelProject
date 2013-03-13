@@ -1,10 +1,14 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.researchmobile.coretel.entity.Miembro;
@@ -15,6 +19,8 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	private TextView telefonoTextView;
 	private TextView emailTextView;
 	private Miembro miembro;
+	private LinearLayout borrarButton;
+	private Button comunidadesButton;
 	
 	public void onCreate(Bundle saveInstanceState){
 		super.onCreate(saveInstanceState);
@@ -27,6 +33,10 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		setNombreTextView((TextView)findViewById(R.id.detallemiembros_nombre_edittext));
 		setTelefonoTextView((TextView)findViewById(R.id.detallemiembro_telefono_edittext));
 		setEmailTextView((TextView)findViewById(R.id.detallemiembro_email_edittext));
+		setBorrarButton((LinearLayout)findViewById(R.id.detallemiembro_borrar_button));
+		setComunidadesButton((Button)findViewById(R.id.detallemiembros_comunidades_button));
+		getBorrarButton().setOnClickListener(this);
+		getComunidadesButton().setOnClickListener(this);
 		
 		getNombreTextView().setText(getMiembro().getNombreUsuario());
 		getTelefonoTextView().setText(getMiembro().getTelefono());
@@ -34,6 +44,34 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		
 	}
 	
+	@Override
+	public void onClick(View v) {
+		if (v == getComunidadesButton()){
+			finish();
+		}else if (v == getBorrarButton()){
+			dialogBorrar();
+		}
+		
+	}
+	
+	public void dialogBorrar(){
+		new AlertDialog.Builder(this)
+        .setTitle("Borrar Miembro")
+        .setMessage("Esta seguro de borrar el miembro de la comunidad")
+        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     
+                }
+        })
+        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     
+                }
+        })
+        .show();
+        
+
+	}
 	public Miembro getMiembro() {
 		return miembro;
 	}
@@ -41,13 +79,6 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 
 	public void setMiembro(Miembro miembro) {
 		this.miembro = miembro;
-	}
-
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public TextView getNombreTextView() {
@@ -74,6 +105,23 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		this.emailTextView = emailTextView;
 	}
 
+	public LinearLayout getBorrarButton() {
+		return borrarButton;
+	}
+
+	public void setBorrarButton(LinearLayout borrarButton) {
+		this.borrarButton = borrarButton;
+	}
+
+	public Button getComunidadesButton() {
+		return comunidadesButton;
+	}
+
+	public void setComunidadesButton(Button comunidadesButton) {
+		this.comunidadesButton = comunidadesButton;
+	}
+
+	
 }
 
 

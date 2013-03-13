@@ -1,25 +1,29 @@
 package com.researchmobile.coretel.view;
 
-import com.researchmobile.coretel.entity.CatalogoMiembro;
-import com.researchmobile.coretel.entity.User;
-import com.researchmobile.coretel.utility.RMFile;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class PruebaListaFoto extends Activity {
+import com.researchmobile.coretel.entity.CatalogoMiembro;
+import com.researchmobile.coretel.entity.Miembro;
+import com.researchmobile.coretel.utility.RMFile;
+
+public class PruebaListaFoto extends Activity implements OnItemClickListener{
 	private static RMFile rmFile = new RMFile();
 	private static CatalogoMiembro catalogoMiembro;
+	private TextView comunidad;
 	
 	
 	 @Override
@@ -27,14 +31,27 @@ public class PruebaListaFoto extends Activity {
 	    	super.onCreate(savedInstanceState);
 	 		setContentView(R.layout.miembros);
 	 		Bundle bundle = getIntent().getExtras();
+	 		setComunidad((TextView)findViewById(R.id.miembros_comunidad));
 	 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
+	 		getComunidad().setText(getCatalogoMiembro().getMiembro()[0].getNombreComunidad());
 	 		ListView l = (ListView) findViewById(R.id.miembros_lista_listview);
 	 		l.setAdapter(new miAdapter(this));
+	 		l.setOnItemClickListener(this);
+	 		
 	    }
+	 
+	 @Override
+		public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
+			Miembro miembro = getCatalogoMiembro().getMiembro()[position];
+			Intent intent = new Intent(PruebaListaFoto.this, DetalleMiembro.class);
+			intent.putExtra("miembro", miembro);
+			startActivity(intent);
+		}
 	 
 	    private static class miAdapter extends BaseAdapter {
 	 		private LayoutInflater mInflater;
 	 		static int tamano = getCatalogoMiembro().getMiembro().length;
+	 		
 //	 		private static final String [][] m = new String[][tamano];
 	 		public miAdapter(Context context) {
 	 			mInflater = LayoutInflater.from(context);
@@ -82,5 +99,15 @@ public class PruebaListaFoto extends Activity {
 		public void setCatalogoMiembro(CatalogoMiembro catalogoMiembro) {
 			this.catalogoMiembro = catalogoMiembro;
 		}
+
+		public TextView getComunidad() {
+			return comunidad;
+		}
+
+		public void setComunidad(TextView comunidad) {
+			this.comunidad = comunidad;
+		}
+
+		
 	    
 	}

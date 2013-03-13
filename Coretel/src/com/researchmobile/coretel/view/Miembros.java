@@ -28,6 +28,7 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 	private CatalogoMiembro catalogoMiembro;
 	private ProgressDialog pd = null;
 	private RMFile rmFile = new RMFile();
+	private String idMiembro;
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setMiembrosListView((ListView)findViewById(R.id.miembros_lista_listview));
+		getMiembrosListView().setOnItemClickListener(this);
 		
 //		new miembrosAsync().execute("");
 		
@@ -60,25 +62,7 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 
 		getMiembrosListView().setAdapter(mSchedule);
 		getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-	}
-
-	
-	
-	
-	
-	
-	
-	private String[] ListaMiembros() {
 		
-		int tamano = getCatalogoMiembro().getMiembro().length;
-		String[] miembros = new String[tamano];
-		for (int i = 0; i < tamano; i++){
-			miembros[i] = getCatalogoMiembro().getMiembro()[i].getNombreUsuario();
-		}
-		return miembros;
-		
-		//String[] miembros = {"jperez", "smendez", "aalfaro","mhernandez"}; 
-		//return miembros;
 	}
 
 	@Override
@@ -90,11 +74,26 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 	@Override
 	public void onItemClick(AdapterView<?> a, View arg1, int position, long arg3) {
 		Miembro miembro = new Miembro();
-        miembro = (Miembro)a.getItemAtPosition(position);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = (HashMap) a.getItemAtPosition(position);
+		setIdMiembro(map.get("id"));
+		miembro = buscaMiembro();
         Intent intent = new Intent(Miembros.this, DetalleMiembro.class);
         intent.putExtra("miembro", miembro);
         startActivity(intent);
 		
+	}
+	
+	public Miembro buscaMiembro(){
+		Miembro miembro = new Miembro();
+		int tamano = getCatalogoMiembro().getMiembro().length;
+		for (int i = 0; i < tamano; i++){
+			if (getCatalogoMiembro().getMiembro()[i].getId().equalsIgnoreCase(getIdMiembro())){
+				miembro = getCatalogoMiembro().getMiembro()[i];
+				return miembro;
+			}
+		}
+		return miembro;
 	}
 	
 	// Clase para ejecutar en Background
@@ -145,6 +144,14 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 
 	public void setCatalogoMiembro(CatalogoMiembro catalogoMiembro) {
 		this.catalogoMiembro = catalogoMiembro;
+	}
+
+	public String getIdMiembro() {
+		return idMiembro;
+	}
+
+	public void setIdMiembro(String idMiembro) {
+		this.idMiembro = idMiembro;
 	}
 
 }

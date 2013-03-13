@@ -12,11 +12,25 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer_iphone"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
+        
+        		        <Button
+            android:id="@+id/detallemiembros_comunidades_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_background_iphone_gray"
+            android:text="Miembros"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+		    
         
         <TextView 
             style="@style/Text.Titulo"
-            android:text="CORETEL"/>
+            android:text="Miembro"
+            android:layout_marginLeft="10dp"/>
 "
         
     </LinearLayout>
@@ -39,56 +53,104 @@
             android:gravity="top"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre" />
+                android:background="@drawable/background_textview"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/detallemiembros_nombre_edittext"
-                style="@style/Text.Value"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_textview" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Email" />
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre" />
 
-            <TextView
-                android:id="@+id/detallemiembro_email_edittext"
-                style="@style/Text.Value"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_textview" />
+                    <TextView
+                        android:id="@+id/detallemiembros_nombre_edittext"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/background_textview" />
 
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/Text.Label"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Telefono" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/detallemiembro_telefono_edittext"
-                style="@style/Text.Value"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/background_textview" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Email" />
+
+                    <TextView
+                        android:id="@+id/detallemiembro_email_edittext"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/background_textview" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/Text.Label"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="Telefono" />
+
+                    <TextView
+                        android:id="@+id/detallemiembro_telefono_edittext"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/background_textview" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <RelativeLayout
             style="@style/Layout.footer"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/background_footer_iphone" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_footer_iphone"
+            android:gravity="right" >
 
+            <LinearLayout
+                android:id="@+id/detallemiembro_borrar_button"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/button_background_iphone_gray"
+		            android:orientation="vertical" >
+
+		            <ImageView
+		                android:id="@+id/menuViewButton"
+		                android:layout_width="20dp"
+		                android:layout_height="20dp"
+		                android:clickable="true"
+		                android:contentDescription="Descripcion"
+		                android:src="@drawable/basurero"
+		                android:visibility="visible" />
+
+		        </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
     
