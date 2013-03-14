@@ -31,6 +31,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
@@ -55,7 +56,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private CatalogoComunidad catalogoComunidad;
      private CatalogoAnotacion catalogoAnotacion;
      private ProgressDialog pd = null;
-     private boolean logeado;
      private RequestWS requestWS;
      private RespuestaWS respuesta;
      private AlertDialog.Builder dialogActiveGPS = null;
@@ -126,7 +126,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      
      private void Entrar() {
           Requerido();
-          System.out.println(isLogeado());
      }
 
      private boolean Requerido() {
@@ -134,8 +133,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                RequestWS request = new RequestWS();
                setRespuesta(request.Login(getUser()));
                if (getRespuesta().isResultado()){
-            	   setLogeado(true);
-            	   rmFile.downloadImage(User.getAvatar());
+             	   rmFile.downloadImage(User.getAvatar());
 //            	   CargarAnotaciones();
 //            	   RegistrarChat();
                     return true;
@@ -199,7 +197,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
           String usernameString = getUsuarioEditText().getText().toString();
           String passwordString = getClaveEditText().getText().toString();
           if (getUsuarioEditText().getText().toString().equalsIgnoreCase("") || getClaveEditText().getText().toString().equalsIgnoreCase("")){
-               getMensaje().LoginCamposVacios(this, LLENAR_CAMPOS);
+               getRespuesta().setResultado(false);
+               getRespuesta().setMensaje("debe llenar los campos");
                return false;
           }else{
                getUser().setPassword(passwordString);
@@ -251,14 +250,14 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  		//Metodo con las instrucciones al finalizar lo ejectuado en background
  		protected void onPostExecute(Integer resultado){
  			pd.dismiss();
- 			if(isLogeado()){
- 				Intent intent = new Intent(Login.this, Mapa.class);
-// 	            intent.putExtra("anotaciones", getCatalogoAnotacion());
- 	            startActivity(intent);
- 			}else{
- 				getMensaje().VerMensaje(Login.this, "Usuario no existe");
- 	 			LimpiaCampos();
+ 			if (getRespuesta() != null){
+ 				Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
+ 				if(getRespuesta().isResultado()){
+ 	 				Intent intent = new Intent(Login.this, Mapa.class);
+ 	 	            startActivity(intent);
+ 	 			}
  			}
+ 			
  			
  		}
 
@@ -379,14 +378,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setCatalogoAnotacion(CatalogoAnotacion catalogoAnotacion) {
 		this.catalogoAnotacion = catalogoAnotacion;
-	}
-
-	public boolean isLogeado() {
-		return logeado;
-	}
-
-	public void setLogeado(boolean logeado) {
-		this.logeado = logeado;
 	}
 
 	public RequestWS getRequestWS() {

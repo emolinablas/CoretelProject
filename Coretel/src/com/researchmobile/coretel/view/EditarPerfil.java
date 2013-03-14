@@ -49,6 +49,7 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 		setUsuarioTextView((TextView)findViewById(R.id.editarperfil_usuario_textview));
 		setGuardarButton((Button)findViewById(R.id.editarperfil_guardar_button));
 		setCancelarButton((Button)findViewById(R.id.editarperfil_cancelar_button));
+		getCancelarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		
 		

@@ -163,7 +163,10 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		
 		getDescripcionButton().setEnabled(false);
 		getCameraButton().setEnabled(false);
+		getCameraButton().setVisibility(View.INVISIBLE);
 		getGuardarButton().setEnabled(false);
+		getGuardarButton().setVisibility(View.INVISIBLE);
+		
 		getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
 		getDescripcionTextView().setText(tokenizer.descripcion(getDescripcion()));
 		getLatitudTextView().setText(getLatitud());

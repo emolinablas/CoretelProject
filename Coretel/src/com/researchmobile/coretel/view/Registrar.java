@@ -5,16 +5,18 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.ChatUtility;
 import com.researchmobile.coretel.entity.RespuestaWS;
@@ -140,9 +142,10 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
             protected void onPostExecute(Integer resultado){
                   pd.dismiss();
                   if (getRespuesta() != null){
-                	  getMensaje().VerMensaje(Registrar.this,getRespuesta().getMensaje());
+                	  Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_LONG).show();
                 	  if (getRespuesta().isResultado()){
-                		  finish();
+                		  Intent intent = new Intent(Registrar.this, Login.class);
+                		  startActivity(intent);
                 	  }
                   }
            }

@@ -161,7 +161,7 @@ public class RequestWS {
 		try{
 			jsonObject = connectWS.CreaUsuario(finalURL);
 			if (jsonObject != null){
-				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setResultado(jsonObject.getBoolean("respuesta"));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
 				return respuesta;
 			}
