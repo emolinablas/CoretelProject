@@ -61,6 +61,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private MapItemizedOverlaySelect itemizedoverlay;
 	private CatalogoAnotacion catalogoAnotacion;
 	private TextView tituloComunidad;
+	private boolean itemTemporal = false;
 	
 	
 	private Button btnSatelite = null;
@@ -486,21 +487,26 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     
     private void agregaPuntos(GeoPoint list, String titulo, String desc) {
     	
-    	//for (int i = 0; i < list.size(); i++){
-    		//Toast.makeText(getBaseContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
-    	
-    	
-    	//imageView.setImageResource(mThumbIds[position]);
-    	
     	BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + tokenizer.icono(titulo), options);
         
 		Drawable drawable = tokenizer.iconoResource(this, titulo);
+		int tamano = mapOverlays.size();
 //    		Drawable drawable = new BitmapDrawable(bm);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
     		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
     		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
+    		Log.e("TT", "tamaño en mapoverlays = " + tamano);
+    		if (overlayItem.getTitle().equalsIgnoreCase("nuevo")){
+    			if (!itemTemporal){
+    				itemTemporal = true;
+    			}else{
+    				mapOverlays.remove(tamano - 1);
+    				Toast.makeText(getBaseContext(), "eliminar anterior", Toast.LENGTH_LONG).show();
+    				
+    			}
+    		}
             itemizedoverlay.addOverlay(overlayItem);
             mapOverlays.add(itemizedoverlay);
     		
@@ -669,7 +675,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         final View textEntryView = factory.inflate(R.layout.dialog_comunidades , null);
        
         final Spinner comunidadesSpinner = (Spinner) textEntryView.findViewById(R.id.dialog_comunidades_spinner);
-        ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, android.R.layout.simple_spinner_item, getCatalogoComunidad().getComunidad());
+        ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(this, R.layout.item_spinner, R.id.item_spinner_textview, getCatalogoComunidad().getComunidad());
         comunidadesSpinner.setAdapter(adaptador);
         
         final AlertDialog.Builder alert = new AlertDialog.Builder(Mapa.this );

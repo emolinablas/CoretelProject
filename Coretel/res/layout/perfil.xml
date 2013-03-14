@@ -202,24 +202,25 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:background="@drawable/background_footer_iphone"
+                android:gravity="right|center"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/perfil_guardar_button"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/save" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:background="@drawable/background_footer_iphone"
-        android:gravity="right|center"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/perfil_guardar_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@drawable/save" />
-    </LinearLayout>
 
 </LinearLayout>

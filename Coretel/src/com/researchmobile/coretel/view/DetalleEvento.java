@@ -18,12 +18,14 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	private TextView descripcionTextView;
 	private TextView activoTextView;
 	private Button regresarButton;
+	private Button editarButton;
+	private Button eliminarButton;
 	
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.detalleevento);
-
+ 
         Bundle bundle = getIntent().getExtras();
         String id = bundle.getString("id");
         String fecha = bundle.getString("fecha");
@@ -36,7 +38,14 @@ public class DetalleEvento extends Activity implements OnClickListener{
         setActivoTextView((TextView)findViewById(R.id.detalleevento_activo_textview));
         setDescripcionTextView((TextView)findViewById(R.id.detalleevento_descripcion_textview));
         setRegresarButton((Button)findViewById(R.id.detalleevento_regresar_button));
+        setEditarButton((Button)findViewById(R.id.detalleevento_editar_button));
+        setEliminarButton((Button)findViewById(R.id.detallemiembro_borrar_button));
+        getEditarButton().setOnClickListener(this);
+        getEliminarButton().setOnClickListener(this);
         getRegresarButton().setOnClickListener(this);
+        
+        getEditarButton().setVisibility(View.INVISIBLE);
+        getEliminarButton().setVisibility(View.INVISIBLE);
         
         
         getFechaTextView().setText(fecha);
@@ -50,6 +59,10 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		if (view == getRegresarButton()){
 			finish();
+		}else if (view == getEliminarButton()){
+			
+		}else if (view == getEditarButton()){
+			
 		}
 	}
 	
@@ -87,4 +100,22 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	public void setRegresarButton(Button regresarButton) {
 		this.regresarButton = regresarButton;
 	}
+
+	public Button getEditarButton() {
+		return editarButton;
+	}
+
+	public void setEditarButton(Button editarButton) {
+		this.editarButton = editarButton;
+	}
+
+	public Button getEliminarButton() {
+		return eliminarButton;
+	}
+
+	public void setEliminarButton(Button eliminarButton) {
+		this.eliminarButton = eliminarButton;
+	}
+	
+	
 }
