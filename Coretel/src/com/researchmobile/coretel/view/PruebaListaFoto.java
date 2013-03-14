@@ -33,7 +33,11 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 	 		Bundle bundle = getIntent().getExtras();
 	 		setComunidad((TextView)findViewById(R.id.miembros_comunidad));
 	 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
-	 		getComunidad().setText(getCatalogoMiembro().getMiembro()[0].getNombreComunidad());
+	 		String tituloComunidad = "";
+	 		if (getCatalogoMiembro().getMiembro()[0].getNombreComunidad() != null){
+	 			tituloComunidad = getCatalogoMiembro().getMiembro()[0].getNombreComunidad();
+	 		}
+	 		getComunidad().setText(tituloComunidad);
 	 		ListView l = (ListView) findViewById(R.id.miembros_lista_listview);
 	 		l.setAdapter(new miAdapter(this));
 	 		l.setOnItemClickListener(this);

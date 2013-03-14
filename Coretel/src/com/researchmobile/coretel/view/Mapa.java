@@ -238,38 +238,43 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private void filtrarComunidades(DetalleComunidad comunidad){
 		getTituloComunidad().setText(comunidad.getNombre());
 		mapOverlays.clear();
-		int tamano = getCatalogoAnotacion().getAnotacion().length;
-    	for (int i = 0; i < tamano; i++){
-    		if (getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad().equalsIgnoreCase(comunidad.getId())){
-    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
-        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
-        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
-        		agregaPuntos(list.get(i), titulo, desc);
-    		}else if (comunidad.getId().equalsIgnoreCase("100000")){
-    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
-        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
-        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
-        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
-        		agregaPuntos(list.get(i), titulo, desc);
-    		}
-    	}
+		if (getCatalogoAnotacion().getAnotacion() != null){
+			int tamano = getCatalogoAnotacion().getAnotacion().length;
+	    	for (int i = 0; i < tamano; i++){
+	    		if (getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad().equalsIgnoreCase(comunidad.getId())){
+	    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
+	        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+	        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
+	        		agregaPuntos(list.get(i), titulo, desc);
+	    		}else if (comunidad.getId().equalsIgnoreCase("100000")){
+	    			list.add(new GeoPoint((int)(getCatalogoAnotacion().getAnotacion()[i].getLatitud() *1E6), (int)(getCatalogoAnotacion().getAnotacion()[i].getLongitud() * 1E6)));
+	        		String titulo = getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+=" 
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIdAnotacion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIdcomunidad() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreTipoAnotacion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getIcono();
+	        		String desc = getCatalogoAnotacion().getAnotacion()[i].getDescripcion() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getFecha_registro() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreUsuario() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
+	        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
+	        		agregaPuntos(list.get(i), titulo, desc);
+	    		}
+	    	}
+		}else{
+			Toast.makeText(getBaseContext(), "intente nuevamentete", Toast.LENGTH_LONG).show();
+		}
+		
 	}
 	
 	private void opcionSatelite() {

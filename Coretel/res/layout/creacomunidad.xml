@@ -77,8 +77,10 @@
         
         <Spinner 
             android:id="@+id/creacomunidad_tipo_spinner"
-            android:layout_width="130sp"
-            android:layout_height="wrap_content"/>
+            android:layout_width="230sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rm_spinner"/>
             
     </LinearLayout>
     
