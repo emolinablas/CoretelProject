@@ -133,6 +133,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                RequestWS request = new RequestWS();
                setRespuesta(request.Login(getUser()));
                if (getRespuesta().isResultado()){
+//            	   createDirIfNotExists();
              	   rmFile.downloadImage(User.getAvatar());
 //            	   CargarAnotaciones();
 //            	   RegistrarChat();

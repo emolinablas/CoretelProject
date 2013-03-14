@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
+import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class CambiarAvatar extends Activity implements OnClickListener{
@@ -210,6 +211,8 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 		RequestWS req = new RequestWS();
 		User user = new User();
 		req.Login(user);
+		RMFile rmFile = new RMFile(); 
+		rmFile.downloadImage(User.getAvatar());
 	}
 	
 	public void regresar(){

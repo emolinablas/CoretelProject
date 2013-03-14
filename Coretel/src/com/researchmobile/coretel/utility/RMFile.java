@@ -1,26 +1,25 @@
 package com.researchmobile.coretel.utility;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
-import com.researchmobile.coretel.entity.User;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Log;
 
 public class RMFile {
 	
 public void downloadImage(String  fileUrl){
         
-	File file = new File("sdcard/pasalo/" + fileUrl);
+	File file = new File("/mnt/sdcard/pasalo/" + fileUrl);
 	if (!file.exists()) {
-	  Log.d("test", "no existe la imagen = " + fileUrl);
+	  Log.d("test", "no existe la imagen = " + file);
 	  Log.e("URL", fileUrl);
       URL myFileUrl =null;
           try {
@@ -30,6 +29,26 @@ public void downloadImage(String  fileUrl){
           e.printStackTrace();
           }
           try {
+        	  	URLConnection conexion = myFileUrl.openConnection();
+				conexion.connect();
+				File avatarDirectory = new File("/sdcard/pasalo/img/avatars/");
+	        	avatarDirectory.mkdirs();
+				int tamano = conexion.getContentLength();
+				Log.e("test", "resultado busqueda imagen = " + tamano);
+				InputStream input = new BufferedInputStream(myFileUrl.openStream());
+				OutputStream output = new FileOutputStream(Environment.getExternalStorageDirectory()+ "/pasalo/" + fileUrl);
+				Log.d("test", "no existe la imagen = " + fileUrl);
+				byte datos[] = new byte[1024];
+				int cuenta;
+				long total = 0;
+				
+				while ((cuenta = input.read(datos)) != -1){
+					total += cuenta;
+					output.write(datos, 0, cuenta);
+				}
+        	  
+        	  
+        	  /*
               //***Para conectarse a internet
               HttpURLConnection conn= (HttpURLConnection)myFileUrl.openConnection();
               conn.setDoInput(true);
@@ -37,29 +56,29 @@ public void downloadImage(String  fileUrl){
               int length = conn.getContentLength();
               int[] bitmapData =new int[length];
               byte[] bitmapData2 =new byte[length];
-              
               InputStream is = conn.getInputStream();
-               
               //decodificar la imagen de internet en bmImg
               Bitmap bmImg = BitmapFactory.decodeStream(is);
-              
               //***Para guardar la imagen en la SD
-             
-              FileOutputStream out = new FileOutputStream("sdcard/pasalo/" + fileUrl);
+              String path = "/sdcard/pasalo/" + fileUrl;
+              Log.d("test", "creando la imagen " + path);
               
-              byte[] buffer = new byte[1024];
-              int len;
-              while((len  = is.read(buffer))>0){
-                  out.write(buffer, 0, len );
-              }
+              OutputStream output = new FileOutputStream(file);
+				
+				byte datos[] = new byte[1024];
+				int cuenta;
+				long total = 0;
+				
+				while ((cuenta = is.read(datos)) != -1){
+					total += cuenta;
+					output.write(datos, 0, cuenta);
+				}
               is.close();
-              
-              
               //guardar la imagen en la ruta y en el formato especificado
-              bmImg.compress(Bitmap.CompressFormat.JPEG, 90, out);
-              out.flush();
-              out.close();
-              
+              bmImg.compress(Bitmap.CompressFormat.JPEG, 90, output);
+              output.flush();
+              output.close();
+              */
                  
           } catch (IOException e)
            {            
