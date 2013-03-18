@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.Mensaje;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
+import com.researchmobile.coretel.view.Principal;
 import com.researchmobile.coretel.view.R;
 
 
@@ -34,6 +35,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 	private EditText usuarioEditText;
 	private EditText claveEditText;
 	private Button entrarButton;
+	private Button salirButton;
 	private TextView olvidoTextView;
 	private Mensaje mensaje;
 	private UserAsignacion user;
@@ -55,6 +57,8 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 			setUsuarioEditText((EditText)findViewById(R.id.loginrecibelo_usuario_edittext));
 			setClaveEditText((EditText)findViewById(R.id.loginrecibelo_clave_edittext));
 			setEntrarButton((Button)findViewById(R.id.loginrecibelo_entrar_button));
+			setSalirButton((Button)findViewById(R.id.loginrecibelo_salir_button));
+			getSalirButton().setOnClickListener(this);
 			setOlvidoTextView((TextView)findViewById(R.id.loginrecibelo_olvido_textview));
 			setRequestWSAsignacion(new RequestWSAsignacion());
 			verificaGps();
@@ -73,23 +77,37 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 
 
 	//USO ONCLICK ENTRARBUTTON
-	public void onClick(View view) 
-	{
-	 try
-	 {
-		 if(view == getEntrarButton())
-		 {
-			 new LoginAsync().execute("");
-			 
-		 }
-		 
-	 } 
-	 catch(Exception exception)
-	 {
-		Log.i(LOGTAG, exception.getLocalizedMessage()); 
-	 }
-	}	
+	public void onClick(View view) {
+		try {
+			if (view == getEntrarButton()) {
+				new LoginAsync().execute("");
+			}else if (view == getSalirButton()){
+				salir();
+			}
 
+		} catch (Exception exception) {
+			Log.i(LOGTAG, exception.getLocalizedMessage());
+		}
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			salir();
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
+
+	public void salir(){
+		Intent intent = new Intent(LoginRecibelo.this, Principal.class);
+		startActivity(intent);
+	}
+	public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	//USO DEL ONKEYDOWN
 	public boolean onKeyDow(int keyCode, KeyEvent event)
@@ -332,8 +350,13 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 	}
 
 	
-	public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-		// TODO Auto-generated method stub
-		return false;
+	public Button getSalirButton() {
+		return salirButton;
 	}
+
+
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
+	}
+
 }
