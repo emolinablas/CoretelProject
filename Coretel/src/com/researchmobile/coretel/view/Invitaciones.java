@@ -180,7 +180,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
          */
 		lView = (ListView) findViewById(R.id.lista);
         
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesi—n" };
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 
       // Set option as Multiple Choice. So that user can able to select more the one option from list
       lView.setAdapter(new ArrayAdapter<String>(this,
@@ -252,8 +252,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			 est = "Rechazada";
 		 }
 		 new AlertDialog.Builder(this)
-         .setTitle("Invitaci—n") 
-         .setMessage("Estado:             " + est + "\n" + "Invit—:                      " + getInvitacion().getUsuarioInvita() + "\n" + "Comunidad                  " + getInvitacion().getNombreComunidad() + "\n" + "Fecha de invitaci—n     " + getInvitacion().getFechaRegistro() + "\n" + "Email                        " + getInvitacion().getEmail())
+         .setTitle("Invitación") 
+         .setMessage("Estado:             " + est + "\n" + "Invitó:                      " + getInvitacion().getUsuarioInvita() + "\n" + "Comunidad                  " + getInvitacion().getNombreComunidad() + "\n" + "Fecha de invitación     " + getInvitacion().getFechaRegistro() + "\n" + "Email                        " + getInvitacion().getEmail())
          .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
                   setRespuesta("1");

@@ -1,5 +1,7 @@
 package com.researchmobile.coretel.view;
 
+import com.researchmobile.supervisionpasalo.view.LoginRecibelo;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,7 +47,8 @@ public class Principal extends Activity implements OnClickListener{
 	}
 	
 	public void iniciarRecibelo(){
-		
+		Intent intent = new Intent(Principal.this, LoginRecibelo.class);
+		startActivity(intent);
 	}
 	
 	public void salir(){

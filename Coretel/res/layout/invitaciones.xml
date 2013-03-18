@@ -67,8 +67,7 @@
             <ListView
                 android:id="@+id/invitaciones_listview"
                 android:layout_width="match_parent"
-                android:layout_height="157dp"
-                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/background_list_view" >
 
             </ListView>
@@ -85,8 +84,7 @@
             <ListView
                 android:id="@+id/invitaciones_enviadas_listview"
                 android:layout_width="wrap_content"
-                android:layout_height="147dp"
-                android:layout_margin="10dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/background_list_view" >
 
             </ListView>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.principal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/values_background"
+    android:orientation="vertical" >
+
+    <!-- HEADER -->
+
+    <!-- BODY -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.45"
+        android:background="@drawable/patron_de_fondo" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            style="@style/Layout.body"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/loginrecibelo_clave_edittext"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/loginrecibelo_usuario_edittext"
+            android:layout_below="@+id/loginrecibelo_usuario_edittext"
+            android:ems="10"
+            android:hint="Contraseña" />
+
+        <TextView
+            android:id="@+id/loginrecibelo_olvido_textview"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/loginrecibelo_entrar_button"
+            android:gravity="center"
+            android:text="Olvidaste tu contraseña?"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/loginrecibelo_usuario_edittext"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:ems="10"
+            android:hint="Usuario" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/loginrecibelo_entrar_button"
+            style="@style/RM_Button"
+            android:layout_width="230dp"
+            android:layout_alignLeft="@+id/loginrecibelo_clave_edittext"
+            android:layout_below="@+id/loginrecibelo_clave_edittext"
+            android:layout_margin="0dp"
+            android:background="@drawable/boton_background"
+            android:text="ENTRAR" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignLeft="@+id/loginrecibelo_usuario_edittext"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_marginBottom="16dp"
+            android:layout_toRightOf="@+id/imageView1"
+            android:text="Recíbelo"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+    </RelativeLayout>
+
+    <!-- FOOTER -->
+
+</LinearLayout>
