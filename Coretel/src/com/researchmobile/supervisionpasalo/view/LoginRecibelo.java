@@ -172,7 +172,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 		protected void onPostExecute(Integer resultado){
 			pd.dismiss();
 			if(isLogeado()){
-				Intent intent = new Intent(LoginRecibelo.this, Mapa.class);
+				Intent intent = new Intent(LoginRecibelo.this, MapaSupervision.class);
 	            startActivity(intent);
 			}else{
 				getMensaje().VerMensaje(LoginRecibelo.this, "NO EXISTE USUARIO");

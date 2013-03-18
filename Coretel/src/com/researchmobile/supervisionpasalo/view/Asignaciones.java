@@ -16,9 +16,9 @@ import com.researchmobile.coretel.view.R;
 
 public class Asignaciones extends Activity {
 
-	private EditText CreacionEditText;
-	private EditText AsignacionEditText;
-	private EditText ResueltoEditText;
+	private TextView creacionTextView;
+	private TextView asignacionTextView;
+	private TextView resueltoTextView;
 	private TextView ComunidadTextView;
 	private TextView TipoTextView;
 	private ListView ListadoListView;
@@ -35,9 +35,9 @@ public class Asignaciones extends Activity {
 			Bundle bundle = getIntent().getExtras();
 			setCatalogoAsignacion((CatalogoAsignacion)bundle.get("catalogo"));
 			
-			setCreacionEditText((EditText)findViewById(R.id.asignaciones_creacion_edittext));
-			setAsignacionEditText((EditText)findViewById(R.id.asignaciones_asignacion_edittext));
-			setResueltoEditText((EditText)findViewById(R.id.asignaciones_resuelto_edittext));
+			setCreacionTextView((TextView)findViewById(R.id.asignaciones_creacion_textview));
+			setAsignacionTextView((TextView)findViewById(R.id.asignaciones_asignacion_textview));
+			setResueltoTextView((TextView)findViewById(R.id.asignaciones_resuelto_textview));
 			setComunidadTextView((TextView)findViewById(R.id.asignaciones_comunidad_textview));
 			setTipoTextView((TextView)findViewById(R.id.asignaciones_tipo_textview));
 			setListadoListView((ListView)findViewById(R.id.asignaciones_lista));
@@ -60,7 +60,7 @@ public class Asignaciones extends Activity {
 					mylist,
 					R.layout.asignaciones_supervision,
 					new String[]{"creacion","asignado","resultado","comunidad","tipo"},
-					new int[]{R.id.asignaciones_creacion_edittext,R.id.asignaciones_asignacion_edittext,R.id.asignaciones_resuelto_edittext,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview}));
+					new int[]{R.id.asignaciones_creacion_textview,R.id.asignaciones_asignacion_textview,R.id.asignaciones_resuelto_textview,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview}));
 							
 					getListadoListView().setAdapter(getSimpleAdapter());
 					
@@ -148,30 +148,6 @@ public class Asignaciones extends Activity {
 
 
 
-		public EditText getCreacionEditText() {
-			return CreacionEditText;
-		}
-
-		public void setCreacionEditText(EditText creacionEditText) {
-			CreacionEditText = creacionEditText;
-		}
-
-		public EditText getAsignacionEditText() {
-			return AsignacionEditText;
-		}
-
-		public void setAsignacionEditText(EditText asignacionEditText) {
-			AsignacionEditText = asignacionEditText;
-		}
-
-		public EditText getResueltoEditText() {
-			return ResueltoEditText;
-		}
-
-		public void setResueltoEditText(EditText resueltoEditText) {
-			ResueltoEditText = resueltoEditText;
-		}
-
 		public TextView getComunidadTextView() {
 			return ComunidadTextView;
 		}
@@ -187,6 +163,53 @@ public class Asignaciones extends Activity {
 		public void setTipoTextView(TextView tipoTextView) {
 			TipoTextView = tipoTextView;
 		}
+
+
+
+
+		public TextView getCreacionTextView() {
+			return creacionTextView;
+		}
+
+
+
+
+		public void setCreacionTextView(TextView creacionTextView) {
+			this.creacionTextView = creacionTextView;
+		}
+
+
+
+
+		public TextView getAsignacionTextView() {
+			return asignacionTextView;
+		}
+
+
+
+
+		public void setAsignacionTextView(TextView asignacionTextView) {
+			this.asignacionTextView = asignacionTextView;
+		}
+
+
+
+
+		public TextView getResueltoTextView() {
+			return resueltoTextView;
+		}
+
+
+
+
+		public void setResueltoTextView(TextView resueltoTextView) {
+			this.resueltoTextView = resueltoTextView;
+		}
+
+
+
+
+		
 
 		
 }

@@ -42,7 +42,7 @@ import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.view.R;
 import com.researchmobile.supervisionpasalo.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 
-public class Mapa extends MapActivity implements OnItemClickListener{
+public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private static final String LOG = "Recibelo - Mapa";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
@@ -78,7 +78,7 @@ public class Mapa extends MapActivity implements OnItemClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mapa);
+        setContentView(R.layout.mapasupervision);
         setRequestWSAsignacion(new RequestWSAsignacion());
         
         new buscaAnotacionesAsync().execute("");
@@ -167,7 +167,7 @@ private void CargarAsignaciones() {
 
 //Metodo que prepara lo que usara en background, Prepara el progress
 protected void onPreExecute() {
-      pd = ProgressDialog. show(Mapa.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+      pd = ProgressDialog. show(MapaSupervision.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
       pd.setCancelable( false);
 }
 
@@ -342,12 +342,12 @@ private void animationMenu(){
 			new buscaAnotacionesAsync().execute("");
 			break;
 		case 1:
-			Intent intentAsignaciones = new Intent(Mapa.this, Asignaciones.class);
+			Intent intentAsignaciones = new Intent(MapaSupervision.this, Asignaciones.class);
 			intentAsignaciones.putExtra("catalogo", getCatalogoAsignacion());
 			startActivity(intentAsignaciones);
 			break;
 		case 2:
-			Intent intentCerrar = new Intent(Mapa.this, LoginRecibelo.class);
+			Intent intentCerrar = new Intent(MapaSupervision.this, LoginRecibelo.class);
 			startActivity(intentCerrar);
 			break;
         default:
@@ -363,7 +363,7 @@ private void animationMenu(){
 	      // Metodo que prepara lo que usara en background, Prepara el progress
 	      @Override
 	      protected void onPreExecute() {
-	            pd = ProgressDialog. show(Mapa.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+	            pd = ProgressDialog. show(MapaSupervision.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
 	            pd.setCancelable( false);
 	     }
 

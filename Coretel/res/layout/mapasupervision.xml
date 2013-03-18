@@ -112,7 +112,7 @@
 		            android:layout_marginLeft="17dp"
 		            android:layout_toRightOf="@+id/BtnCentrar"
 		            android:background="@drawable/button_background_iphone_gray"
-		            android:text="Cambiar bista"
+		            android:text="Cambiar vista"
 		            android:textColor="#ffffff" />
 
 		    </RelativeLayout>

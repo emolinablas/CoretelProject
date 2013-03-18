@@ -46,7 +46,7 @@
     <!-- espacio de creacion -->
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:minHeight="5sp"
@@ -59,12 +59,11 @@
             android:text="Creacion:"
             android:textColor="#ffffff" />
         
-        <EditText
-            android:id="@+id/asignaciones_creacion_edittext"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/asignaciones_creacion_textview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_edittext_gray"
-            android:hint="fecha y hora creacion"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
@@ -86,12 +85,11 @@
             android:text="Asignacion:"
             android:textColor="#ffffff" />
         
-        <EditText
-            android:id="@+id/asignaciones_asignacion_edittext"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/asignaciones_asignacion_textview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_edittext_gray"
-            android:hint="fecha y hora creacion"
             android:textColor="#ffffff"
             android:textColorHint="#ffffffff" />
         
@@ -99,7 +97,7 @@
   <!-- espacio de resuelto -->
 
     	<LinearLayout
-    	    android:layout_width="wrap_content"
+    	    android:layout_width="match_parent"
     	    android:layout_height="wrap_content"
     	    android:layout_marginTop="5dp"
     	    android:minHeight="5sp"
@@ -112,12 +110,11 @@
             android:text="Resuelto:"
             android:textColor="#ffffff" />
         
-        <EditText
-            android:id="@+id/asignaciones_resuelto_edittext"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/asignaciones_resuelto_textview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_edittext_gray"
-            android:hint="fecha y hora creacion"
             android:textColor="#ffffff"
             android:textColorHint="#ffffff" />
 
