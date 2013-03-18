@@ -10,31 +10,47 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Principal extends Activity implements OnClickListener{
-	private Button loginButton;
-	private Button registrarButton;
-
+	private Button pasaloButton;
+	private Button recibeloButton;
+	private Button salirButton;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.principal);
 		
-		setLoginButton((Button)findViewById(R.id.principal_login_button));
-		setRegistrarButton((Button)findViewById(R.id.principal_registrar_button));
-		getLoginButton().setOnClickListener(this);
-		getRegistrarButton().setOnClickListener(this);
+		setPasaloButton((Button)findViewById(R.id.principal_pasalo_button));
+		setRecibeloButton((Button)findViewById(R.id.principal_recibelo_button));
+		setSalirButton((Button)findViewById(R.id.principal_salir_button));
+		getPasaloButton().setOnClickListener(this);
+		getRecibeloButton().setOnClickListener(this);
+		getSalirButton().setOnClickListener(this);
+		
 	}
 	
 	@Override
 	public void onClick(View view) {
-		if (view == getLoginButton()){
-			IniciaLogin();
-		}else if(view == getRegistrarButton()){
-			Registrar();
+		if (view == getPasaloButton()){
+			iniciarPasalo();
+		}else if (view == getRecibeloButton()){
+			iniciarRecibelo();
+		}else if (view == getSalirButton()){
+			salir();
 		}
+	}
+	
+	public void iniciarPasalo(){
+		Intent intent = new Intent(Principal.this, Login.class);
+		startActivity(intent);
+	}
+	
+	public void iniciarRecibelo(){
 		
 	}
 	
+	public void salir(){
+		moveTaskToBack( true);
+	}
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	      if (keyCode == KeyEvent.KEYCODE_BACK) {
 	    	  moveTaskToBack( true);     
@@ -45,30 +61,30 @@ public class Principal extends Activity implements OnClickListener{
     }
 
 
-	private void Registrar() {
-		Intent intent = new Intent(Principal.this, Registrar.class);
-		startActivity(intent);
+	public Button getPasaloButton() {
+		return pasaloButton;
 	}
 
-	private void IniciaLogin() {
-		Intent intent = new Intent(Principal.this, Login.class);
-		startActivity(intent);
+	public void setPasaloButton(Button pasaloButton) {
+		this.pasaloButton = pasaloButton;
 	}
 
-	public Button getLoginButton() {
-		return loginButton;
+	public Button getRecibeloButton() {
+		return recibeloButton;
 	}
 
-	public void setLoginButton(Button loginButton) {
-		this.loginButton = loginButton;
+	public void setRecibeloButton(Button recibeloButton) {
+		this.recibeloButton = recibeloButton;
 	}
 
-	public Button getRegistrarButton() {
-		return registrarButton;
+	public Button getSalirButton() {
+		return salirButton;
 	}
 
-	public void setRegistrarButton(Button registrarButton) {
-		this.registrarButton = registrarButton;
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
 	}
+	
+	
 
 }

@@ -50,6 +50,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private EditText claveEditText;
      private Button entrarButton;
      private Button registrarButton;
+     private Button salirButton;
      private TextView recuperarTextView;
      private Mensaje mensaje;
      private User user;
@@ -76,6 +77,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             setEntrarButton((Button)findViewById(R.id.login_entrar_button));
             setRegistrarButton((Button)findViewById(R.id.login_registrar_button));
             setRecuperarTextView((TextView)findViewById(R.id.login_recuperar_textview));
+            setSalirButton((Button)findViewById(R.id.loginpasalo_salir_button));
+            getSalirButton().setOnClickListener(this);
             getRecuperarTextView().setOnClickListener(this);
             getRegistrarButton().setOnClickListener(this);
             getClaveEditText().setOnKeyListener(this);
@@ -99,15 +102,22 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 				registrar();
 			}else if (view == getRecuperarTextView()){
 				recuperarPassword();
+			}else if (view == getSalirButton()){
+				salir();
 			}
 		} catch (Exception exception) {
 			Log.i(LOGTAG, exception.getLocalizedMessage());
 		}
 	}
      
+     public void salir(){
+    	 Intent intent = new Intent(Login.this, Principal.class);
+    	 startActivity(intent);
+     }
+     
      public boolean onKeyDown(int keyCode, KeyEvent event) {
          if (keyCode == KeyEvent.KEYCODE_BACK) {
-        	 moveTaskToBack( true);     
+        	    salir();
              return true;
          }
          
@@ -411,6 +421,14 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setRespuesta(RespuestaWS respuesta) {
 		this.respuesta = respuesta;
+	}
+
+	public Button getSalirButton() {
+		return salirButton;
+	}
+
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
 	}
 	
 }

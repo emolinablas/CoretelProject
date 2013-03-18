@@ -107,6 +107,16 @@
                     android:textSize="25dp"
                     android:textStyle="bold"
                     android:typeface="normal" />
+
+                <Button
+                    android:id="@+id/loginpasalo_salir_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="17dp"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:background="@drawable/close_img_button" />
+
             </RelativeLayout>
 
         </LinearLayout>
