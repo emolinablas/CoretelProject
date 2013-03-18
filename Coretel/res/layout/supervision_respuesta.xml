@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- HEADER -->
+
+    <LinearLayout
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        
+ <!--  
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal"
+            >
+            
+            <Button
+                android:id="@+id/evento_regresar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Cancelar"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+-->
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registro Evento"/>
+<!-- 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal"
+            >
+            
+            <Button
+                android:id="@+id/evento_save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:text="Aplicar"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+-->
+    </LinearLayout>
+
+    <!-- BODY -->
+
+    <LinearLayout
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#D1D5E0"
+        android:orientation="vertical"
+        android:padding="0dp" >
+
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/patron_de_fondo_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+					
+                    <TextView
+                        style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Respuesta" />
+
+                    <TextView
+                        android:id="@+id/respuesta_respuestaEditText"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_textview"
+
+                         />
+
+                </LinearLayout>
+
+                                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="Comunidad" />
+
+                    <Spinner
+                        android:id="@+id/evento_comunidad_spinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        />
+                </LinearLayout>
+                
+                <LinearLayout
+                    android:id="@+id/evento_imagen_layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#afafaf"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/evento_foto_imageview"
+                        android:layout_width="295sp"
+                        android:layout_height="195sp"
+                        android:src="@drawable/camera" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- FOOTER -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        style="@style/Layout.footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right" >
+
+            <Button
+                android:id="@+id/evento_borrar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/camera"
+           />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

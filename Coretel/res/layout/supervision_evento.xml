@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+     
+<!-- HEADER -->
+    <LinearLayout
+        style="@style/Layout.header"
+        android:layout_width ="fill_parent"
+        android:layout_height ="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="center"
+        android:orientation ="horizontal"
+        >
+
+       <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal"
+       >
+        
+       <Button
+       android:id="@+id/evento_regresarButton"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="5dp"
+       android:layout_marginRight="5dp"
+       android:text="Cancelar"
+       android:textColor="#ffffff" />
+ </LinearLayout>
+ 
+        <TextView 
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evento"/>
+        
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+       		android:orientation="horizontal"
+            >
+       
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <!-- BODY -->
+
+    <LinearLayout
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#D1D5E0" 
+        android:orientation="vertical"
+        android:padding="0dp"
+	>
+        
+    <!-- espacio de fecha -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/patron_de_fondo_vertical" 
+        android:orientation="horizontal"
+	>    
+        <TextView    
+        style="@style/Text.Label"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Fecha:"
+        />
+        
+        <TextView
+        android:id="@+id/evento_fechaTextView"
+        style="@style/Text.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fecha"
+        />
+        </LinearLayout>
+  
+    <!-- espacio de ubicacion -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/patron_de_fondo_vertical"
+        style="@style/Text.Label"
+	>
+
+        <TextView
+            style="@style/Text.Label"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Ubicacion:" />
+
+        <TextView
+            android:id="@+id/evento_ubicacionTextView"
+            style="@style/Text.Value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ubicacion" />
+        
+        </LinearLayout>
+        
+  <!-- espacio de tipo -->
+    	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/patron_de_fondo_vertical"
+        style="@style/Text.Label"
+	>    
+        <TextView
+        style="@style/Text.Label"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Tipo:"
+        />
+        
+        <TextView
+        android:id="@+id/evento_tipoTextView"
+        style="@style/Text.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="tipo"
+        />
+        </LinearLayout>
+        
+    	<!-- espacio descripcion -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/patron_de_fondo_vertical" 
+        style="@style/Text.Label"
+	>    
+        <TextView
+        style="@style/Text.Label"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Descripcion:"
+        />
+        
+        <TextView
+        android:id="@+id/evento_descripcionTextView"
+        style="@style/Text.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="descripcion"
+        />
+        </LinearLayout>
+        
+    <!-- espacio de comunidad -->    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/patron_de_fondo_vertical" 
+        style="@style/Text.Label"
+	>    
+        <TextView
+        style="@style/Text.Label"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Comunidad:"
+        />
+        
+        <TextView 
+        android:id="@+id/evento_comunidadTextView"
+        style="@style/Text.Value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="comunidad"
+        />
+        </LinearLayout>
+        
+    <!-- imagen -->
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#afafaf"
+    android:gravity="center" 
+    >
+        
+    <ImageView
+    android:id="@+id/evento_fotoImageView"
+    android:layout_width="295sp"
+    android:layout_height="195sp"
+    android:src="@drawable/camera"
+    />    
+        
+    </LinearLayout>
+
+    <!-- footer -->
+    <LinearLayout 
+    style="@style/Layout.footer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_footer_iphone"
+    android:gravity="center"
+    android:orientation="horizontal"
+    >
+     <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left" >
+
+            <Button
+                android:id="@+id/evento_responderbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="Responder"
+                android:textColor="#ffffff"
+           />     
+        
+    </LinearLayout>
+    
+</LinearLayout>
+</LinearLayout>
+               
+</LinearLayout>    
