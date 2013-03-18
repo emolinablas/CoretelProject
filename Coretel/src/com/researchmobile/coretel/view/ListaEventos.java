@@ -1,6 +1,7 @@
 package com.researchmobile.coretel.view;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -104,6 +105,7 @@ public class ListaEventos extends Activity implements OnItemClickListener{
 
 	
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+		@SuppressWarnings("unchecked")
 		HashMap<String, String> map = (HashMap)arg0.getItemAtPosition(position);
 		String selectedId = (String) map.get("id");
 		String selectedFecha = (String) map.get("fecha");
@@ -118,15 +120,8 @@ public class ListaEventos extends Activity implements OnItemClickListener{
 		intent.putExtra("tipo", selectedTipo);
 		intent.putExtra("descripcion", selectedDescripcion);
 		startActivity(intent);
-//			IniciaDetalleEvento();
-		
 	}
 	
-	private void IniciaDetalleEvento() {
-		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class);
-		startActivity(intent);
-	}
-
 	private ArrayList<HashMap<String, String>> myList(){
 		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 		

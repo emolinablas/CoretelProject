@@ -73,18 +73,18 @@
         <activity android:name="EditarPerfil" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="DetalleMiembro" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="EditarTipoEvento" android:screenOrientation="portrait" android:configChanges="orientation"/>        
-        <activity android:name="DetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="Recuperar" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="com.researchmobile.coretel.view.ComunidadesTodas" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="PruebaListaFoto" android:screenOrientation="portrait" android:configChanges="orientation"/>
-        <activity android:name="DetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="CambiarAvatar" android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="EditarComunidad" android:screenOrientation="portrait" android:configChanges="orientation"/>
+        <activity android:name="DetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         
         <!-- RECIBELO -->
-        <activity android:name="com.researchmobile.supervisionpasalo.view.LoginRecibelo" android:screenOrientation="portrait" android:configChanges="orientation"/>
+        <activity android:name="com.researchmobile.supervisionpasalo.view." android:screenOrientation="portrait" android:configChanges="orientation"/>
         <activity android:name="com.researchmobile.supervisionpasalo.view.MapaSupervision" android:screenOrientation="portrait" android:configChanges="orientation"/>
     <activity android:name="com.researchmobile.supervisionpasalo.view.Asignaciones" android:screenOrientation="portrait" android:configChanges="orientation"/>
+    
     </application>
 
 </manifest>

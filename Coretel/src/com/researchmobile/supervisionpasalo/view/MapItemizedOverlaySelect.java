@@ -21,44 +21,6 @@ public class MapItemizedOverlaySelect extends Overlay {
 	  return ((timeInitPress >= 0) && ((timeFinishPress - timeInitPress) > LONGPRESS_TIME));   
 	 }
 	 
-	 @Override
-	    public boolean onTouchEvent(MotionEvent event, MapView mapView){   
-	        
-	        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-	         timeInitPress = event.getEventTime();
-	         lastMapCenter = mapView.getMapCenter();
-	            GeoPoint p = mapView.getProjection().fromPixels(
-	                (int) event.getX(),
-	                (int) event.getY());
-	            
-	           
-	           latitud = p.getLatitudeE6();
-	           longitud = p.getLongitudeE6();
-	          
-	        } 
-	        
-	        if (event.getAction() == MotionEvent.ACTION_MOVE) {
-	         if (!mapView.getMapCenter().equals(lastMapCenter)) {
-	          timeInitPress = -1;          
-	         }
-	        }
-	        
-	        if (event.getAction() == MotionEvent.ACTION_UP) {
-	         timeFinishPress = event.getEventTime();
-	         if(isLongPress()){
-	          listenerSelectPOI.onSelectPOI(latitud, longitud);
-	          
-	         }
-	        }
-	        
-	        if (event.getPointerCount() > 1) {
-	         timeInitPress = -1;         
-	        }
-	        
-	        return false;   
-	    }
-	 
-	 
 	 public interface OnSelectPOIListener{void onSelectPOI(int Latitud, int Longitud);}
 	 private OnSelectPOIListener listenerSelectPOI; 
 	 public void setOnSelectPOIListener(OnSelectPOIListener l){listenerSelectPOI = l;}
