@@ -1,14 +1,19 @@
 package com.researchmobile.supervisionpasalo.view;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
+import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.R;
 
-public class SupervisionEvento extends Activity {
+public class SupervisionEvento extends Activity implements OnClickListener {
 
 	private TextView fechaTextView;
 	private TextView ubicacionTextView;
@@ -18,13 +23,24 @@ public class SupervisionEvento extends Activity {
 	private ImageView eventofotoImageView;
 	private Button responderButton;
 	private Button regresarButton;
-
+	
+	private TokenizerUtility tokenizer = new TokenizerUtility();
+	
 		protected void onCreate(Bundle savedInstanceState)
 		{
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.supervision_evento);
 			Bundle bundle = getIntent().getExtras();
-			
+			String fecha = bundle.getString("titulo");
+			String descripcion = bundle.getString("descripcion");
+			String latitud = bundle.getString("latitud");
+			String longitud = bundle.getString("longitud");
+			Log.v("coretel", "titulo = " + fecha);
+			Log.v("coretel", "descripcion = " + descripcion);
+			/*
+			String tipo = bundle.getString("tipo");
+			String comunidad = bundle.getString("comunidad");
+			*/
 			setFechaTextView((TextView)findViewById(R.id.evento_fechaTextView));
 			setUbicacionTextView((TextView)findViewById(R.id.evento_ubicacionTextView));
 			setTipoTextView((TextView)findViewById(R.id.evento_tipoTextView));
@@ -34,10 +50,41 @@ public class SupervisionEvento extends Activity {
 			setRegresarButton((Button)findViewById(R.id.evento_regresarButton));
 			setEventoFotoImageView((ImageView)findViewById(R.id.evento_fotoImageView));
 			
+			getResponderButton().setOnClickListener(this);
+			getRegresarButton().setOnClickListener(this);
+			
+			getUbicacionTextView().setText(latitud + " , " + longitud);
+			/*
+			getTipoTextView().setText(tipo);
+			getComunidadTextView().setText(comunidad);
+			*/
 			
 			
+			//utilizando tokenizer
+			getFechaTextView().setText(tokenizer.fechaRegistro(descripcion));
+			getDescripcionTextView().setText(tokenizer.descripcion(descripcion));
 		}
 		
+			public void onClick(View view){
+				if(view ==getResponderButton())
+				{
+					Responder();
+				}else if(view == getRegresarButton()){
+					Retorno();
+				}
+			}
+		
+		
+		private void Responder() {
+			Intent intent = new Intent(SupervisionEvento.this, SupervisionRespuesta.class);
+			startActivity(intent);
+			}
+		
+		private void Retorno(){
+			Intent intent = new Intent(SupervisionEvento.this, MapaSupervision.class );
+			startActivity(intent);
+		}
+
 		public ImageView getEventoFotoImageView(){
 			return eventofotoImageView;
 		}
