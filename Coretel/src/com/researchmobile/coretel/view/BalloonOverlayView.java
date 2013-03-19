@@ -37,6 +37,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  balloonview = layoutinflater.inflate(getIdView(), layout);
 	  title = (TextView) balloonview.findViewById(R.id.balloon_item_title);
 	  snippet = (TextView) balloonview.findViewById(R.id.balloon_item_snippet);
+	  layout.setVisibility(GONE);
 	  
 	  setOnClickListener(new OnClickListener() {
 	   public void onClick(View v) {layout.setVisibility(GONE);}
@@ -71,6 +72,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	 }
 	 
 	 public void setData(Item item, final Context mContext) {
+	   
 	  setMiItem(item);
 	  System.out.println("EN EL ITEM");
 	  System.out.println(getMiItem().getSnippet());
@@ -95,6 +97,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 			   snippet.setText(tokenizer.descripcion(item.getSnippet()));
 			  } else {
 			   snippet.setVisibility(GONE);
+			   
 			  }
 	  }
 	  

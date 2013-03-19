@@ -116,6 +116,7 @@ public class BalloonItemizedOverlay <Item extends OverlayItem> extends ItemizedO
 	 private OnTouchListener createBalloonTouchListener() {
 	  return new OnTouchListener() {
 	   public boolean onTouch(View v, MotionEvent event) {
+		   
 	    try{
 	    	View l =  ((View) v.getParent()).findViewById(R.id.balloon_main_layout);
 		    Drawable d = l.getBackground();

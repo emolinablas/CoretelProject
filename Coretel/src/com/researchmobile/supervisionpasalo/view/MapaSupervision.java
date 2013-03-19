@@ -51,6 +51,10 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private MapItemizedOverlaySelect itemizedoverlay;
 	private CatalogoAnotacion catalogoAnotacion;
 	
+	private String latitudSeleccionado;
+	private String longitudSeleccionado;
+	private float latSeleccionado;
+	private float lonSeleccionado;
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
 	//Declare
@@ -81,6 +85,12 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
         setContentView(R.layout.mapasupervision);
         setRequestWSAsignacion(new RequestWSAsignacion());
         
+        Bundle bundle = getIntent().getExtras();
+        setLatSeleccionado((float)bundle.getFloat("latitud"));
+        setLonSeleccionado((float)bundle.getFloat("longitud"));
+        setLatitudSeleccionado(bundle.getString("latitud"));
+        setLongitudSeleccionado(bundle.getString("longitud"));
+            	
         new buscaAnotacionesAsync().execute("");
     }
     
@@ -155,10 +165,9 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 				}
 		}
 		});
-
-		
-	
     }
+	
+	
     
 private void CargarAsignaciones() {
 		RequestWSAsignacion requestWS = new RequestWSAsignacion();
@@ -311,12 +320,29 @@ private void animationMenu(){
         mapView.getOverlays().add(myLocationOverlay);
         myLocationOverlay.enableCompass();
         myLocationOverlay.enableMyLocation();
+        int latitud = (int) (14.627853 * 1E6);
+        int longitud = (int) (-90.517584 * 1E6);
+        final GeoPoint loc = new GeoPoint((int) (getLatSeleccionado()), (int)(getLonSeleccionado()));
         myLocationOverlay.runOnFirstFix(new Runnable() {
             public void run() {
-            	mapController.animateTo(myLocationOverlay.getMyLocation());
+            	mapController.animateTo(loc);
             }
         });
     }
+    
+    private void opcionVerEvento() {
+		try {
+			Log.v("pio", "lat = " + getLatitudSeleccionado() + " lon = " + getLongitudSeleccionado());
+			GeoPoint loc = new GeoPoint(Integer.parseInt(getLatitudSeleccionado()), Integer.parseInt(getLongitudSeleccionado()));
+			mapController.animateTo(loc);
+			int zoomActual = mapView.getZoomLevel();
+			for (int i = zoomActual; i < 10; i++) {
+				mapController.zoomIn();
+			}
+		} catch (Exception exception) {
+
+		}
+	}
     
     @Override
     protected boolean isRouteDisplayed() {
@@ -384,7 +410,7 @@ private void animationMenu(){
 	      protected void onPostExecute(Integer resultado) {
 	            pd.dismiss();
 	            inicializar();
-
+	            opcionVerEvento();
 	     }
 
 
@@ -405,6 +431,46 @@ private void animationMenu(){
 	      
 	      return super.onKeyDown(keyCode, event);
   }
+
+
+	public String getLatitudSeleccionado() {
+		return latitudSeleccionado;
+	}
+
+
+	public void setLatitudSeleccionado(String latitudSeleccionado) {
+		this.latitudSeleccionado = latitudSeleccionado;
+	}
+
+
+	public String getLongitudSeleccionado() {
+		return longitudSeleccionado;
+	}
+
+
+	public void setLongitudSeleccionado(String longitudSeleccionado) {
+		this.longitudSeleccionado = longitudSeleccionado;
+	}
+
+
+	public float getLatSeleccionado() {
+		return latSeleccionado;
+	}
+
+
+	public void setLatSeleccionado(float latSeleccionado) {
+		this.latSeleccionado = latSeleccionado;
+	}
+
+
+	public float getLonSeleccionado() {
+		return lonSeleccionado;
+	}
+
+
+	public void setLonSeleccionado(float lonSeleccionado) {
+		this.lonSeleccionado = lonSeleccionado;
+	}
 	
-	    
+
 }

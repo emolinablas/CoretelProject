@@ -38,6 +38,7 @@
             android:layout_alignLeft="@+id/loginrecibelo_usuario_edittext"
             android:layout_below="@+id/loginrecibelo_usuario_edittext"
             android:ems="10"
+            android:inputType="textPassword"
             android:hint="Contraseña" />
 
         <TextView

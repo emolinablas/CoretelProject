@@ -482,6 +482,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
     	OverlayItem overlayItem = new OverlayItem(new GeoPoint((int)(latitud * 1E6), (int)(longitud * 1E6)), "punto ", "descripcion ");     
         itemizedoverlay.addOverlay(overlayItem);
+        
         mapOverlays.add(itemizedoverlay);
     }
     
@@ -495,6 +496,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		int tamano = mapOverlays.size();
 //    		Drawable drawable = new BitmapDrawable(bm);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
+        	
     		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
     		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
     		Log.e("TT", "tamaño en mapoverlays = " + tamano);

@@ -168,6 +168,18 @@
         android:text="tipo"
         />
         
+        <TextView
+        android:id="@+id/asignaciones_latitud"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+        
+        <TextView
+        android:id="@+id/asignaciones_longitud"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+        
         </LinearLayout>
 
     </LinearLayout>

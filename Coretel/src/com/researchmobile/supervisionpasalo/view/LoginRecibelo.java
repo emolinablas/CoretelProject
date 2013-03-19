@@ -190,7 +190,11 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 		protected void onPostExecute(Integer resultado){
 			pd.dismiss();
 			if(isLogeado()){
+				float latitud = (float) 14.627853;
+				float longitud = (float) -90.517584;
 				Intent intent = new Intent(LoginRecibelo.this, MapaSupervision.class);
+				intent.putExtra("latitud", latitud);
+				intent.putExtra("longitud", longitud);
 	            startActivity(intent);
 			}else{
 				getMensaje().VerMensaje(LoginRecibelo.this, "NO EXISTE USUARIO");
