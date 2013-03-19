@@ -14,7 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,6 +47,7 @@ import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.supervision.entity.EventoTemporal;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -62,7 +62,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private CatalogoAnotacion catalogoAnotacion;
 	private TextView tituloComunidad;
 	private boolean itemTemporal = false;
-	
 	
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
@@ -105,6 +104,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.mapa);
         setRequestWS(new RequestWS());
+        EventoTemporal.setControl(0);
         
         setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
         getNombreUsuarioTextView().setText(User.getNombre());
@@ -375,6 +375,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		VerificarPuntos(list);
 		itemizedoverlay.setOnSelectPOIListener(new OnSelectPOIListener() {
 			public void onSelectPOI(int latitud, int longitud) {
+				Log.v("piio", "nuevo punto nuevo punto");
 				GeoPoint loc = new GeoPoint((int) (latitud), (int) (longitud));
 				list.add(loc);
 				agregaPuntos(loc, "nuevo", "nuevo punto");
@@ -476,6 +477,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     }
 
 	protected void agregaPuntito(int latitud, int longitud) {
+		Log.e("TT", "agrega puntito = " );
     	
     	//mapOverlays = mapView.getOverlays();
     	Drawable drawable = getResources().getDrawable(R.drawable.marker);
@@ -503,11 +505,17 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     		if (overlayItem.getTitle().equalsIgnoreCase("nuevo")){
     			if (!itemTemporal){
     				itemTemporal = true;
+    				
+    				EventoTemporal.setControl(1);
+    				Log.v("pio", "eventotemporal = " + EventoTemporal.getControl());
     			}else{
+    				EventoTemporal.setControl(1);
     				mapOverlays.remove(tamano - 1);
     				Toast.makeText(getBaseContext(), "eliminar anterior", Toast.LENGTH_LONG).show();
     				
     			}
+    		}else{
+    			
     		}
             itemizedoverlay.addOverlay(overlayItem);
             mapOverlays.add(itemizedoverlay);

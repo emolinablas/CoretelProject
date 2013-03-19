@@ -2,6 +2,7 @@ package com.researchmobile.coretel.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.maps.OverlayItem;
+import com.researchmobile.coretel.supervision.entity.EventoTemporal;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 
 public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
@@ -38,7 +40,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  title = (TextView) balloonview.findViewById(R.id.balloon_item_title);
 	  snippet = (TextView) balloonview.findViewById(R.id.balloon_item_snippet);
 	  layout.setVisibility(GONE);
-	  
+	  balloonview.setVisibility(GONE);
 	  setOnClickListener(new OnClickListener() {
 	   public void onClick(View v) {layout.setVisibility(GONE);}
 	  });
@@ -79,13 +81,23 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  System.out.println(getMiItem().getTitle());
 	  System.out.println(getMiItem().getPoint().getLatitudeE6()+"");
 	  System.out.println(getMiItem().getPoint().getLongitudeE6()+"");
-	  layout.setVisibility(VISIBLE);
+//	  layout.setVisibility(VISIBLE);
 	  if (getMiItem().getTitle().equalsIgnoreCase("nuevo")){
-		  title.setVisibility(VISIBLE);
+		  if (EventoTemporal.getControl() == 1){
+			  Log.v("pio", "evento temporal = 1");
+			  layout.setVisibility(GONE);
+			 
+		  }else{
+			  Log.v("pio", "evento temporal = 2");
+			  layout.setVisibility(VISIBLE);
+			  
+		  }
+		  
 		  title.setText(tokenizer.titulo(item.getTitle()));
 		  snippet.setVisibility(VISIBLE);
 		  snippet.setText(tokenizer.descripcion(item.getSnippet()));
 	  }else{
+		  layout.setVisibility(VISIBLE);
 		  if (item.getTitle() != null && item.getTitle().length() > 0) {
 			   title.setVisibility(VISIBLE);
 			   title.setText(tokenizer.titulo(item.getTitle()));
