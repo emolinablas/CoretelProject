@@ -181,10 +181,18 @@
     android:layout_height="wrap_content"
     android:background="#afafaf"
     android:gravity="center" 
+    android:orientation="vertical"
     >
+              
+    <ProgressBar
+    android:id="@+id/barraProgreso"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" />
+        
         
     <ImageView
-    android:id="@+id/evento_fotoImageView"
+    android:id="@+id/supervisionevento_fotoImageView"
     android:layout_width="295sp"
     android:layout_height="195sp"
     android:src="@drawable/camera"
