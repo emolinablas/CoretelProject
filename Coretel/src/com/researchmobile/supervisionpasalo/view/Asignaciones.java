@@ -4,17 +4,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.view.R;
+import com.researchmobile.supervisionpasalo.view.MapaSupervision.buscaAnotacionesAsync;
 
-public class Asignaciones extends Activity {
+public class Asignaciones extends Activity implements OnItemClickListener{
 
 	private TextView creacionTextView;
 	private TextView asignacionTextView;
@@ -25,6 +39,21 @@ public class Asignaciones extends Activity {
 	private SimpleAdapter simpleAdapter;
 	private CatalogoAsignacion catalogoAsignacion;
 	private AnotacionAsignacion anotacionAsignacion;
+	
+	//Declare to menu
+	private LinearLayout slidingPanel;
+	private boolean isExpanded;
+	private DisplayMetrics metrics;	
+	private RelativeLayout headerPanel;
+	private RelativeLayout menuPanel;
+	private int panelWidth;
+	private ImageView menuViewButton;
+	private ListView lView;
+	
+	FrameLayout.LayoutParams menuPanelParameters;
+	FrameLayout.LayoutParams slidingPanelParameters;
+	LinearLayout.LayoutParams headerPanelParameters ;
+	LinearLayout.LayoutParams listViewParameters;
 	
 	private ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
 	
@@ -42,6 +71,19 @@ public class Asignaciones extends Activity {
 			setComunidadTextView((TextView)findViewById(R.id.asignaciones_comunidad_textview));
 			setTipoTextView((TextView)findViewById(R.id.asignaciones_tipo_textview));
 			setListadoListView((ListView)findViewById(R.id.asignaciones_lista));
+			
+			/***
+	         * MENU
+	         */
+	        
+	        String lv_items[] = { "Mapa", "Asignaciones", "Cerrar sesión" };
+
+	      lView = (ListView) findViewById(R.id.lista);
+	      // Set option as Multiple Choice. So that user can able to select more the one option from list
+	      lView.setAdapter(new ArrayAdapter<String>(this,
+	      android.R.layout.simple_list_item_1, lv_items));
+	      lView.setOnItemClickListener(this);
+	      animationMenu();
 
 			//ARRAY LIST
 			int i;
@@ -78,8 +120,84 @@ public class Asignaciones extends Activity {
 					
 		}
 
-
+		private void animationMenu(){
+	    	//Initialize
+			metrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			panelWidth = (int) ((metrics.widthPixels)*0.75);
 		
+			headerPanel = (RelativeLayout) findViewById(R.id.header);
+			headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
+			headerPanelParameters.width = metrics.widthPixels;
+			headerPanel.setLayoutParams(headerPanelParameters);
+			
+			menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
+			menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
+			menuPanelParameters.width = panelWidth;
+			menuPanel.setLayoutParams(menuPanelParameters);
+			
+			slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
+			slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
+			slidingPanelParameters.width = metrics.widthPixels;
+			slidingPanel.setLayoutParams(slidingPanelParameters);
+			
+			//Slide the Panel	
+			menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
+			menuViewButton.setOnClickListener(new OnClickListener() {
+			    public void onClick(View v) {
+			    	if(!isExpanded){
+			    		expandMenu();
+			    	}else{
+			    		collapseMenu();
+			    	}         	   
+			    }
+			});
+	    }
+	    
+	    private void expandMenu(){
+	    	//Expand
+	    	isExpanded = true;
+			new ExpandAnimation(slidingPanel, panelWidth,
+		    Animation.RELATIVE_TO_SELF, 0.0f,
+		    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
+	    }
+	    
+	    private void collapseMenu(){
+	    	//Collapse
+	    	isExpanded = false;
+			new CollapseAnimation(slidingPanel,panelWidth,
+		    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+		    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+	    }
+
+	    private void opcionesMenu(int opcion){
+			switch(opcion){
+			case 0:
+				float latitud = (float) 14.627853;
+				float longitud = (float) -90.516584;
+				Intent intentMapa = new Intent(Asignaciones.this, MapaSupervision.class);
+				intentMapa.putExtra("latitud", latitud);
+				intentMapa.putExtra("longitud", longitud);
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				Intent intentCerrar = new Intent(Asignaciones.this, LoginRecibelo.class);
+				startActivity(intentCerrar);
+				break;
+	        default:
+	            break;
+
+			}
+		}
+	    
+	    @Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			opcionesMenu(arg2);
+			collapseMenu();
+		}
+	    
 		
 		public CatalogoAsignacion getCatalogoAsignacion() {
 			return catalogoAsignacion;
@@ -192,6 +310,123 @@ public class Asignaciones extends Activity {
 		public void setResueltoTextView(TextView resueltoTextView) {
 			this.resueltoTextView = resueltoTextView;
 		}
+
+
+
+
+		public LinearLayout getSlidingPanel() {
+			return slidingPanel;
+		}
+
+
+
+
+		public void setSlidingPanel(LinearLayout slidingPanel) {
+			this.slidingPanel = slidingPanel;
+		}
+
+
+
+
+		public boolean isExpanded() {
+			return isExpanded;
+		}
+
+
+
+
+		public void setExpanded(boolean isExpanded) {
+			this.isExpanded = isExpanded;
+		}
+
+
+
+
+		public DisplayMetrics getMetrics() {
+			return metrics;
+		}
+
+
+
+
+		public void setMetrics(DisplayMetrics metrics) {
+			this.metrics = metrics;
+		}
+
+
+
+
+		public RelativeLayout getHeaderPanel() {
+			return headerPanel;
+		}
+
+
+
+
+		public void setHeaderPanel(RelativeLayout headerPanel) {
+			this.headerPanel = headerPanel;
+		}
+
+
+
+
+		public RelativeLayout getMenuPanel() {
+			return menuPanel;
+		}
+
+
+
+
+		public void setMenuPanel(RelativeLayout menuPanel) {
+			this.menuPanel = menuPanel;
+		}
+
+
+
+
+		public int getPanelWidth() {
+			return panelWidth;
+		}
+
+
+
+
+		public void setPanelWidth(int panelWidth) {
+			this.panelWidth = panelWidth;
+		}
+
+
+
+
+		public ImageView getMenuViewButton() {
+			return menuViewButton;
+		}
+
+
+
+
+		public void setMenuViewButton(ImageView menuViewButton) {
+			this.menuViewButton = menuViewButton;
+		}
+
+
+
+
+		public ListView getlView() {
+			return lView;
+		}
+
+
+
+
+		public void setlView(ListView lView) {
+			this.lView = lView;
+		}
+
+
+
+
+		
 
 
 
