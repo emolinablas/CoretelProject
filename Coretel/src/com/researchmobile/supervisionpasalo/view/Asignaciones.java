@@ -83,7 +83,7 @@ public class Asignaciones extends Activity implements OnItemClickListener{
 	      lView.setAdapter(new ArrayAdapter<String>(this,
 	      android.R.layout.simple_list_item_1, lv_items));
 	      lView.setOnItemClickListener(this);
-	      animationMenu();
+	      
 
 			//ARRAY LIST
 			int i;
@@ -108,15 +108,20 @@ public class Asignaciones extends Activity implements OnItemClickListener{
 	                	estado = this.getResources().getIdentifier("estado_3_4", "drawable", this.getPackageName());
 	                }
 	                map.put("estado", estado);
+	                map.put("latitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLatitud()));
+	                map.put("longitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLongitud()));
 	                mylist.add(map);
 				}
 			setSimpleAdapter(new SimpleAdapter(this,
 					mylist,
 					R.layout.asignaciones_supervision,
-					new String[]{"creacion","asignado","resultado","comunidad","tipo", "estado"},
-					new int[]{R.id.asignaciones_creacion_textview,R.id.asignaciones_asignacion_textview,R.id.asignaciones_resuelto_textview,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview, R.id.asignaciones_estado_imageview}));
+					new String[]{"creacion","asignado","resultado","comunidad","tipo", "estado", "latitud", "longitud"},
+					new int[]{R.id.asignaciones_creacion_textview,R.id.asignaciones_asignacion_textview,R.id.asignaciones_resuelto_textview,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview, R.id.asignaciones_estado_imageview, R.id.asignaciones_latitud, R.id.asignaciones_longitud}));
 							
 					getListadoListView().setAdapter(getSimpleAdapter());
+					getListadoListView().setOnItemClickListener(this);
+					
+					animationMenu();
 					
 		}
 
@@ -193,9 +198,20 @@ public class Asignaciones extends Activity implements OnItemClickListener{
 		}
 	    
 	    @Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			opcionesMenu(arg2);
-			collapseMenu();
+		public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
+	    	if (adapter == lView){
+	    		opcionesMenu(position);
+				collapseMenu();
+	    	}else if (adapter == getListadoListView()){
+	    		HashMap<String, Object> map = (HashMap<String, Object>) adapter.getAdapter().getItem(position);
+				String latitud = (String) map.get("latitud");
+				String longitud = (String) map.get("longitud");
+			    Intent intent = new Intent(Asignaciones.this, MapaSupervision.class);
+				intent.putExtra("latitud", latitud);
+				intent.putExtra("longitud", longitud);
+				startActivity(intent);
+	    	}
+			
 		}
 	    
 		

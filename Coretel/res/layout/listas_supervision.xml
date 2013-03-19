@@ -47,52 +47,83 @@
 		    android:gravity="left"
 		    android:orientation="vertical" >
 
-    
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:background="@drawable/background_footer_iphone"
-        android:orientation="horizontal" >
+			<RelativeLayout
+			    android:id="@+id/header"
+			    android:layout_width="match_parent"
+			    android:layout_height="50dp"
+			    android:background="@drawable/background_footer_iphone" >
 
-        <Button
-            android:id="@id/menuViewButton"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/menu_icon" />
+			    <View
+			        android:id="@+id/header_vertical_divider_1"
+			        android:layout_width="2dp"
+			        android:layout_height="fill_parent"
+			        android:layout_alignParentTop="true"
+			        android:layout_marginLeft="15dp"
+			        android:layout_toRightOf="@+id/menuViewButton"
+			        android:background="@drawable/engraved_bg" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Asignaciones"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff" />
+			    <ImageView
+			        android:id="@+id/menuViewButton"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentLeft="true"
+			        android:layout_centerVertical="true"
+			        android:layout_marginLeft="15dp"
+			        android:clickable="true"
+			        android:contentDescription="Descripcion"
+			        android:src="@drawable/icon_menu"
+			        android:visibility="visible" />
+			    
+			    <TextView
+			        android:id="@+id/textView1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_centerHorizontal="true"
+			        android:layout_centerVertical="true"
+			        android:text="Asignaciones"
+			        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    </LinearLayout>
+			</RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.1" >
+		    <View
+		        android:id="@+id/dividerHeaderBottom"
+		        android:layout_width="fill_parent"
+		        android:layout_height="1dp"
+		        android:background="#414141" />
 
-        <ListView
+		    <ListView
             android:id="@+id/asignaciones_lista"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
         </ListView>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:background="@drawable/background_footer_iphone"
-        android:orientation="vertical" >
+		    <RelativeLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@drawable/background_footer_iphone" >
 
-    </LinearLayout>
+		        <Button
+		            android:id="@+id/BtnCentrar"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:layout_centerVertical="true"
+		            android:background="@drawable/reload" />
 
-</LinearLayout>
+		        <Button
+		            android:id="@+id/BtnSatelite"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignBaseline="@+id/BtnCentrar"
+		            android:layout_alignBottom="@+id/BtnCentrar"
+		            android:layout_marginLeft="17dp"
+		            android:layout_toRightOf="@+id/BtnCentrar"
+		            android:background="@drawable/button_background_iphone_gray"
+		            android:text="Cambiar vista"
+		            android:textColor="#ffffff" />
 
+		    </RelativeLayout>
+
+		</LinearLayout>
 
 </FrameLayout>
