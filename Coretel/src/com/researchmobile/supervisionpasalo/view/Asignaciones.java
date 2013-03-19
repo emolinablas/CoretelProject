@@ -5,15 +5,19 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,14 +25,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.view.R;
-import com.researchmobile.supervisionpasalo.view.MapaSupervision.buscaAnotacionesAsync;
 
-public class Asignaciones extends Activity implements OnItemClickListener{
+public class Asignaciones extends Activity implements OnItemClickListener, TextWatcher{
 
 	private TextView creacionTextView;
 	private TextView asignacionTextView;
@@ -39,6 +41,7 @@ public class Asignaciones extends Activity implements OnItemClickListener{
 	private SimpleAdapter simpleAdapter;
 	private CatalogoAsignacion catalogoAsignacion;
 	private AnotacionAsignacion anotacionAsignacion;
+	private ArrayList<HashMap<String, Object>> asignacionaesList;
 	
 	//Declare to menu
 	private LinearLayout slidingPanel;
@@ -431,23 +434,44 @@ public class Asignaciones extends Activity implements OnItemClickListener{
 		public ListView getlView() {
 			return lView;
 		}
-
-
-
-
+		
 		public void setlView(ListView lView) {
 			this.lView = lView;
 		}
 
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
 
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
 
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			try{
+				getSimpleAdapter().getFilter().filter(s);
+		        getSimpleAdapter().notifyDataSetChanged();
+			}catch(Exception exception){
+				Log.v("pio", "error filtrando = " + exception);
+			}
+			
+			
+		}
 
-		
+		public ArrayList<HashMap<String, Object>> getAsignacionaesList() {
+			return asignacionaesList;
+		}
 
-
-
-
-		
+		public void setAsignacionaesList(
+				ArrayList<HashMap<String, Object>> asignacionaesList) {
+			this.asignacionaesList = asignacionaesList;
+		}
 
 		
 }

@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.supervision.entity.Multimedia;
@@ -26,12 +28,13 @@ public class RequestWSAsignacion {
 		jsonObject = connectWS.Login(finalURL);
 		if(jsonObject != null)
 		{
-		UserAsignacion user_u = new UserAsignacion();
+		UserAsignacion usuario = new UserAsignacion();
 		respuesta = Boolean.parseBoolean(jsonObject.getString("resultado"));
 		JSONArray datosUsuario = jsonObject.getJSONArray("usuario");
 		JSONObject id = (JSONObject) datosUsuario.get(0);
-		user_u.setUserId(id.getString("id"));
-		user.setEmail(id.getString("email"));
+		usuario.setUserId(id.getString("id"));
+		usuario.setEmail(id.getString("email"));
+		Log.v("pio", "id user = " + UserAsignacion.getUserId());
 		System.out.println("Resultado = " + respuesta);
 		return respuesta;
 	   }
@@ -50,6 +53,7 @@ public class RequestWSAsignacion {
 		{	
 			JSONObject jsonObject = null;
 			String finalURL = WS_ASIGNACIONES + id;
+			Log.v("pio", "url asignaciones = " + finalURL);
 			RespuestaWS respuesta = new RespuestaWS();
 			CatalogoAsignacion catalogo = new CatalogoAsignacion();
 			

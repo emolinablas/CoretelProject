@@ -9,6 +9,7 @@ public class UserAsignacion implements Serializable{
 	private static String password;
 	private static String userId;
 	private static String email;
+	
 	private RespuestaWS respuestaWs;
 	
 	public RespuestaWS getRespuestaWs() {

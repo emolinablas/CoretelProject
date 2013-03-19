@@ -37,10 +37,10 @@ import com.google.android.maps.OverlayItem;
 import com.researchmobile.coretel.supervision.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoComunidad;
+import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.view.R;
-import com.researchmobile.supervisionpasalo.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 
 public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private static final String LOG = "Recibelo - Mapa";

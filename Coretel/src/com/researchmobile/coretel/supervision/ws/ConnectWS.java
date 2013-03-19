@@ -10,6 +10,8 @@ import java.net.URL;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class ConnectWS {
 	//private static String IP_SERVER = "23.22.165.103";
 	private static String IP_SERVER = "23.23.1.2";
@@ -20,7 +22,7 @@ public class ConnectWS {
 		try {
 			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + url);
 			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
-			System.out.println("Login - url = " + urlCon);
+			Log.v("pio", "login = " + urlConnection);
 			InputStream inputStream = urlConnection.getInputStream();
 			
 			String responseInputStream = convertStreamToString(inputStream);
