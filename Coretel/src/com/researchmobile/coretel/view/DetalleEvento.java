@@ -22,16 +22,31 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	private Button eliminarButton;
 	
     public void onCreate(Bundle savedInstanceState) {
+    	System.out.println("Antes del oncreate super");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        System.out.println("Antes del Set conten...");
         setContentView(R.layout.detalleevento);
- 
+        System.out.println("Despues del set content y antes del buldle");
         Bundle bundle = getIntent().getExtras();
-        String id = bundle.getString("id");
-        String fecha = bundle.getString("fecha");
-        String activo = bundle.getString("activo");
-        String tipo = bundle.getString("tipo");
-        String descripcion = bundle.getString("descripcion");
+        System.out.println("Despues de obtener el extras");
+        
+        String id = "";
+        String fecha = "";
+        String activo = "";
+        String tipo = "";
+        String descripcion = "";
+        
+        try{
+         id = bundle.getString("id");
+         fecha = bundle.getString("fecha");
+         activo = bundle.getString("activo");
+         tipo = bundle.getString("tipo");
+         descripcion = bundle.getString("descripcion");
+         System.out.println("se setearon los datoss " + id + " " + fecha + " " + activo  + " " + descripcion);
+        }catch(Exception e){
+        	System.out.println("Ocurrio un error al guardar los extras");
+        }
         
         setFechaTextView((TextView)findViewById(R.id.detalleevento_fecha_textview));
         setTipoTextView((TextView)findViewById(R.id.detalleevento_tipo_textview));
@@ -39,13 +54,13 @@ public class DetalleEvento extends Activity implements OnClickListener{
         setDescripcionTextView((TextView)findViewById(R.id.detalleevento_descripcion_textview));
         setRegresarButton((Button)findViewById(R.id.detalleevento_regresar_button));
         setEditarButton((Button)findViewById(R.id.detalleevento_editar_button));
-        setEliminarButton((Button)findViewById(R.id.detallemiembro_borrar_button));
+        setEliminarButton((Button)findViewById(R.id.detalleevento_borrar_button));
         getEditarButton().setOnClickListener(this);
         getEliminarButton().setOnClickListener(this);
         getRegresarButton().setOnClickListener(this);
         
-        getEditarButton().setVisibility(View.INVISIBLE);
-        getEliminarButton().setVisibility(View.INVISIBLE);
+       getEditarButton().setVisibility(View.INVISIBLE);
+       getEliminarButton().setVisibility(View.INVISIBLE);
         
         
         getFechaTextView().setText(fecha);
