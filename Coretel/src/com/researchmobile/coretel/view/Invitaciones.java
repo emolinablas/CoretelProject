@@ -252,8 +252,13 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			 est = "Rechazada";
 		 }
 		 new AlertDialog.Builder(this)
-         .setTitle("Invitación") 
-         .setMessage("Estado:             " + est + "\n" + "Invitó:                      " + getInvitacion().getUsuarioInvita() + "\n" + "Comunidad                  " + getInvitacion().getNombreComunidad() + "\n" + "Fecha de invitación     " + getInvitacion().getFechaRegistro() + "\n" + "Email                        " + getInvitacion().getEmail())
+         .setTitle("INVITACION") 
+         									   .setMessage("ESTADO:__________________ " + 
+        		 							  est + "\n" + "INVITO: __________________ " + 
+               getInvitacion().getUsuarioInvita() + "\n" + "COMUNIDAD:____________ " + 
+        	 getInvitacion().getNombreComunidad() + "\n" + "FECHA DE INVITACION:_ " + 
+               getInvitacion().getFechaRegistro() + "\n" + "EMAIL:____________________ " +
+        	 getInvitacion().getEmail())
          .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
              public void onClick(DialogInterface dialog, int whichButton) {
                   setRespuesta("1");
