@@ -3,8 +3,6 @@ package com.researchmobile.coretel.supervision.utility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.researchmobile.coretel.view.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -12,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.researchmobile.coretel.view.R;
 
 public class AdapterInvitaciones extends BaseAdapter {
 	protected Activity activity;
@@ -49,13 +50,39 @@ public class AdapterInvitaciones extends BaseAdapter {
         	LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         	vi = inflater.inflate(R.layout.lista_invitacion, null);
         }
+		ImageView imagen = (ImageView) vi.findViewById(R.id.flecha);
+		TextView encabezado = (TextView) vi.findViewById(R.id.invitaciones_encabezado_textview);
+		TextView comunidad = (TextView) vi.findViewById(R.id.invitaciones_comunidad_textView);
+		TextView estado = (TextView) vi.findViewById(R.id.invitaciones_estado_textView);
 		
-		TextView titulo = (TextView) vi.findViewById(R.id.invitaciones_encabezado_textview);
-		TextView link = (TextView) vi.findViewById(R.id.invitaciones_encabezado_textview);
-		titulo.setTextColor(Color.BLACK);
-		link.setTextColor(Color.DKGRAY);
-		titulo.setText((String)item.get("T"));
-		link.setText((String)item.get("L"));
+		encabezado.setTextColor(Color.BLACK);
+		comunidad.setTextColor(Color.DKGRAY);
+		estado.setTextColor(Color.DKGRAY);
+		
+		int tipo = (Integer) item.get("tipo");
+		if (tipo == 2 || tipo == 4){
+			imagen.setVisibility(View.GONE);
+		}
+		
+		String enc = (String)item.get("encabezado");
+		if (enc.equalsIgnoreCase("null")){
+			encabezado.setText((String)item.get("email"));
+		}else{
+			encabezado.setText((String)item.get("encabezado"));
+		}
+		comunidad.setText((String)item.get("comunidad"));
+		String est = (String)item.get("estado");
+		if (est.equalsIgnoreCase("1")){
+			estado.setText("Aceptada");
+			vi.setBackgroundColor(Color.parseColor("#CCFFCC"));
+		}else if (est.equalsIgnoreCase("2")){
+			vi.setBackgroundColor(Color.parseColor("#FFCCCC"));
+			estado.setText("Rechazado");
+		}else {
+			vi.setBackgroundColor(Color.parseColor("#99FFFF"));
+			estado.setText("Pendiente");
+		}
+		
 		
 		return vi;
 	}

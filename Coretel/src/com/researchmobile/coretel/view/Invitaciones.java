@@ -44,6 +44,7 @@ import com.researchmobile.coretel.entity.Invitacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.Solicitud;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.supervision.utility.AdapterInvitaciones;
 import com.researchmobile.coretel.ws.RequestWS;
 /**
  * 
@@ -135,8 +136,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 		if (adapter == getInvitacionesListView()){
-			setInvitacion((Invitacion)adapter.getItemAtPosition(position));
-			dialogInvitacion();
+			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
 		}else if(adapter == lView){
 			collapseMenu();
 			opcionesMenu(position);
@@ -585,55 +585,101 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
          }
    }
     
-    public ArrayList<HashMap<String,Object>> recorreSolicitudes(){
-    	
-		
-    	return null;
-    }
-    
     public void llenaListaSolicitudEnviados(){
     	
-    	getSolicitudesEnviadasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
-    			R.layout.lista_invitacion_sin_boton,
-    			R.id.invitaciones_encabezado_textview,
-    			getCatalogoSolicitudEnviada().getSolicitud()));
-    	setListViewHeightBasedOnChildren(getSolicitudesEnviadasListView());
+    	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	int tamano = getCatalogoSolicitudEnviada().getSolicitud().length;
+    	long con = 0;
+    	for (int i = 0; i < tamano; i++){
+    		map = new HashMap<String, Object>();
+    		map.put("id", con);
+    		map.put("encabezado", getCatalogoSolicitudEnviada().getSolicitud()[i].getNombreUsuario());
+    		map.put("comunidad", getCatalogoSolicitudEnviada().getSolicitud()[i].getNombreComunidad());
+    		map.put("estado", getCatalogoSolicitudEnviada().getSolicitud()[i].getEstado());
+    		map.put("email", "");
+    		map.put("tipo", 4);
+    		con++;
+    		list.add(map);
+    	}
     	
-    			getSolicitudesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    	AdapterInvitaciones adapter = new AdapterInvitaciones(this, list);
+    	getSolicitudesEnviadasListView().setAdapter(adapter);
+    	setListViewHeightBasedOnChildren(getSolicitudesEnviadasListView());
+    	getSolicitudesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    	
     }
     
     public void llenaListaSolicitudRecibidos(){
-    	getSolicitudesRecibidasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
-    			R.layout.lista_invitacion,
-    			R.id.invitaciones_encabezado_textview,
-    			getCatalogoSolicitudRecibida().getSolicitud()));
-    	setListViewHeightBasedOnChildren(getSolicitudesRecibidasListView());
     	
-    			getSolicitudesRecibidasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	int tamano = getCatalogoSolicitudRecibida().getSolicitud().length;
+    	long con = 0;
+    	for (int i = 0; i < tamano; i++){
+    		map = new HashMap<String, Object>();
+    		map.put("id", con);
+    		map.put("encabezado", getCatalogoSolicitudRecibida().getSolicitud()[i].getNombreUsuario());
+    		map.put("comunidad", getCatalogoSolicitudRecibida().getSolicitud()[i].getNombreComunidad());
+    		map.put("estado", getCatalogoSolicitudRecibida().getSolicitud()[i].getEstado());
+    		map.put("email", "");
+    		map.put("tipo", 3);
+    		con++;
+    		list.add(map);
+    	}
+    	
+    	AdapterInvitaciones adapter = new AdapterInvitaciones(this, list);
+    	getSolicitudesRecibidasListView().setAdapter(adapter);
+    	setListViewHeightBasedOnChildren(getSolicitudesRecibidasListView());
+    	getSolicitudesRecibidasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
     
     public void llenaLista(){
+    	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	int tamano = getCatalogoInvitacion().getInvitacion().length;
+    	long con = 0;
+    	for (int i = 0; i < tamano; i++){
+    		map = new HashMap<String, Object>();
+    		map.put("id", con);
+    		map.put("encabezado", getCatalogoInvitacion().getInvitacion()[i].getNombreUsuario());
+    		map.put("comunidad", getCatalogoInvitacion().getInvitacion()[i].getNombreComunidad());
+    		map.put("estado", getCatalogoInvitacion().getInvitacion()[i].getEstado());
+    		map.put("email", getCatalogoInvitacion().getInvitacion()[i].getEmail());
+    		map.put("tipo", 1);
+    		con++;
+    		list.add(map);
+    	}
     	
-    	getInvitacionesListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
-				R.layout.lista_invitacion,
-				R.id.invitaciones_encabezado_textview,
-				getCatalogoInvitacion().getInvitacion()));
+    	AdapterInvitaciones adapter = new AdapterInvitaciones(this, list);
+    	getInvitacionesListView().setAdapter(adapter);
     	setListViewHeightBasedOnChildren(getInvitacionesListView());
-    	
-    			getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    	getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
     
     public void llenaListaEnviados(){
     	
-    	getInvitacionesEnviadasListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
-				R.layout.lista_invitacion_sin_boton,
-				R.id.invitaciones_encabezado_textview,
-				getCatalogoInvitacionEnviado().getInvitacion()));
-    	setListViewHeightBasedOnChildren(getInvitacionesEnviadasListView());
+    	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	int tamano = getCatalogoInvitacionEnviado().getInvitacion().length;
+    	long con = 0;
+    	for (int i = 0; i < tamano; i++){
+    		map = new HashMap<String, Object>();
+    		map.put("id", con);
+    		map.put("encabezado", getCatalogoInvitacionEnviado().getInvitacion()[i].getNombreUsuario());
+    		map.put("comunidad", getCatalogoInvitacionEnviado().getInvitacion()[i].getNombreComunidad());
+    		map.put("estado", getCatalogoInvitacionEnviado().getInvitacion()[i].getEstado());
+    		map.put("email", getCatalogoInvitacionEnviado().getInvitacion()[i].getEmail());
+    		map.put("tipo", 2);
+    		con++;
+    		list.add(map);
+    	}
     	
-				getInvitacionesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
-	}
+    	AdapterInvitaciones adapter = new AdapterInvitaciones(this, list);
+    	getInvitacionesEnviadasListView().setAdapter(adapter);
+    	setListViewHeightBasedOnChildren(getInvitacionesEnviadasListView());
+    	getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
     
     public String[] invitaciones(){
     	int tamano = getCatalogoInvitacion().getInvitacion().length;
