@@ -259,7 +259,9 @@ private void animationMenu(){
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getId_comunidad() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreUsuario() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion() + "=+="
-    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getIcono();
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getIcono() + "=+="
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getRespuesta() + "+"
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado();
     		String desc = getCatalogoAsignacion().getAnotacionasignacion()[i].getDescripcion() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getFecha_registro() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreUsuario() + "=+="

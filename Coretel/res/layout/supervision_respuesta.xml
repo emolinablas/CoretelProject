@@ -10,10 +10,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_footer_iphone"
-        android:gravity="center"
         android:orientation="horizontal" >
         
- <!--  
+   
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,22 +21,22 @@
             >
             
             <Button
-                android:id="@+id/evento_regresar_button"
+                android:id="@+id/supervisionrespuesta_guardarbutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Cancelar"
+                android:text="Guardar"
                 android:textColor="#ffffff" />
 
         </LinearLayout>
--->
+
         <TextView
             android:id="@+id/textView1"
             style="@style/Text.Titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registro Evento"/>
+         />
 <!-- 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -94,7 +93,7 @@
                         android:text="Respuesta" />
 
                     <EditText
-                        android:id="@+id/respuesta_respuestaEditText"
+                        android:id="@+id/supervisionrespuesta_respuestaEditText"
                         style="@style/Text.Value"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -125,6 +124,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
+                    <RadioButton 
+                    android:id="@+id/supervisionrespuesta_pendiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Text.Value"
+                    android:text="Pendiente"
+                    />
                     <RadioButton
                     android:id="@+id/supervisionrespuesta_corregido"
                     android:layout_width="wrap_content"
@@ -152,14 +158,13 @@
                 </LinearLayout>
                 
                 <LinearLayout
-                    android:id="@+id/respuesta_imagen_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="#afafaf"
                     android:gravity="center" >
 
                     <ImageView
-                        android:id="@+id/respuesta_foto_imageview"
+                        android:id="@+id/supervisionrespuesta_foto_imageview"
                         android:layout_width="295sp"
                         android:layout_height="195sp"
                         android:src="@drawable/camera" />
@@ -187,7 +192,7 @@
             android:gravity="right" >
 
             <Button
-                android:id="@+id/respuesta_capturar_button"
+                android:id="@+id/supervisionrespuesta_capturar_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/camera"
