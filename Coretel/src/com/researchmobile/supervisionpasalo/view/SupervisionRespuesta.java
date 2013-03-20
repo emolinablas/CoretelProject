@@ -12,7 +12,6 @@ import com.researchmobile.coretel.view.R;
 public class SupervisionRespuesta extends Activity {
 
 	private EditText respuestaEditText;
-	private Spinner comunidadSpinner;
 	private ImageView fotoImageView;
 	private Button capturarButton;
 
@@ -23,7 +22,6 @@ public class SupervisionRespuesta extends Activity {
 			Bundle bundle = getIntent().getExtras();
 			
 			setRespuestaEditText((EditText)findViewById(R.id.respuesta_respuestaEditText));
-			setComunidadSpinner((Spinner)findViewById(R.id.respuesta_comunidad_spinner));
 			setFotoImageView((ImageView)findViewById(R.id.respuesta_foto_imageview));
 			setCapturarButton((Button)findViewById(R.id.respuesta_capturar_button));
 		}
@@ -34,14 +32,6 @@ public class SupervisionRespuesta extends Activity {
 
 		public void setRespuestaEditText(EditText respuestaEditText) {
 			this.respuestaEditText = respuestaEditText;
-		}
-
-		public Spinner getComunidadSpinner() {
-			return comunidadSpinner;
-		}
-
-		public void setComunidadSpinner(Spinner comunidadSpinner) {
-			this.comunidadSpinner = comunidadSpinner;
 		}
 
 		public ImageView getFotoImageView() {
