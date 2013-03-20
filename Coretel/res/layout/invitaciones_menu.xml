@@ -142,16 +142,15 @@
                         style="@style/Text.Label"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Invitaciones Recibidas" />
+                        android:background="@drawable/background_footer_iphone"
+                        android:paddingLeft="10dp"
+                        android:text="Invitaciones Recibidas"
+                        android:textColor="#ffffff" />
 
                     <ListView
                         android:id="@+id/invitaciones_listview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_list_view_celeste"
                         android:cacheColorHint="#00000000"
                         android:divider="#D1D5E0"
                         android:dividerHeight="2dp"
@@ -166,16 +165,14 @@
                         style="@style/Text.Label"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Invitaciones Enviadas" />
+                        android:background="@drawable/background_footer_iphone"
+                        android:text="Invitaciones Enviadas"
+                        android:textColor="#ffffff" />
 
                     <ListView
                         android:id="@+id/invitaciones_enviadas_listview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_list_view_celeste"
                         android:cacheColorHint="#00000000"
                         android:divider="#D1D5E0"
                         android:dividerHeight="2dp"
@@ -183,20 +180,18 @@
                     </ListView>
 
                     <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/invitaciones_comunidad_textView"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/background_footer_iphone"
                         android:text="Solicitud de Suscripción Recibida"
-                        android:textColor="@color/text_label"
+                        android:textColor="#ffffff"
                         android:textStyle="bold" />
 
                     <ListView
                         android:id="@+id/solicitudes_recibidas_listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_list_view_verde"
                         android:cacheColorHint="#00000000"
                         android:divider="#D1D5E0"
                         android:dividerHeight="2dp"
@@ -205,19 +200,18 @@
 
                     <TextView
                         android:id="@+id/solicitud_enviada_textView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/background_footer_iphone"
+                        android:paddingLeft="10dp"
                         android:text="Solicitud de Suscripción Enviada"
-                        android:textColor="@color/text_label"
+                        android:textColor="#ffffff"
                         android:textStyle="bold" />
 
                     <ListView
                         android:id="@+id/solicitud_enviada_listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:background="@drawable/background_list_view_verde"
                         android:cacheColorHint="#00000000"
                         android:divider="#D1D5E0"
                         android:dividerHeight="2dp"

@@ -1,5 +1,8 @@
 package com.researchmobile.coretel.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -582,10 +585,17 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
          }
    }
     
+    public ArrayList<HashMap<String,Object>> recorreSolicitudes(){
+    	
+		
+    	return null;
+    }
+    
     public void llenaListaSolicitudEnviados(){
+    	
     	getSolicitudesEnviadasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
     			R.layout.lista_invitacion_sin_boton,
-    			R.id.lista_lobby_textview,
+    			R.id.invitaciones_encabezado_textview,
     			getCatalogoSolicitudEnviada().getSolicitud()));
     	setListViewHeightBasedOnChildren(getSolicitudesEnviadasListView());
     	
@@ -595,7 +605,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     public void llenaListaSolicitudRecibidos(){
     	getSolicitudesRecibidasListView().setAdapter(new ArrayAdapter<Solicitud>(this,
     			R.layout.lista_invitacion,
-    			R.id.lista_lobby_textview,
+    			R.id.invitaciones_encabezado_textview,
     			getCatalogoSolicitudRecibida().getSolicitud()));
     	setListViewHeightBasedOnChildren(getSolicitudesRecibidasListView());
     	
@@ -606,7 +616,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	
     	getInvitacionesListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
 				R.layout.lista_invitacion,
-				R.id.lista_lobby_textview,
+				R.id.invitaciones_encabezado_textview,
 				getCatalogoInvitacion().getInvitacion()));
     	setListViewHeightBasedOnChildren(getInvitacionesListView());
     	
@@ -617,7 +627,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	
     	getInvitacionesEnviadasListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
 				R.layout.lista_invitacion_sin_boton,
-				R.id.lista_lobby_textview,
+				R.id.invitaciones_encabezado_textview,
 				getCatalogoInvitacionEnviado().getInvitacion()));
     	setListViewHeightBasedOnChildren(getInvitacionesEnviadasListView());
     	
