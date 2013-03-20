@@ -375,10 +375,11 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		VerificarPuntos(list);
 		itemizedoverlay.setOnSelectPOIListener(new OnSelectPOIListener() {
 			public void onSelectPOI(int latitud, int longitud) {
-				Log.v("piio", "nuevo punto nuevo punto");
+				Log.v("pio", "nuevo punto nuevo punto");
 				GeoPoint loc = new GeoPoint((int) (latitud), (int) (longitud));
 				list.add(loc);
 				agregaPuntos(loc, "nuevo", "nuevo punto");
+				EventoTemporal.setNuevo(true);
 			}
 		});
 	}
@@ -511,8 +512,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     			}else{
     				EventoTemporal.setControl(1);
     				mapOverlays.remove(tamano - 1);
-    				Toast.makeText(getBaseContext(), "eliminar anterior", Toast.LENGTH_LONG).show();
-    				
     			}
     		}else{
     			

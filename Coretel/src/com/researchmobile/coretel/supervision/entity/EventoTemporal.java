@@ -8,6 +8,7 @@ public class EventoTemporal implements Serializable{
 	private static float latitud;
 	private static float longitud;
 	private static int control;
+	private static boolean nuevo;
 	public static float getLatitud() {
 		return latitud;
 	}
@@ -25,6 +26,12 @@ public class EventoTemporal implements Serializable{
 	}
 	public static void setControl(int control) {
 		EventoTemporal.control = control;
+	}
+	public static boolean isNuevo() {
+		return nuevo;
+	}
+	public static void setNuevo(boolean nuevo) {
+		EventoTemporal.nuevo = nuevo;
 	}
 	
 

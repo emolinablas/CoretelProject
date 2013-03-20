@@ -83,15 +83,14 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  System.out.println(getMiItem().getPoint().getLongitudeE6()+"");
 //	  layout.setVisibility(VISIBLE);
 	  if (getMiItem().getTitle().equalsIgnoreCase("nuevo")){
-		  if (EventoTemporal.getControl() == 1){
-			  Log.v("pio", "evento temporal = 1");
+		  if (EventoTemporal.isNuevo() && EventoTemporal.getControl() == 1){
 			  layout.setVisibility(GONE);
-			 
+			  EventoTemporal.setNuevo(false);
 		  }else{
-			  Log.v("pio", "evento temporal = 2");
 			  layout.setVisibility(VISIBLE);
-			  
+			  EventoTemporal.setControl(1);
 		  }
+		  
 		  
 		  title.setText(tokenizer.titulo(item.getTitle()));
 		  snippet.setVisibility(VISIBLE);
