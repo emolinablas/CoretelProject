@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -24,6 +26,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -172,6 +175,30 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 		if (view == getInvitarButton()){
 			new invitarAsync().execute("");
 		}
+	}
+	
+//	Metodo para controlar ScrollView con ListView
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+	    ListAdapter listAdapter = listView.getAdapter();
+	    if (listAdapter == null) {
+	        // pre-condition
+	        return;
+	    }
+
+	    int totalHeight = 0;
+	    int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+	            MeasureSpec.AT_MOST);
+	    for (int i = 0; i < listAdapter.getCount(); i++) {
+	        View listItem = listAdapter.getView(i, null, listView);
+	        listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+	        totalHeight += listItem.getMeasuredHeight();
+	    }
+
+	    ViewGroup.LayoutParams params = listView.getLayoutParams();
+	    params.height = totalHeight
+	            + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+	    listView.setLayoutParams(params);
+	    listView.requestLayout();
 	}
 	
 	private void prepararMenu(){
@@ -560,6 +587,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     			R.layout.lista_invitacion_sin_boton,
     			R.id.lista_lobby_textview,
     			getCatalogoSolicitudEnviada().getSolicitud()));
+    	setListViewHeightBasedOnChildren(getSolicitudesEnviadasListView());
     	
     			getSolicitudesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
@@ -569,24 +597,29 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     			R.layout.lista_invitacion,
     			R.id.lista_lobby_textview,
     			getCatalogoSolicitudRecibida().getSolicitud()));
+    	setListViewHeightBasedOnChildren(getSolicitudesRecibidasListView());
     	
     			getSolicitudesRecibidasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
     
     public void llenaLista(){
+    	
     	getInvitacionesListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
 				R.layout.lista_invitacion,
 				R.id.lista_lobby_textview,
 				getCatalogoInvitacion().getInvitacion()));
+    	setListViewHeightBasedOnChildren(getInvitacionesListView());
     	
     			getInvitacionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
     
     public void llenaListaEnviados(){
+    	
     	getInvitacionesEnviadasListView().setAdapter(new ArrayAdapter<Invitacion>(this, 
 				R.layout.lista_invitacion_sin_boton,
 				R.id.lista_lobby_textview,
 				getCatalogoInvitacionEnviado().getInvitacion()));
+    	setListViewHeightBasedOnChildren(getInvitacionesEnviadasListView());
     	
 				getInvitacionesEnviadasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		
