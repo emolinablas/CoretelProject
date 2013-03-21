@@ -141,14 +141,18 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			
 			@SuppressWarnings("unchecked")
 			HashMap<String, Object> invitacion = (HashMap<String, Object>) adapter.getItemAtPosition(position);
-			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
-			Log.v("pio", (String)invitacion.get("estado"));
 			Intent intentDetalle = new Intent(this, DetalleInvitacion.class);
 			intentDetalle.putExtra("invitacion",invitacion);
 			startActivity(intentDetalle);
 		}else if(adapter == lView){
 			collapseMenu();
 			opcionesMenu(position);
+		}else if (adapter == getSolicitudesRecibidasListView()){
+			@SuppressWarnings("unchecked")
+			HashMap<String, Object> solicitud = (HashMap<String, Object>) adapter.getItemAtPosition(position);
+			Intent intentDetalle = new Intent(this, DetalleSolicitud.class);
+			intentDetalle.putExtra("solicitud", solicitud);
+			startActivity(intentDetalle);
 		}
 	}
 	
@@ -627,9 +631,11 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	for (int i = 0; i < tamano; i++){
     		map = new HashMap<String, Object>();
     		map.put("id", con);
+    		map.put("idSolicitud", getCatalogoSolicitudRecibida().getSolicitud()[i].getId());
     		map.put("encabezado", getCatalogoSolicitudRecibida().getSolicitud()[i].getNombreUsuario());
     		map.put("comunidad", getCatalogoSolicitudRecibida().getSolicitud()[i].getNombreComunidad());
     		map.put("estado", getCatalogoSolicitudRecibida().getSolicitud()[i].getEstado());
+    		map.put("solicita", getCatalogoSolicitudRecibida().getSolicitud()[i].getNombreUsuario());
     		map.put("email", "");
     		map.put("tipo", 3);
     		con++;
@@ -638,6 +644,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	
     	AdapterInvitaciones adapter = new AdapterInvitaciones(this, list);
     	getSolicitudesRecibidasListView().setAdapter(adapter);
+    	getSolicitudesRecibidasListView().setOnItemClickListener(this);
     	setListViewHeightBasedOnChildren(getSolicitudesRecibidasListView());
     	getSolicitudesRecibidasListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }

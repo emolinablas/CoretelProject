@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- HEADER -->
+
+    <LinearLayout
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="left|center"
+        android:orientation="horizontal" >
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/detallesolicitud_invitaciones_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Invitaciones"
+                android:textColor="#ffffff" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Comunidad"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- BODY -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        style="@style/Layout.body"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="#D1D5E0"
+        android:gravity="top|left|center"
+        android:orientation="vertical"
+        android:padding="0dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
+            
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" 
+                android:layout_margin="10dp"
+                android:background="@drawable/background_textview">
+                
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView
+                android:id="@+id/textView2"
+                style="@style/Text.Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Estado"
+                android:textColor="#000000" />
+                
+                <TextView
+                android:id="@+id/detallesolicitud_estado_textview"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+                 
+                 
+            </LinearLayout>
+            
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/Text.Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Solicita"
+                    android:textColor="#000000" />
+                
+                <TextView
+                android:id="@+id/detallesolicitud_solicita_textview"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+                 
+                 
+            </LinearLayout>
+            
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/Text.Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Comunidad"
+                    android:textColor="#000000" />
+                
+                <TextView
+                android:id="@+id/detallesolicitud_comunidad_textview"
+                style="@style/Text.Value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_margin="10dp"/>
+                 
+                 
+            </LinearLayout>
+                 
+            </LinearLayout>
+            
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center" >
+
+                 <Button
+                     android:id="@+id/detallesolicitud_aceptar_button"
+                     android:layout_width="130dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_margin="10dp"
+                     android:background="@drawable/button_background_clear"
+                     android:text="Aceptar"
+                     android:textColor="#000000" />
+
+                 <Button
+                     android:id="@+id/detallesolicitud_rechazar_button"
+                     android:layout_width="130dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_margin="10dp"
+                     android:background="@drawable/button_background_clear"
+                     android:text="Rechazar"
+                     android:textColor="#000000" />
+             </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- FOOTER -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        style="@style/Layout.footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.04"
+        android:background="@drawable/background_footer_iphone"
+        android:gravity="right|center"
+        android:orientation="vertical" >
+            
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center">
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
