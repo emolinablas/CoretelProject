@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="0dp"
-            android:background="#353535"
+            android:background="@drawable/item_menu_back"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingLeft="15dp" >
@@ -47,7 +47,6 @@
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="0dp"
-                    android:background="#353535"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="Usuario Conectado"
@@ -59,7 +58,6 @@
                 android:id="@+id/lista"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gray_bg"
                 android:cacheColorHint="#00000000"
                 android:divider="#000000"
                 android:dividerHeight="0dp" />

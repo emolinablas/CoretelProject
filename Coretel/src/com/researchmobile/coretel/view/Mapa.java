@@ -48,6 +48,7 @@ import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.EventoTemporal;
+import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -142,7 +143,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 
 		// Set option as Multiple Choice. So that user can able to select more
 		// the one option from list
-		lView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lv_items));
+    	MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
 		lView.setOnItemClickListener(this);
 		
 		lugaresFilter.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lugares_items));

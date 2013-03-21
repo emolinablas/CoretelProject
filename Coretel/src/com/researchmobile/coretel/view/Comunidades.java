@@ -35,6 +35,7 @@ import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
+import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Comunidades extends Activity implements OnClickListener, OnItemClickListener{
@@ -101,8 +102,9 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
         String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 
       // Set option as Multiple Choice. So that user can able to select more the one option from list
-      lView.setAdapter(new ArrayAdapter<String>(this,
-      android.R.layout.simple_list_item_1, lv_items));
+        
+        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
       lView.setOnItemClickListener(this);
       animationMenu();
       
