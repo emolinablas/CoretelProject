@@ -293,7 +293,7 @@ public class Lobby extends Activity implements OnItemClickListener, OnClickListe
 	}
 	
 	private String[] ListaOpciones(){
-		String [] opciones = {"Mi Perfil", "Avatar"};
+		String [] opciones = {"Datos Personales\nCambia tu informacion personal", "Avatar\nPersonaliza tu avatar"};
 		return opciones;
 	}
 
