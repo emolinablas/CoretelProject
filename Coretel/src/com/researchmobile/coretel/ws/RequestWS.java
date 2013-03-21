@@ -504,9 +504,9 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 	}
 	
-	public RespuestaWS enviarRespuestaInvitacion(Invitacion invitacion, String respuesta) {
+	public RespuestaWS enviarRespuestaInvitacion(String idInvitacion, String respuesta) {
 		JSONObject jsonObject = null;
-		String finalURL = WS_RESPUESTAINVITACON + invitacion.getId() + "&estado=" + respuesta; 
+		String finalURL = WS_RESPUESTAINVITACON + idInvitacion + "&estado=" + respuesta; 
 		RespuestaWS res = new RespuestaWS();
 		try{
 			jsonObject = connectWS.enviarRespuestaInvitacion(finalURL);

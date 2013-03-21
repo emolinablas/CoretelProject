@@ -532,8 +532,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
      }
      public RespuestaWS enviarRespuesta(){
     	 try{
-    		 RespuestaWS respuestaWS = new RespuestaWS();
-    		 respuestaWS = getRequestWS().enviarRespuestaInvitacion(getInvitacion(), getRespuesta());
+    		 
     		 return respuestaWS;
     	 }catch(Exception exception){
     		 return null;
@@ -651,6 +650,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     	for (int i = 0; i < tamano; i++){
     		map = new HashMap<String, Object>();
     		map.put("id", con);
+    		map.put("idInvitacion", getCatalogoInvitacion().getInvitacion()[i].getId());
     		map.put("encabezado", getCatalogoInvitacion().getInvitacion()[i].getNombreUsuario());
     		map.put("comunidad", getCatalogoInvitacion().getInvitacion()[i].getNombreComunidad());
     		map.put("estado", getCatalogoInvitacion().getInvitacion()[i].getEstado());

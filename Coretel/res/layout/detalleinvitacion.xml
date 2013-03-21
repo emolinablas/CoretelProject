@@ -200,9 +200,31 @@
                  
             </LinearLayout>
             
-             
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:gravity="center" >
 
-           
+                 <Button
+                     android:id="@+id/detalleinvitacion_aceptar_button"
+                     android:layout_width="130dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_margin="10dp"
+                     android:background="@drawable/button_background_clear"
+                     android:text="Aceptar"
+                     android:textColor="#000000" />
+
+                 <Button
+                     android:id="@+id/detalleinvitacion_rechazar_button"
+                     android:layout_width="130dp"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center"
+                     android:layout_margin="10dp"
+                     android:background="@drawable/button_background_clear"
+                     android:text="Rechazar"
+                     android:textColor="#000000" />
+             </LinearLayout>
 
         </LinearLayout>
 

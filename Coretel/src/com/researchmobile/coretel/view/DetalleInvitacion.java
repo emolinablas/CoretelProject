@@ -3,6 +3,9 @@ package com.researchmobile.coretel.view;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,7 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.researchmobile.coretel.entity.Invitacion;
+import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleInvitacion extends Activity implements OnClickListener{
 	
@@ -20,7 +24,14 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 	private TextView fechaTextView;
 	private TextView emailTextView;
 	private Button invitacionesButton;
-	private Invitacion invitacion;
+	private Button aceptarButton;
+	private Button rechazarButton;
+	private ProgressDialog pd = null;
+	
+	private String respuesta;
+	private String idInvitacion;
+	private RespuestaWS respuestaRespondidoWS;
+	private RequestWS resquestWS;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -29,21 +40,30 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		@SuppressWarnings("unchecked")
 		HashMap<String, Object> invitacion = (HashMap<String, Object>)bundle.get("invitacion");
-//		setInvitacion((Invitacion)bundle.get("invitacion"));
+		setIdInvitacion((String)invitacion.get("idInvitacion"));
 		
+		setResquestWS(new RequestWS());
 		setEstadoTextView((TextView)findViewById(R.id.detalleinvitacion_estado_textview));
 		setInvitoTextView((TextView)findViewById(R.id.detalleinvitacion_invito_textview));
 		setComunidadTextView((TextView)findViewById(R.id.detalleinvitacion_comunidad_textview));
 		setFechaTextView((TextView)findViewById(R.id.detalleinvitacion_fecha_textview));
 		setEmailTextView((TextView)findViewById(R.id.detalleinvitacion_email_textview));
 		setInvitacionesButton((Button)findViewById(R.id.detalleinvitacion_invitaciones_button));
+		setAceptarButton((Button)findViewById(R.id.detalleinvitacion_aceptar_button));
+		setRechazarButton((Button)findViewById(R.id.detalleinvitacion_rechazar_button));
 		getInvitacionesButton().setOnClickListener(this);
+		getAceptarButton().setOnClickListener(this);
+		getRechazarButton().setOnClickListener(this);
 		
 		String estado = (String)invitacion.get("estado");
 		if (estado.equalsIgnoreCase("1")){
 			estado = "Aceptada";
+			getAceptarButton().setVisibility(View.GONE);
+			getRechazarButton().setVisibility(View.GONE);
 		}else if(estado.equalsIgnoreCase("2")){
 			estado = "Rechazada";
+			getAceptarButton().setVisibility(View.GONE);
+			getRechazarButton().setVisibility(View.GONE);
 		}else if(estado.equalsIgnoreCase("3")){
 			estado = "Pendiente";
 		}
@@ -58,9 +78,58 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 	public void onClick(View view) {
 		if (view == getInvitacionesButton()){
 			finish();
+		}else if (view == getAceptarButton()){
+			setRespuesta("1");
+            new enviarRespuestaAsync().execute("");
+		}else if (view == getRechazarButton()){
+			setRespuesta("2");
+            new enviarRespuestaAsync().execute("");
 		}
 		
 	}
+	
+	// Clase para ejecutar en Background
+    class enviarRespuestaAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(DetalleInvitacion.this, "RESPONDIENDO", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+               	 setRespuestaRespondidoWS(enviarRespuesta());
+
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (getRespuestaRespondidoWS() != null && getRespuestaRespondidoWS().isResultado()){
+               	 Intent intent = new Intent(DetalleInvitacion.this, Invitaciones.class);
+               	 startActivity(intent);
+                }
+         }
+   }
+    
+    public RespuestaWS enviarRespuesta(){
+   	 try{
+   		 RespuestaWS respuestaWS = new RespuestaWS();
+   		 respuestaWS = getResquestWS().enviarRespuestaInvitacion(getIdInvitacion(), getRespuesta());
+   		 return respuestaWS;
+   	 }catch(Exception exception){
+   		 return null;
+   	 }
+   	
+    }
 
 	public TextView getEstadoTextView() {
 		return estadoTextView;
@@ -110,12 +179,53 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 		this.invitacionesButton = invitacionesButton;
 	}
 
-	public void setInvitacion(Invitacion invitacion) {
-		this.invitacion = invitacion;
+	public Button getAceptarButton() {
+		return aceptarButton;
 	}
 
-	public Invitacion getInvitacion() {
-		return invitacion;
+	public void setAceptarButton(Button aceptarButton) {
+		this.aceptarButton = aceptarButton;
 	}
 
+	public Button getRechazarButton() {
+		return rechazarButton;
+	}
+
+	public void setRechazarButton(Button rechazarButton) {
+		this.rechazarButton = rechazarButton;
+	}
+
+	public String getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public RespuestaWS getRespuestaRespondidoWS() {
+		return respuestaRespondidoWS;
+	}
+
+	public void setRespuestaRespondidoWS(RespuestaWS respuestaRespondidoWS) {
+		this.respuestaRespondidoWS = respuestaRespondidoWS;
+	}
+
+	public RequestWS getResquestWS() {
+		return resquestWS;
+	}
+
+	public void setResquestWS(RequestWS resquestWS) {
+		this.resquestWS = resquestWS;
+	}
+
+	public String getIdInvitacion() {
+		return idInvitacion;
+	}
+
+	public void setIdInvitacion(String idInvitacion) {
+		this.idInvitacion = idInvitacion;
+	}
+	
+	
 }
