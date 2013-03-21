@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -137,7 +138,14 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 		if (adapter == getInvitacionesListView()){
+			
+			@SuppressWarnings("unchecked")
+			HashMap<String, Object> invitacion = (HashMap<String, Object>) adapter.getItemAtPosition(position);
 			Toast.makeText(getBaseContext(), "En proceso de desarrollo", Toast.LENGTH_SHORT).show();
+			Log.v("pio", (String)invitacion.get("estado"));
+			Intent intentDetalle = new Intent(this, DetalleInvitacion.class);
+			intentDetalle.putExtra("invitacion",invitacion);
+			startActivity(intentDetalle);
 		}else if(adapter == lView){
 			collapseMenu();
 			opcionesMenu(position);
@@ -647,6 +655,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
     		map.put("comunidad", getCatalogoInvitacion().getInvitacion()[i].getNombreComunidad());
     		map.put("estado", getCatalogoInvitacion().getInvitacion()[i].getEstado());
     		map.put("email", getCatalogoInvitacion().getInvitacion()[i].getEmail());
+    		map.put("usuario", getCatalogoInvitacion().getInvitacion()[i].getUsuarioInvita());
+    		map.put("fecha", getCatalogoInvitacion().getInvitacion()[i].getFechaRegistro());
     		map.put("tipo", 1);
     		con++;
     		list.add(map);
