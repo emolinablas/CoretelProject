@@ -212,6 +212,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			    Intent intent = new Intent(Asignaciones.this, MapaSupervision.class);
 				intent.putExtra("latitud", latitud);
 				intent.putExtra("longitud", longitud);
+				intent.putExtra("cargarPuntos", true);
 				startActivity(intent);
 	    	}
 			

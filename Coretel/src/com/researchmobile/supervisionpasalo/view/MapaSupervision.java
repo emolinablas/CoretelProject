@@ -57,6 +57,7 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private float lonSeleccionado;
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
+	private boolean cargarPuntos;
 	//Declare
 	private LinearLayout slidingPanel;
 	private boolean isExpanded;
@@ -90,8 +91,8 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
         setLonSeleccionado((float)bundle.getFloat("longitud"));
         setLatitudSeleccionado(bundle.getString("latitud"));
         setLongitudSeleccionado(bundle.getString("longitud"));
-            	
-        new buscaAnotacionesAsync().execute("");
+        setCargarPuntos(bundle.getBoolean("cargarPuntos"));
+        	new buscaAnotacionesAsync().execute("");
     }
     
     
@@ -154,12 +155,16 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 			@Override
 			public void onClick(View arg0) {
 				try{
-					GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation().getLatitudeE6(), 
-							myLocationOverlay.getMyLocation().getLongitudeE6());
-					
-					list.add(loc);
-	        		agregaPuntos(loc, "nuevo", "nuevo punto");
-	                mapController.animateTo(myLocationOverlay.getMyLocation());
+					GeoPoint loc = new GeoPoint(myLocationOverlay.getMyLocation()
+							.getLatitudeE6(), myLocationOverlay.getMyLocation()
+							.getLongitudeE6());
+
+					mapController.animateTo(loc);
+
+					int zoomActual = mapView.getZoomLevel();
+					for (int i = zoomActual; i < 10; i++) {
+						mapController.zoomIn();
+					}
 	            }catch(Exception exception){
 					
 				}
@@ -167,6 +172,23 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 		});
     }
 	
+	public void buscarPunto(){
+		try{
+			
+			int latTemp = Integer.parseInt(getLatitudSeleccionado());
+			int lonTemp = Integer.parseInt(getLongitudSeleccionado());
+			GeoPoint loc = new GeoPoint((int)(latTemp * 1E6),(int) (lonTemp * 1E6));
+
+			mapController.animateTo(loc);
+
+			int zoomActual = mapView.getZoomLevel();
+			for (int i = zoomActual; i < 10; i++) {
+				mapController.zoomIn();
+			}
+        }catch(Exception exception){
+			
+		}
+	}
 	
     
 private void CargarAsignaciones() {
@@ -314,22 +336,35 @@ private void animationMenu(){
         int latitud = (int) (14.627853 * 1E6);
         int longitud = (int) (-90.517584 * 1E6);
         mapController.animateTo(new GeoPoint(latitud,longitud));
-        centerMyPosition();
+//        centerMyPosition();
    }
     
     private void centerMyPosition(){
-        myLocationOverlay = new MyLocationOverlay(this, mapView);
+    	
+    	myLocationOverlay = new MyLocationOverlay(this, mapView);
         mapView.getOverlays().add(myLocationOverlay);
-        myLocationOverlay.enableCompass();
         myLocationOverlay.enableMyLocation();
-        int latitud = (int) (14.627853 * 1E6);
-        int longitud = (int) (-90.517584 * 1E6);
-        final GeoPoint loc = new GeoPoint((int) (getLatSeleccionado()), (int)(getLonSeleccionado()));
         myLocationOverlay.runOnFirstFix(new Runnable() {
             public void run() {
-            	mapController.animateTo(loc);
+            	try{
+            		mapController.animateTo(myLocationOverlay.getMyLocation());
+            	}catch(Exception exception){
+            		Log.e("TT", "MapWuil error buscando posicion");
+            	}
+            	
             }
         });
+    	
+//        myLocationOverlay = new MyLocationOverlay(this, mapView);
+//        mapView.getOverlays().add(myLocationOverlay);
+//        myLocationOverlay.enableCompass();
+//        myLocationOverlay.enableMyLocation();
+//        final GeoPoint loc = new GeoPoint((int) (getLatSeleccionado()), (int)(getLonSeleccionado()));
+//        myLocationOverlay.runOnFirstFix(new Runnable() {
+//            public void run() {
+//            	mapController.animateTo(loc);
+//            }
+//        });
     }
     
     private void opcionVerEvento() {
@@ -412,7 +447,11 @@ private void animationMenu(){
 	      protected void onPostExecute(Integer resultado) {
 	            pd.dismiss();
 	            inicializar();
-	            opcionVerEvento();
+	            Log.v("pio", "estado cargarPuntos = " + isCargarPuntos());
+	            if (isCargarPuntos()){
+	            	buscarPunto();
+	            }
+//	            opcionVerEvento();
 	     }
 
 
@@ -473,6 +512,17 @@ private void animationMenu(){
 	public void setLonSeleccionado(float lonSeleccionado) {
 		this.lonSeleccionado = lonSeleccionado;
 	}
+
+
+	public boolean isCargarPuntos() {
+		return cargarPuntos;
+	}
+
+
+	public void setCargarPuntos(boolean cargarPuntos) {
+		this.cargarPuntos = cargarPuntos;
+	}
 	
 
+	
 }

@@ -505,6 +505,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	private void MostrarImagen() {
 			String url = "http://23.23.1.2/WS/" + tokenizer.imagen(getDescripcion());
+			Log.e("TT", "Descripcion = " + getDescripcion());
 			Log.e("TT", "url imagen = " + url);
 			new descargaImagenes().execute(url);
 		getImagenLayout().setVisibility(View.VISIBLE);

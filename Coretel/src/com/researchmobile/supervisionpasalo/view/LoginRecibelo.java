@@ -104,9 +104,22 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 		Intent intent = new Intent(LoginRecibelo.this, Principal.class);
 		startActivity(intent);
 	}
-	public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean onKey(View view, int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)
+        {
+              if (view == getUsuarioEditText()){
+                  getClaveEditText().requestFocus();
+              }else if (view == getClaveEditText()){
+           	   new LoginAsync().execute("");
+              }
+            return true;
+        }
+        if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
+        {
+            //TODO: When the enter key is pressed
+            return true;
+        }
+        return false;
 	}
 
 	//USO DEL ONKEYDOWN
@@ -195,6 +208,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 				Intent intent = new Intent(LoginRecibelo.this, MapaSupervision.class);
 				intent.putExtra("latitud", latitud);
 				intent.putExtra("longitud", longitud);
+				intent.putExtra("cargarPuntos", false);
 	            startActivity(intent);
 			}else{
 				getMensaje().VerMensaje(LoginRecibelo.this, "NO EXISTE USUARIO");
