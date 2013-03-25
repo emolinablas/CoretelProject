@@ -284,8 +284,9 @@ private void animationMenu(){
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreUsuario() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getIcono() + "=+="
-    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getRespuesta() + "+"
-    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado();
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado() + "=+="
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getRespuesta();
+    			;
     		String desc = getCatalogoAsignacion().getAnotacionasignacion()[i].getDescripcion() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getFecha_registro() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreUsuario() + "=+="
@@ -308,23 +309,16 @@ private void animationMenu(){
     
     private void agregaPuntos(GeoPoint list, String titulo, String desc) {
     	
-    	//for (int i = 0; i < list.size(); i++){
-    		//Toast.makeText(getBaseContext(), String.valueOf(i), Toast.LENGTH_SHORT).show();
-    	
-    	
-    	//imageView.setImageResource(mThumbIds[position]);
-    	
     	BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + tokenizer.icono(titulo), options);
         
-		Drawable drawable = tokenizer.iconoResource(this, titulo);
-//    		Drawable drawable = new BitmapDrawable(bm);
-        	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
-    		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
-    		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
-            itemizedoverlay.addOverlay(overlayItem);
-            mapOverlays.add(itemizedoverlay);
+		Drawable drawable = tokenizer.iconoAsignacion(this, titulo);
+        MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
+    	OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
+    	Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
+        itemizedoverlay.addOverlay(overlayItem);
+        mapOverlays.add(itemizedoverlay);
     		
     	//}
     }

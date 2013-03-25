@@ -16,6 +16,7 @@ public class TokenizerUtilitySupervision {
 	private static int USUARIO_ANOTO = 3;
 	private static int TIPO_ANOTACION = 4;
 	private static int ICONO = 5;
+	private static int ESTADO = 6;
 	
 	private static int DESCRIPCION = 0;
 	private static int FECHA_REGISTRO = 1;
@@ -49,6 +50,10 @@ public class TokenizerUtilitySupervision {
 		return buscar(anotacion, ICONO);
 	}
 	
+	public String estado(String anotacion){
+		return buscar(anotacion, ESTADO);
+	}
+	
 	public String descripcion(String anotacion){
 		return buscar(anotacion, DESCRIPCION);
 	}
@@ -67,6 +72,32 @@ public class TokenizerUtilitySupervision {
 	
 	public String imagen(String anotacion){
 		return buscar(anotacion, IMAGEN);
+	}
+	
+	public Drawable iconoAsignacion(Context context, String titulo) {
+		String url = estado(titulo);
+		Log.v("pio", "icono del evento = " + url);
+		if (url.equalsIgnoreCase("1")){
+			return context.getResources().getDrawable(R.drawable.pinamarillo);
+		}
+		
+		if (url.equalsIgnoreCase("2")){
+			return context.getResources().getDrawable(R.drawable.pinazul);
+		}
+		
+		if (url.equalsIgnoreCase("3")){
+			return context.getResources().getDrawable(R.drawable.pinnaranja);
+		}
+		
+		if (url.equalsIgnoreCase("4")){
+			return context.getResources().getDrawable(R.drawable.pinrojo);
+		}
+		
+		if (url.equalsIgnoreCase("5")){
+			return context.getResources().getDrawable(R.drawable.pinverde);
+		}
+		
+		return context.getResources().getDrawable(R.drawable.marker);
 	}
 	
 	public Drawable iconoResource(Context context, String titulo) {
