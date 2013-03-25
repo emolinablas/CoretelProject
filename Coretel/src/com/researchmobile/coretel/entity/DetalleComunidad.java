@@ -13,7 +13,7 @@ public class DetalleComunidad implements Serializable{
 	
 	
 	public String toString(){
-		return nombre;
+		return nombre + descripcion;
 	}
 	public String getId() {
 		return id;
