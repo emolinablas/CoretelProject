@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -29,6 +30,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	private ProgressDialog pd = null;
 	private RequestWS request = new RequestWS();
 	private RespuestaWS respuesta = new RespuestaWS();
+	private boolean esDuenno;
 	
 	public void onCreate(Bundle saveInstanceState){
 		super.onCreate(saveInstanceState);
@@ -37,6 +39,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	
 		Bundle bundle = getIntent().getExtras();
 		setMiembro((Miembro)bundle.get("miembro"));
+		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
 		
 		setNombreTextView((TextView)findViewById(R.id.detallemiembros_nombre_edittext));
 		setTelefonoTextView((TextView)findViewById(R.id.detallemiembro_telefono_edittext));
@@ -49,6 +52,12 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		getNombreTextView().setText(getMiembro().getNombreUsuario());
 		getTelefonoTextView().setText(getMiembro().getTelefono());
 		getEmailTextView().setText(getMiembro().getEmail());
+		
+		if(isEsDuenno()){
+			Log.v("pio", "El usuario no es due–o de la comunidad, no puede borrar el miembro");
+		}else{
+			getBorrarButton().setVisibility(View.GONE);
+		}
 		
 	}
 	
@@ -164,6 +173,14 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 
 	public void setComunidadesButton(Button comunidadesButton) {
 		this.comunidadesButton = comunidadesButton;
+	}
+
+	public boolean isEsDuenno() {
+		return esDuenno;
+	}
+
+	public void setEsDuenno(boolean esDuenno) {
+		this.esDuenno = esDuenno;
 	}
 
 	

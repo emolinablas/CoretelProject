@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -32,6 +33,7 @@ public class Descevento extends Activity implements OnClickListener{
 	private TokenizerUtility tokenizer = new TokenizerUtility();
 	private ProgressDialog pd = null;
 	private RespuestaWS respuestaWS;
+	private boolean esDuenno;
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -39,9 +41,9 @@ public class Descevento extends Activity implements OnClickListener{
 		setContentView(R.layout.descevento);
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setTipoAnotacion((TipoAnotacion)bundle.get("anotacion"));
+		setEsDuenno((boolean)bundle.getBoolean("esDuenno")); // indica si es due–o del evento (EM)
 		
 		setNombreTextView((TextView)findViewById(R.id.descevento_nombre_textview));
-
 		setDescripcionTextView((TextView)findViewById(R.id.descevento_descripcion_textview));
 		setIconoImageView((ImageView)findViewById(R.id.descevento_icono_imageview));
 		setBorrarButton((Button)findViewById(R.id.descevento_borrar_button));
@@ -49,6 +51,13 @@ public class Descevento extends Activity implements OnClickListener{
 		setEditarButton((Button)findViewById(R.id.editar_edit_button));
 		getBorrarButton().setOnClickListener(this);
 		getEditarButton().setOnClickListener(this);
+		
+		if(isEsDuenno()){
+			Log.v("pio", "El usuario no es due–o de la comunidad, no puede borrar el miembro");
+		}else{
+			getBorrarButton().setVisibility(View.GONE);
+			getEditarButton().setVisibility(View.GONE);
+		}
 		
 		if (getTipoAnotacion() != null){
 			getNombreTextView().setText(getTipoAnotacion().getNombre());
@@ -229,6 +238,16 @@ public class Descevento extends Activity implements OnClickListener{
 
 	public void setRespuestaWS(RespuestaWS respuestaWS) {
 		this.respuestaWS = respuestaWS;
+	}
+
+
+	public boolean isEsDuenno() {
+		return esDuenno;
+	}
+
+
+	public void setEsDuenno(boolean esDuenno) {
+		this.esDuenno = esDuenno;
 	}
 	
 	

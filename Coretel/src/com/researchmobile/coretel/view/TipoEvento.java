@@ -3,6 +3,7 @@ package com.researchmobile.coretel.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -21,7 +22,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 	private String idComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private TipoAnotacion tipoAnotacion;
-
+    private boolean esDuenno;
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -29,10 +30,18 @@ public class TipoEvento extends Activity implements OnClickListener{
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
 		setIdComunidad((String)bundle.getString("idComunidad"));
+		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
+		
 		
 		setAgregarButton((Button)findViewById(R.id.tipoevento_agregar_button));
 		getAgregarButton().setOnClickListener(this);
 		setTiposListView((ListView)findViewById(R.id.tipoevento_lista_listview));
+		
+		if(isEsDuenno()){
+			Log.v("pio", "El usuario no es due–o de la comunidad, crear un nuevo tipo");
+		}else{
+			getAgregarButton().setVisibility(View.GONE);
+		}
 		
 		if (ListaTipos() != null){
 			getTiposListView().setAdapter(new ArrayAdapter<String>(this, 
@@ -49,6 +58,13 @@ public class TipoEvento extends Activity implements OnClickListener{
 		    	String idAnotacion = buscaId(seleccion);
 		    	Intent intent = new Intent(TipoEvento.this, Descevento.class);
 		    	intent.putExtra("anotacion", getTipoAnotacion());
+		    	
+		    	if(isEsDuenno()){  // dato diferente para saber si es due–o del evento en el descevento
+					intent.putExtra("esDuenno", true);
+					}else{
+						intent.putExtra("esDuenno", false);
+					}
+		    	
 		    	startActivity(intent);
 		    }
 
@@ -113,6 +129,12 @@ public class TipoEvento extends Activity implements OnClickListener{
 	}
 	public void setTipoAnotacion(TipoAnotacion tipoAnotacion) {
 		this.tipoAnotacion = tipoAnotacion;
+	}
+	public boolean isEsDuenno() {
+		return esDuenno;
+	}
+	public void setEsDuenno(boolean esDuenno) {
+		this.esDuenno = esDuenno;
 	}
 	
 }

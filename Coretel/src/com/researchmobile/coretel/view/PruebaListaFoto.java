@@ -24,6 +24,7 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 	private static RMFile rmFile = new RMFile();
 	private static CatalogoMiembro catalogoMiembro;
 	private TextView comunidad;
+	private boolean esDuenno; // variable de verificaci—n si es due–o de la comunidad (EM)
 	
 	
 	 @Override
@@ -33,6 +34,7 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 	 		Bundle bundle = getIntent().getExtras();
 	 		setComunidad((TextView)findViewById(R.id.miembros_comunidad));
 	 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
+	 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
 	 		String tituloComunidad = "";
 	 		if (getCatalogoMiembro().getMiembro()[0].getNombreComunidad() != null){
 	 			tituloComunidad = getCatalogoMiembro().getMiembro()[0].getNombreComunidad();
@@ -49,6 +51,11 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 			Miembro miembro = getCatalogoMiembro().getMiembro()[position];
 			Intent intent = new Intent(PruebaListaFoto.this, DetalleMiembro.class);
 			intent.putExtra("miembro", miembro);
+			if(isEsDuenno()){
+			intent.putExtra("esDuenno", true);
+			}else{
+				intent.putExtra("esDuenno", false);
+			}
 			startActivity(intent);
 		}
 	 
@@ -110,6 +117,14 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 
 		public void setComunidad(TextView comunidad) {
 			this.comunidad = comunidad;
+		}
+
+		public boolean isEsDuenno() {
+			return esDuenno;
+		}
+
+		public void setEsDuenno(boolean esDuenno) {
+			this.esDuenno = esDuenno;
 		}
 
 		

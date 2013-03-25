@@ -49,6 +49,7 @@ public class Comunidad extends Activity implements OnClickListener{
 	private RespuestaWS respuesa;
 	private Mensaje mensaje;
 	private RespuestaWS respuestaEliminar = new RespuestaWS();
+	private boolean esDuenno;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -78,12 +79,15 @@ public class Comunidad extends Activity implements OnClickListener{
 		getEsPublicaToggleButton().setEnabled(false);
 		getEsReasignableToggleButton().setEnabled(false);
 		
+		//verificando si el usuario es due–o de la comunidad (EM)
+		
 		String usuarioActual = User.getUserId();
-		if(usuarioActual.equalsIgnoreCase(getDetalleComunidad().getIdDuenno())){
-			
+		if(usuarioActual.equalsIgnoreCase(getDetalleComunidad().getIdDuenno())){ 
+			esDuenno = true;
 		}else{
 			getEditarComunidad().setVisibility(View.GONE);
 			getBorrarButton().setVisibility(View.GONE);
+			esDuenno= false;
 		}
 		
 		
@@ -195,6 +199,7 @@ public class Comunidad extends Activity implements OnClickListener{
 		Intent intent = new Intent(Comunidad.this, TipoEvento.class);
 		intent.putExtra("idComunidad", getDetalleComunidad().getId());
 		intent.putExtra("catalogoTipoAnotacion", getCatalogoTipoAnotacion());
+		intent.putExtra("esDuenno", esDuenno);
 		startActivity(intent);
 	}
 
@@ -207,6 +212,7 @@ public class Comunidad extends Activity implements OnClickListener{
 	protected void IniciaMiembros() {
 		Intent intent = new Intent(Comunidad.this, PruebaListaFoto.class);
 		intent.putExtra("catalogoMiembro", getCatalogoMiembro());
+		intent.putExtra("esDuenno", esDuenno); // enviando par‡metro si es due–o de la comunidad.
 		startActivity(intent);
 	}
 
@@ -240,7 +246,7 @@ public class Comunidad extends Activity implements OnClickListener{
         })
         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                     Toast.makeText(getBaseContext(), "Operación cancelada", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getBaseContext(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
                 }
         })
         .show();
