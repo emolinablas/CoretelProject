@@ -35,7 +35,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 	private ImageView asignacionfotoImageView;
 	private Button responderButton;
 	private Button regresarButton;
-	private String descripcion = "";
+	private String descripcion;
 	private TokenizerUtility tokenizer = new TokenizerUtility();
 	
 		protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +44,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			setContentView(R.layout.supervision_evento);
 			Bundle bundle = getIntent().getExtras();
 			String fecha = bundle.getString("titulo");
-			descripcion = bundle.getString("descripcion");
+			setDescripcion(bundle.getString("descripcion"));
 			String latitud = bundle.getString("latitud");
 			String longitud = bundle.getString("longitud");
 			Log.v("coretel", "titulo = " + fecha);
@@ -73,8 +73,8 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			
 			
 			//utilizando tokenizer
-			getFechaTextView().setText(tokenizer.fechaRegistro(descripcion));
-			getDescripcionTextView().setText(tokenizer.descripcion(descripcion));
+			getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
+			getDescripcionTextView().setText(tokenizer.descripcion(getDescripcion()));
 			MostrarImagen();
 		}
 		
@@ -154,6 +154,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 		
 		private void Responder() {
 			Intent intent = new Intent(SupervisionEvento.this, SupervisionRespuesta.class);
+			intent.putExtra("descripcion", getDescripcion());
 			startActivity(intent);
 			}
 		
@@ -163,6 +164,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			Intent intent = new Intent(SupervisionEvento.this, MapaSupervision.class);
 			intent.putExtra("latitud", latitud);
 			intent.putExtra("longitud", longitud);
+			intent.putExtra("cargarPuntos", false);
 		}
 
 		public TextView getFechaTextView() {
@@ -229,6 +231,14 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 
 		public void setRegresarButton(Button regresarButton) {
 			this.regresarButton = regresarButton;
+		}
+
+		public String getDescripcion() {
+			return descripcion;
+		}
+
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
 		}
 	
 }

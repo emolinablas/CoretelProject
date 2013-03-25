@@ -34,6 +34,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoComunidad;
@@ -193,7 +194,7 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
     
 private void CargarAsignaciones() {
 		RequestWSAsignacion requestWS = new RequestWSAsignacion();
-		setCatalogoAsignacion(requestWS.CatalogoAsignacion("1"));
+		setCatalogoAsignacion(requestWS.CatalogoAsignacion(UserAsignacion.getUserId()));
 		System.out.println(getCatalogoAsignacion().getRespuesta().getMensaje());
 }
 
