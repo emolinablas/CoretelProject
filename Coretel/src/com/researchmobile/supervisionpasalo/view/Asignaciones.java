@@ -184,6 +184,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 				float latitud = (float) 14.627853;
 				float longitud = (float) -90.516584;
 				Intent intentMapa = new Intent(Asignaciones.this, MapaSupervision.class);
+				intentMapa.putExtra("asingaciones", getCatalogoAsignacion());
 				intentMapa.putExtra("latitud", latitud);
 				intentMapa.putExtra("longitud", longitud);
 				break;
@@ -209,9 +210,12 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	    		HashMap<String, Object> map = (HashMap<String, Object>) adapter.getAdapter().getItem(position);
 				String latitud = (String) map.get("latitud");
 				String longitud = (String) map.get("longitud");
-			    Intent intent = new Intent(Asignaciones.this, MapaSupervision.class);
-				intent.putExtra("latitud", latitud);
-				intent.putExtra("longitud", longitud);
+				float lat = Float.parseFloat(latitud);
+				float lon = Float.parseFloat(longitud);
+			    Intent intent = new Intent(Asignaciones.this, MapaAsignacion.class);
+			    intent.putExtra("asignaciones", getCatalogoAsignacion());
+				intent.putExtra("latitud", lat);
+				intent.putExtra("longitud", lon);
 				intent.putExtra("cargarPuntos", true);
 				startActivity(intent);
 	    	}
