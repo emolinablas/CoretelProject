@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
@@ -34,6 +35,8 @@ public class Comunidad extends Activity implements OnClickListener{
 	private Button borrarButton;
 	private Button comunidadesButton;
 	private Button editarComunidad;
+	private ToggleButton esPublicaToggleButton;
+	private ToggleButton esReasignableToggleButton;
 	private ListView opcionesListView;
 	private CatalogoMiembro catalogoMiembro;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -62,10 +65,27 @@ public class Comunidad extends Activity implements OnClickListener{
 		setBorrarButton((Button)findViewById(R.id.comunidad_borrar_button));
 		setComunidadesButton((Button)findViewById(R.id.comunidad_atras_button));
 		setEditarComunidad((Button)findViewById(R.id.comunidad_editar_button));
+		setEsPublicaToggleButton((ToggleButton)findViewById(R.id.esPublicaToggleButton));
+		setEsReasignableToggleButton((ToggleButton)findViewById(R.id.esReasignableToggleButton));
 		getEditarComunidad().setOnClickListener(this);
 		getComunidadesButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		setOpcionesListView((ListView)findViewById(R.id.comunidad_lista_listview));
+		
+		getEsPublicaToggleButton().setChecked(true);
+		getEsReasignableToggleButton().setChecked(true);
+		
+		getEsPublicaToggleButton().setEnabled(false);
+		getEsReasignableToggleButton().setEnabled(false);
+		
+		String usuarioActual = User.getUserId();
+		if(usuarioActual.equalsIgnoreCase(getDetalleComunidad().getIdDuenno())){
+			
+		}else{
+			getEditarComunidad().setVisibility(View.GONE);
+			getBorrarButton().setVisibility(View.GONE);
+		}
+		
 		
 		getOpcionesListView().setAdapter(new ArrayAdapter<String>(this, 
 				R.layout.lista_lobby,
@@ -349,6 +369,26 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	public void setEditarComunidad(Button editarComunidad) {
 		this.editarComunidad = editarComunidad;
+	}
+
+
+	public ToggleButton getEsPublicaToggleButton() {
+		return esPublicaToggleButton;
+	}
+
+
+	public void setEsPublicaToggleButton(ToggleButton esPublicaToggleButton) {
+		this.esPublicaToggleButton = esPublicaToggleButton;
+	}
+
+
+	public ToggleButton getEsReasignableToggleButton() {
+		return esReasignableToggleButton;
+	}
+
+
+	public void setEsReasignableToggleButton(ToggleButton esReasignableToggleButton) {
+		this.esReasignableToggleButton = esReasignableToggleButton;
 	}
 
 

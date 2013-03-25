@@ -9,6 +9,7 @@ public class DetalleComunidad implements Serializable{
 	private String nombre;
 	private String descripcion;
 	private String activo;
+	private String idDuenno;
 	RespuestaWS respuestaWS;
 	
 	
@@ -44,6 +45,12 @@ public class DetalleComunidad implements Serializable{
 	}
 	public void setRespuestaWS(RespuestaWS respuestaWS) {
 		this.respuestaWS = respuestaWS;
+	}
+	public String getIdDuenno() {
+		return idDuenno;
+	}
+	public void setIdDuenno(String idDuenno) {
+		this.idDuenno = idDuenno;
 	}
 	
 	

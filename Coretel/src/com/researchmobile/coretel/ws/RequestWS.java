@@ -429,6 +429,15 @@ public class RequestWS {
 					detalleComunidad.setNombre(jsonObject.getString("nombre"));
 					detalleComunidad.setDescripcion(jsonObject.getString("descripcion"));
 					detalleComunidad.setActivo(jsonObject.getString("activo"));
+					try{
+					JSONArray usuarioCreo = new JSONArray();
+					usuarioCreo = jsonObject.getJSONArray("usuario_creo");
+					JSONObject usuarioCreoJSObject = usuarioCreo.getJSONObject(0);
+					detalleComunidad.setIdDuenno(usuarioCreoJSObject.getString("id"));
+					}catch(Exception e){
+						Log.v("pio", "No se pudo obtener el dato del due–o de la comunidad");
+					}
+					
 					return detalleComunidad;
 				}else{
 					return detalleComunidad;
