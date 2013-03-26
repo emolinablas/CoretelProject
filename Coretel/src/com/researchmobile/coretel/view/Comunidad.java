@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,6 +108,7 @@ public class Comunidad extends Activity implements OnClickListener{
 				R.layout.lista_lobby,
 				R.id.lista_lobby_textview,
 				ListaOpciones()));
+		setListViewHeightBasedOnChildren(getOpcionesListView());
 		getOpcionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			    
 		getOpcionesListView().setOnItemClickListener(new OnItemClickListener() {
@@ -191,6 +195,31 @@ public class Comunidad extends Activity implements OnClickListener{
                 }
          }
    }
+    
+//	Metodo para controlar ScrollView con ListView
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+	    ListAdapter listAdapter = listView.getAdapter();
+	    if (listAdapter == null) {
+	        // pre-condition
+	        return;
+	    }
+
+	    int totalHeight = 0;
+	    int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+	            MeasureSpec.AT_MOST);
+	    for (int i = 0; i < listAdapter.getCount(); i++) {
+	        View listItem = listAdapter.getView(i, null, listView);
+	        listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+	        totalHeight += listItem.getMeasuredHeight();
+	    }
+
+	    ViewGroup.LayoutParams params = listView.getLayoutParams();
+	    params.height = totalHeight
+	            + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+	    listView.setLayoutParams(params);
+	    listView.requestLayout();
+	}
+	
     
     private void eliminarComunidad(){
     	RequestWS request = new RequestWS();

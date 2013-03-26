@@ -68,45 +68,41 @@
         android:orientation="vertical"
         android:padding="0dp" >
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.4"
-            android:background="@drawable/patron_de_fondo_vertical"
-            android:orientation="vertical" >
-            
-             <LinearLayout
+            android:padding="10dp" >
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" 
-                android:layout_margin="10dp"
-                android:background="@drawable/background_textview">
-                
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background_clear"
                     android:orientation="horizontal" >
 
-                <TextView
-                android:id="@+id/textView2"
-                style="@style/Text.Label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Nombre"
-                android:textColor="#000000" />
-                
-                <TextView
-                android:id="@+id/comunidad_nombre_textview"
-                style="@style/Text.Value"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_margin="10dp"/>
-                 
-                 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView2"
+                        style="@style/Text.Label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Nombre"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/comunidad_nombre_textview"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="right" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -129,7 +125,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,9 +153,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:text="ToggleButton" />
-
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,39 +181,29 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:text="ToggleButton" />
-
                     </LinearLayout>
-
                 </LinearLayout>
-                 
+
+                <ListView
+                    android:id="@+id/comunidad_lista_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/background_list_view"
+                    android:cacheColorHint="#00000000" >
+                </ListView>
+
+                <Button
+                    android:id="@+id/comunidad_borrar_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/button_background_clear"
+                    android:text="Eliminar"
+                    android:textColor="#000000" />
             </LinearLayout>
 
-            
-            
-
-            <ListView
-                android:id="@+id/comunidad_lista_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/background_list_view"
-                android:cacheColorHint="#00000000" >
-
-            </ListView>
-
-            <Button
-                android:id="@+id/comunidad_borrar_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_background_clear"
-                android:text="Eliminar"
-                android:textColor="#000000" />
-
-           
-
-        </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 
