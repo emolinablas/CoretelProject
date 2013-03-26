@@ -10,6 +10,8 @@ public class DetalleComunidad implements Serializable{
 	private String descripcion;
 	private String activo;
 	private String idDuenno;
+	private String espublica;
+	private String esreasignable;
 	RespuestaWS respuestaWS;
 	
 	
@@ -51,6 +53,18 @@ public class DetalleComunidad implements Serializable{
 	}
 	public void setIdDuenno(String idDuenno) {
 		this.idDuenno = idDuenno;
+	}
+	public String getEspublica() {
+		return espublica;
+	}
+	public void setEspublica(String espublica) {
+		this.espublica = espublica;
+	}
+	public String getEsreasignable() {
+		return esreasignable;
+	}
+	public void setEsreasignable(String esreasignable) {
+		this.esreasignable = esreasignable;
 	}
 	
 	

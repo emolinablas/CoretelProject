@@ -73,11 +73,21 @@ public class Comunidad extends Activity implements OnClickListener{
 		getBorrarButton().setOnClickListener(this);
 		setOpcionesListView((ListView)findViewById(R.id.comunidad_lista_listview));
 		
-		getEsPublicaToggleButton().setChecked(true);
-		getEsReasignableToggleButton().setChecked(true);
-		
+		//getEsPublicaToggleButton().set
 		getEsPublicaToggleButton().setEnabled(false);
 		getEsReasignableToggleButton().setEnabled(false);
+		
+		if(getDetalleComunidad().getEspublica().equalsIgnoreCase("1")){
+			getEsPublicaToggleButton().setChecked(true);
+		}else{
+			getEsPublicaToggleButton().setChecked(false);
+		}
+		
+		if(getDetalleComunidad().getEsreasignable().equalsIgnoreCase("1")){
+			getEsReasignableToggleButton().setChecked(true);
+		}else{
+		getEsReasignableToggleButton().setChecked(false);
+		}
 		
 		//verificando si el usuario es due–o de la comunidad (EM)
 		

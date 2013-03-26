@@ -43,6 +43,19 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		setEsPublica((ToggleButton)findViewById(R.id.editar_es_publica_toggleButton));
 		setEsReasignable((ToggleButton)findViewById(R.id.editar_es_reasignable_toggleButton));
 		
+		if(getDetalleComunidad().getEspublica().equalsIgnoreCase("1")){
+			getEsPublica().setChecked(true);
+		}else{
+			getEsPublica().setChecked(false);
+		}
+		
+		if(getDetalleComunidad().getEsreasignable().equalsIgnoreCase("1")){
+			getEsReasignable().setChecked(true);
+		}else{
+			getEsReasignable().setChecked(false);
+		}
+		
+		
 		
 		getNombreEditText().setText(getDetalleComunidad().getNombre());
 		getDescripcionEditText().setText(getDetalleComunidad().getDescripcion());

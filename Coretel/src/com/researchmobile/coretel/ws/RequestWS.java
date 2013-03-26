@@ -433,6 +433,8 @@ public class RequestWS {
 					detalleComunidad.setNombre(jsonObject.getString("nombre"));
 					detalleComunidad.setDescripcion(jsonObject.getString("descripcion"));
 					detalleComunidad.setActivo(jsonObject.getString("activo"));
+					detalleComunidad.setEspublica(jsonObject.getString("publica"));
+					detalleComunidad.setEsreasignable(jsonObject.getString("reasignable"));
 					try{
 					JSONArray usuarioCreo = new JSONArray();
 					usuarioCreo = jsonObject.getJSONArray("usuario_creo");
