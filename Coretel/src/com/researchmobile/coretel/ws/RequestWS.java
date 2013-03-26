@@ -46,7 +46,7 @@ public class RequestWS {
 	private static final String WS_ANOTACIONES = "ws_anotacion.php?usuario=";
 	private static final String WS_DATOSUSUARIO = "ws_usuario.php?id=";
 	private static final String WS_CREAUSUARIO = "login.actions.php?client=1&a=add&email=";
-	private static final String WS_MISCOMUNIDADES = "dashboard.comunidades.usuario.php?usuario=";
+	private static final String WS_MISCOMUNIDADES = "ws_comunidad2.php?usuario=";
 	private static final String WS_DETALLECOMUNIDAD = "ws_comunidad.php?id=";
 	private static final String WS_CATALOGOMIEMBRO = "ws_miembro.php?comunidad=";
 	private static final String WS_MANDAREVENTO = "dashboard.anotaciones.actions.php?idusuario=";
@@ -214,35 +214,36 @@ public class RequestWS {
 	}
 	
 	public CatalogoComunidad CargarComunidades(String id) {
-		Log.e("TT", "buscando anotaciones, idusuario = " + id);
+		JSONObject jsonObject = null;
 		JSONArray jsonArray = null;
-		String finalURL = WS_MISCOMUNIDADES + id + "&activo=1";
+		String finalURL = WS_MISCOMUNIDADES + id;
 		RespuestaWS respuesta = new RespuestaWS();
 		CatalogoComunidad catalogo = new CatalogoComunidad();
 		try{
-			jsonArray = connectWS.MisComunidades(finalURL);
-			if (jsonArray != null){
-				int tamano = jsonArray.length();
-				DetalleComunidad[] comunidad = new DetalleComunidad[tamano];
-				for (int i = 0; i < tamano; i++){
-					JSONObject json = jsonArray.getJSONObject(i);
-					DetalleComunidad com = new DetalleComunidad();
-					com.setId(json.getString("id"));
-					com.setNombre(json.getString("nombre"));
-					comunidad[i] = com;
+			jsonObject = connectWS.MisComunidades(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				if (jsonObject.has("comunidad")){
+					jsonArray = jsonObject.getJSONArray("comunidad");
+					int tamano = jsonArray.length();
+					DetalleComunidad[] comunidad = new DetalleComunidad[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject json = jsonArray.getJSONObject(i);
+						DetalleComunidad com = new DetalleComunidad();
+						com.setId(json.getString("id"));
+						com.setNombre(json.getString("nombre"));
+						comunidad[i] = com;
+					}
+					catalogo.setRespuestaWS(respuesta);
+					catalogo.setComunidad(comunidad);
 				}
-				if (tamano > 0){
-					respuesta.setResultado(true);
-					respuesta.setMensaje("Comunidades cargadas exitosamente");
-				}else{
-					respuesta.setResultado(false);
-					respuesta.setMensaje("Usted no pertenece a ni una comunidad");
-				}
-				catalogo.setRespuestaWS(respuesta);
-				catalogo.setComunidad(comunidad);
 				return catalogo;
 			}
 		}catch (Exception exception){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("Problemas al cargar las comunidades, intente nuevamente");
+			catalogo.setRespuestaWS(respuesta);
 			return catalogo;
 		}
 		return null;
@@ -250,40 +251,43 @@ public class RequestWS {
 	
 	public CatalogoComunidad CargarComunidadesFilter(String id) {
 		Log.e("TT", "buscando anotaciones, idusuario = " + id);
+		JSONObject jsonObject = null;
 		JSONArray jsonArray = null;
-		String finalURL = WS_MISCOMUNIDADES + id + "&activo=1";
+		String finalURL = WS_MISCOMUNIDADES + id;
 		RespuestaWS respuesta = new RespuestaWS();
 		CatalogoComunidad catalogo = new CatalogoComunidad();
 		try{
-			jsonArray = connectWS.MisComunidades(finalURL);
-			if (jsonArray != null){
-				int tamano = jsonArray.length();
-				DetalleComunidad[] comunidad = new DetalleComunidad[tamano + 1];
-				for (int i = 0; i < tamano; i++){
-					JSONObject json = jsonArray.getJSONObject(i);
-					DetalleComunidad com = new DetalleComunidad();
-					com.setId(json.getString("id"));
-					com.setNombre(json.getString("nombre"));
-					comunidad[i] = com;
-				}
-				
-				if (tamano > 0){
-					DetalleComunidad com = new DetalleComunidad();
-					com.setId("100000");
-					com.setNombre("Todos");
-					comunidad[tamano] = com;
+			jsonObject = connectWS.MisComunidades(finalURL);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				if (jsonObject.has("comunidad")){
+					jsonArray = jsonObject.getJSONArray("comunidad");
+					int tamano = jsonArray.length();
+					DetalleComunidad[] comunidad = new DetalleComunidad[tamano + 1];
+					for (int i = 0; i < tamano; i++){
+						JSONObject json = jsonArray.getJSONObject(i);
+						DetalleComunidad com = new DetalleComunidad();
+						com.setId(json.getString("id"));
+						com.setNombre(json.getString("nombre"));
+						comunidad[i] = com;
+					}
 					
-					respuesta.setResultado(true);
-					respuesta.setMensaje("Comunidades cargadas exitosamente");
-				}else{
-					respuesta.setResultado(false);
-					respuesta.setMensaje("Usted no pertenece a ni una comunidad");
+					if (tamano > 0){
+						DetalleComunidad com = new DetalleComunidad();
+						com.setId("100000");
+						com.setNombre("Todos");
+						comunidad[tamano] = com;
 				}
-				catalogo.setRespuestaWS(respuesta);
 				catalogo.setComunidad(comunidad);
+			}
+				catalogo.setRespuestaWS(respuesta);
 				return catalogo;
 			}
 		}catch (Exception exception){
+			respuesta.setResultado(false);
+			respuesta.setMensaje("No se pudieron cargar las comunidades, intente nuevamente");
+			catalogo.setRespuestaWS(respuesta);
 			return catalogo;
 		}
 		return null;

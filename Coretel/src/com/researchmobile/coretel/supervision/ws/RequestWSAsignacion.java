@@ -15,6 +15,7 @@ import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 public class RequestWSAsignacion {
 	private static final String WS_LOGIN = "ws_login.php?usuario=";
 	private static final String WS_ASIGNACIONES = "ws_anotacion.php?usuario=";
+	private static final String WS_MARCARASIGNACION = "ws_view_anotacion.php?id=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -48,6 +49,13 @@ public class RequestWSAsignacion {
 		 return respuesta;
 	 }
 }	 
+	
+	public void marcarAsignacion(String asignacion) {
+		// TODO Auto-generated method stub
+		String finalURL = WS_MARCARASIGNACION + asignacion;
+		Log.v("pio", "url marcar asignacion = " + finalURL);
+		connectWS.marcarAsignacion(finalURL);
+	}
 	
 			public CatalogoAsignacion CatalogoAsignacion(String id)
 		{	

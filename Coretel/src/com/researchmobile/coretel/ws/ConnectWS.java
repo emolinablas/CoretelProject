@@ -231,8 +231,8 @@ public class ConnectWS {
 		}
 	}
 		
-	public JSONArray MisComunidades(String url) {
-		JSONArray jsonArray = null;
+	public JSONObject MisComunidades(String url) {
+		JSONObject jsonObject = null;
 		try {
 			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + url);
 			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
@@ -240,11 +240,11 @@ public class ConnectWS {
 			InputStream inputStream = urlConnection.getInputStream();
 			String responseInputStream = convertStreamToString(inputStream);
 			System.out.println("comunidades is = " + responseInputStream);
-			jsonArray = new JSONArray(responseInputStream);
-			return jsonArray;
+			jsonObject = new JSONObject(responseInputStream);
+			return jsonObject;
 		} catch (Exception exception) {
 			System.out.println(exception);
-			return jsonArray;
+			return jsonObject;
 		}
 	}
 	

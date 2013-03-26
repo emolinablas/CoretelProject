@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import android.os.Environment;
 import android.util.Log;
 
+import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.Anotacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoComunidad;
@@ -560,7 +561,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	
 	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado) {
 		RespuestaWS respuestaWS = new RespuestaWS();
-		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&id_estado=" + estado;
+		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + User.getUserId();
 		JSONObject jsonObject = null;
 		try{
 			jsonObject = connectWS.enviarRespuesta(finalURL);
