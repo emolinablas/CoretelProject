@@ -21,6 +21,8 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,7 +41,9 @@ import com.researchmobile.coretel.entity.ChatUtility;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.NotifyManager;
 import com.researchmobile.coretel.utility.RMFile;
+import com.researchmobile.coretel.utility.ServicioGeoposicion;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Login extends Activity implements OnClickListener, OnKeyListener{
@@ -264,6 +268,13 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  			if (getRespuesta() != null){
  				Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
  				if(getRespuesta().isResultado()){
+ 					
+ 					try{
+ 					creaServicio();
+ 					Log.v("pio", "Se ejecuto el servicio");
+ 					}catch(Exception e){
+ 						Log.v("pio", "ocurri— un error al activar el serviio");
+ 					}
  	 				Intent intent = new Intent(Login.this, Mapa.class);
  	 	            startActivity(intent);
  	 			}
@@ -276,6 +287,51 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 			getClaveEditText().setText("");
 			getUsuarioEditText().setText("");
 		}
+     }
+     
+     private void creaServicio(){
+			//Intent service = new Intent(this, ServicioGeoposicion.class);
+			//	startService(service);
+    	 User.setCompartirGeoposicion(true);
+    	 final boolean compartirGeoposicion =  User.isCompartirGeoposicion();
+    	 HandlerThread hilo;
+    	 hilo=new HandlerThread("hilo_geoposicion");
+         hilo.start();
+         new Handler(hilo.getLooper()).post(
+             new Runnable() {
+                 @Override
+                 public void run()
+                 {
+                     while(compartirGeoposicion)
+                     {
+                       
+                      try
+                      {
+                         //Aqui lo que quieres hacer
+                    	  Log.v("pio", "Se ejecut— el hilo");
+                    	 // Toast.makeText(getApplicationContext(), "se envio la geoposici—n", Toast.LENGTH_SHORT);
+                    	 
+                    	  NotifyManager notify = new NotifyManager();
+          			    notify.playNotification(getApplicationContext(),
+          			      Mapa.class, "Se envio tu geoposicion"
+          			      , "Notificaci—n", R.drawable.arrow_right); 
+          			    
+                         Thread.sleep(1000 * 60);
+                      }catch (Exception e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                         try {
+                             //Por si ocurre algun problema para que no se ejecute sin parar y se sobrecarga
+                             Thread.sleep(1000 *60);
+                         } catch (InterruptedException e1) {
+                             // TODO Auto-generated catch block
+                             e1.printStackTrace();
+                         }
+                     }
+                      
+                     }
+                 }
+             });
      }
      
      private void verificaGps(){

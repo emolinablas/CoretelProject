@@ -81,6 +81,7 @@
         <activity android:name="DetalleInvitacion" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <activity android:name="DetalleSolicitud" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <activity android:name="DetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
+        <service android:name="ServicioGeoposicion" />
         
         <!-- RECIBELO -->
         <activity android:name="com.researchmobile.supervisionpasalo.view.LoginRecibelo" android:screenOrientation="portrait" android:configChanges="orientation"/>

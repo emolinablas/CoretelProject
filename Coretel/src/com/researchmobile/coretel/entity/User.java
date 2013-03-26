@@ -19,6 +19,7 @@ public class User implements Serializable{
 	private static String nivel;
 	private static String superUsuario;
 	private static String supervisorUsuario;
+	private static boolean compartirGeoposicion;
 	
 	
 	
@@ -113,5 +114,11 @@ public class User implements Serializable{
 	}
 	public static void setSupervisorUsuario(String supervisorUsuario) {
 		User.supervisorUsuario = supervisorUsuario;
+	}
+	public static boolean isCompartirGeoposicion() {
+		return compartirGeoposicion;
+	}
+	public static void setCompartirGeoposicion(boolean compartirGeoposicion) {
+		User.compartirGeoposicion = compartirGeoposicion;
 	}
 }
