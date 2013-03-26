@@ -573,21 +573,21 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
                 pd.dismiss();
                 
                 try{
-                	if (getCatalogoInvitacion().getRespuestaWS().isResultado()){
+                	if (getCatalogoInvitacion().getInvitacion() != null && getCatalogoInvitacion().getRespuestaWS().isResultado()){
                 		System.out.println("INVITACIONES RECIBIDAS");
                     	llenaLista();
                     	
                     }
-                	if (getCatalogoInvitacionEnviado().getRespuestaWS().isResultado()){
+                	if (getCatalogoInvitacionEnviado().getInvitacion() != null && getCatalogoInvitacionEnviado().getRespuestaWS().isResultado()){
                 		System.out.println("INVITACIONES ENVIADAS");
                 		llenaListaEnviados();
                 	}
-                	if (getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
+                	if (getCatalogoSolicitudEnviada().getSolicitud() != null && getCatalogoSolicitudEnviada().getRespuestaWS().isResultado()){
                 		System.out.println("SOLICITUDES ENVIADAS");
                 		llenaListaSolicitudEnviados();
                 	}
                 	System.out.println(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado());
-                	if(getCatalogoSolicitudRecibida().getRespuestaWS().isResultado()){
+                	if(getCatalogoSolicitudRecibida().getSolicitud() != null && getCatalogoSolicitudRecibida().getRespuestaWS().isResultado()){
                 		System.out.println("SOLICITUDES ENCONTRADAS RECIBIDAS");
                 		llenaListaSolicitudRecibidos();
                 	}
