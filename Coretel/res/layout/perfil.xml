@@ -146,6 +146,21 @@
                             android:layout_marginTop="5dp" />
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Permitir ubicarme"
+                        android:textColor="@color/text_label" />
+
+                    <ToggleButton
+                        android:id="@+id/compartir_ubicacion_toggleButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ToggleButton"
+                        android:textOff="@android:string/no"
+                        android:textOn="@android:string/ok" />
+
                     <Button
                         android:id="@+id/perfil_cambiar_button"
                         android:layout_width="match_parent"

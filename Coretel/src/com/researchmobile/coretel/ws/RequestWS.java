@@ -70,8 +70,36 @@ public class RequestWS {
 	private static final String WS_RECUPERARCLAVE = "ws_forgot.php?email=";
 	private static final String WS_COMUNIDADESTODAS = "ws_comunidades.php?usuario=";
 	private static final String WS_ENVIARSOLICITUD = "ws_solicitud.php?comunidad=";
+	private static final String WS_ENVIARGEOPOSICION = "ws_geoposicion.php?";
 	
 	private ConnectWS connectWS = new ConnectWS();
+	
+	public RespuestaWS EnviarGeoposicion(String usuario, String latitud, String longitud){
+		JSONObject jsonObject = null;
+		String finalURL = WS_ENVIARGEOPOSICION + "id=" + usuario + "&latitud=" + latitud + "&longitud=" + longitud + "&dispositivo=2";
+		RespuestaWS respuesta = new RespuestaWS();
+		try {
+		jsonObject = connectWS.editarPerfil(finalURL);
+		if(jsonObject != null){
+			
+				respuesta.setResultado(Boolean.parseBoolean(jsonObject.getString("resultado")));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			
+		}else{
+			respuesta.setResultado(false);
+			respuesta.setMensaje("Intente de nuevo");
+			return respuesta;
+		}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			respuesta.setResultado(false);
+			respuesta.setMensaje("Intente de nuevo");
+			return respuesta;
+		}
+		
+	}
 	
 	public RespuestaWS Login(User user){
 		JSONObject jsonObject = null;

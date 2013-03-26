@@ -63,6 +63,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private ProgressDialog pd = null;
      private RequestWS requestWS;
      private RespuestaWS respuesta;
+     private RequestWS requestWSGeo;
+     private RespuestaWS respuesta2Geo;
      private AlertDialog.Builder dialogActiveGPS = null;
      private RMFile rmFile = new RMFile();
      
@@ -71,6 +73,10 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login);
+        User.setLatitudActual("0");
+        User.setLongitudActual("0");
+      //Intent service = new Intent(this, ServicioGeoposicion.class);
+	  //startService(service);
         try{
         	System.out.println(Login.this);
             setUser(new User());
@@ -293,7 +299,6 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 			//Intent service = new Intent(this, ServicioGeoposicion.class);
 			//	startService(service);
     	 User.setCompartirGeoposicion(true);
-    	 final boolean compartirGeoposicion =  User.isCompartirGeoposicion();
     	 HandlerThread hilo;
     	 hilo=new HandlerThread("hilo_geoposicion");
          hilo.start();
@@ -302,7 +307,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                  @Override
                  public void run()
                  {
-                     while(compartirGeoposicion)
+                     while(User.isCompartirGeoposicion())
                      {
                        
                       try
@@ -310,12 +315,16 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                          //Aqui lo que quieres hacer
                     	  Log.v("pio", "Se ejecut— el hilo");
                     	 // Toast.makeText(getApplicationContext(), "se envio la geoposici—n", Toast.LENGTH_SHORT);
-                    	 
+                    	  RequestWS request2 = new RequestWS();
+                          setRespuesta2Geo(request2.EnviarGeoposicion(User.getUserId(), User.getLatitudActual(), User.getLongitudActual()));
+                          Log.v("geo", "se envio la siguiente geoposicion " + User.getLatitudActual() + " " + User.getLongitudActual());
+                    	  
+                    	 /*
                     	  NotifyManager notify = new NotifyManager();
           			    notify.playNotification(getApplicationContext(),
           			      Mapa.class, "Se envio tu geoposicion"
           			      , "Notificaci—n", R.drawable.arrow_right); 
-          			    
+          			    */
                          Thread.sleep(1000 * 60);
                       }catch (Exception e) {
                          // TODO Auto-generated catch block
@@ -485,6 +494,22 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setSalirButton(Button salirButton) {
 		this.salirButton = salirButton;
+	}
+
+	public RequestWS getRequestWSGeo() {
+		return requestWSGeo;
+	}
+
+	public void setRequestWSGeo(RequestWS requestWSGeo) {
+		this.requestWSGeo = requestWSGeo;
+	}
+
+	public RespuestaWS getRespuesta2Geo() {
+		return respuesta2Geo;
+	}
+
+	public void setRespuesta2Geo(RespuestaWS respuesta2Geo) {
+		this.respuesta2Geo = respuesta2Geo;
 	}
 	
 }

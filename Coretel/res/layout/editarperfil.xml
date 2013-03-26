@@ -148,6 +148,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/background_edittext"
                     android:hint="Telefono" />
+
             </LinearLayout>
 
         </ScrollView>

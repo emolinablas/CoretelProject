@@ -19,6 +19,8 @@ public class User implements Serializable{
 	private static String nivel;
 	private static String superUsuario;
 	private static String supervisorUsuario;
+	private static String latitudActual;
+	private static String longitudActual;
 	private static boolean compartirGeoposicion;
 	
 	
@@ -120,5 +122,17 @@ public class User implements Serializable{
 	}
 	public static void setCompartirGeoposicion(boolean compartirGeoposicion) {
 		User.compartirGeoposicion = compartirGeoposicion;
+	}
+	public static String getLatitudActual() {
+		return latitudActual;
+	}
+	public static void setLatitudActual(String latitudActual) {
+		User.latitudActual = latitudActual;
+	}
+	public static String getLongitudActual() {
+		return longitudActual;
+	}
+	public static void setLongitudActual(String longitudActual) {
+		User.longitudActual = longitudActual;
 	}
 }

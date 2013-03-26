@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,11 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.entity.Usuario;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.NotifyManager;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Perfil extends Activity implements OnClickListener, OnKeyListener{
@@ -39,11 +43,13 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	private Button cambiaButton;
 	private Button guardarButton;
 	private Button editarButton;
+	private ToggleButton compartirUbicación;
 	private Usuario usuario;
 	private User user;
 	private Mensaje mensaje;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuestaWS;
+	private RespuestaWS respuesta2Geo;
 	private boolean cambioHecho;
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -70,7 +76,13 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		setCambiaButton((Button)findViewById(R.id.perfil_cambiar_button));
 		setGuardarButton((Button)findViewById(R.id.perfil_guardar_button));
 		setEditarButton((Button)findViewById(R.id.perfil_editar_button));
-		
+		setCompartirUbicación((ToggleButton)findViewById(R.id.compartir_ubicacion_toggleButton));
+		if(User.isCompartirGeoposicion()){
+		 Log.v("pio", "se está compartiendo la ubicación");
+		    getCompartirUbicación().setChecked(true);
+		}else{
+			getCompartirUbicación().setChecked(false);
+		}
 		getNombreTextView().setText(getUsuario().getNombre());
 		getEmailText().setText(getUsuario().getEmail());
 		getUsuarioTextView().setText(User.getUsername());
@@ -78,6 +90,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		getCambiaButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getEditarButton().setOnClickListener(this);
+		getCompartirUbicación().setOnClickListener(this);
 		setEdicionLayout((LinearLayout)findViewById(R.id.perfil_layout_edit));
 		getEdicionLayout().setVisibility(View.INVISIBLE);
 	}
@@ -147,6 +160,8 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 			}
 		}else if (view == getEditarButton()){
 			editarActivity();
+		}else if (view == getCompartirUbicación()){
+			accionesUbicacion();
 		}
 	}
 	
@@ -189,6 +204,61 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 				}
 			}
 			
+		}
+	}
+	
+	public void accionesUbicacion(){
+		if(getCompartirUbicación().isChecked() && !User.isCompartirGeoposicion()){
+			User.setCompartirGeoposicion(true);
+	    	
+	    	 HandlerThread hilo;
+	    	 hilo=new HandlerThread("hilo_geoposicion");
+	         hilo.start();
+	         new Handler(hilo.getLooper()).post(
+	             new Runnable() {
+	                 @Override
+	                 public void run()
+	                 {
+	                     while(User.isCompartirGeoposicion())
+	                     {
+	                       
+	                      try
+	                      {
+	                         //Aqui lo que quieres hacer
+	                    	  Log.v("pio", "Se ejecutó el hilo");
+	                    	  RequestWS request2 = new RequestWS();
+	                          setRespuesta2Geo(request2.EnviarGeoposicion(User.getUserId(), User.getLatitudActual(), User.getLongitudActual()));
+	                          Log.v("geo", "se envio la siguiente geoposicion " + User.getLatitudActual() + " " + User.getLongitudActual());
+	                    	                      	  
+	                    	 /*INICIA LA NOTIFICACIÓN
+	                    	  NotifyManager notify = new NotifyManager();
+	          			    notify.playNotification(getApplicationContext(),
+	          			      Mapa.class, "Se envio tu geoposicion"
+	          			      , "Notificación", R.drawable.arrow_right); 
+	          			    TERMINA LA NOTIFICACIÓN*/
+	          			    
+	                         Thread.sleep(1000 * 60);
+	                      }catch (Exception e) {
+	                         // TODO Auto-generated catch block
+	                         e.printStackTrace();
+	                         try {
+	                             //Por si ocurre algun problema para que no se ejecute sin parar y se sobrecarga
+	                             Thread.sleep(1000 *60);
+	                         } catch (InterruptedException e1) {
+	                             // TODO Auto-generated catch block
+	                             e1.printStackTrace();
+	                         }
+	                     }
+	                      
+	                     }
+	                 }
+	             });
+	        
+		}
+		if(!getCompartirUbicación().isChecked())
+		{
+			User.setCompartirGeoposicion(false);
+			System.out.println("Ya no se compartira la ubicación");
 		}
 	}
 
@@ -358,6 +428,22 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setEditarButton(Button editarButton) {
 		this.editarButton = editarButton;
+	}
+
+	public ToggleButton getCompartirUbicación() {
+		return compartirUbicación;
+	}
+
+	public void setCompartirUbicación(ToggleButton compartirUbicación) {
+		this.compartirUbicación = compartirUbicación;
+	}
+
+	public RespuestaWS getRespuesta2Geo() {
+		return respuesta2Geo;
+	}
+
+	public void setRespuesta2Geo(RespuestaWS respuesta2Geo) {
+		this.respuesta2Geo = respuesta2Geo;
 	}
 	
 	
