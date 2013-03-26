@@ -194,8 +194,8 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
     
 private void CargarAsignaciones() {
 		RequestWSAsignacion requestWS = new RequestWSAsignacion();
-//		setCatalogoAsignacion(requestWS.CatalogoAsignacion(UserAsignacion.getUserId()));
-		setCatalogoAsignacion(requestWS.CatalogoAsignacion("1"));
+		setCatalogoAsignacion(requestWS.CatalogoAsignacion(UserAsignacion.getUserId()));
+//		setCatalogoAsignacion(requestWS.CatalogoAsignacion("1"));
 		System.out.println(getCatalogoAsignacion().getRespuesta().getMensaje());
 }
 

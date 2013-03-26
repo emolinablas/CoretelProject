@@ -101,14 +101,16 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	                map.put("comunidad", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreComunidad());
 	                map.put("tipo", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion());
 	                int estado = getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado();
-	                if (estado == 1){
-	                	estado = this.getResources().getIdentifier("estado_1", "drawable", this.getPackageName());
+	                if (estado == 0){
+	                	estado = this.getResources().getIdentifier("estado_azul_0_1", "drawable", this.getPackageName());
 	                }else if (estado == 2){
-	                	estado = this.getResources().getIdentifier("estado_2", "drawable", this.getPackageName());
+	                	estado = this.getResources().getIdentifier("estado_verde_2", "drawable", this.getPackageName());
 	                }else if (estado == 3){
-	                	estado = this.getResources().getIdentifier("estado_3_4", "drawable", this.getPackageName());
+	                	estado = this.getResources().getIdentifier("estado_rojo_3", "drawable", this.getPackageName());
 	                }else if (estado == 4){
-	                	estado = this.getResources().getIdentifier("estado_3_4", "drawable", this.getPackageName());
+	                	estado = this.getResources().getIdentifier("estado_naranja_4_5", "drawable", this.getPackageName());
+	                }else if (estado == 5){
+	                	estado = this.getResources().getIdentifier("estado_naranja_4_5", "drawable", this.getPackageName());
 	                }
 	                map.put("estado", estado);
 	                map.put("latitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLatitud()));
