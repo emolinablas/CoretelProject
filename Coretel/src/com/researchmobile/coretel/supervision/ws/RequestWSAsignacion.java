@@ -91,12 +91,21 @@ public class RequestWSAsignacion {
 									asignacionTemp.setEstadoAnotacion(mJson.getString("estadoAnotacion"));
 									asignacionTemp.setNombreTipoAnotacion(mJson.getString("nombreTipoAnotacion"));
 									asignacionTemp.setIcono(mJson.getString("icono"));
-									asignacionTemp.setVisto(Integer.parseInt(mJson.getString("visto")));
-									asignacionTemp.setAsignado(mJson.getString("asignado"));
-									asignacionTemp.setRespuesta(mJson.getString("respuesta"));
 									asignacionTemp.setNombreSupervisor(mJson.getString("nombreSupervisor"));
+									//agregado 25032013
+									asignacionTemp.setArchivoNuevo(mJson.getString("archivoNuevo"));
+									asignacionTemp.setFechaasignado(mJson.getString("fecha_asignado"));
+									//
 									asignacionTemp.setOrden(mJson.getString("orden"));
+									asignacionTemp.setVisto(Integer.parseInt(mJson.getString("visto")));
+									//agregado 25032013
+									asignacionTemp.setFechaestado(mJson.getString("fecha_estado"));
+									//
+									asignacionTemp.setRespuesta(mJson.getString("respuesta"));
 									asignacionTemp.setId_comunidad(Integer.parseInt(mJson.getString("id_comunidad")));
+									//agregado 25032013
+									asignacionTemp.setAsignacionDescripcion(mJson.getString("asignacionDescripcion"));
+									//
 									asignacionTemp.setFormat_fecha_asignado(mJson.getString("format_fecha_asignado"));
 									asignacionTemp.setHace_tiempo(mJson.getString("hace_tiempo"));
 									//aqui Multimedia el cual es un array

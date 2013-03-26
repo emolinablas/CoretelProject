@@ -27,7 +27,38 @@ public class AnotacionAsignacion implements Serializable{
 	private String format_fecha_asignado;
 	private Multimedia[] multimedia;
 	private String hace_tiempo;
+	//agregados por cambios en web service 25032013 
+	private String archivoNuevo;
+	private String fechaasignado;
+	private String fechaestado;
+	private String asignacionDescripcion;
 	
+	
+	
+	public String getArchivoNuevo() {
+		return archivoNuevo;
+	}
+	public void setArchivoNuevo(String archivoNuevo) {
+		this.archivoNuevo = archivoNuevo;
+	}
+	public String getFechaasignado() {
+		return fechaasignado;
+	}
+	public void setFechaasignado(String fechaasignado) {
+		this.fechaasignado = fechaasignado;
+	}
+	public String getFechaestado() {
+		return fechaestado;
+	}
+	public void setFechaestado(String fechaestado) {
+		this.fechaestado = fechaestado;
+	}
+	public String getAsignacionDescripcion() {
+		return asignacionDescripcion;
+	}
+	public void setAsignacionDescripcion(String asignacionDescripcion) {
+		this.asignacionDescripcion = asignacionDescripcion;
+	}
 	public String getHace_tiempo() {
 		return hace_tiempo;
 	}
