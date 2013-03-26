@@ -1,9 +1,27 @@
 package com.researchmobile.coretel.supervision.ws;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
@@ -49,6 +67,54 @@ public class RequestWSAsignacion {
 		 return respuesta;
 	 }
 }	 
+	
+	public RespuestaWS mandarFotoRespuesta(String imagen, String id) {
+		Log.v("pio", "imagen = " + imagen);
+		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
+		nombresArchivos.add(new BasicNameValuePair("id", id));
+		nombresArchivos.add(new BasicNameValuePair("Filedate",Environment.getExternalStorageDirectory() + imagen) );
+		post("http://23.23.1.2/WS/ws_upload_photo.php?", nombresArchivos);
+		
+		
+		return null;
+		
+	}
+	
+	public void post(String url, List<NameValuePair> nameValuePairs) {
+	    HttpClient httpClient = new DefaultHttpClient();
+	    HttpContext localContext = new BasicHttpContext();
+	    HttpPost httpPost = new HttpPost(url);
+
+	    try {
+	        MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+	        Log.e("LOG", "Prueba envio foto 1");
+
+	        for(int index=0; index < nameValuePairs.size(); index++) {
+	            if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
+	            	Log.e("LOG", "Prueba envio foto 2");
+	                // If the key equals to "image", we use FileBody to transfer the data
+	                entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
+	                Log.e("LOG", "Prueba envio foto 2");
+	            } else {
+	                // Normal string data
+	                entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
+	                Log.e("LOG", "Prueba envio foto 3");
+	            }
+	        }
+
+	        Log.e("LOG", "Prueba envio foto 4");
+	        httpPost.setEntity(entity);
+
+	        Log.e("LOG", "Prueba envio foto 5");
+	        HttpResponse response = httpClient.execute(httpPost, localContext);
+	        Log.e("LOG", "Prueba envio foto 6, response = " + response.getParams());
+	        Log.e("LOG", "Prueba envio foto 6, response = " + response.hashCode());
+	        Log.e("LOG", "Prueba envio foto 6, response = " + response.getStatusLine());
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 	public void marcarAsignacion(String asignacion) {
 		// TODO Auto-generated method stub

@@ -1,6 +1,7 @@
 package com.researchmobile.supervisionpasalo.view;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -32,6 +33,7 @@ import com.researchmobile.coretel.supervision.entity.RespuestaWS;
 import com.researchmobile.coretel.supervision.utility.AdapterListaFotos;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWS;
+import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.view.R;
 
 public class SupervisionRespuesta extends Activity implements OnClickListener {
@@ -146,6 +148,42 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			Log.v("pio", "enviarREspuesata 4");
 			Log.v("pio", "enviarREspuesata = " + id + " " + respuesta + " " +getEstado());
 			setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado()));
+			enviarFotos();
+		}
+		
+		public void enviarFotos(){
+			int tamano = arrayListFotos.size();
+			RequestWSAsignacion req = new RequestWSAsignacion();
+			for (int i = 0; i < tamano; i++){
+				HashMap<String, Object> map = arrayListFotos.get(i);
+				String idAsig = (String)map.get("asignacion");
+				String foto = (String)map.get("path");
+				String imagen = fotoReducida(foto);
+				req.mandarFotoRespuesta(imagen, idAsig);
+				Log.v("pio", "envio de foto " + i);
+			}
+		}
+		
+		private String fotoReducida(String path){
+			
+			String fotonueva = "/captura.jpg";
+			BitmapFactory.Options options = new BitmapFactory.Options();
+	        options.inSampleSize = 0;
+	        Bitmap bm = BitmapFactory.decodeFile(path);
+//	        }else{
+//	        	bm = BitmapFactory.decodeFile("sdcard/" + getPathFoto());
+//	        }
+	        
+	        File file = new File("sdcard" + fotonueva);
+	        try {
+	        file.createNewFile();
+	        FileOutputStream out = new FileOutputStream(file);
+	        bm.compress(Bitmap.CompressFormat.JPEG, 20, out);//Convertimos la imagen a JPEG
+	        return fotonueva;
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        	return null;
+	        }
 		}
 		public void dialogFotos (final Context activity) {
 
