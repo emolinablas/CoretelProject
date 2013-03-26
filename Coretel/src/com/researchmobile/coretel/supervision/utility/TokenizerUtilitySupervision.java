@@ -77,24 +77,34 @@ public class TokenizerUtilitySupervision {
 	public Drawable iconoAsignacion(Context context, String titulo) {
 		String url = estado(titulo);
 		Log.v("pio", "icono del evento = " + url);
+		//pendiente_nuevo
+		if (url.equalsIgnoreCase("0")){
+			return context.getResources().getDrawable(R.drawable.pinazul);
+		}
+		
+		//pendiente_visto
 		if (url.equalsIgnoreCase("1")){
 			return context.getResources().getDrawable(R.drawable.pinamarillo);
 		}
 		
+		//corregido
 		if (url.equalsIgnoreCase("2")){
-			return context.getResources().getDrawable(R.drawable.pinazul);
+			return context.getResources().getDrawable(R.drawable.pinverde);
 		}
 		
+		//irreparable
 		if (url.equalsIgnoreCase("3")){
-			return context.getResources().getDrawable(R.drawable.pinnaranja);
-		}
-		
-		if (url.equalsIgnoreCase("4")){
 			return context.getResources().getDrawable(R.drawable.pinrojo);
 		}
 		
-		if (url.equalsIgnoreCase("5")){
-			return context.getResources().getDrawable(R.drawable.pinverde);
+		//corregido_reasignado
+		if (url.equalsIgnoreCase("4")){
+			return context.getResources().getDrawable(R.drawable.pinnaranja);
+		}
+		
+		//irreparable_reasignado
+		if(url.equalsIgnoreCase("5")){
+			return context.getResources().getDrawable(R.drawable.pinnaranja);
 		}
 		
 		return context.getResources().getDrawable(R.drawable.marker);

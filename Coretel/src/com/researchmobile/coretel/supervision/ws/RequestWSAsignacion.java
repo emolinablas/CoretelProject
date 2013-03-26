@@ -52,7 +52,7 @@ public class RequestWSAsignacion {
 			public CatalogoAsignacion CatalogoAsignacion(String id)
 		{	
 			JSONObject jsonObject = null;
-			String finalURL = WS_ASIGNACIONES + id;
+			String finalURL = WS_ASIGNACIONES + id + "&asignados=1";
 			Log.v("pio", "url asignaciones = " + finalURL);
 			RespuestaWS respuesta = new RespuestaWS();
 			CatalogoAsignacion catalogo = new CatalogoAsignacion();
