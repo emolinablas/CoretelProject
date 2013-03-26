@@ -22,6 +22,9 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -29,7 +32,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.researchmobile.coretel.supervision.entity.CatalogoSupervisor;
 import com.researchmobile.coretel.supervision.entity.RespuestaWS;
+import com.researchmobile.coretel.supervision.entity.Supervisor;
+import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.AdapterListaFotos;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWS;
@@ -57,7 +63,9 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private ProgressDialog pd = null;
 	private RequestWS requestWS = new RequestWS();
 	private RespuestaWS respuesta;
+	private String idReasignado;
 	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
+	private CatalogoSupervisor catalogoSupervisor;
 
 		protected void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
@@ -69,6 +77,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			setTitulo(bundle.getString("titulo"));
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
 			setRespuesta(new RespuestaWS());
+			
+			setCatalogoSupervisor(new CatalogoSupervisor());
 			
 			setEstadoTextView((TextView)findViewById(R.id.supervisionrespuesta_estado_textview));
 			getEstadoTextView().setText(tokenizer.nombreEstado(getTitulo()));
@@ -138,17 +148,17 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	}
 
 		public void enviarRespuesta(){
-			Log.v("pio", "enviarREspuesata 1");
 			TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
-			Log.v("pio", "enviarREspuesata 2");
-			Log.v("pio", "enviarREspuesata titulo = " + getTitulo());
 			String id = tokenizer.idAnotacion(getTitulo());
-			Log.v("pio", "enviarREspuesata 3");
 			String respuesta = getRespuestaEditText().getText().toString();
-			Log.v("pio", "enviarREspuesata 4");
-			Log.v("pio", "enviarREspuesata = " + id + " " + respuesta + " " +getEstado());
-			setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado()));
-			enviarFotos();
+			if (arrayListFotos.size() < 1){
+				Toast.makeText(getBaseContext(), "Debe agregar al menos una foto", Toast.LENGTH_SHORT).show();
+			}else{
+				setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado(), getIdReasignado()));
+				if (getRespuesta().isResultado()){
+					enviarFotos();
+				}
+			}
 		}
 		
 		public void enviarFotos(){
@@ -331,6 +341,37 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	          listView.requestLayout();
 	      }
 
+			public void dialogSupervisores (final Context activity) {
+
+		        final Dialog myDialog = new Dialog(activity);
+		        myDialog.setContentView(R.layout.respuestas_supervisores);
+		        myDialog.setTitle( "Opciones");
+		        myDialog.setCancelable( false);
+		       
+		        ListView lista = (ListView) myDialog.findViewById(R.id.lista_supervisores);
+		        lista.setAdapter(new ArrayAdapter<Supervisor>(this, android.R.layout.simple_list_item_1, getCatalogoSupervisor().getSupervisor()));
+		        lista.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
+						Supervisor sup = (Supervisor)adapter.getItemAtPosition(position);
+						setIdReasignado(sup.getId());
+						myDialog.dismiss();
+					}
+		        	
+		        	
+				});
+
+		        Button cerrar = (Button) myDialog.findViewById(R.id.cerrar_supervisores);
+		        cerrar.setOnClickListener( new OnClickListener() {
+		            public void onClick(View v) {
+		                myDialog.dismiss();
+		            }
+		        });
+
+		        myDialog.show();
+
+		    }
 		
 		public void dialogEstados (final Context activity) {
 
@@ -343,6 +384,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        corregido.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
 	            	setEstado("2");
+	            	setIdReasignado(UserAsignacion.getUserId());
 	            	getEstadoTextView().setText("Corregido");
 	                myDialog.dismiss();
 	            }
@@ -352,6 +394,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        irreparable.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
 	            	setEstado("3");
+	            	setIdReasignado(UserAsignacion.getUserId());
 	            	getEstadoTextView().setText("Irreparable");
 	                myDialog.dismiss();
 	            }
@@ -360,6 +403,9 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        Button corregidoReasignado = (Button) myDialog.findViewById(R.id.respuestas_corregido_re);
 	        corregidoReasignado.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
+	            	setEstado("4");
+	            	getEstadoTextView().setText("Corregido Reasignado");
+	            	new reasignarAsync().execute("");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -367,6 +413,9 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        Button irreparableReasignado = (Button) myDialog.findViewById(R.id.respuestas_irreparable_re);
 	        irreparableReasignado.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
+	            	setEstado("5");
+	            	getEstadoTextView().setText("Irreparable Reasignado");
+	            	new reasignarAsync().execute("");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -382,7 +431,40 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 
 	    }
 
+		// Clase para ejecutar en Background
+	       class reasignarAsync extends AsyncTask<String, Integer, Integer> {
 
+	             // Metodo que prepara lo que usara en background, Prepara el progress
+	             @Override
+	             protected void onPreExecute() {
+	                   pd = ProgressDialog. show(SupervisionRespuesta.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+	                   pd.setCancelable( false);
+	            }
+
+	             // Metodo con las instrucciones que se realizan en background
+	             @Override
+	             protected Integer doInBackground(String... urlString) {
+	                   try {
+	                	   buscarUsuarios();
+	                  } catch (Exception exception) {
+
+	                  }
+	                   return null ;
+	            }
+
+	             // Metodo con las instrucciones al finalizar lo ejectuado en background
+	             protected void onPostExecute(Integer resultado) {
+	                   pd.dismiss();
+	                   dialogSupervisores(SupervisionRespuesta.this);
+
+	            }
+	}
+
+
+	    public void buscarUsuarios(){
+	    	RequestWSAsignacion req = new RequestWSAsignacion();
+	    	setCatalogoSupervisor(req.buscaSupervisores());
+	    }
 		public Button getGuardarButton() {
 			return guardarButton;
 		}
@@ -473,6 +555,22 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 
 		public void setEstadoTextView(TextView estadoTextView) {
 			this.estadoTextView = estadoTextView;
+		}
+
+		public CatalogoSupervisor getCatalogoSupervisor() {
+			return catalogoSupervisor;
+		}
+
+		public void setCatalogoSupervisor(CatalogoSupervisor catalogoSupervisor) {
+			this.catalogoSupervisor = catalogoSupervisor;
+		}
+
+		public String getIdReasignado() {
+			return idReasignado;
+		}
+
+		public void setIdReasignado(String idReasignado) {
+			this.idReasignado = idReasignado;
 		}
 		
 		

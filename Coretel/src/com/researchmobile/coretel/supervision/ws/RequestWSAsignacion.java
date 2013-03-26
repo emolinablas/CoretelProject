@@ -26,33 +26,38 @@ import android.util.Log;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
+import com.researchmobile.coretel.supervision.entity.CatalogoSupervisor;
 import com.researchmobile.coretel.supervision.entity.Multimedia;
 import com.researchmobile.coretel.supervision.entity.RespuestaWS;
+import com.researchmobile.coretel.supervision.entity.Supervisor;
 import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 
 public class RequestWSAsignacion {
 	private static final String WS_LOGIN = "ws_login.php?usuario=";
 	private static final String WS_ASIGNACIONES = "ws_anotacion.php?usuario=";
 	private static final String WS_MARCARASIGNACION = "ws_view_anotacion.php?id=";
+	private static final String WS_SUPERVISORES = "ws_supervisor.php?padre=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
 	public boolean LoginRecibelo(UserAsignacion user)
 	{
 	  JSONObject jsonObject = null;
-	  String finalURL = WS_LOGIN + user.getUsername()+ "&clave="+ user.getPassword();
+	  String finalURL = WS_LOGIN + UserAsignacion.getUsername()+ "&clave="+ UserAsignacion.getPassword();
 	  boolean respuesta = false;
 	   try
 	   {
 		jsonObject = connectWS.Login(finalURL);
 		if(jsonObject != null)
 		{
-		UserAsignacion usuario = new UserAsignacion();
 		respuesta = Boolean.parseBoolean(jsonObject.getString("resultado"));
 		JSONArray datosUsuario = jsonObject.getJSONArray("usuario");
 		JSONObject id = (JSONObject) datosUsuario.get(0);
-		usuario.setUserId(id.getString("id"));
-		usuario.setEmail(id.getString("email"));
+		UserAsignacion.setUserId(id.getString("id"));
+		UserAsignacion.setEmail(id.getString("email"));
+		UserAsignacion.setIdTipoUsuario(id.getString("id_tipo_usuario"));
+		UserAsignacion.setActivo(id.getString("activo"));
+		UserAsignacion.setIdPadre(id.getString("id_padre"));
 		Log.v("pio", "id user = " + UserAsignacion.getUserId());
 		System.out.println("Resultado = " + respuesta);
 		return respuesta;
@@ -67,6 +72,50 @@ public class RequestWSAsignacion {
 		 return respuesta;
 	 }
 }	 
+	
+	public CatalogoSupervisor buscaSupervisores() {
+		JSONObject jsonObject = null;
+		CatalogoSupervisor catalogo = new CatalogoSupervisor();
+		String finalURL = WS_SUPERVISORES + UserAsignacion.getIdPadre();
+		RespuestaWS respuesta = new RespuestaWS();
+		try {
+			jsonObject = connectWS.buscarSupervisores(finalURL);
+			if (jsonObject != null) {
+				
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				
+				if (respuesta.isResultado()){
+					JSONArray datoSupervisor = jsonObject.getJSONArray("usuario");
+					int tamano = datoSupervisor.length();
+					Supervisor[] listaSupervisor = new Supervisor[tamano];
+					for (int i = 0; i < tamano; i++){
+						JSONObject jsonTemp = datoSupervisor.getJSONObject(i);
+						Supervisor sup = new Supervisor();
+						sup.setId(jsonTemp.getString("id"));
+						sup.setNombre(jsonTemp.getString("nombre"));
+						sup.setEmail(jsonTemp.getString("email"));
+						sup.setTelefono(jsonTemp.getString("telefono"));
+						listaSupervisor[i] = sup;
+					}
+					catalogo.setSupervisor(listaSupervisor);
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("No se encontraron supervisores");
+				}
+				catalogo.setRespuestaWS(respuesta);
+				return catalogo;
+				
+			} else {
+				respuesta.setResultado(false);
+				respuesta.setMensaje("Problemas al cargar supervisores");
+				catalogo.setRespuestaWS(respuesta);
+				return catalogo;
+			}
+		} catch (JSONException e) {
+			return catalogo;
+		}
+	}
 	
 	public RespuestaWS mandarFotoRespuesta(String imagen, String id) {
 		Log.v("pio", "imagen = " + imagen);
@@ -223,4 +272,6 @@ public class RequestWSAsignacion {
 			
 			return null;
 		}
+
+			
 }

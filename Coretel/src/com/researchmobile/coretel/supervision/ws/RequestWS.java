@@ -559,9 +559,9 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		connectWS.marcarAsignacion(finalURL);
 	}
 	
-	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado) {
+	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado, String usuario) {
 		RespuestaWS respuestaWS = new RespuestaWS();
-		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + UserAsignacion.getUserId();
+		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + usuario;
 		JSONObject jsonObject = null;
 		try{
 			jsonObject = connectWS.enviarRespuesta(finalURL);
