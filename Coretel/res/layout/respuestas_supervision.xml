@@ -7,50 +7,54 @@
     <Button
         android:id="@+id/respuestas_corregido"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/boton_background"
+        android:textSize="18dp"
+        android:background="@drawable/boton_background_verde"
         android:text="Corregido" >
     </Button>
     
     <Button
         android:id="@+id/respuestas_irreparable"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
-        android:background="@drawable/boton_background"
+        android:textSize="18dp"
+        android:background="@drawable/boton_background_rojo"
         android:text="Irreparable" >
     </Button>
     
     <Button
         android:id="@+id/respuestas_corregido_re"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/boton_background"
+        android:textSize="18dp"
+        android:background="@drawable/boton_background_naranja"
         android:text="Corregido Reasignado" >
     </Button>
     
     <Button
         android:id="@+id/respuestas_irreparable_re"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="18dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/boton_background"
+        android:background="@drawable/boton_background_naranja"
         android:text="Irreparable Reasignado" >
     </Button>
     
     <Button
         android:id="@+id/respuestas_cerrar"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:textSize="18dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/boton_background"
         android:text="Cerrar" >
     </Button>
 

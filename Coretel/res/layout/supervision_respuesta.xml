@@ -122,12 +122,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="right" >
+
+                        <TextView
+                            android:id="@+id/supervisionrespuesta_estado_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"/>
                     
                         <Button 
                             android:id="@+id/supervision_respuesta_estado"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/arrow_right"/>
+
                     </LinearLayout>
                    </LinearLayout>
                 

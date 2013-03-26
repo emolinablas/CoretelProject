@@ -561,7 +561,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	
 	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado) {
 		RespuestaWS respuestaWS = new RespuestaWS();
-		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + User.getUserId();
+		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + UserAsignacion.getUserId();
 		JSONObject jsonObject = null;
 		try{
 			jsonObject = connectWS.enviarRespuesta(finalURL);

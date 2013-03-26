@@ -87,13 +87,7 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
         setContentView(R.layout.mapasupervision);
         setRequestWSAsignacion(new RequestWSAsignacion());
         
-        Bundle bundle = getIntent().getExtras();
-        setLatSeleccionado((float)bundle.getFloat("latitud"));
-        setLonSeleccionado((float)bundle.getFloat("longitud"));
-        setLatitudSeleccionado(bundle.getString("latitud"));
-        setLongitudSeleccionado(bundle.getString("longitud"));
-        setCargarPuntos(bundle.getBoolean("cargarPuntos"));
-        	new buscaAnotacionesAsync().execute("");
+        new buscaAnotacionesAsync().execute("");
     }
     
     

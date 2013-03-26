@@ -54,6 +54,37 @@ public class TokenizerUtilitySupervision {
 		return buscar(anotacion, ESTADO);
 	}
 	
+	public String nombreEstado(String anotacion){
+		String estado = buscar(anotacion, ESTADO);
+		if (estado.equalsIgnoreCase("0")){
+			estado = "Pendiente";
+			return estado;
+		}else
+		
+		if (estado.equalsIgnoreCase("1")){
+			estado = "Pendiente";
+			return estado;
+		}else
+		
+		if (estado.equalsIgnoreCase("2")){
+			estado = "Corregido";
+			return estado;
+		}else
+		
+		if (estado.equalsIgnoreCase("3")){
+			estado = "Irreparable";
+			return estado;
+		}else
+		
+		if (estado.equalsIgnoreCase("4")){
+			estado = "Corregido Reasignado";
+			return estado;
+		}else{
+			estado = "Irreparable Reasignado";
+			return estado;
+		}
+	}
+	
 	public String descripcion(String anotacion){
 		return buscar(anotacion, DESCRIPCION);
 	}

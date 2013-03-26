@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.supervision.entity.RespuestaWS;
@@ -40,6 +41,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private static int SELECT_PICTURE = 2;
 
 	private EditText respuestaEditText;
+	private TextView estadoTextView;
 	private Button capturarButton;
 	private Button guardarButton;
 	private String descripcion;
@@ -53,6 +55,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private ProgressDialog pd = null;
 	private RequestWS requestWS = new RequestWS();
 	private RespuestaWS respuesta;
+	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
 
 		protected void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
@@ -65,6 +68,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
 			setRespuesta(new RespuestaWS());
 			
+			setEstadoTextView((TextView)findViewById(R.id.supervisionrespuesta_estado_textview));
+			getEstadoTextView().setText(tokenizer.nombreEstado(getTitulo()));
 			setListaFotosListView((ListView)findViewById(R.id.supervisionrespuesta_fotos_listview));
 			
 			setCapturarButton((Button)findViewById(R.id.supervisionrespuesta_capturar_button));
@@ -300,6 +305,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        corregido.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
 	            	setEstado("2");
+	            	getEstadoTextView().setText("Corregido");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -308,6 +314,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        irreparable.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
 	            	setEstado("3");
+	            	getEstadoTextView().setText("Irreparable");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -420,6 +427,14 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 
 		public void setEstado(String estado) {
 			this.estado = estado;
+		}
+
+		public TextView getEstadoTextView() {
+			return estadoTextView;
+		}
+
+		public void setEstadoTextView(TextView estadoTextView) {
+			this.estadoTextView = estadoTextView;
 		}
 		
 		
