@@ -5,12 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.RespuestaWS;
@@ -21,6 +23,8 @@ public class EditarComunidad extends Activity implements OnClickListener{
 	private Button aplicarButton;
 	private EditText nombreEditText;
 	private EditText descripcionEditText;
+	private ToggleButton esPublica;
+	private ToggleButton esReasignable;
 	private DetalleComunidad detalleComunidad;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta = new RespuestaWS();
@@ -36,6 +40,9 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		setAplicarButton((Button)findViewById(R.id.editarcomunidad_guardar_button));
 		setNombreEditText((EditText)findViewById(R.id.editarcomunidad_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.editarcomunidad_descripcion_edittext));
+		setEsPublica((ToggleButton)findViewById(R.id.editar_es_publica_toggleButton));
+		setEsReasignable((ToggleButton)findViewById(R.id.editar_es_reasignable_toggleButton));
+		
 		
 		getNombreEditText().setText(getDetalleComunidad().getNombre());
 		getDescripcionEditText().setText(getDetalleComunidad().getDescripcion());
@@ -89,13 +96,36 @@ public class EditarComunidad extends Activity implements OnClickListener{
 	}
 	
 	public void editarComunidad(){
+		System.out.println("inicia el proceso de edicion de comunidad");
 		String nombre = getNombreEditText().getText().toString();
+		System.out.println("inicia el proceso de edicion de comunidad 2");
 		String descripcion = getDescripcionEditText().getText().toString();
+		System.out.println("inicia el proceso de edicion de comunidad 3");
+		String espublica = "";
+		String esreasignable = "";
+		if(getEsPublica().isChecked()){
+			espublica = "1";
+		}else{
+			espublica = "0";
+		}
+		
+		if(getEsReasignable().isChecked()){
+			esreasignable = "1";
+		}else{
+			esreasignable = "0";
+		}
+		
 		if (nombre.equalsIgnoreCase("") || descripcion.equalsIgnoreCase("")){
 			respuesta.setResultado(false);
 			respuesta.setMensaje("debe llenar todos los campos");
 		}else{
-			respuesta = request.editarComunidad(getDetalleComunidad(), nombre, descripcion);
+			try{
+				System.out.println("antes de enviar la edicion ");
+			respuesta = request.editarComunidad(getDetalleComunidad(), nombre, descripcion, espublica, esreasignable);
+			System.out.println("despues de enviar la edicion");
+			}catch(Exception e){
+				Log.v("pio", "no su puede editar la comunidad ocurrio un problema");
+			}
 		}
 		
 	}
@@ -138,6 +168,22 @@ public class EditarComunidad extends Activity implements OnClickListener{
 
 	public void setDetalleComunidad(DetalleComunidad detalleComunidad) {
 		this.detalleComunidad = detalleComunidad;
+	}
+
+	public ToggleButton getEsPublica() {
+		return esPublica;
+	}
+
+	public void setEsPublica(ToggleButton esPublica) {
+		this.esPublica = esPublica;
+	}
+
+	public ToggleButton getEsReasignable() {
+		return esReasignable;
+	}
+
+	public void setEsReasignable(ToggleButton esReasignable) {
+		this.esReasignable = esReasignable;
 	}
 	
 }

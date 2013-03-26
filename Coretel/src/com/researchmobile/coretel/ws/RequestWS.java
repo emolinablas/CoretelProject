@@ -575,11 +575,11 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		}
 	}
 	
-	public RespuestaWS editarComunidad(DetalleComunidad comunidad, String nombre, String descripcion) {
+	public RespuestaWS editarComunidad(DetalleComunidad comunidad, String nombre, String descripcion, String espublica, String esreasignable) {
 		JSONObject jsonObject = null;
 //		ws_update_comunidad.php?id=idcomunidad&activo=[siempre es 1]&tipo_comunidad=1&usuario=[mi iddd usuario]&nombre=&descripcion&publica=1
 
-		String finalURL = WS_EDITARCOMUNIDAD + comunidad.getId() + "&activo=1&tipo_comunidad=1&usuario=" + User.getUserId() + "&nombre=" + nombre + "&descripcion=" + descripcion + "&publica=1";
+		String finalURL = WS_EDITARCOMUNIDAD + comunidad.getId() + "&activo=1&tipo_comunidad=1&usuario=" + User.getUserId() + "&nombre=" + nombre + "&descripcion=" + descripcion + "&publica=" + espublica + "&reasignable=" + esreasignable ;
 		String url = finalURL.replace(" ", "%20");
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
