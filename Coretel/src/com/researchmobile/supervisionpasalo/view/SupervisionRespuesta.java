@@ -27,6 +27,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.researchmobile.coretel.supervision.entity.RespuestaWS;
 import com.researchmobile.coretel.supervision.utility.AdapterListaFotos;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWS;
@@ -45,11 +46,13 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private String titulo;
 	private String pathFoto;
 	private Button estadoButton;
+	private String estado;
 	private int cuentaFotos = 0;
 	private ListView listaFotosListView;
 	private ArrayList<HashMap<String, Object>> arrayListFotos = new ArrayList<HashMap<String, Object>>();
 	private ProgressDialog pd = null;
 	private RequestWS requestWS = new RequestWS();
+	private RespuestaWS respuesta;
 
 		protected void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			setDescripcion(bundle.getString("descripcion"));
 			setTitulo(bundle.getString("titulo"));
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
+			setRespuesta(new RespuestaWS());
 			
 			setListaFotosListView((ListView)findViewById(R.id.supervisionrespuesta_fotos_listview));
 			
@@ -71,7 +75,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			getEstadoButton().setOnClickListener(this);
 			getCapturarButton().setOnClickListener(this);
 			
-			new marcarAsignacionAsync().execute("");
+			
 		}
 		
 		@Override
@@ -84,12 +88,60 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 				}
 				
 			}else if (view == getGuardarButton()){
-				
+				new guardarAsync().execute("");
 			}else if (view == getEstadoButton()){
 				dialogEstados(this);
 			}
 		}
 		
+		// Clase para ejecutar en Background
+	       class guardarAsync extends AsyncTask<String, Integer, Integer> {
+
+	             // Metodo que prepara lo que usara en background, Prepara el progress
+	             @Override
+	             protected void onPreExecute() {
+	                   pd = ProgressDialog. show(SupervisionRespuesta.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+	                   pd.setCancelable( false);
+	            }
+
+	             // Metodo con las instrucciones que se realizan en background
+	             @Override
+	             protected Integer doInBackground(String... urlString) {
+	                   try {
+	                	   Log.v("piio", "enviarRespeusta 0");
+	                	   enviarRespuesta();
+	                  } catch (Exception exception) {
+
+	                  }
+	                   return null ;
+	            }
+
+	             // Metodo con las instrucciones al finalizar lo ejectuado en background
+	             protected void onPostExecute(Integer resultado) {
+	                   pd.dismiss();
+	                   if (getRespuesta() != null){
+	                	   Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
+	                	   if (getRespuesta().isResultado()){
+	                		   Intent intent = new Intent(SupervisionRespuesta.this, MapaSupervision.class);
+	                		   startActivity(intent);
+	                	   }
+	                   }
+
+	            }
+	}
+
+		public void enviarRespuesta(){
+			Log.v("pio", "enviarREspuesata 1");
+			TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
+			Log.v("pio", "enviarREspuesata 2");
+			Log.v("pio", "enviarREspuesata titulo = " + getTitulo());
+			String id = tokenizer.idAnotacion(getTitulo());
+			Log.v("pio", "enviarREspuesata 3");
+			String respuesta = getRespuestaEditText().getText().toString();
+			Log.v("pio", "enviarREspuesata 4");
+			Log.v("pio", "enviarREspuesata = " + id + " " + respuesta + " " +getEstado());
+			setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado()));
+		}
 		public void dialogFotos (final Context activity) {
 
 	        final Dialog myDialog = new Dialog(activity);
@@ -212,41 +264,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	    	setListViewHeightBasedOnChildren(getListaFotosListView());
 	    }
 	    
-	    public void marcaAsignacion(){
-	    	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision(); 
-	    	requestWS.marcarAsignacion(tokenizer.idAnotacion(getTitulo()));
-	    }
-	    
-	 // Clase para ejecutar en Background
-	       class marcarAsignacionAsync extends AsyncTask<String, Integer, Integer> {
-
-	             // Metodo que prepara lo que usara en background, Prepara el progress
-	             @Override
-	             protected void onPreExecute() {
-	                   pd = ProgressDialog. show(SupervisionRespuesta.this, "VERIFICANDO DATOS",
-	                               "ESPERE UN MOMENTO");
-	                   pd.setCancelable( false);
-	            }
-
-	             // Metodo con las instrucciones que se realizan en background
-	             @Override
-	             protected Integer doInBackground(String... urlString) {
-	                   try {
-	                	   marcaAsignacion();
-	                  } catch (Exception exception) {
-
-	                  }
-	                   return null ;
-	            }
-
-	             // Metodo con las instrucciones al finalizar lo ejectuado en background
-	             protected void onPostExecute(Integer resultado) {
-	                   pd.dismiss();
-
-	            }
-	}
-
-	    
+	    	    
 //	     Metodo para controlar ScrollView con ListView
 	       public static void setListViewHeightBasedOnChildren(ListView listView) {
 	          ListAdapter listAdapter = listView.getAdapter();
@@ -281,6 +299,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        Button corregido = (Button) myDialog.findViewById(R.id.respuestas_corregido);
 	        corregido.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
+	            	setEstado("2");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -288,6 +307,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	        Button irreparable = (Button) myDialog.findViewById(R.id.respuestas_irreparable);
 	        irreparable.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
+	            	setEstado("3");
 	                myDialog.dismiss();
 	            }
 	        });
@@ -384,6 +404,22 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 
 		public void setTitulo(String titulo) {
 			this.titulo = titulo;
+		}
+
+		public RespuestaWS getRespuesta() {
+			return respuesta;
+		}
+
+		public void setRespuesta(RespuestaWS respuesta) {
+			this.respuesta = respuesta;
+		}
+
+		public String getEstado() {
+			return estado;
+		}
+
+		public void setEstado(String estado) {
+			this.estado = estado;
 		}
 		
 		

@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
+import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.R;
 
@@ -36,19 +39,22 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 	private Button responderButton;
 	private Button regresarButton;
 	private String descripcion;
+	private String titulo;
 	private TokenizerUtility tokenizer = new TokenizerUtility();
+	private ProgressDialog pd = null;
+	private RequestWSAsignacion requestWS = new RequestWSAsignacion();
 	
 		protected void onCreate(Bundle savedInstanceState)
 		{
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.supervision_evento);
 			Bundle bundle = getIntent().getExtras();
-			String fecha = bundle.getString("titulo");
+			setTitulo(bundle.getString("titulo"));
 			setDescripcion(bundle.getString("descripcion"));
 			String latitud = bundle.getString("latitud");
 			String longitud = bundle.getString("longitud");
-			Log.v("coretel", "titulo = " + fecha);
-			Log.v("coretel", "descripcion = " + descripcion);
+			Log.v("pio", "descripcion = " + descripcion);
+			Log.v("pio", "titulo = " + getTitulo());
 			/*
 			String tipo = bundle.getString("tipo");
 			String comunidad = bundle.getString("comunidad");
@@ -76,6 +82,9 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
 			getDescripcionTextView().setText(tokenizer.descripcion(getDescripcion()));
 			MostrarImagen();
+			
+			new marcarAsignacionAsync().execute("");
+			
 		}
 		
 			public void onClick(View view){
@@ -86,6 +95,40 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 					Retorno();
 				}
 			}
+			
+			// Clase para ejecutar en Background
+		       class marcarAsignacionAsync extends AsyncTask<String, Integer, Integer> {
+
+		             // Metodo que prepara lo que usara en background, Prepara el progress
+		             @Override
+		             protected void onPreExecute() {
+		                   pd = ProgressDialog. show(SupervisionEvento.this, "VERIFICANDO DATOS",
+		                               "ESPERE UN MOMENTO");
+		                   pd.setCancelable( false);
+		            }
+
+		             // Metodo con las instrucciones que se realizan en background
+		             @Override
+		             protected Integer doInBackground(String... urlString) {
+		                   try {
+		                	   marcaAsignacion();
+		                  } catch (Exception exception) {
+
+		                  }
+		                   return null ;
+		            }
+
+		             // Metodo con las instrucciones al finalizar lo ejectuado en background
+		             protected void onPostExecute(Integer resultado) {
+		                   pd.dismiss();
+
+		            }
+		}
+		       
+		       public void marcaAsignacion(){
+			    	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision(); 
+			    	requestWS.marcarAsignacion(tokenizer.idAnotacion(getTitulo()));
+			    }
 		
 	//metodo para cargar imagenes
 			private void MostrarImagen() {
@@ -155,6 +198,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 		private void Responder() {
 			Intent intent = new Intent(SupervisionEvento.this, SupervisionRespuesta.class);
 			intent.putExtra("descripcion", getDescripcion());
+			intent.putExtra("titulo", getTitulo());
 			startActivity(intent);
 			}
 		
@@ -239,6 +283,14 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 
 		public void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
+		}
+
+		public String getTitulo() {
+			return titulo;
+		}
+
+		public void setTitulo(String titulo) {
+			this.titulo = titulo;
 		}
 	
 }

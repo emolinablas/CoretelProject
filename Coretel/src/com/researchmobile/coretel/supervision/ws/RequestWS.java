@@ -62,6 +62,7 @@ public class RequestWS {
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
 	private static final String WS_MARCARASIGNACION = "ws_view_anotacion.php?anotacion=";
+	private static final String WS_UPDATE = "ws_update_anotacion.php?id=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -557,6 +558,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		connectWS.marcarAsignacion(finalURL);
 	}
 	
+	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado) {
+		RespuestaWS respuestaWS = new RespuestaWS();
+		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&id_estado=" + estado;
+		JSONObject jsonObject = null;
+		try{
+			jsonObject = connectWS.enviarRespuesta(finalURL);
+			if (jsonObject != null){
+				respuestaWS.setResultado(jsonObject.getBoolean("resultado"));
+				respuestaWS.setMensaje(jsonObject.getString("mensaje"));
+			}else{
+				respuestaWS.setResultado(false);
+				respuestaWS.setMensaje("En este momento no se puede enviar la invitacion");
+			}
+			return respuestaWS;
+		}catch(Exception exception){
+			respuestaWS.setResultado(false);
+			respuestaWS.setMensaje("En este momento no se puede enviar la invitacion");
+			return respuestaWS;
+		}
+	}
+	
 	public RespuestaWS enviarInvitacion(String email, String idComunidad) {
 		RespuestaWS respuesta = new RespuestaWS();
 		String finalURL = WS_ENVIARINVITACION + UserAsignacion.getUserId() + "&comunidad=" + idComunidad + "&email=" + email;
@@ -807,6 +829,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 		return catalogo;		
 	}
+
+	
 
 	
 }
