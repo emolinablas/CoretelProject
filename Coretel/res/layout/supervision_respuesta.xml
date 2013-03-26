@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#D1D5E0">
 
     <!-- HEADER -->
 
@@ -65,7 +66,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="#D1D5E0"
+        android:background="@drawable/patron_de_fondo_vertical"
         android:orientation="vertical"
         android:padding="0dp" >
 
@@ -77,7 +78,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/patron_de_fondo_vertical"
                 android:orientation="vertical" >
 
                 <LinearLayout
@@ -131,18 +131,13 @@
                     </LinearLayout>
                    </LinearLayout>
                 
-                <LinearLayout
-                    android:layout_width="fill_parent"
+                <ListView
+                    android:id="@+id/supervisionrespuesta_fotos_listview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#afafaf"
-                    android:gravity="center" >
+                    >
+                </ListView>
 
-                    <ImageView
-                        android:id="@+id/supervisionrespuesta_foto_imageview"
-                        android:layout_width="295sp"
-                        android:layout_height="195sp"
-                        android:src="@drawable/camera" />
-                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>

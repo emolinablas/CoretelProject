@@ -391,6 +391,21 @@ public class ConnectWS {
 		}
 	}
 	
+	public void marcarAsignacion(String finalURL) {
+		try {
+			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + finalURL);
+			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
+			System.out.println("DatosUsuario - url = " + urlCon);
+			InputStream inputStream = urlConnection.getInputStream();
+			
+			String responseInputStream = convertStreamToString(inputStream);
+			System.out.println(responseInputStream);
+		} catch (Exception exception) {
+			System.out.println(exception);
+		}
+		
+	}
+	
 	public JSONObject Chat(String url) {
 		JSONObject jsonObject = null;
 		try {
@@ -455,7 +470,6 @@ public class ConnectWS {
 			}
 	}
 
-	
 }
 
 

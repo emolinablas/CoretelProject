@@ -61,6 +61,7 @@ public class RequestWS {
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
 	private static final String WS_ELIMINACOMUNIDAD = "ws_delete_comunidad.php?id=";
 	private static final String WS_EDITARPERFIL = "ws_update_usuario.php?action=modificar&id=";
+	private static final String WS_MARCARASIGNACION = "ws_view_anotacion.php?anotacion=";
 	
 	private ConnectWS connectWS = new ConnectWS();
 	
@@ -550,6 +551,12 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		return null;
 	}
 	
+	public void marcarAsignacion(String asignacion) {
+		// TODO Auto-generated method stub
+		String finalURL = WS_MARCARASIGNACION + asignacion;
+		connectWS.marcarAsignacion(finalURL);
+	}
+	
 	public RespuestaWS enviarInvitacion(String email, String idComunidad) {
 		RespuestaWS respuesta = new RespuestaWS();
 		String finalURL = WS_ENVIARINVITACION + UserAsignacion.getUserId() + "&comunidad=" + idComunidad + "&email=" + email;
@@ -800,8 +807,6 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		
 		return catalogo;		
 	}
-
-	
 
 	
 }
