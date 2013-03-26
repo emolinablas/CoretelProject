@@ -37,6 +37,12 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 		getDescripcionEditText().setOnKeyListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getIconoButton().setOnClickListener(this);
+		
+		
+		getNombreEditText().setText((String)bundle.get("nombre"));
+		getDescripcionEditText().setText((String)bundle.getString("descripcion"));
+		
+		
 	}
 
 	public EditText getNombreEditText() {

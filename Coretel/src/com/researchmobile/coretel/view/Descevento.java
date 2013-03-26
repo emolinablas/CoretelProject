@@ -115,7 +115,8 @@ public class Descevento extends Activity implements OnClickListener{
 	
 	private void Editarboton(){
 		Intent intent = new Intent(Descevento.this, EditarTipoEvento.class); 
-		
+		intent.putExtra("nombre",getNombreTextView().getText());
+		intent.putExtra("descripcion", getDescripcionTextView().getText());
 		startActivity(intent);
 	}
 	
