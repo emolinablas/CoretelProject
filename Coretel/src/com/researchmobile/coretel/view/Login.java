@@ -276,7 +276,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  				if(getRespuesta().isResultado()){
  					
  					try{
- 					creaServicio();
+ 					servicioGeoposicion(); // Activa el servicio que actualiza las variables de geoposici—n
+ 					creaServicio(); // Activa el servicio que envia la geoposici—n
  					Log.v("pio", "Se ejecuto el servicio");
  					}catch(Exception e){
  						Log.v("pio", "ocurri— un error al activar el serviio");
@@ -343,6 +344,77 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
              });
      }
      
+     private void servicioGeoposicion(){
+			
+ 	 HandlerThread hilo2;
+ 	 hilo2=new HandlerThread("hilo_geoposicion2");
+      hilo2.start();
+      new Handler(hilo2.getLooper()).post(
+          new Runnable() {
+              @Override
+              public void run()
+              {
+                  while(User.isCompartirGeoposicion())
+                  { Log.v("geo", "se ingreso al hilo de geoposicion a espera de un dato.");
+                    
+                   try
+                   {
+                      //Aqui lo que quieres hacer
+                	 //Obtenemos una referencia al LocationManager
+                   LocationManager	locationManager = 
+                   		(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+                   	//locationManager(LocationManager)getSystemService(name)
+                   	
+                   	//Obtenemos la última posición conocida
+                   	Location location = 
+                   		locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                   	
+                   	//Mostramos la última posición conocida
+                   	//muestraPosicion(location);
+                   	
+                   	//Nos registramos para recibir actualizaciones de la posición
+                   	LocationListener locationListener = new LocationListener() {
+               	    	public void onLocationChanged(Location location) {
+               	    		//muestraPosicion(location);
+               	    		
+               	    		User.setLatitudActual(String.valueOf(location.getLatitude()));
+               	    		User.setLongitudActual(String.valueOf(location.getLongitude()));
+               	    		Log.v("geo", "Se sete— esta posici—n" + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+               	    	}
+               	    	public void onProviderDisabled(String provider){
+               	    		//lblEstado.setText("Provider OFF");
+               	    		//locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000, 0, LocationListener2);
+               	    	}
+               	    	public void onProviderEnabled(String provider){
+               	    		//lblEstado.setText("Provider ON");
+               	    	}
+               	    	public void onStatusChanged(String provider, int status, Bundle extras){
+               	    		Log.i("LocAndroid", "Provider Status: " + status);
+               	    		//lblEstado.setText("Provider Status: " + status);
+               	    	}
+                   	};
+                   	
+                   	locationManager.requestLocationUpdates(
+                   			LocationManager.GPS_PROVIDER, 15000, 0, locationListener);
+                 	 
+                    //  Thread.sleep(1000 * 60);
+                   }catch (Exception e) {
+                      // TODO Auto-generated catch block
+                      e.printStackTrace();
+                      try {
+                          //Por si ocurre algun problema para que no se ejecute sin parar y se sobrecarga
+                          Thread.sleep(1000 *60);
+                      } catch (InterruptedException e1) {
+                          // TODO Auto-generated catch block
+                          e1.printStackTrace();
+                      }
+                  }
+                   
+                  }
+              }
+          });
+  }
+     
      private void verificaGps(){
     	 /**
           * Crate Dialog
@@ -355,7 +427,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  			
  			@Override
  			public void onClick(DialogInterface dialog, int which) {
- 				Intent myIntent = new Intent( Settings.ACTION_SECURITY_SETTINGS );
+ 				Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS );
  			    startActivity(myIntent);
  			}
  		});
@@ -369,8 +441,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  			}
  		});
          
-         LocationManager locationService = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-         LocationListener myLocationListener = new MyLocationListener();
+   /*      LocationManager locationService = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+         LocationListener myLocationListener = new MyLocationListener2();
  		locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, myLocationListener);
  		if(!locationService.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER ))
  		{
@@ -378,27 +450,28 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  	        alert.setTitle("NECESITA ACTIVAR GPS");
  	        alert.show();
  		}
+ 		*/
      }
      
-     public class MyLocationListener implements LocationListener {
- 		public void onLocationChanged(Location location) {
- 			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
- 			LocationListener locationListener = new MyLocationListener();
- 			locationManager.removeUpdates(locationListener);
+  /*   public class MyLocationListener2 implements LocationListener {
+  		public void onLocationChanged(Location location) {
+  			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+  			LocationListener locationListener = new MyLocationListener2();
+  			locationManager.removeUpdates(locationListener);
+  		}
+  		
+  		public void onProviderDisabled(String provider) {
+ 			//Toast.makeText(getApplicationContext(), "Gps Desactivado", Toast.LENGTH_SHORT).show();
+ 			
  		}
- 		
- 		public void onProviderDisabled(String provider) {
-			//Toast.makeText(getApplicationContext(), "Gps Desactivado", Toast.LENGTH_SHORT).show();
-			
-		}
 
-		public void onProviderEnabled(String provider) {
-			//Toast.makeText(getApplicationContext(), "Gps Activo", Toast.LENGTH_SHORT).show();
-		}
+ 		public void onProviderEnabled(String provider) {
+ 			//Toast.makeText(getApplicationContext(), "Gps Activo", Toast.LENGTH_SHORT).show();
+ 		}
 
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
- 	 }
+ 		public void onStatusChanged(String provider, int status, Bundle extras) {
+ 		}
+  	 }*/
 
      public EditText getUsuarioEditText() {
           return usuarioEditText;
