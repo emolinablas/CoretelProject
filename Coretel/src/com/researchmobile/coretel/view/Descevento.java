@@ -53,7 +53,7 @@ public class Descevento extends Activity implements OnClickListener{
 		getEditarButton().setOnClickListener(this);
 		
 		if(isEsDuenno()){
-			Log.v("pio", "El usuario no es due–o de la comunidad, no puede borrar el miembro");
+			Log.v("pio", "El usuario no es dueño de la comunidad, no puede borrar el miembro");
 		}else{
 			getBorrarButton().setVisibility(View.GONE);
 			getEditarButton().setVisibility(View.GONE);
@@ -115,8 +115,7 @@ public class Descevento extends Activity implements OnClickListener{
 	
 	private void Editarboton(){
 		Intent intent = new Intent(Descevento.this, EditarTipoEvento.class); 
-		intent.putExtra("nombre",getNombreTextView().getText());
-		intent.putExtra("descripcion", getDescripcionTextView().getText());
+		intent.putExtra("tipoAnotacion", getTipoAnotacion());
 		startActivity(intent);
 	}
 	

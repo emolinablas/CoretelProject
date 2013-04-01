@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_iphone_gray"
-                android:text="Editar"
+                android:text="Aplicar"
                 android:textColor="#ffffff"
                 android:textSize="10dp" />
 
@@ -83,11 +83,6 @@
                 android:orientation="horizontal"
                 android:padding="1dp" >
 
-                <ImageView
-                    android:id="@+id/editartipoevento_icono_imageview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <Button
                     android:id="@+id/editartipoevento_icono_button"
                     android:layout_width="200sp"
@@ -96,6 +91,11 @@
                     android:gravity="left"
                     android:text="ICONO"
                     android:textColor="#000000" />
+
+                <ImageView
+                    android:id="@+id/editartipoevento_icono_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

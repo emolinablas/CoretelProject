@@ -53,7 +53,7 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 		getGuardarButton().setOnClickListener(this);
 		
 		
-		getNombreEditText().setHint(getUsuario().getNombre());
+		getNombreEditText().setText(getUsuario().getNombre());
 		getEmailEditText().setText(getUsuario().getEmail());
 		getTelefonoEditText().setText(getUsuario().getTelefono());
 		getUsuarioTextView().setText(User.getUsername());

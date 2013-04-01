@@ -22,14 +22,10 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	private Button eliminarButton;
 	
     public void onCreate(Bundle savedInstanceState) {
-    	System.out.println("Antes del oncreate super");
-        super.onCreate(savedInstanceState);
+    	super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        System.out.println("Antes del Set conten...");
         setContentView(R.layout.detalleevento);
-        System.out.println("Despues del set content y antes del buldle");
         Bundle bundle = getIntent().getExtras();
-        System.out.println("Despues de obtener el extras");
         
         String id = "";
         String fecha = "";

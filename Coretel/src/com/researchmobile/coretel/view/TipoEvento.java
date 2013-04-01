@@ -38,7 +38,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 		setTiposListView((ListView)findViewById(R.id.tipoevento_lista_listview));
 		
 		if(isEsDuenno()){
-			Log.v("pio", "El usuario no es due–o de la comunidad, crear un nuevo tipo");
+			Log.v("pio", "El usuario no es dueño de la comunidad, crear un nuevo tipo");
 		}else{
 			getAgregarButton().setVisibility(View.GONE);
 		}

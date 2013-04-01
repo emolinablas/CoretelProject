@@ -60,6 +60,7 @@ public class RequestWS {
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
+	private static final String WS_EDITARTIPOANOTACION = "ws_update_tipo_anotacion.php?comunidad=";
 	private static final String WS_LISTATIPOANOTACION = "ws_tipo_anotacion.php?comunidad=";
 	private static final String WS_ELIMINATIPOANOTACION = "ws_delete_tipo_anotacion.php?id=";
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
@@ -157,6 +158,25 @@ public class RequestWS {
 			}
 		}catch(Exception exception){
 			return null;
+		}
+		return null;
+	}
+	
+	public RespuestaWS EditarTipoEvento(String idComunidad, String nombre, String descripcion, String incidente, String icono, String idAnotacion){
+		JSONObject jsonObject = null;
+		
+		String finalURL = WS_EDITARTIPOANOTACION + idComunidad +  "&incidente=" + incidente + "&administrador=1&nombre=" + nombre + "&descripcion=" + descripcion + "&icono=" + icono + "&usuario=" + User.getUserId() + "&id=" + idAnotacion;
+		String url = finalURL.replace(" ", "%20");
+		RespuestaWS respuesta = new RespuestaWS();
+		try{
+			jsonObject = connectWS.EditarTipoEvento(url);
+			if (jsonObject != null){
+				respuesta.setResultado(jsonObject.getBoolean("resultado"));
+				respuesta.setMensaje(jsonObject.getString("mensaje"));
+				return respuesta;
+			}
+		}catch(Exception exception){
+			return respuesta;
 		}
 		return null;
 	}

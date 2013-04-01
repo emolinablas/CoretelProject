@@ -109,7 +109,7 @@ public class Comunidad extends Activity implements OnClickListener{
 				R.id.lista_lobby_textview,
 				ListaOpciones()));
 		setListViewHeightBasedOnChildren(getOpcionesListView());
-		getOpcionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//		getOpcionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 			    
 		getOpcionesListView().setOnItemClickListener(new OnItemClickListener() {
 		    @Override

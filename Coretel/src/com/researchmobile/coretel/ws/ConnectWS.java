@@ -213,6 +213,23 @@ public class ConnectWS {
 		}
 	}
 	
+	public JSONObject EditarTipoEvento(String url) {
+		JSONObject jsonObject = null;
+		try {
+			URL urlCon = new URL("http", IP_SERVER, PUERTO, "/WS/" + url);
+			HttpURLConnection urlConnection = (HttpURLConnection) urlCon.openConnection();
+			System.out.println("EditarTipoEvento - url = " + urlCon);
+			InputStream inputStream = urlConnection.getInputStream();
+			String responseInputStream = convertStreamToString(inputStream);
+			System.out.println(responseInputStream);
+			jsonObject = new JSONObject(responseInputStream);
+			return jsonObject;
+		} catch (Exception exception) {
+			System.out.println(exception);
+			return jsonObject;
+		}
+	}
+	
 	public JSONObject ComunidadesTodas(String url) {
 		JSONObject jsonObject = null;
 		try {
