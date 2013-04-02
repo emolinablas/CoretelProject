@@ -41,9 +41,7 @@ import com.researchmobile.coretel.entity.ChatUtility;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.Mensaje;
-import com.researchmobile.coretel.utility.NotifyManager;
 import com.researchmobile.coretel.utility.RMFile;
-import com.researchmobile.coretel.utility.ServicioGeoposicion;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Login extends Activity implements OnClickListener, OnKeyListener{
@@ -280,7 +278,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
  					creaServicio(); // Activa el servicio que envia la geoposici—n
  					Log.v("pio", "Se ejecuto el servicio");
  					}catch(Exception e){
- 						Log.v("pio", "ocurri— un error al activar el serviio");
+ 						Log.v("pio", "ocurrio un error al activar el serviio");
  					}
  	 				Intent intent = new Intent(Login.this, Mapa.class);
  	 	            startActivity(intent);
@@ -314,7 +312,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                       try
                       {
                          //Aqui lo que quieres hacer
-                    	  Log.v("pio", "Se ejecut— el hilo");
+                    	  Log.v("pio", "Se ejecuto el hilo");
                     	 // Toast.makeText(getApplicationContext(), "se envio la geoposici—n", Toast.LENGTH_SHORT);
                     	  RequestWS request2 = new RequestWS();
                           setRespuesta2Geo(request2.EnviarGeoposicion(User.getUserId(), User.getLatitudActual(), User.getLongitudActual()));
@@ -359,45 +357,84 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                     
                    try
                    {
-                      //Aqui lo que quieres hacer
-                	 //Obtenemos una referencia al LocationManager
-                   LocationManager	locationManager = 
-                   		(LocationManager)getSystemService(Context.LOCATION_SERVICE);
-                   	//locationManager(LocationManager)getSystemService(name)
-                   	
-                   	//Obtenemos la última posición conocida
-                   	Location location = 
-                   		locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                   	
-                   	//Mostramos la última posición conocida
-                   	//muestraPosicion(location);
-                   	
-                   	//Nos registramos para recibir actualizaciones de la posición
-                   	LocationListener locationListener = new LocationListener() {
-               	    	public void onLocationChanged(Location location) {
-               	    		//muestraPosicion(location);
-               	    		
-               	    		User.setLatitudActual(String.valueOf(location.getLatitude()));
-               	    		User.setLongitudActual(String.valueOf(location.getLongitude()));
-               	    		Log.v("geo", "Se sete— esta posici—n" + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
-               	    	}
-               	    	public void onProviderDisabled(String provider){
-               	    		//lblEstado.setText("Provider OFF");
-               	    		//locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000, 0, LocationListener2);
-               	    	}
-               	    	public void onProviderEnabled(String provider){
-               	    		//lblEstado.setText("Provider ON");
-               	    	}
-               	    	public void onStatusChanged(String provider, int status, Bundle extras){
-               	    		Log.i("LocAndroid", "Provider Status: " + status);
-               	    		//lblEstado.setText("Provider Status: " + status);
-               	    	}
-                   	};
-                   	
-                   	locationManager.requestLocationUpdates(
-                   			LocationManager.GPS_PROVIDER, 15000, 0, locationListener);
-                 	 
-                    //  Thread.sleep(1000 * 60);
+						LocationManager locationService = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+						LocationListener myLocationListener = new LocationListener() {
+							
+							@Override
+							public void onStatusChanged(String provider, int status, Bundle extras) {
+								Log.v("geo", "capturando geoposicion 1");
+								
+							}
+							
+							@Override
+							public void onProviderEnabled(String provider) {
+								Log.v("geo", "capturando geoposicion 2");
+								
+							}
+							
+							@Override
+							public void onProviderDisabled(String provider) {
+								Log.v("geo", "capturando geoposicion 3");
+								
+							}
+							
+							@Override
+							public void onLocationChanged(Location location) {
+								Log.v("geo", "capturando geoposicion");
+								User.setLatitudActual(String.valueOf(location.getLatitude()));
+					 			User.setLongitudActual(String.valueOf(location.getLongitude()));
+					 		}
+						};
+						locationService.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,myLocationListener);
+						Log.v("geo", "iniciando gps.");
+						
+						
+						
+						
+						
+						
+						
+						
+                	   
+//                      //Aqui lo que quieres hacer
+//                	 //Obtenemos una referencia al LocationManager
+//                   LocationManager	locationManager = 
+//                   		(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+//                   	//locationManager(LocationManager)getSystemService(name)
+//                   	
+//                   	//Obtenemos la última posición conocida
+//                   	Location location = 
+//                   		locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                   	
+//                   	//Mostramos la última posición conocida
+//                   	//muestraPosicion(location);
+//                   	
+//                   	//Nos registramos para recibir actualizaciones de la posición
+//                   	LocationListener locationListener = new LocationListener() {
+//               	    	public void onLocationChanged(Location location) {
+//               	    		//muestraPosicion(location);
+//               	    		
+//               	    		User.setLatitudActual(String.valueOf(location.getLatitude()));
+//               	    		User.setLongitudActual(String.valueOf(location.getLongitude()));
+//               	    		Log.v("geo", "Se sete— esta posici—n" + String.valueOf(location.getLatitude()) + " " + String.valueOf(location.getLongitude()));
+//               	    	}
+//               	    	public void onProviderDisabled(String provider){
+//               	    		//lblEstado.setText("Provider OFF");
+//               	    		//locationManager2.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 15000, 0, LocationListener2);
+//               	    	}
+//               	    	public void onProviderEnabled(String provider){
+//               	    		//lblEstado.setText("Provider ON");
+//               	    	}
+//               	    	public void onStatusChanged(String provider, int status, Bundle extras){
+//               	    		Log.i("LocAndroid", "Provider Status: " + status);
+//               	    		//lblEstado.setText("Provider Status: " + status);
+//               	    	}
+//                   	};
+//                   	
+//                   	locationManager.requestLocationUpdates(
+//                   			LocationManager.GPS_PROVIDER, 15000, 0, locationListener);
+//                 	 
+                      Thread.sleep(1000 * 60);
                    }catch (Exception e) {
                       // TODO Auto-generated catch block
                       e.printStackTrace();
@@ -414,6 +451,29 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
               }
           });
   }
+     
+     public class MyLocationListener implements LocationListener {
+ 		public void onLocationChanged(Location location) {
+ 			User.setLatitudActual(String.valueOf(location.getLatitude()));
+ 			User.setLongitudActual(String.valueOf(location.getLongitude()));
+ 			
+ 			LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+ 			LocationListener locationListener = new MyLocationListener();
+ 			locationManager.removeUpdates(locationListener);
+ 		}
+
+ 		public void onProviderDisabled(String provider) {
+ 			//Toast.makeText(getApplicationContext(), "Gps Desactivado", Toast.LENGTH_SHORT).show();
+ 			
+ 		}
+
+ 		public void onProviderEnabled(String provider) {
+ 			//Toast.makeText(getApplicationContext(), "Gps Activo", Toast.LENGTH_SHORT).show();
+ 		}
+
+ 		public void onStatusChanged(String provider, int status, Bundle extras) {
+ 		}
+ 	}
      
      private void verificaGps(){
     	 /**

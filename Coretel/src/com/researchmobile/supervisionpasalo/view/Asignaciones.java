@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
+import com.researchmobile.coretel.supervision.utility.MyAdapterAsignaciones;
 import com.researchmobile.coretel.view.R;
 
 public class Asignaciones extends Activity implements OnItemClickListener, TextWatcher{
@@ -42,6 +43,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private CatalogoAsignacion catalogoAsignacion;
 	private AnotacionAsignacion anotacionAsignacion;
 	private ArrayList<HashMap<String, Object>> asignacionaesList;
+	private MyAdapterAsignaciones adapterAsignaciones;
 	
 	//Declare to menu
 	private LinearLayout slidingPanel;
@@ -52,13 +54,14 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private int panelWidth;
 	private ImageView menuViewButton;
 	private ListView lView;
+	private EditText buscarEditText;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
 	LinearLayout.LayoutParams headerPanelParameters ;
 	LinearLayout.LayoutParams listViewParameters;
 	
-	private ArrayList<HashMap<String, Object>> mylist = new ArrayList<HashMap<String, Object>>();
+	private ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
 	
 		protected void onCreate(Bundle savedInstanceState)
 		{
@@ -74,6 +77,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setComunidadTextView((TextView)findViewById(R.id.asignaciones_comunidad_textview));
 			setTipoTextView((TextView)findViewById(R.id.asignaciones_tipo_textview));
 			setListadoListView((ListView)findViewById(R.id.asignaciones_lista));
+			setBuscarEditText((EditText)findViewById(R.id.asignaciones_buscar_edittext));
+			getBuscarEditText().addTextChangedListener(this);
 			
 			/***
 	         * MENU
@@ -94,36 +99,30 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			for(i=0; i<tamano; i++)
 				{
 				
-					HashMap<String, Object>map = new HashMap<String,Object>();
+					HashMap<String, String>map = new HashMap<String,String>();
 	                map.put("creacion",getCatalogoAsignacion().getAnotacionasignacion()[i].getFormat_fecha_asignado());		
 	                map.put("asignado",getCatalogoAsignacion().getAnotacionasignacion()[i].getFormat_fecha_asignado());
 	                map.put("resultado",getCatalogoAsignacion().getAnotacionasignacion()[i].getFecha_registro());
 	                map.put("comunidad", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreComunidad());
 	                map.put("tipo", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion());
-	                int estado = getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado();
-	                if (estado == 0){
-	                	estado = this.getResources().getIdentifier("estado_azul_0_1", "drawable", this.getPackageName());
-	                }else if (estado == 2){
-	                	estado = this.getResources().getIdentifier("estado_verde_2", "drawable", this.getPackageName());
-	                }else if (estado == 3){
-	                	estado = this.getResources().getIdentifier("estado_rojo_3", "drawable", this.getPackageName());
-	                }else if (estado == 4){
-	                	estado = this.getResources().getIdentifier("estado_naranja_4_5", "drawable", this.getPackageName());
-	                }else if (estado == 5){
-	                	estado = this.getResources().getIdentifier("estado_naranja_4_5", "drawable", this.getPackageName());
-	                }
+	                String estado = String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado());
+
 	                map.put("estado", estado);
 	                map.put("latitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLatitud()));
 	                map.put("longitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLongitud()));
 	                mylist.add(map);
 				}
-			setSimpleAdapter(new SimpleAdapter(this,
-					mylist,
-					R.layout.asignaciones_supervision,
-					new String[]{"creacion","asignado","resultado","comunidad","tipo", "estado", "latitud", "longitud"},
-					new int[]{R.id.asignaciones_creacion_textview,R.id.asignaciones_asignacion_textview,R.id.asignaciones_resuelto_textview,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview, R.id.asignaciones_estado_imageview, R.id.asignaciones_latitud, R.id.asignaciones_longitud}));
-							
-					getListadoListView().setAdapter(getSimpleAdapter());
+			
+			setAdapterAsignaciones(new MyAdapterAsignaciones(this, mylist));
+			getListadoListView().setAdapter(getAdapterAsignaciones());
+			
+//			setSimpleAdapter(new SimpleAdapter(this,
+//					mylist,
+//					R.layout.asignaciones_supervision,
+//					new String[]{"creacion","asignado","resultado","comunidad","tipo", "estado", "latitud", "longitud"},
+//					new int[]{R.id.asignaciones_creacion_textview,R.id.asignaciones_asignacion_textview,R.id.asignaciones_resuelto_textview,R.id.asignaciones_comunidad_textview,R.id.asignaciones_tipo_textview, R.id.asignaciones_estado_imageview, R.id.asignaciones_latitud, R.id.asignaciones_longitud}));
+//							
+//					getListadoListView().setAdapter(getSimpleAdapter());
 					getListadoListView().setOnItemClickListener(this);
 					
 					animationMenu();
@@ -267,13 +266,13 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 
 
 
-		public ArrayList<HashMap<String, Object>> getMylist() {
+		public ArrayList<HashMap<String, String>> getMylist() {
 			return mylist;
 		}
 
 
 
-		public void setMylist(ArrayList<HashMap<String, Object>> mylist) {
+		public void setMylist(ArrayList<HashMap<String, String>> mylist) {
 			this.mylist = mylist;
 		}
 
@@ -462,8 +461,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			try{
-				getSimpleAdapter().getFilter().filter(s);
-		        getSimpleAdapter().notifyDataSetChanged();
+//				getAdapterAsignaciones().getFilter().filter(s);
+//				getAdapterAsignaciones().notifyDataSetChanged();
 			}catch(Exception exception){
 				Log.v("pio", "error filtrando = " + exception);
 			}
@@ -478,6 +477,22 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 		public void setAsignacionaesList(
 				ArrayList<HashMap<String, Object>> asignacionaesList) {
 			this.asignacionaesList = asignacionaesList;
+		}
+
+		public EditText getBuscarEditText() {
+			return buscarEditText;
+		}
+
+		public void setBuscarEditText(EditText buscarEditText) {
+			this.buscarEditText = buscarEditText;
+		}
+
+		public MyAdapterAsignaciones getAdapterAsignaciones() {
+			return adapterAsignaciones;
+		}
+
+		public void setAdapterAsignaciones(MyAdapterAsignaciones adapterAsignaciones) {
+			this.adapterAsignaciones = adapterAsignaciones;
 		}
 
 		

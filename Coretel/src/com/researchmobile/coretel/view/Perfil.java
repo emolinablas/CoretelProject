@@ -43,7 +43,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	private Button cambiaButton;
 	private Button guardarButton;
 	private Button editarButton;
-	private ToggleButton compartirUbicaci—n;
+	private ToggleButton compartirUbicacion;
 	private Usuario usuario;
 	private User user;
 	private Mensaje mensaje;
@@ -76,12 +76,12 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		setCambiaButton((Button)findViewById(R.id.perfil_cambiar_button));
 		setGuardarButton((Button)findViewById(R.id.perfil_guardar_button));
 		setEditarButton((Button)findViewById(R.id.perfil_editar_button));
-		setCompartirUbicaci—n((ToggleButton)findViewById(R.id.compartir_ubicacion_toggleButton));
+		setCompartirUbicacion((ToggleButton)findViewById(R.id.compartir_ubicacion_toggleButton));
 		if(User.isCompartirGeoposicion()){
 		 Log.v("pio", "se est‡ compartiendo la ubicaci—n");
-		    getCompartirUbicaci—n().setChecked(true);
+		    getCompartirUbicacion().setChecked(true);
 		}else{
-			getCompartirUbicaci—n().setChecked(false);
+			getCompartirUbicacion().setChecked(false);
 		}
 		getNombreTextView().setText(getUsuario().getNombre());
 		getEmailText().setText(getUsuario().getEmail());
@@ -90,7 +90,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		getCambiaButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getEditarButton().setOnClickListener(this);
-		getCompartirUbicaci—n().setOnClickListener(this);
+		getCompartirUbicacion().setOnClickListener(this);
 		setEdicionLayout((LinearLayout)findViewById(R.id.perfil_layout_edit));
 		getEdicionLayout().setVisibility(View.INVISIBLE);
 	}
@@ -160,7 +160,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 			}
 		}else if (view == getEditarButton()){
 			editarActivity();
-		}else if (view == getCompartirUbicaci—n()){
+		}else if (view == getCompartirUbicacion()){
 			accionesUbicacion();
 		}
 	}
@@ -208,7 +208,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	public void accionesUbicacion(){
-		if(getCompartirUbicaci—n().isChecked() && !User.isCompartirGeoposicion()){
+		if(getCompartirUbicacion().isChecked() && !User.isCompartirGeoposicion()){
 			User.setCompartirGeoposicion(true);
 	    	
 	    	 HandlerThread hilo;
@@ -255,7 +255,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	             });
 	        
 		}
-		if(!getCompartirUbicaci—n().isChecked())
+		if(!getCompartirUbicacion().isChecked())
 		{
 			User.setCompartirGeoposicion(false);
 			System.out.println("Ya no se compartira la ubicaci—n");
@@ -430,12 +430,12 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		this.editarButton = editarButton;
 	}
 
-	public ToggleButton getCompartirUbicaci—n() {
-		return compartirUbicaci—n;
+	public ToggleButton getCompartirUbicacion() {
+		return compartirUbicacion;
 	}
 
-	public void setCompartirUbicaci—n(ToggleButton compartirUbicaci—n) {
-		this.compartirUbicaci—n = compartirUbicaci—n;
+	public void setCompartirUbicacion(ToggleButton compartirUbicacion) {
+		this.compartirUbicacion = compartirUbicacion;
 	}
 
 	public RespuestaWS getRespuesta2Geo() {

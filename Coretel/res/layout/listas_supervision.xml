@@ -91,6 +91,14 @@
 		        android:layout_height="1dp"
 		        android:background="#414141" />
 
+		    <EditText
+		        android:id="@+id/asignaciones_buscar_edittext"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:ems="10" >
+
+		        <requestFocus />
+		    </EditText>
 		  
 		    <ListView
             android:id="@+id/asignaciones_lista"
