@@ -20,7 +20,6 @@ android:centerY="10%p"
 android:top="7dp"
 android:right="7dp"
 android:bottom="7dp"/>
-<corners android:radius="5dp"/>
 </shape>
 
 </animation-list>

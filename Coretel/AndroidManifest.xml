@@ -93,9 +93,32 @@ android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
               
         <!-- FIN TUTORIAL -->
         
+<!-- TUTORIAL RECIBELO -->
+<activity 
+android:name="com.researchmobile.supervisionpasalo.tutorial.Asignaciones_Tutorial_1" 
+android:screenOrientation="portrait" android:configChanges="orientation"
+android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+>
+</activity>
+
+<activity 
+android:name="com.researchmobile.supervisionpasalo.tutorial.SupervisionEvento_Tutorial_2" 
+android:screenOrientation="portrait" android:configChanges="orientation"
+android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+>
+</activity>
+
+<activity 
+android:name="com.researchmobile.supervisionpasalo.tutorial.SupervisionRespuesta_Tutorial_3" 
+android:screenOrientation="portrait" android:configChanges="orientation"
+android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+>
+</activity>
+<!-- FIN  -->
+        
         <!-- RECIBELO -->
-        <activity android:name="com.researchmobile.supervisionpasalo.view.LoginRecibelo" android:screenOrientation="portrait" android:configChanges="orientation"/>
-        <activity android:name="com.researchmobile.supervisionpasalo.view.MapaSupervision" android:screenOrientation="portrait" android:configChanges="orientation"/>
+    <activity android:name="com.researchmobile.supervisionpasalo.view.LoginRecibelo" android:screenOrientation="portrait" android:configChanges="orientation"/>
+    <activity android:name="com.researchmobile.supervisionpasalo.view.MapaSupervision" android:screenOrientation="portrait" android:configChanges="orientation"/>
     <activity android:name="com.researchmobile.supervisionpasalo.view.Asignaciones" android:screenOrientation="portrait" android:configChanges="orientation"/>
 	<activity android:name="com.researchmobile.supervisionpasalo.view.SupervisionEvento" android:screenOrientation="portrait" android:configChanges="orientation"/>
 	<activity android:name="com.researchmobile.supervisionpasalo.view.SupervisionRespuesta" android:screenOrientation="portrait" android:configChanges="orientation"/>
