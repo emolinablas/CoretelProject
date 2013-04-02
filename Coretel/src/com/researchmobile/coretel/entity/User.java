@@ -22,6 +22,7 @@ public class User implements Serializable{
 	private static String latitudActual;
 	private static String longitudActual;
 	private static boolean compartirGeoposicion;
+	private static boolean modoTutorial;
 	
 	
 	
@@ -134,5 +135,11 @@ public class User implements Serializable{
 	}
 	public static void setLongitudActual(String longitudActual) {
 		User.longitudActual = longitudActual;
+	}
+	public static boolean isModoTutorial() {
+		return modoTutorial;
+	}
+	public static void setModoTutorial(boolean modoTutorial) {
+		User.modoTutorial = modoTutorial;
 	}
 }

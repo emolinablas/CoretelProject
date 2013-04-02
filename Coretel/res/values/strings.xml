@@ -4,5 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_login">Login</string>
+    <string name="mensajeAyuda">Te explicare como usar esta pantalla</string>
 
 </resources>

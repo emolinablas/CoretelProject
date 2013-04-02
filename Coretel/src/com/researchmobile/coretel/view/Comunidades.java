@@ -34,6 +34,7 @@ import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -70,6 +71,9 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.comunidades_menu);
+		User.setModoTutorial(true);
+		//Verificar si es modo tutorial
+		
 		
 //		Bundle bundle = (Bundle)getIntent().getExtras();
 //		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
@@ -80,6 +84,11 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		setRequest(new RequestWS());
 		
 		new buscaComunidadesAsync().execute("");
+		
+		 if(User.isModoTutorial()){
+				Intent intent = new Intent(Comunidades.this, Comunidades_tutorial_1.class);
+				startActivity(intent);
+			}
 		
 		setAgregarButton((Button)findViewById(R.id.comunidades_agregar_button));
 		setExplorarButton((Button)findViewById(R.id.explorar_comunidades_button));
@@ -178,6 +187,9 @@ private void opcionesMenu(int opcion){
 		break;
 	case 1:
 		new buscaComunidadesAsync().execute("");
+        
+        //Si es modo tutorial muestra la ayuda
+       
 		break;
 	case 2:
 		Intent intentInvitaciones = new Intent(Comunidades.this, Invitaciones.class);
@@ -189,6 +201,7 @@ private void opcionesMenu(int opcion){
 		break;
 	case 4:
 		new comunidadesAsync().execute("");
+		
 
 		break;
 	case 5:
@@ -226,6 +239,7 @@ private void opcionesMenu(int opcion){
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
                 resultadoComunidades();
+
          }
     }
     
