@@ -189,6 +189,10 @@ private void opcionesMenu(int opcion){
 		new buscaComunidadesAsync().execute("");
         
         //Si es modo tutorial muestra la ayuda
+		if(User.isModoTutorial()){
+			Intent intent = new Intent(Comunidades.this, Comunidades_tutorial_1.class);
+			startActivity(intent);
+		}
        
 		break;
 	case 2:
