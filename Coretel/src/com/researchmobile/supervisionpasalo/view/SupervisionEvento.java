@@ -23,10 +23,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.R;
+import com.researchmobile.supervisionpasalo.tutorial.Asignaciones_Tutorial_1;
+import com.researchmobile.supervisionpasalo.tutorial.SupervisionEvento_Tutorial_2;
 
 public class SupervisionEvento extends Activity implements OnClickListener {
 
@@ -84,7 +87,12 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			MostrarImagen();
 			
 			new marcarAsignacionAsync().execute("");
-			
+			//MODO TUTORIAL
+			UserAsignacion.setModotutorialsupervision(true);
+			if(UserAsignacion.isModotutorialsupervision()){
+				Intent intent = new Intent(SupervisionEvento.this, SupervisionEvento_Tutorial_2.class);
+				startActivity(intent);
+			}
 		}
 		
 			public void onClick(View view){

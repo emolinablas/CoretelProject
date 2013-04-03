@@ -28,8 +28,10 @@ import android.widget.TextView;
 
 import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
+import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.MyAdapterAsignaciones;
 import com.researchmobile.coretel.view.R;
+import com.researchmobile.supervisionpasalo.tutorial.Asignaciones_Tutorial_1;
 
 public class Asignaciones extends Activity implements OnItemClickListener, TextWatcher{
 
@@ -188,15 +190,22 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 				intentMapa.putExtra("asingaciones", getCatalogoAsignacion());
 				intentMapa.putExtra("latitud", latitud);
 				intentMapa.putExtra("longitud", longitud);
+				//MODO TUTORIAL
+				UserAsignacion.setModotutorialsupervision(true);
+				if(UserAsignacion.isModotutorialsupervision()){
+					Intent intent = new Intent(Asignaciones.this, Asignaciones_Tutorial_1.class);
+					startActivity(intent);
+				}
 				break;
+
 			case 1:
 				
-				break;
 			case 2:
 				Intent intentCerrar = new Intent(Asignaciones.this, LoginRecibelo.class);
 				startActivity(intentCerrar);
 				break;
 	        default:
+	        	
 	            break;
 
 			}
@@ -207,6 +216,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	    	if (adapter == lView){
 	    		opcionesMenu(position);
 				collapseMenu();
+				
 	    	}else if (adapter == getListadoListView()){
 	    		HashMap<String, Object> map = (HashMap<String, Object>) adapter.getAdapter().getItem(position);
 				String latitud = (String) map.get("latitud");
