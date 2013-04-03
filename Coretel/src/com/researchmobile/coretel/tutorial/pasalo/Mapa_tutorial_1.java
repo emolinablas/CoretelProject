@@ -26,17 +26,19 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_mapa));
 		}
 	
+	// El siguiente metodo permite llevar el seguimiento del tutorial, seteando el gradiente para cada paso del tutorial ademas del mensaje.
+	
 	@Override
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
 		if(view == getTutorialBackgroud()){
 			switch(pagina){
 		
-			case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left);
+			case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left); //utilizo el gradiente arriba/izquierda
 						mensaje.setText(R.string.tutorial_menu);
 						pagina++;
 						break;
-			case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right);
+			case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right); // utilizo el gradiente abajo/derecha
 						mensaje.setText(R.string.tutorial_mapa_accdir);
 						pagina++;
 						break;
@@ -57,14 +59,15 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 						mensaje.setText(R.string.tutorial_mapa_actualizaposicion);
 						pagina++;
 						break;
-			case 7: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left_filter);
-						mensaje.setText(R.string.tutorial_mapa_filtrar);
-						pagina++;
-						break;
-			case 8: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right_reload);
+			case 7: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right_reload);
 						mensaje.setText(R.string.tutorial_mapa_recargar);
 						pagina++;
 						break;
+			case 8: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left_filter);
+						mensaje.setText(R.string.tutorial_mapa_filtrar);
+						pagina++;
+						break;
+
 
 			case 9:		//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
 						finish();
