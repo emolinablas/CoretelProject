@@ -41,6 +41,8 @@ import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervisio
 import com.researchmobile.coretel.supervision.ws.RequestWS;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.view.R;
+import com.researchmobile.supervisionpasalo.tutorial.SupervisionEvento_Tutorial_2;
+import com.researchmobile.supervisionpasalo.tutorial.SupervisionRespuesta_Tutorial_3;
 
 public class SupervisionRespuesta extends Activity implements OnClickListener {
 	
@@ -75,6 +77,12 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			Bundle bundle = getIntent().getExtras();
 			setDescripcion(bundle.getString("descripcion"));
 			setTitulo(bundle.getString("titulo"));
+			//MODO TUTORIAL
+			UserAsignacion.setModotutorialsupervision(true);
+			if(UserAsignacion.isModotutorialsupervision()){
+				Intent intent = new Intent(SupervisionRespuesta.this, SupervisionRespuesta_Tutorial_3.class);
+				startActivity(intent);
+			}
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
 			setRespuesta(new RespuestaWS());
 			
@@ -406,7 +414,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	            	setEstado("4");
 	            	getEstadoTextView().setText("Corregido Reasignado");
 	            	new reasignarAsync().execute("");
-	                myDialog.dismiss();
+	            	myDialog.dismiss();
+	              
 	            }
 	        });
 	        
@@ -417,9 +426,11 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	            	getEstadoTextView().setText("Irreparable Reasignado");
 	            	new reasignarAsync().execute("");
 	                myDialog.dismiss();
+	
 	            }
-	        });
 
+	        });
+            
 	        Button cerrar = (Button) myDialog.findViewById(R.id.respuestas_cerrar);
 	        cerrar.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {

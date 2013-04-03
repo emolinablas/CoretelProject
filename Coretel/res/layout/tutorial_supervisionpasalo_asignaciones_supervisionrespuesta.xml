@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:id="@+id/id_supervisionrespuesta_LinearLayout">
+    android:id="@+id/id_supervisionrespuesta_LinearLayout"
+    android:background="@drawable/tutorial_pasalo_shape_initial"
+    android:padding="0dp"
+    >
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+    android:id="@+id/tutorial_mensaje_supervisionrespuesta_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:text="@string/mensajeAyuda"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    />    
     
+    </RelativeLayout>
 
 </LinearLayout>

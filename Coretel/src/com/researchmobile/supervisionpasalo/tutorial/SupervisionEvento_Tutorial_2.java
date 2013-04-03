@@ -54,6 +54,18 @@ public class SupervisionEvento_Tutorial_2 extends Activity implements OnClickLis
 		if(view == getIdSupervisionEventoLinearLayout()){
 			switch(pagina){
 			
+			case 1:		idSupervisionEventoLinearLayout.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_left_margin);
+						mensaje.setText(R.string.TutorialMensaje1SupervisionEvento);
+						pagina++;
+						break;
+			
+			case 2:		idSupervisionEventoLinearLayout.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left);
+						mensaje.setText(R.string.TutorialMensaje2SupervisionEvento);
+						pagina++;
+						break;
+						
+			case 3:		finish();
+						break;
 			
 		}
 	}

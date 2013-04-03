@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mensajes Supervision Evento -->
+    <string name="TutorialMensaje1SupervisionEvento"> Presiona aqui para enviar una respuesta </string>
+    <string name="TutorialMensaje2SupervisionEvento"> Presiona aqui para salir de esta pantalla</string>
+
+    <!-- F I N -->
+    
+    <!-- Mensajes Supervision Respuesta -->
+    <string name="TutorialMensaje1SupervisionRespuesta">Aqui puedes ingresar tu respuesta</string>
+    <string name="TutorialMensaje2SupervisionRespuesta">Presiona aqui para guardar tu respuesta</string>
+    <string name="TutorialMensaje3SupervisionRespuesta">Presiona aqui para ingresar el estado de tu respuesta</string>
+    <string name="TutorialMensaje4SupervisionRespuesta">Presiona aqui para capturar imagen (fotografias)</string>
+	<!-- F I N -->
+    
+    <!-- Mensajes Asignaciones -->
+    <string name="TutorialMensaje1Asignaciones">Presiona sobre el espacio de asignacion
+        para ubicar la asignacion en el mapa</string>
+    <!-- F I N -->
+</resources>

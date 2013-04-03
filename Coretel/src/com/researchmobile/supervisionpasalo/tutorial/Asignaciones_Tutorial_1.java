@@ -57,8 +57,8 @@ public class Asignaciones_Tutorial_1 extends Activity implements OnClickListener
 			if(view == getIdAsignacionesLinearLayout()){
 				switch(pagina){
 				
-				case 1: idAsignacionesLinearLayout.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
-						mensaje.setText(R.string.tutorial_agregar_comunidad);
+				case 1: idAsignacionesLinearLayout.setBackgroundResource(R.drawable.tutorial_supervisionpasalo_asignaciones_shape);
+						mensaje.setText(R.string.TutorialMensaje1Asignaciones);
 						pagina ++;
 						break;
 				case 2: finish();

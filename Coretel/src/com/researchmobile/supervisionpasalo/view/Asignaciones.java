@@ -32,6 +32,7 @@ import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.MyAdapterAsignaciones;
 import com.researchmobile.coretel.view.R;
 import com.researchmobile.supervisionpasalo.tutorial.Asignaciones_Tutorial_1;
+import com.researchmobile.supervisionpasalo.tutorial.SupervisionRespuesta_Tutorial_3;
 
 public class Asignaciones extends Activity implements OnItemClickListener, TextWatcher{
 
@@ -72,6 +73,12 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setContentView(R.layout.listas_supervision);
 			Bundle bundle = getIntent().getExtras();
 			setCatalogoAsignacion((CatalogoAsignacion)bundle.get("catalogo"));
+			//MODO TUTORIAL
+			UserAsignacion.setModotutorialsupervision(true);
+			if(UserAsignacion.isModotutorialsupervision()){
+				Intent intent = new Intent(Asignaciones.this, Asignaciones_Tutorial_1.class);
+				startActivity(intent);
+			}
 			
 			setCreacionTextView((TextView)findViewById(R.id.asignaciones_creacion_textview));
 			setAsignacionTextView((TextView)findViewById(R.id.asignaciones_asignacion_textview));
