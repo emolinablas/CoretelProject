@@ -48,6 +48,8 @@ import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.EventoTemporal;
+import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1;
+import com.researchmobile.coretel.tutorial.pasalo.Mapa_tutorial_1;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
@@ -155,7 +157,16 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
 		getAvatarImageView().setImageBitmap(image);
         
+		
+		//Temporalmente para pruebas seteamos el modo tutorial
+		User.setModoTutorial(true);
+		
         new buscaAnotacionesAsync().execute("");
+        
+        if(User.isModoTutorial()){
+			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+			startActivity(intent);
+		}
     }
     
 	@Override
@@ -568,6 +579,10 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		switch(opcion){
 		case 0:
 			new buscaAnotacionesAsync().execute("");
+			if(User.isModoTutorial()){
+				Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+				startActivity(intent);
+			}
 			break;
 		case 1:
 			Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);

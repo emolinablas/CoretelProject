@@ -9,7 +9,7 @@
        android:gradientRadius="50"
        android:centerColor="#00000000"
        android:type="radial"
-       android:centerX="94%p"
+       android:centerX="99%p"
        android:centerY="98%p" 
         
         

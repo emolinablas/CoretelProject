@@ -8,5 +8,12 @@
     <string name="tutorial_agregar_comunidad">Presiona aqui para poder crear nuevas comunidades</string>
     <string name="tutorial_menu">Aqui puedes acceder al menu principal</string>
     <string name="tutorial_explorar_comunidades">Aqui puedes explorar las comunidades publicas, y puedes solicitar unirte a ellas</string>
+    <string name="tutorial_mapa_accdir">Este acceso directo, lo puedes usar para ver comunidades y tipos de eventos con un simple</string>
+    <string name="tutorial_mapa_pluscreaevento">¡Aqui puedes crear un evento utilizando geoposicion!, claro tienes que tener activado tu gps</string>
+    <string name="tutorial_mapa_world">Aqui te mostraremos lugares de interes, como Restaurantes, Hoteles, Hospitales, etc.</string>
+    <string name="tutorial_mapa_cambiarvista">Puedes cambiar las capas del mapa, como prefieras</string>
+    <string name="tutorial_mapa_actualizaposicion">Aqui actualizas tu posicion.</string>
+    <string name="tutorial_mapa_recargar ">Aqui puedes recargar puntos y ultimos eventos en el mapa</string>
+    <string name="tutorial_mapa_filtrar">Aqui puedes filtrar los eventos por comunidad</string>
 
 </resources>
