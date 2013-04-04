@@ -1,0 +1,9 @@
+<database name="coretel" version="1">
+    
+    <!-- MODO TUTORIAL -->
+    <table name="perfil" to-string="%pefil%">
+        
+        <field name="modotutorial"	obligatory="false" type="integer"/>
+        
+    </table>
+</database>
