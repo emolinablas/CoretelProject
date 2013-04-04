@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar Fotografia"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <Button
         android:id ="@+id/dialog_fotos_cerrar"
@@ -10,7 +17,9 @@
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
         android:layout_marginTop ="10dp"
-        android:background ="@drawable/boton_background"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background ="@drawable/boton_background_rojo"
         android:text ="Cerrar" >
     </Button >
    
@@ -20,7 +29,9 @@
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
         android:layout_marginTop ="15dp"
-        android:background ="@drawable/boton_background"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background ="@drawable/button_background_gris"
         android:text ="Albums de Fotos" >
     </Button >
    
@@ -30,7 +41,9 @@
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
         android:layout_marginTop ="10dp"
-        android:background ="@drawable/boton_background"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background ="@drawable/button_background_gris"
         android:text ="Tomar Foto" >
     </Button >
     

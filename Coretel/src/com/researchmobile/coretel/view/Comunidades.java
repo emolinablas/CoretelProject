@@ -36,6 +36,7 @@ import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1;
 import com.researchmobile.coretel.utility.ConnectState;
+import com.researchmobile.coretel.utility.MyAdapterComunidad;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -71,12 +72,6 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.comunidades_menu);
-		User.setModoTutorial(true);
-		//Verificar si es modo tutorial
-		
-		
-//		Bundle bundle = (Bundle)getIntent().getExtras();
-//		setCatalogo((CatalogoComunidad)bundle.get("catalogo"));
 		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
         getNombreUsuarioTextView().setText(User.getNombre());
 		setCatalogo(new CatalogoComunidad());
@@ -326,16 +321,16 @@ private void dialogComunidades(){
     	if (getCatalogo() != null){
     		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
     		if (getCatalogo().getRespuestaWS().isResultado()){
-    			getComunidadesListView().setAdapter(new ArrayAdapter<String>(this, 
-    					R.layout.lista_lobby,
-    					R.id.lista_lobby_textview,
-    					ListaComunidades()));
-    					getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    				    
-    				    getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
+    			
+    			MyAdapterComunidad adapterComunidad = new MyAdapterComunidad(this, getCatalogo().getComunidad());
+    			getComunidadesListView().setAdapter(adapterComunidad);
+    			
+    			getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
     			    @Override
     			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-    			    	setSelect(a.getItemAtPosition(position).toString());
+    			    	DetalleComunidad comunidad = new DetalleComunidad();
+    			    	comunidad = (DetalleComunidad)a.getItemAtPosition(position);
+    			    	setSelect(comunidad.getId());
     			    	new MiembrosAsync().execute("");
     			    }
     			});
@@ -384,19 +379,12 @@ private void dialogComunidades(){
 
 	
 	private void CargarDatos(String select) {
-		String idComunidad = "";
-		int tamano = getCatalogo().getComunidad().length;
-		for (int i = 0; i < tamano; i++){
-			if (getCatalogo().getComunidad()[i].getNombre().equalsIgnoreCase(select)){
-				idComunidad = getCatalogo().getComunidad()[i].getId();
-			}
-		}
 		
 		try{
 			ConnectState con = new ConnectState();
 			if (con.isConnectedToInternet(this)){
 				RequestWS request = new RequestWS();
-				setDetalleComunidad(request.DetalleComunidad(idComunidad));
+				setDetalleComunidad(request.DetalleComunidad(getSelect()));
 				if(getDetalleComunidad().getRespuestaWS().isResultado()){
 					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
 					if (getCatalogoMiembro().getRespuestaWS().isResultado()){

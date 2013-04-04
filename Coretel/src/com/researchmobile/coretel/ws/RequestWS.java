@@ -281,6 +281,7 @@ public class RequestWS {
 						DetalleComunidad com = new DetalleComunidad();
 						com.setId(json.getString("id"));
 						com.setNombre(json.getString("nombre"));
+						com.setDescripcion(json.getString("descripcion"));
 						comunidad[i] = com;
 					}
 					catalogo.setRespuestaWS(respuesta);
