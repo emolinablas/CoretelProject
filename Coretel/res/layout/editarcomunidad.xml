@@ -108,7 +108,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:text="Publica"
                     android:textColor="@color/text_label"
                     android:textStyle="bold" />
@@ -117,14 +117,16 @@
                     android:id="@+id/editar_es_publica_toggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="ToggleButton" />
+                    android:layout_margin="5dp"
+                    android:text="ToggleButton"
+                    android:textOff="NO"
+                    android:textOn="SI" />
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:text="Reasignable"
                     android:textColor="@color/text_label"
                     android:textStyle="bold" />
@@ -133,8 +135,10 @@
                     android:id="@+id/editar_es_reasignable_toggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="ToggleButton" />
+                    android:layout_margin="5dp"
+                    android:text="ToggleButton"
+                    android:textOff="NO"
+                    android:textOn="SI" />
 
             </LinearLayout>
         </ScrollView>

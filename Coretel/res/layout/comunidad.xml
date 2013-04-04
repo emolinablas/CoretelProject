@@ -183,21 +183,39 @@
                             android:text="ToggleButton" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <ListView
-                    android:id="@+id/comunidad_lista_listview"
+                
+                <Button
+                    android:id="@+id/comunidad_miembros_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/background_list_view"
-                    android:cacheColorHint="#00000000" >
-                </ListView>
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_background_clear"
+                    android:text="Miembros"
+                    android:textColor="#000000" />
+                
+                <Button
+                    android:id="@+id/comunidad_eventos_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_background_clear"
+                    android:text="Eventos"
+                    android:textColor="#000000" />
+                
+                <Button
+                    android:id="@+id/comunidad_tiposeventos_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/button_background_clear"
+                    android:text="Tipos de Evento"
+                    android:textColor="#000000" />
 
                 <Button
                     android:id="@+id/comunidad_borrar_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:background="@drawable/button_background_clear"
                     android:text="Eliminar"
                     android:textColor="#000000" />

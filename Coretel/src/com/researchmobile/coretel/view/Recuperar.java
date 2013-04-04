@@ -94,7 +94,7 @@ public class Recuperar extends Activity implements OnClickListener, OnKeyListene
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(Recuperar.this, null, null);
+                pd = ProgressDialog. show(Recuperar.this, null, "ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 

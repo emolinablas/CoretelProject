@@ -38,9 +38,11 @@ public class Comunidad extends Activity implements OnClickListener{
 	private Button borrarButton;
 	private Button comunidadesButton;
 	private Button editarComunidad;
+	private Button miembrosButton;
+	private Button eventosButton;
+	private Button tiposButton;
 	private ToggleButton esPublicaToggleButton;
 	private ToggleButton esReasignableToggleButton;
-	private ListView opcionesListView;
 	private CatalogoMiembro catalogoMiembro;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private DetalleComunidad detalleComunidad;
@@ -67,16 +69,19 @@ public class Comunidad extends Activity implements OnClickListener{
 		setDescripcionTextView((TextView)findViewById(R.id.comunidad_descripcion_textview));
 		getDescripcionTextView().setText(getDetalleComunidad().getDescripcion());
 		setBorrarButton((Button)findViewById(R.id.comunidad_borrar_button));
+		setMiembrosButton((Button)findViewById(R.id.comunidad_miembros_button));
+		setEventosButton((Button)findViewById(R.id.comunidad_eventos_button));
+		setTiposButton((Button)findViewById(R.id.comunidad_tiposeventos_button));
 		setComunidadesButton((Button)findViewById(R.id.comunidad_atras_button));
 		setEditarComunidad((Button)findViewById(R.id.comunidad_editar_button));
 		setEsPublicaToggleButton((ToggleButton)findViewById(R.id.esPublicaToggleButton));
 		setEsReasignableToggleButton((ToggleButton)findViewById(R.id.esReasignableToggleButton));
+		getMiembrosButton().setOnClickListener(this);
+		getEventosButton().setOnClickListener(this);
+		getTiposButton().setOnClickListener(this);
 		getEditarComunidad().setOnClickListener(this);
 		getComunidadesButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
-		setOpcionesListView((ListView)findViewById(R.id.comunidad_lista_listview));
-		
-		//getEsPublicaToggleButton().set
 		getEsPublicaToggleButton().setEnabled(false);
 		getEsReasignableToggleButton().setEnabled(false);
 		
@@ -102,28 +107,6 @@ public class Comunidad extends Activity implements OnClickListener{
 			getBorrarButton().setVisibility(View.GONE);
 			esDuenno= false;
 		}
-		
-		
-		getOpcionesListView().setAdapter(new ArrayAdapter<String>(this, 
-				R.layout.lista_lobby,
-				R.id.lista_lobby_textview,
-				ListaOpciones()));
-		setListViewHeightBasedOnChildren(getOpcionesListView());
-//		getOpcionesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-			    
-		getOpcionesListView().setOnItemClickListener(new OnItemClickListener() {
-		    @Override
-		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		    	if (position == 0){
-		    		IniciaMiembros();
-		    	}else if (position == 1){
-		    		IniciaEventos();
-		    	}else if (position == 2){
-		    		new SeleccionAsync().execute("");
-		    	}
-		    }
-		});
-		
 	}
 	
 	// Clase para ejecutar en Background
@@ -271,6 +254,12 @@ public class Comunidad extends Activity implements OnClickListener{
 			Intent intent = new Intent(Comunidad.this, EditarComunidad.class);
 			intent.putExtra("comunidad", getDetalleComunidad());
 			startActivity(intent);
+		}else if (view == getMiembrosButton()){
+			IniciaMiembros();
+		}else if (view == getEventosButton()){
+			IniciaEventos();
+		}else if (view == getTiposButton()){
+			IniciaTipos();
 		}
 	}
 	
@@ -314,14 +303,6 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	public void setBorrarButton(Button borrarButton) {
 		this.borrarButton = borrarButton;
-	}
-
-	public ListView getOpcionesListView() {
-		return opcionesListView;
-	}
-
-	public void setOpcionesListView(ListView opcionesListView) {
-		this.opcionesListView = opcionesListView;
 	}
 
 	public CatalogoMiembro getCatalogoMiembro() {
@@ -436,5 +417,36 @@ public class Comunidad extends Activity implements OnClickListener{
 		this.esReasignableToggleButton = esReasignableToggleButton;
 	}
 
+
+	public Button getMiembrosButton() {
+		return miembrosButton;
+	}
+
+
+	public void setMiembrosButton(Button miembrosButton) {
+		this.miembrosButton = miembrosButton;
+	}
+
+
+	public Button getEventosButton() {
+		return eventosButton;
+	}
+
+
+	public void setEventosButton(Button eventosButton) {
+		this.eventosButton = eventosButton;
+	}
+
+
+	public Button getTiposButton() {
+		return tiposButton;
+	}
+
+
+	public void setTiposButton(Button tiposButton) {
+		this.tiposButton = tiposButton;
+	}
+
+	
 
 }

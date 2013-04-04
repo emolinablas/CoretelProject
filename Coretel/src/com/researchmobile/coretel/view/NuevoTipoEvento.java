@@ -34,6 +34,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private EditText descripcionEditText;
 	private Button guardarButton;
 	private Button iconoButton;
+	private Button cancelarButton;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
 	private Mensaje mensaje;
@@ -53,8 +54,10 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		setDescripcionEditText((EditText)findViewById(R.id.nuevotipoevento_descripcion_edittext));
 		setGuardarButton((Button)findViewById(R.id.nuevotipoevento_guardar_button));
 		setIconoButton((Button)findViewById(R.id.nuevotipoevento_icono_button));
+		setCancelarButton((Button)findViewById(R.id.nuevotipoevento_cancelar_button));
 		setIconoEvento((ImageView)findViewById(R.id.nuevotipoevento_icono_imageview));
 		getIconoButton().setOnClickListener(this);
+		getCancelarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
@@ -162,9 +165,9 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 			new NuevoEventoAsync().execute("");
 		}else if (v == getIconoButton()){
 			mDialog();
+		}else if (v == getCancelarButton()){
+			finish();
 		}
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -235,6 +238,14 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 
 	public void setIconoButton(Button iconoButton) {
 		this.iconoButton = iconoButton;
+	}
+
+	public Button getCancelarButton() {
+		return cancelarButton;
+	}
+
+	public void setCancelarButton(Button cancelarButton) {
+		this.cancelarButton = cancelarButton;
 	}
 
 	
