@@ -11,6 +11,7 @@ import java.net.URLConnection;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -145,7 +146,8 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private void Entrar() {
           Requerido();
      }
-
+     
+    
      private boolean Requerido() {
           if (CamposLlenos()){
                RequestWS request = new RequestWS();

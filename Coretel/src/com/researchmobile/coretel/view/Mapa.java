@@ -157,16 +157,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
 		getAvatarImageView().setImageBitmap(image);
         
-		
-		//Temporalmente para pruebas seteamos el modo tutorial
-		User.setModoTutorial(true);
-		
-        new buscaAnotacionesAsync().execute("");
-        
-        if(User.isModoTutorial()){
-			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
-			startActivity(intent);
-		}
+		new buscaAnotacionesAsync().execute("");
     }
     
 	@Override
@@ -226,6 +217,45 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
             public void onClick(View v) {
             	Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
     			startActivity(intentComunidades);
+                myDialog.dismiss();
+            }
+        });
+
+
+        myDialog.show();
+
+    }
+	
+	public void dialogTutoriales(final Context activity) {
+
+        final Dialog myDialog = new Dialog(activity);
+        myDialog.setContentView(R.layout.dialog_tutorial);
+        myDialog.setCancelable( false);
+       
+        Button verTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_vertutorial);
+        verTutorial.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+            	User.setModoTutorial(true);
+            	if(User.isModoTutorial()){
+        			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+        			startActivity(intent);
+        		}
+                myDialog.dismiss();
+            }
+        });
+
+        Button noVerTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_novertutorial);
+        noVerTutorial.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+                User.setModoTutorial(false);  
+                myDialog.dismiss();
+            }
+        });
+
+        Button nuncaVerTutorial= (Button) myDialog.findViewById(R.id.dialog_tutorial_nuncaver);
+        nuncaVerTutorial.setOnClickListener( new OnClickListener() {
+            public void onClick(View v) {
+                  
                 myDialog.dismiss();
             }
         });
@@ -421,6 +451,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
+			dialogTutoriales(Mapa.this);
 			inicializar();
 		}
 	}
