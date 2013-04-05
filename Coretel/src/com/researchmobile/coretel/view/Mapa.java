@@ -206,7 +206,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         Button login = (Button) myDialog.findViewById(R.id.log_in);
         login.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
+            	Intent intentComunidades = new Intent(Mapa.this, OpcionComunidades.class);
     			startActivity(intentComunidades);
                 myDialog.dismiss();
             }
@@ -215,7 +215,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         Button createAccount= (Button) myDialog.findViewById(R.id.create_account);
         createAccount.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);
+            	Intent intentComunidades = new Intent(Mapa.this, OpcionComunidades.class);
     			startActivity(intentComunidades);
                 myDialog.dismiss();
             }
