@@ -15,6 +15,8 @@ import android.widget.ListView;
 
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.TipoAnotacion;
+import com.researchmobile.coretel.utility.MyAdapterTiposEventos;
+import com.researchmobile.coretel.utility.TokenizerUtility;
 
 public class TipoEvento extends Activity implements OnClickListener{
 	private Button agregarButton;
@@ -23,10 +25,12 @@ public class TipoEvento extends Activity implements OnClickListener{
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private TipoAnotacion tipoAnotacion;
     private boolean esDuenno;
+   
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.tipoevento);
+		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
 		setIdComunidad((String)bundle.getString("idComunidad"));
@@ -44,20 +48,24 @@ public class TipoEvento extends Activity implements OnClickListener{
 		}
 		
 		if (ListaTipos() != null){
-			getTiposListView().setAdapter(new ArrayAdapter<String>(this, 
-					R.layout.lista_lobby,
-					R.id.lista_lobby_textview,
-					ListaTipos()));
-					getTiposListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			
+			MyAdapterTiposEventos adapterTipos = new MyAdapterTiposEventos(this, getCatalogoTipoAnotacion().getTipoAnotacion());
+			getTiposListView().setAdapter(adapterTipos);
+			
+//			getTiposListView().setAdapter(new ArrayAdapter<String>(this, 
+//					R.layout.lista_lobby,
+//					R.id.lista_lobby_textview,
+//					ListaTipos()));
+//					getTiposListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 		}
 			    
 			    getTiposListView().setOnItemClickListener(new OnItemClickListener() {
 		    @Override
 		    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-		    	String seleccion = a.getItemAtPosition(position).toString();
-		    	String idAnotacion = buscaId(seleccion);
+		    	
+		    	TipoAnotacion tipo = (TipoAnotacion)a.getItemAtPosition(position);
 		    	Intent intent = new Intent(TipoEvento.this, Descevento.class);
-		    	intent.putExtra("anotacion", getTipoAnotacion());
+		    	intent.putExtra("anotacion", tipo);
 		    	
 		    	if(isEsDuenno()){  // dato diferente para saber si es due–o del evento en el descevento
 					intent.putExtra("esDuenno", true);

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.view.R;
 
 public class TokenizerUtility {
@@ -72,6 +73,10 @@ public class TokenizerUtility {
 	public Drawable iconoResource(Context context, String titulo) {
 		String url = icono(titulo);
 		Log.e("TT", "icono del evento = " + url);
+		return buscaIcono(context, url);
+	}
+	
+	public Drawable buscaIcono(Context context, String url){
 		if (nombrePin(url).equalsIgnoreCase("aboriginal.png")){
 			return context.getResources().getDrawable(R.drawable.icono0);
 		}
