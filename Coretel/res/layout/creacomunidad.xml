@@ -74,13 +74,36 @@
             android:layout_height="wrap_content"
             android:background="@drawable/background_edittext"
             android:hint="Descripcion" />
-        
-        <Spinner 
-            android:id="@+id/creacomunidad_tipo_spinner"
-            android:layout_width="230sp"
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/rm_spinner"/>
+            android:text="Es publica"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ToggleButton
+            android:id="@+id/esPublica_crear_toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton"
+            android:textOff="NO"
+            android:textOn="SI" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Permite reasignacion"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ToggleButton
+            android:id="@+id/permiteReasignacion_toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton"
+            android:textOff="NO"
+            android:textOn="SI" />
             
     </LinearLayout>
     

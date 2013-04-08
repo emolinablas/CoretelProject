@@ -342,12 +342,13 @@ public class RequestWS {
 		return null;
 	}
 	
-	public RespuestaWS CreaComunidad(String nombre, String descripcion, String tipo) {
+	public RespuestaWS CreaComunidad(String nombre, String descripcion, String tipo, String reasignable, String espublica) {
 		JSONObject jsonObject = null;
-		String finalURL = WS_CREACOMUNIDAD + User.getUserId() + "&tipo_comunidad=" + tipo + "&publica=" + "1" +"&nombre=" + nombre + "&descripcion=" + descripcion;
+		String finalURL = WS_CREACOMUNIDAD + User.getUserId() + "&tipo_comunidad=" + tipo + "&publica=" + espublica +"&nombre=" + nombre + "&descripcion=" + descripcion + "&reasignar=" + reasignable;
+		String url = finalURL.replace(" ", "%20");
 		RespuestaWS respuesta = new RespuestaWS();
 		try{
-			jsonObject = connectWS.CrearComunidad(finalURL);
+			jsonObject = connectWS.CrearComunidad(url);
 			if (jsonObject != null){
 				respuesta.setResultado(jsonObject.getBoolean("resultado"));
 				respuesta.setMensaje(jsonObject.getString("mensaje"));
