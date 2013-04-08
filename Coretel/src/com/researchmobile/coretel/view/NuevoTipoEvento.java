@@ -73,6 +73,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
         alert.setTitle( "ICONO");
         alert.setView(textEntryView);
         alert.setCancelable(true);
+        
         gv.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	ImageAdapter img = (ImageAdapter)parent.getAdapter();
@@ -86,7 +87,9 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
                 new DialogInterface.OnClickListener() {
                       @Override
                       public void onClick(DialogInterface arg0, int arg1) {
-                           verSeleccion(urlSeleccionado);
+                    	  if (urlSeleccionado != null && !urlSeleccionado.equalsIgnoreCase("")){
+                    		  verSeleccion(urlSeleccionado);  
+                    	  }
                      }
                });
 
