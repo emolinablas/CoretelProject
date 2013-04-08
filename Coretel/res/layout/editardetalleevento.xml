@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" style="@style/Layout.principal">
+
+    <!-- HEADER -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        style="@style/Layout.header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_footer_iphone"
+        android:orientation="horizontal" >
+        
+        <TextView
+            style="@style/Text.Titulo"
+            android:layout_width="wrap_content"
+            android:text="EDITAR TIPO DE EVENTO" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/editardetalleevento_guardar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Aplicar"
+                android:textColor="#ffffff"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <!-- BODY -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:background="#D1D5E0"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            style="@style/Layout.body"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/patron_de_fondo_vertical"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editardetalleevento_tipo_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_edittext"
+                android:hint="Tipo" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/editardetalleevento_fecha_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:hint="Fecha" />
+            
+             <EditText
+                android:id="@+id/editardetalleevento_activo_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:hint="Activo" />
+
+             <EditText
+                android:id="@+id/editardetalleevento_descripcion_edittext"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:hint="Descripcion" />
+             
+             
+            <LinearLayout
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/background_edittext"
+                android:orientation="horizontal"
+                android:padding="1dp" >
+
+                <Button
+                    android:id="@+id/editardetalleevento_icono_button"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_edittext"
+                    android:gravity="left"
+                    android:text="ICONO"
+                    android:textColor="#000000" />
+
+                <ImageView
+                    android:id="@+id/editartipoevento_icono_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    
+    <!-- FOOTER -->
+
+    	<LinearLayout
+    	    android:id="@+id/linearLayout3"
+    	    style="@style/Layout.footer"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="@drawable/background_footer_iphone"
+    	    android:gravity="right"
+    	    android:orientation="vertical" >
+        </LinearLayout>
+</LinearLayout>

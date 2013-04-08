@@ -1,17 +1,20 @@
 package com.researchmobile.coretel.view;
 
+import com.researchmobile.coretel.entity.TipoAnotacion;
+
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.researchmobile.coretel.entity.Anotacion;
-
 public class DetalleEvento extends Activity implements OnClickListener{
+	
+	private TipoAnotacion tipoAnotacion;
 	
 	private TextView fechaTextView;
 	private TextView tipoTextView;
@@ -55,10 +58,10 @@ public class DetalleEvento extends Activity implements OnClickListener{
         getEliminarButton().setOnClickListener(this);
         getRegresarButton().setOnClickListener(this);
         
-       getEditarButton().setVisibility(View.INVISIBLE);
-       getEliminarButton().setVisibility(View.INVISIBLE);
-        
-        
+       getEditarButton().setVisibility(View.VISIBLE);
+       getEliminarButton().setVisibility(View.VISIBLE);
+       
+       
         getFechaTextView().setText(fecha);
         getTipoTextView().setText(tipo);
         getDescripcionTextView().setText(descripcion);
@@ -73,10 +76,17 @@ public class DetalleEvento extends Activity implements OnClickListener{
 		}else if (view == getEliminarButton()){
 			
 		}else if (view == getEditarButton()){
+			Editarboton();
 			
 		}
 	}
 	
+	private void Editarboton() {
+		Intent intent = new Intent(DetalleEvento.this, EditarDetalleEvento.class);
+		//intent.putExtra("tipoAnotacion", getTipoAnotacion());
+		startActivity(intent);
+	}
+
 	private void setFotoImageView(ImageView findViewById) {
 		// TODO Auto-generated method stub
 		
@@ -127,6 +137,15 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	public void setEliminarButton(Button eliminarButton) {
 		this.eliminarButton = eliminarButton;
 	}
+
+	public TipoAnotacion getTipoAnotacion() {
+		return tipoAnotacion;
+	}
+
+	public void setTipoAnotacion(TipoAnotacion tipoAnotacion) {
+		this.tipoAnotacion = tipoAnotacion;
+	}
+
 	
 	
 }
