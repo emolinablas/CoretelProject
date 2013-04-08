@@ -1,7 +1,6 @@
 package com.researchmobile.coretel.view;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -9,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -17,9 +15,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.researchmobile.coretel.entity.Anotacion;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
-import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.utility.MyAdapterEventos;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class ListaEventos extends Activity implements OnItemClickListener{
@@ -85,40 +84,45 @@ public class ListaEventos extends Activity implements OnItemClickListener{
                 pd.dismiss();
                 if (getCatalogoAnotacion().getAnotacion() != null){
                 	if (getCatalogoAnotacion().getAnotacion().length > 0){
-                    	llenarLista();
+                		llenarLista();
                     }
                 }
-                
          }
     }
     
     public void llenarLista(){
-    	setSimpleAdapter(new SimpleAdapter(this, 
-        		myList(), 
-        		R.layout.lista_evento,
-                new String[] {"id","fecha", "activo", "tipo", "descripcion"}, 
-                new int[] {R.id.listaevento_id_textview, R.id.listaevento_fecha_textview, R.id.listaevento_activo_textview, R.id.listaevento_tipo_textview, R.id.listaevento_descripcion_textview}));
-        getEventosListView().setAdapter(getSimpleAdapter());
+    	
+    	MyAdapterEventos adapterEventos = new MyAdapterEventos(this, getCatalogoAnotacion().getAnotacion());
+    	getEventosListView().setAdapter(adapterEventos);
+    	
+//    	setSimpleAdapter(new SimpleAdapter(this, 
+//        		myList(), 
+//        		R.layout.lista_evento,
+//                new String[] {"id","fecha", "activo", "tipo", "descripcion"}, 
+//                new int[] {R.id.listaevento_id_textview, R.id.listaevento_fecha_textview, R.id.listaevento_activo_textview, R.id.listaevento_tipo_textview, R.id.listaevento_descripcion_textview}));
+//        getEventosListView().setAdapter(getSimpleAdapter());
         getEventosListView().setOnItemClickListener(this);
     }
 
 
 	
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+	public void onItemClick(AdapterView<?> adapter, View arg1, int position, long id) {
 		@SuppressWarnings("unchecked")
-		HashMap<String, String> map = (HashMap)arg0.getItemAtPosition(position);
-		String selectedId = (String) map.get("id");
-		String selectedFecha = (String) map.get("fecha");
-		String selectedActivo = (String) map.get("activo");
-		String selectedTipo = (String) map.get("tipo");
-		String selectedDescripcion = (String) map.get("descripcion");
+		
+		Anotacion anotacion = (Anotacion)adapter.getItemAtPosition(position);
+//		HashMap<String, String> map = (HashMap)arg0.getItemAtPosition(position);
+//		String selectedId = (String) map.get("id");
+//		String selectedFecha = (String) map.get("fecha");
+//		String selectedActivo = (String) map.get("activo");
+//		String selectedTipo = (String) map.get("tipo");
+//		String selectedDescripcion = (String) map.get("descripcion");
 		
 		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class);
-		intent.putExtra("id", selectedId);
-		intent.putExtra("fecha", selectedFecha);
-		intent.putExtra("activo", selectedActivo);
-		intent.putExtra("tipo", selectedTipo);
-		intent.putExtra("descripcion", selectedDescripcion);
+		intent.putExtra("id", anotacion.getIdAnotacion());
+		intent.putExtra("fecha", anotacion.getFecha_registro());
+		intent.putExtra("activo", anotacion.getActivo());
+		intent.putExtra("tipo", anotacion.getNombreTipoAnotacion());
+		intent.putExtra("descripcion", anotacion.getDescripcion());
 		startActivity(intent);
 	}
 	
