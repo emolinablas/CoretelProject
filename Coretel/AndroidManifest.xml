@@ -84,7 +84,7 @@
         <activity android:name="OpcionTipoEvento" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <service android:name=".ServicioGeoposicion"></service>
         <activity android:name="OpcionComunidades" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
-        
+        <activity android:name="EditarDetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <!-- TUTORIAL -->
 		<activity 
 		android:name="com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1" 

@@ -37,7 +37,7 @@
             style="@style/Text.Titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Evento P"/>
+            android:text="Evento"/>
 
         <LinearLayout
             android:layout_width="fill_parent"

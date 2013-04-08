@@ -23,18 +23,17 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	private Button regresarButton;
 	private Button editarButton;
 	private Button eliminarButton;
+	private String id = "";
+    private String fecha = "";
+    private String activo = "";
+    private String tipo = "";
+    private String descripcion = "";
 	
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.detalleevento);
         Bundle bundle = getIntent().getExtras();
-        
-        String id = "";
-        String fecha = "";
-        String activo = "";
-        String tipo = "";
-        String descripcion = "";
         
         try{
          id = bundle.getString("id");
@@ -84,6 +83,11 @@ public class DetalleEvento extends Activity implements OnClickListener{
 	private void Editarboton() {
 		Intent intent = new Intent(DetalleEvento.this, EditarDetalleEvento.class);
 		//intent.putExtra("tipoAnotacion", getTipoAnotacion());
+		intent.putExtra("tipo", tipo);
+		intent.putExtra("activo", activo);
+		intent.putExtra("fecha", fecha);
+		intent.putExtra("descripcion", descripcion);
+		intent.putExtra(id, id);
 		startActivity(intent);
 	}
 
