@@ -9,8 +9,8 @@
        android:gradientRadius="50"
        android:centerColor="#00000000"
        android:type="radial"
-       android:centerX="75%p"
-       android:centerY="98%p" 
+       android:centerX="58%p"
+       android:centerY="96%p" 
         
         
          />
