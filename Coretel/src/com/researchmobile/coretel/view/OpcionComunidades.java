@@ -42,182 +42,35 @@ import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class OpcionComunidades extends Activity implements OnClickListener, OnItemClickListener{
-	private Button agregarButton;
-	private Button explorarButton;
 	private ListView comunidadesListView;
-	private CatalogoComunidad catalogo;
-	private CatalogoMiembro catalogoMiembro;
 	private DetalleComunidad detalleComunidad;
 	private ProgressDialog pd = null;
 	private String select;
 	private RequestWS request;
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
-
-	
-	
-	private ImageView avatarImageView;
-	private TextView nombreUsuarioTextView;
-	private ListView lView;
-	private LinearLayout slidingPanel;
-	private boolean isExpanded;
-	private DisplayMetrics metrics;	
-	private RelativeLayout headerPanel;
-	private RelativeLayout menuPanel;
-	private int panelWidth;
-	private ImageView menuViewButton;
-	
-	FrameLayout.LayoutParams menuPanelParameters;
-	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
-	LinearLayout.LayoutParams listViewParameters;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.opcioncomunidades);
-		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
-        getNombreUsuarioTextView().setText(User.getNombre());
-		setCatalogo(new CatalogoComunidad());
+		
 		setCatalogoComunidad(new CatalogoComunidad());
 		setRequest(new RequestWS());
 		
 		new buscaComunidadesAsync().execute("");
-		
-		 if(User.isModoTutorial()){
-				Intent intent = new Intent(OpcionComunidades.this, Comunidades_tutorial_1.class);
-				startActivity(intent);
-			}
-		
-		setAgregarButton((Button)findViewById(R.id.comunidades_agregar_button));
-		setExplorarButton((Button)findViewById(R.id.explorar_comunidades_button));
-		getAgregarButton().setOnClickListener(this);
-		getExplorarButton().setOnClickListener(this);
 		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
-		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
-		lView = (ListView) findViewById(R.id.lista);
-		Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
-		
-		prepararMenu();
 	}
 	
-	private void prepararMenu(){
-		/***
-         * MENU
-         */
-        
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
-
-      // Set option as Multiple Choice. So that user can able to select more the one option from list
-        
-        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
-		lView.setAdapter(adapterMenu);
-      lView.setOnItemClickListener(this);
-      animationMenu();
-      
-    }
-	
-	private void animationMenu(){
-    	//Initialize
-		metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		panelWidth = (int) ((metrics.widthPixels)*0.75);
-	
-		headerPanel = (RelativeLayout) findViewById(R.id.header);
-		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-		headerPanelParameters.width = metrics.widthPixels;
-		headerPanel.setLayoutParams(headerPanelParameters);
-		
-		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-		menuPanelParameters.width = panelWidth;
-		menuPanel.setLayoutParams(menuPanelParameters);
-		
-		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-		slidingPanelParameters.width = metrics.widthPixels;
-		slidingPanel.setLayoutParams(slidingPanelParameters);
-		
-		//Slide the Panel	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-		menuViewButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if(!isExpanded){
-		    		expandMenu();
-		    	}else{
-		    		collapseMenu();
-		    	}         	   
-		    }
-		});
-	}
-	
-	private void expandMenu(){
-    	//Expand
-    	isExpanded = true;
-		new ExpandAnimation(slidingPanel, panelWidth,
-	    Animation.RELATIVE_TO_SELF, 0.0f,
-	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
-    }
-    
-    private void collapseMenu(){
-    	//Collapse
-    	isExpanded = false;
-		new CollapseAnimation(slidingPanel,panelWidth,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-    }
-
-
 @Override
-public void onItemClick(AdapterView<?> adapterView, View arg1, int arg2, long arg3) {
-	if (adapterView == lView){
-		collapseMenu();
-		opcionesMenu(arg2);
-	}
-	
+public void onItemClick(AdapterView<?> adapterView, View arg1, int position, long arg3) {
+	DetalleComunidad comunidad = new DetalleComunidad();
+	comunidad = (DetalleComunidad)adapterView.getItemAtPosition(position);
+	setSelect(comunidad.getId());
+	new TipoEventoAsync().execute("");
 }
 
-private void opcionesMenu(int opcion){
-	switch(opcion){
-	case 0:
-		Intent intentMapa = new Intent(OpcionComunidades.this, Mapa.class);
-		startActivity(intentMapa);
-		break;
-	case 1:
-		new buscaComunidadesAsync().execute("");
-        
-        //Si es modo tutorial muestra la ayuda
-		if(User.isModoTutorial()){
-			Intent intent = new Intent(OpcionComunidades.this, Comunidades_tutorial_1.class);
-			startActivity(intent);
-		}
-       
-		break;
-	case 2:
-		Intent intentInvitaciones = new Intent(OpcionComunidades.this, Invitaciones.class);
-		startActivity(intentInvitaciones);
-		break;
-	case 3:
-		Intent intentLobby = new Intent(OpcionComunidades.this, Lobby.class);
-		startActivity(intentLobby);
-		break;
-	case 4:
-		new comunidadesAsync().execute("");
-		
-
-		break;
-	case 5:
-		Intent intentCerrar = new Intent(OpcionComunidades.this, Login.class);
-		startActivity(intentCerrar);
-		break;
-    default:
-        break;
-
-	}
-}
-	
-	// Clase para ejecutar en Background
+// Clase para ejecutar en Background
     class buscaComunidadesAsync extends AsyncTask<String, Integer, Integer> {
 
           // Metodo que prepara lo que usara en background, Prepara el progress
@@ -322,40 +175,30 @@ private void dialogComunidades(){
 	}
     
     private void resultadoComunidades(){
-    	if (getCatalogo() != null){
-    		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
-    		if (getCatalogo().getRespuestaWS().isResultado()){
+    	if (getCatalogoComunidad() != null){
+    		if (getCatalogoComunidad().getRespuestaWS().isResultado()){
     			
-    			MyAdapterComunidad adapterComunidad = new MyAdapterComunidad(this, getCatalogo().getComunidad());
+    			MyAdapterComunidad adapterComunidad = new MyAdapterComunidad(this, getCatalogoComunidad().getComunidad());
     			getComunidadesListView().setAdapter(adapterComunidad);
     			
-    			getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
-    			    @Override
-    			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-    			    	DetalleComunidad comunidad = new DetalleComunidad();
-    			    	comunidad = (DetalleComunidad)a.getItemAtPosition(position);
-    			    	setSelect(comunidad.getId());
-    			    	new MiembrosAsync().execute("");
-    			    }
-    			});
+    			getComunidadesListView().setOnItemClickListener(this);
     		}
     	}
     }
     private void buscaComunidades(){
     	Log.e("pio", "buscar comunidades");
     	RequestWS request = new RequestWS();
-    	setCatalogo(request.CargarComunidades(User.getUserId()));
+    	setCatalogoComunidad(request.CargarComunidades(User.getUserId()));
     	
     }
 	
 	// Clase para ejecutar en Background
-    class MiembrosAsync extends AsyncTask<String, Integer, Integer> {
+    class TipoEventoAsync extends AsyncTask<String, Integer, Integer> {
 
           // Metodo que prepara lo que usara en background, Prepara el progress
           @Override
           protected void onPreExecute() {
-                pd = ProgressDialog. show(OpcionComunidades.this, "VERIFICANDO DATOS",
-                            "ESPERE UN MOMENTO");
+                pd = ProgressDialog. show(OpcionComunidades.this, "VERIFICANDO DATOS","ESPERE UN MOMENTO");
                 pd.setCancelable( false);
          }
 
@@ -363,7 +206,7 @@ private void dialogComunidades(){
           @Override
           protected Integer doInBackground(String... urlString) {
                 try {
-//                	CargarDatos(getSelect());
+                	IniciaTipos();
 
                } catch (Exception exception) {
 
@@ -374,11 +217,15 @@ private void dialogComunidades(){
           // Metodo con las instrucciones al finalizar lo ejectuado en background
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
-                //VERIFICAR 
-                Intent intent = new Intent(OpcionComunidades.this, OpcionTipoEvento.class);
-		        //intent.putExtra("catalogoMiembro", getCatalogoMiembro());
-		        //intent.putExtra("detallecomunidad", getDetalleComunidad());
-		        startActivity(intent);
+                //VERIFICAR
+                if (getCatalogoTipoAnotacion().getRespuestaWS() != null){
+                	Toast.makeText(getBaseContext(), getCatalogoTipoAnotacion().getRespuestaWS().getMensaje(), Toast.LENGTH_SHORT).show();
+                	if (getCatalogoTipoAnotacion().getRespuestaWS().isResultado()){
+                		Intent intent = new Intent(OpcionComunidades.this, OpcionTipoEvento.class);
+                		intent.putExtra("tipos", getCatalogoTipoAnotacion());
+        		        startActivity(intent);
+                    }
+                }
          }
    }
     
@@ -386,69 +233,13 @@ private void dialogComunidades(){
 		ConnectState connect = new ConnectState();
 		if (connect.isConnectedToInternet(OpcionComunidades.this)){
 			RequestWS request = new RequestWS();
-			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getDetalleComunidad().getId()));
-			
+			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getSelect()));
 		}
     }
-	private void CargarDatos(String select) {	
-		try{
-			ConnectState con = new ConnectState();
-			if (con.isConnectedToInternet(this)){
-				RequestWS request = new RequestWS();
-				setDetalleComunidad(request.DetalleComunidad(getSelect()));
-				if(getDetalleComunidad().getRespuestaWS().isResultado()){
-					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
-					if (getCatalogoMiembro().getRespuestaWS().isResultado()){
-						
-					}
-				}
-			}
-		}catch(Exception exception){
-			
-		}
-	}
-	
-	private String[] ListaComunidades() {
-		int tamano = getCatalogo().getComunidad().length;
-		System.out.println(tamano);
-		String[] comunidades = new String[tamano];
-		for (int i = 0; i < tamano; i++){
-			comunidades[i] = getCatalogo().getComunidad()[i].getNombre();
-		}
-		return comunidades;
-	}
-
-
+    
 	@Override
 	public void onClick(View view) {
-		if (view == getAgregarButton()){
-			AgregarComunidad();
-		}else if(view == getExplorarButton()){
-			explorarComunidades();
-		}
-		
 	}
-
-	private void explorarComunidades(){
-		Intent intent = new Intent(OpcionComunidades.this, ComunidadesTodas.class);
-		startActivity(intent);
-	}
-
-	private void AgregarComunidad() {
-		Intent intent = new Intent(OpcionComunidades.this, CreaComunidad.class);
-		startActivity(intent);
-		
-	}
-
-	public Button getAgregarButton() {
-		return agregarButton;
-	}
-
-
-	public void setAgregarButton(Button agregarButton) {
-		this.agregarButton = agregarButton;
-	}
-
 
 	public ListView getComunidadesListView() {
 		return comunidadesListView;
@@ -459,23 +250,6 @@ private void dialogComunidades(){
 		this.comunidadesListView = comunidadesListView;
 	}
 
-
-	public CatalogoComunidad getCatalogo() {
-		return catalogo;
-	}
-
-
-	public void setCatalogo(CatalogoComunidad catalogo) {
-		this.catalogo = catalogo;
-	}
-
-	public CatalogoMiembro getCatalogoMiembro() {
-		return catalogoMiembro;
-	}
-
-	public void setCatalogoMiembro(CatalogoMiembro catalogoMiembro) {
-		this.catalogoMiembro = catalogoMiembro;
-	}
 
 	public DetalleComunidad getDetalleComunidad() {
 		return detalleComunidad;
@@ -492,29 +266,6 @@ private void dialogComunidades(){
 	public void setSelect(String select) {
 		this.select = select;
 	}
-	public Button getExplorarButton() {
-		return explorarButton;
-	}
-	public void setExplorarButton(Button explorarButton) {
-		this.explorarButton = explorarButton;
-	}
-
-	public TextView getNombreUsuarioTextView() {
-		return nombreUsuarioTextView;
-	}
-
-	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
-		this.nombreUsuarioTextView = nombreUsuarioTextView;
-	}
-
-	public ImageView getAvatarImageView() {
-		return avatarImageView;
-	}
-
-	public void setAvatarImageView(ImageView avatarImageView) {
-		this.avatarImageView = avatarImageView;
-	}
-
 	public RequestWS getRequest() {
 		return request;
 	}
@@ -530,7 +281,7 @@ private void dialogComunidades(){
 	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
 		this.catalogoComunidad = catalogoComunidad;
 	}
-	
+
 	public CatalogoTipoAnotacion getCatalogoTipoAnotacion() {
 		return catalogoTipoAnotacion;
 	}
@@ -538,6 +289,6 @@ private void dialogComunidades(){
 	public void setCatalogoTipoAnotacion(CatalogoTipoAnotacion catalogoTipoAnotacion) {
 		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
 	}
-
+	
 	
 }
