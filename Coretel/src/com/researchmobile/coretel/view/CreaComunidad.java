@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.utility.ConnectState;
@@ -25,9 +26,11 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	private EditText descripcionEditText;
 	private Button guardarButton;
 	private Mensaje mensaje;
-	private Spinner tipoSpinner;
+
 	private RespuestaWS respuesta;
 	private Button cancelarButton;
+	private ToggleButton permiteReasignacion;
+	private ToggleButton esPublica;
 	
 	private ProgressDialog pd = null;
 	
@@ -40,22 +43,24 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		setRespuesta(new RespuestaWS());
 		setNombreEditText((EditText)findViewById(R.id.creacomunidad_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.creacomunidad_descripcion_edittext));
-		setTipoSpinner((Spinner)findViewById(R.id.creacomunidad_tipo_spinner));
+		//setTipoSpinner((Spinner)findViewById(R.id.creacomunidad_tipo_spinner));
 		setGuardarButton((Button)findViewById(R.id.creacomunidad_guardar_button));
 		setCancelarButton((Button)findViewById(R.id.creacomunidad_cancelar_button));
+		setPermiteReasignacion((ToggleButton)findViewById(R.id.permiteReasignacion_toggleButton));
+		setEsPublica((ToggleButton)findViewById(R.id.esPublica_crear_toggleButton));
 		getCancelarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener( this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
-		fillDataSpinner();
+		//fillDataSpinner();
 	}
 
-	private void fillDataSpinner() {
+/*	private void fillDataSpinner() {
 		String[] datos = new String[]{"Publica","Privada"};
 		ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, datos);
 		getTipoSpinner().setAdapter(adaptador);
 		
-	}
+	}*/
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -86,13 +91,22 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	}
 
 	private void Guardar() {
+		String reasignable="0";
+		String espublica="0";
+		if(getPermiteReasignacion().isChecked()){
+			reasignable="1";
+		}
+		if(getEsPublica().isChecked()){
+			espublica="1";
+		}
+		
 		String nombre = getNombreEditText().getText().toString();
 		String descripcion = getDescripcionEditText().getText().toString();
-		String tipo = String.valueOf((getTipoSpinner().getSelectedItemPosition() + 1));
+		//String tipo = String.valueOf((getTipoSpinner().getSelectedItemPosition() + 1));
 		ConnectState connect = new ConnectState();
 		if (connect.isConnectedToInternet(this)){
 			RequestWS request = new RequestWS();
-			setRespuesta(request.CreaComunidad(nombre, descripcion, tipo));
+			setRespuesta(request.CreaComunidad(nombre, descripcion, espublica, reasignable, espublica));
 		}else{
 			getRespuesta().setResultado(false);
 			getRespuesta().setMensaje("No cuenta con internet");
@@ -165,13 +179,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		this.mensaje = mensaje;
 	}
 
-	public Spinner getTipoSpinner() {
-		return tipoSpinner;
-	}
-
-	public void setTipoSpinner(Spinner tipoSpinner) {
-		this.tipoSpinner = tipoSpinner;
-	}
 
 	public RespuestaWS getRespuesta() {
 		return respuesta;
@@ -188,6 +195,23 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	public void setCancelarButton(Button cancelarButton) {
 		this.cancelarButton = cancelarButton;
 	}
-	
+
+	public ToggleButton getPermiteReasignacion() {
+		return permiteReasignacion;
+	}
+
+	public void setPermiteReasignacion(ToggleButton permiteReasignacion) {
+		this.permiteReasignacion = permiteReasignacion;
+	}
+
+	public ToggleButton getEsPublica() {
+		return esPublica;
+	}
+
+	public void setEsPublica(ToggleButton esPublica) {
+		this.esPublica = esPublica;
+	}
+
+
 	
 }
