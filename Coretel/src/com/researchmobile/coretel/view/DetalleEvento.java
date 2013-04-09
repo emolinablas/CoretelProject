@@ -1,16 +1,23 @@
 package com.researchmobile.coretel.view;
 
-import com.researchmobile.coretel.entity.TipoAnotacion;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.TipoAnotacion;
+import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleEvento extends Activity implements OnClickListener{
 	
@@ -28,6 +35,9 @@ public class DetalleEvento extends Activity implements OnClickListener{
     private String activo = "";
     private String tipo = "";
     private String descripcion = "";
+    private RespuestaWS respuestaWS = new RespuestaWS();
+	
+	private ProgressDialog pd = null;
 	
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -73,16 +83,71 @@ public class DetalleEvento extends Activity implements OnClickListener{
 		if (view == getRegresarButton()){
 			finish();
 		}else if (view == getEliminarButton()){
-			
+			borrarEvento();
 		}else if (view == getEditarButton()){
 			Editarboton();
 			
 		}
 	}
 	
+	private void borrarEvento(){
+		new AlertDialog.Builder(this)
+        .setTitle("Borrar Evento")
+        .setMessage("Esta seguro que desea eliminar el evento")
+        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                     new eliminaEventoAsync().execute("");
+                }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	Toast.makeText(getBaseContext(), "Operacion cancelada", Toast.LENGTH_SHORT).show();
+                }
+        })
+        .show();
+	}
+	
+	// Clase para ejecutar en Background
+	class eliminaEventoAsync extends AsyncTask<String, Integer, Integer> {
+
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(DetalleEvento.this, "Eliminar Evento","ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				eliminarEvento();
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			if (respuestaWS != null) {
+				Toast.makeText(getBaseContext(), respuestaWS.getMensaje(),Toast.LENGTH_SHORT).show();
+				if (respuestaWS.isResultado()) {
+					Intent intent = new Intent(DetalleEvento.this,Comunidad.class);
+					startActivity(intent);
+				}
+			}
+		}
+	}
+    
+    private void eliminarEvento(){
+		RequestWS request = new RequestWS();
+		respuestaWS = request.eliminaEvento(id, User.getUserId());
+	}
+	
 	private void Editarboton() {
 		Intent intent = new Intent(DetalleEvento.this, EditarDetalleEvento.class);
-		//intent.putExtra("tipoAnotacion", getTipoAnotacion());
 		intent.putExtra("tipo", tipo);
 		intent.putExtra("activo", activo);
 		intent.putExtra("fecha", fecha);
@@ -91,10 +156,6 @@ public class DetalleEvento extends Activity implements OnClickListener{
 		startActivity(intent);
 	}
 
-	private void setFotoImageView(ImageView findViewById) {
-		// TODO Auto-generated method stub
-		
-	}
 	public TextView getFechaTextView() {
 		return fechaTextView;
 	}
