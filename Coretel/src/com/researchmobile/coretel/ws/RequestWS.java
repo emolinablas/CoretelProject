@@ -58,6 +58,7 @@ public class RequestWS {
 	private static final String WS_VERSOLICITUDESRECIBIDAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_VERSOLICITUDESENVIADAS = "ws_invitacion.php?&usuario=";
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
+	private static final String WS_RESPUESTASOLICITUD = "ws_solicitud.php?id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
 	private static final String WS_EDITARTIPOANOTACION = "ws_update_tipo_anotacion.php?action=update&comunidad=";
@@ -576,6 +577,27 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		try{
 			jsonObject = connectWS.enviarRespuestaInvitacion(finalURL);
 			if (jsonObject != null){
+				res.setResultado(jsonObject.getBoolean("resultado"));
+				res.setMensaje(jsonObject.getString("mensaje"));
+				return res;
+			}else{
+				return null;
+			}
+		}catch(Exception exception){
+			return null;
+		}
+	}
+	
+	public RespuestaWS enviarRespuestaSolicitud(String idSolicitud, String respuesta) {
+		Log.v("pio", "responder solicidud 1");
+		JSONObject jsonObject = null;
+		String finalURL = WS_RESPUESTASOLICITUD + idSolicitud + "&estado=" + respuesta;
+		Log.v("pio", "responder solicidud 2");
+		RespuestaWS res = new RespuestaWS();
+		try{
+			jsonObject = connectWS.enviarRespuestaInvitacion(finalURL);
+			if (jsonObject != null){
+				Log.v("pio", "responder solicidud 3");
 				res.setResultado(jsonObject.getBoolean("resultado"));
 				res.setMensaje(jsonObject.getString("mensaje"));
 				return res;

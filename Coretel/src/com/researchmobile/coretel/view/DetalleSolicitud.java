@@ -3,12 +3,19 @@ package com.researchmobile.coretel.view;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleSolicitud extends Activity implements OnClickListener{
 	
@@ -20,11 +27,17 @@ public class DetalleSolicitud extends Activity implements OnClickListener{
 	private Button regresarButton;
 	
 	private String idSolicitud;
+	private String respuesta;
+	private RespuestaWS respuestaRespondidoWS;
+	private RequestWS resquestWS;
+	private ProgressDialog pd = null;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.detallesolicitud);
+		
+		setResquestWS(new RequestWS());
 		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		@SuppressWarnings("unchecked")
@@ -65,14 +78,62 @@ public class DetalleSolicitud extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View view) {
 		if (view == getAceptarButton()){
-			
+			setRespuesta("1");
+            new enviarRespuestaAsync().execute("");
 		}else if (view == getRechazarButton()){
-			
+			setRespuesta("2");
+            new enviarRespuestaAsync().execute("");
 		}else if (view == getRegresarButton()){
 			finish();
 		}
 		
 	}
+	
+	// Clase para ejecutar en Background
+    class enviarRespuestaAsync extends AsyncTask<String, Integer, Integer> {
+
+          // Metodo que prepara lo que usara en background, Prepara el progress
+          @Override
+          protected void onPreExecute() {
+                pd = ProgressDialog. show(DetalleSolicitud.this, "RESPONDIENDO", "ESPERE UN MOMENTO");
+                pd.setCancelable( false);
+         }
+
+          // Metodo con las instrucciones que se realizan en background
+          @Override
+          protected Integer doInBackground(String... urlString) {
+                try {
+                	
+               	 setRespuestaRespondidoWS(enviarRespuesta());
+
+               } catch (Exception exception) {
+
+               }
+                return null ;
+         }
+
+          // Metodo con las instrucciones al finalizar lo ejectuado en background
+          protected void onPostExecute(Integer resultado) {
+                pd.dismiss();
+                if (getRespuestaRespondidoWS() != null && getRespuestaRespondidoWS().isResultado()){
+               	 Intent intent = new Intent(DetalleSolicitud.this, Invitaciones.class);
+               	 startActivity(intent);
+                }
+         }
+   }
+    
+    public RespuestaWS enviarRespuesta(){
+      	 try{
+      		
+      		 RespuestaWS respuestaWS = new RespuestaWS();
+      		 respuestaWS = getResquestWS().enviarRespuestaSolicitud(getIdSolicitud(), getRespuesta());
+      		Log.v("pio", "responder solicidud 4");
+      		 return respuestaWS;
+      	 }catch(Exception exception){
+      		 return null;
+      	 }
+      	
+       }
 
 	public TextView getEstadoTextView() {
 		return estadoTextView;
@@ -129,5 +190,31 @@ public class DetalleSolicitud extends Activity implements OnClickListener{
 	public void setRegresarButton(Button regresarButton) {
 		this.regresarButton = regresarButton;
 	}
+
+	public String getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	public RespuestaWS getRespuestaRespondidoWS() {
+		return respuestaRespondidoWS;
+	}
+
+	public void setRespuestaRespondidoWS(RespuestaWS respuestaRespondidoWS) {
+		this.respuestaRespondidoWS = respuestaRespondidoWS;
+	}
+
+	public RequestWS getResquestWS() {
+		return resquestWS;
+	}
+
+	public void setResquestWS(RequestWS resquestWS) {
+		this.resquestWS = resquestWS;
+	}
+	
+	
 
 }
