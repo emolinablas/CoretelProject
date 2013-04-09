@@ -142,6 +142,19 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setTipoEventoSpinnet((Spinner)findViewById(R.id.evento_tipo_spinner));
 		setComunidadSpinner((Spinner)findViewById(R.id.evento_comunidad_spinner));
 		
+		//verificando si el usuario es due–o de la comunidad (EM)
+		
+				String usuarioActual = User.getNombre();
+				Log.v("pio", "USUARIO ACTUAL" + User.getNombre());
+				Log.v("pio", "USUARIO ANOTO" + tokenizer.usuarioAnoto(getTitulo()));
+				
+				if(usuarioActual.equalsIgnoreCase(tokenizer.usuarioAnoto(getTitulo()))){ 
+					//esDuenno = true;
+				}else{
+					//getEditarComunidad().setVisibility(View.GONE);
+					getBorrarButton().setVisibility(View.GONE);
+					//esDuenno= false;
+				}
 		
 		if(getTitulo().equalsIgnoreCase("nuevo")){
 			iniciaNuevo();
