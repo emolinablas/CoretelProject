@@ -74,12 +74,13 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			Bundle bundle = getIntent().getExtras();
 			setCatalogoAsignacion((CatalogoAsignacion)bundle.get("catalogo"));
 			//MODO TUTORIAL
+			/*
 			UserAsignacion.setModotutorialsupervision(true);
 			if(UserAsignacion.isModotutorialsupervision()){
 				Intent intent = new Intent(Asignaciones.this, Asignaciones_Tutorial_1.class);
 				startActivity(intent);
 			}
-			
+			*/
 			setCreacionTextView((TextView)findViewById(R.id.asignaciones_creacion_textview));
 			setAsignacionTextView((TextView)findViewById(R.id.asignaciones_asignacion_textview));
 			setResueltoTextView((TextView)findViewById(R.id.asignaciones_resuelto_textview));

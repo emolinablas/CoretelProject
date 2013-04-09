@@ -88,11 +88,13 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			
 			new marcarAsignacionAsync().execute("");
 			//MODO TUTORIAL
+			/*
 			UserAsignacion.setModotutorialsupervision(true);
 			if(UserAsignacion.isModotutorialsupervision()){
 				Intent intent = new Intent(SupervisionEvento.this, SupervisionEvento_Tutorial_2.class);
 				startActivity(intent);
 			}
+			*/
 		}
 		
 			public void onClick(View view){

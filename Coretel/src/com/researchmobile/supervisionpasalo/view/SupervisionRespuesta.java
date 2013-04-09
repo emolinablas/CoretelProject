@@ -77,12 +77,14 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			Bundle bundle = getIntent().getExtras();
 			setDescripcion(bundle.getString("descripcion"));
 			setTitulo(bundle.getString("titulo"));
+			/*
 			//MODO TUTORIAL
 			UserAsignacion.setModotutorialsupervision(true);
 			if(UserAsignacion.isModotutorialsupervision()){
 				Intent intent = new Intent(SupervisionRespuesta.this, SupervisionRespuesta_Tutorial_3.class);
 				startActivity(intent);
 			}
+			*/
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
 			setRespuesta(new RespuestaWS());
 			
