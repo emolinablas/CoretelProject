@@ -60,7 +60,7 @@ public class RequestWS {
 	private static final String WS_RESPUESTAINVITACON = "ws_invitacion.php?&id=";
 	private static final String WS_CHAT = "envio?usuario=Luis&mensaje=";
 	private static final String WS_NUEVOTIPOANOTACION = "ws_crear_tipo_anotacion.php?comunidad=";
-	private static final String WS_EDITARTIPOANOTACION = "ws_update_tipo_anotacion.php?comunidad=";
+	private static final String WS_EDITARTIPOANOTACION = "ws_update_tipo_anotacion.php?action=update&comunidad=";
 	private static final String WS_LISTATIPOANOTACION = "ws_tipo_anotacion.php?comunidad=";
 	private static final String WS_ELIMINATIPOANOTACION = "ws_delete_tipo_anotacion.php?id=";
 	private static final String WS_ELIMINAANOTACION = "ws_delete_annotation.php?id=";
