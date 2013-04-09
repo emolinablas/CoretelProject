@@ -91,6 +91,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private TextView comunidadTextView;
 	private TextView tipoTextView;
 	private TextView descripcionTextView;
+	private TextView comunidad2TextView;
+	private TextView tipo2TextView;
 	private Spinner tipoEventoSpinnet;
 	private Spinner comunidadSpinner;
 	private CatalogoComunidad catalogoComunidad;
@@ -104,6 +106,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.evento);
+		
 		new ComunidadesAsync().execute("");
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		String lat = bundle.getString("latitud");
@@ -122,6 +125,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setDescripcionButton((Button)findViewById(R.id.evento_descripcion_button));
 		setFotoEvento((ImageView)findViewById(R.id.evento_foto_imageview));
 		setRegresarButton((Button)findViewById(R.id.evento_regresar_button));
+		setComunidad2TextView((TextView)findViewById(R.id.evento_comunidad2_textview));
+		setTipo2TextView((TextView)findViewById(R.id.evento_tipo2_textview));
 		getCameraButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener(this);
@@ -166,6 +171,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		getCameraButton().setVisibility(View.INVISIBLE);
 		getGuardarButton().setEnabled(false);
 		getGuardarButton().setVisibility(View.INVISIBLE);
+		
+		getComunidadSpinner().setVisibility(View.GONE);
+		getTipoEventoSpinnet().setVisibility(View.GONE);
+		getComunidad2TextView().setVisibility(View.VISIBLE);
+		getTipo2TextView().setVisibility(View.VISIBLE);
+		getComunidad2TextView().setText(tokenizer.nombreComunidad(getDescripcion()));
+		getTipo2TextView().setText(tokenizer.tipoAnotacion(getTitulo()));
+		
 		
 		getFechaTextView().setText(tokenizer.fechaRegistro(getDescripcion()));
 		getDescripcionTextView().setText(tokenizer.descripcion(getDescripcion()));
@@ -935,5 +948,20 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		this.regresarButton = regresarButton;
 	}
 
-	
+	public TextView getComunidad2TextView() {
+		return comunidad2TextView;
+	}
+
+	public void setComunidad2TextView(TextView comunidad2TextView) {
+		this.comunidad2TextView = comunidad2TextView;
+	}
+
+	public TextView getTipo2TextView() {
+		return tipo2TextView;
+	}
+
+	public void setTipo2TextView(TextView tipo2TextView) {
+		this.tipo2TextView = tipo2TextView;
+	}
+
 }

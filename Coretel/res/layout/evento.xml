@@ -157,6 +157,15 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="Comunidad" />
+                    
+                    <TextView
+                        android:id="@+id/evento_comunidad2_textview"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:visibility="gone" />
 
                     <Spinner
                         android:id="@+id/evento_comunidad_spinner"
@@ -180,6 +189,15 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:text="Tipo" />
+                    
+                    <TextView
+                        android:id="@+id/evento_tipo2_textview"
+                        style="@style/Text.Value"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rm_spinner_trasparente"
+                        android:gravity="right"
+                        android:visibility="gone" />
 
                     <Spinner
                         android:id="@+id/evento_tipo_spinner"
