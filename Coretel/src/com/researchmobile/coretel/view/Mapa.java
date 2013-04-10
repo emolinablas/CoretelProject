@@ -48,11 +48,11 @@ import com.researchmobile.coretel.entity.CatalogoComunidad;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.EventoTemporal;
-import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1;
 import com.researchmobile.coretel.tutorial.pasalo.Mapa_tutorial_1;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
+import com.researchmobile.coretel.ws.RequestDB;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Mapa extends MapActivity implements OnItemClickListener, OnClickListener{
@@ -227,42 +227,42 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     }
 	
 	public void dialogTutoriales(final Context activity) {
+		if (!User.isModoTutorial()){
+			final Dialog myDialog = new Dialog(activity);
+	        myDialog.setContentView(R.layout.dialog_tutorial);
+	        myDialog.setCancelable( false);
+	       
+	        Button verTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_vertutorial);
+	        verTutorial.setOnClickListener( new OnClickListener() {
+	            public void onClick(View v) {
+	            	User.setModoTutorial(true);
+	            	if(User.isModoTutorial()){
+	        			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+	        			startActivity(intent);
+	        		}
+	                myDialog.dismiss();
+	            }
+	        });
 
-        final Dialog myDialog = new Dialog(activity);
-        myDialog.setContentView(R.layout.dialog_tutorial);
-        myDialog.setCancelable( false);
-       
-        Button verTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_vertutorial);
-        verTutorial.setOnClickListener( new OnClickListener() {
-            public void onClick(View v) {
-            	User.setModoTutorial(true);
-            	if(User.isModoTutorial()){
-        			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
-        			startActivity(intent);
-        		}
-                myDialog.dismiss();
-            }
-        });
+	        Button noVerTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_novertutorial);
+	        noVerTutorial.setOnClickListener( new OnClickListener() {
+	            public void onClick(View v) {
+	                User.setModoTutorial(false);  
+	                myDialog.dismiss();
+	            }
+	        });
 
-        Button noVerTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_novertutorial);
-        noVerTutorial.setOnClickListener( new OnClickListener() {
-            public void onClick(View v) {
-                User.setModoTutorial(false);  
-                myDialog.dismiss();
-            }
-        });
-
-        Button nuncaVerTutorial= (Button) myDialog.findViewById(R.id.dialog_tutorial_nuncaver);
-        nuncaVerTutorial.setOnClickListener( new OnClickListener() {
-            public void onClick(View v) {
-                  
-                myDialog.dismiss();
-            }
-        });
+	        Button nuncaVerTutorial= (Button) myDialog.findViewById(R.id.dialog_tutorial_nuncaver);
+	        nuncaVerTutorial.setOnClickListener( new OnClickListener() {
+	            public void onClick(View v) {
+	                desactivarModoTutorialDB(Mapa.this); 
+	                myDialog.dismiss();
+	            }
+	        });
 
 
-        myDialog.show();
-
+	        myDialog.show();
+		}
     }
 	
 	@Override
@@ -455,6 +455,18 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 			inicializar();
 		}
 	}
+	
+	private void modoTutorialDB(Context context){
+		RequestDB request = new RequestDB();
+		User.setModoTutorial(request.modoTutorial(context));
+		Log.v("pio", "modoTutorial = " + User.isModoTutorial());
+	}
+	
+	private void desactivarModoTutorialDB(Context context){
+		RequestDB request = new RequestDB();
+		request.desactivaModoTutorial(context);
+		User.setModoTutorial(true);
+	}
 
 	private void cargarAnotaciones() {
 		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
@@ -610,10 +622,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		switch(opcion){
 		case 0:
 			new buscaAnotacionesAsync().execute("");
-			if(User.isModoTutorial()){
-				Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
-				startActivity(intent);
-			}
 			break;
 		case 1:
 			Intent intentComunidades = new Intent(Mapa.this, Comunidades.class);

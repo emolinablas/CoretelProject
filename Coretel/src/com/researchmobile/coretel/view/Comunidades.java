@@ -80,7 +80,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		
 		new buscaComunidadesAsync().execute("");
 		
-		 if(User.isModoTutorial()){
+		 if(!User.isModoTutorial()){
 				Intent intent = new Intent(Comunidades.this, Comunidades_tutorial_1.class);
 				startActivity(intent);
 			}
@@ -184,7 +184,7 @@ private void opcionesMenu(int opcion){
 		new buscaComunidadesAsync().execute("");
         
         //Si es modo tutorial muestra la ayuda
-		if(User.isModoTutorial()){
+		if(!User.isModoTutorial()){
 			Intent intent = new Intent(Comunidades.this, Comunidades_tutorial_1.class);
 			startActivity(intent);
 		}
