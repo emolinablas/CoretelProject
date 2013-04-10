@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,18 +12,19 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_2;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.ImageAdapter;
 import com.researchmobile.coretel.utility.Mensaje;
@@ -61,6 +63,10 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		getGuardarButton().setOnClickListener(this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
+		if (!User.isModoTutorial()) {
+			Intent intent = new Intent(NuevoTipoEvento.this,TipoEvento_tutorial_2.class);
+			startActivity(intent);
+		}
 	}
 	
 	public void mDialog(){
@@ -133,16 +139,23 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 			String nombre = getNombreEditText().getText().toString();
 			String descripcion = getDescripcionEditText().getText().toString();
 			String incidente = "1";
-			
-			if (connect.isConnectedToInternet(NuevoTipoEvento.this)){
-				RequestWS request = new RequestWS();
-				setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, incidente, urlSeleccionado));
-				Log.e("pio", "resultado = " + getRespuesta().getMensaje());
-				Log.e("pio", "resultado 1 = " + getRespuesta().isResultado());
+			if (nombre.equalsIgnoreCase("") || descripcion.equalsIgnoreCase("") || urlSeleccionado.equalsIgnoreCase("")){
+				RespuestaWS res = new RespuestaWS();
+				res.setResultado(false);
+				res.setMensaje("Debe llenar todos los campos");
+				setRespuesta(res);
 			}else{
-				getRespuesta().setMensaje("No cuenta con internet");
-				getRespuesta().setResultado(false);
+				if (connect.isConnectedToInternet(NuevoTipoEvento.this)){
+					RequestWS request = new RequestWS();
+					setRespuesta(request.NuevoTipoEvento(getIdComunidad(), nombre, descripcion, incidente, urlSeleccionado));
+					Log.e("pio", "resultado = " + getRespuesta().getMensaje());
+					Log.e("pio", "resultado 1 = " + getRespuesta().isResultado());
+				}else{
+					getRespuesta().setMensaje("No cuenta con internet");
+					getRespuesta().setResultado(false);
+				}
 			}
+			
 		}
 
 		// Metodo con las instrucciones al finalizar lo ejectuado en background

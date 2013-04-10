@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.TipoAnotacion;
+import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1;
 import com.researchmobile.coretel.utility.MyAdapterTiposEventos;
-import com.researchmobile.coretel.utility.TokenizerUtility;
 
 public class TipoEvento extends Activity implements OnClickListener{
 	private Button agregarButton;
@@ -51,12 +51,11 @@ public class TipoEvento extends Activity implements OnClickListener{
 			
 			MyAdapterTiposEventos adapterTipos = new MyAdapterTiposEventos(this, getCatalogoTipoAnotacion().getTipoAnotacion());
 			getTiposListView().setAdapter(adapterTipos);
-			
-//			getTiposListView().setAdapter(new ArrayAdapter<String>(this, 
-//					R.layout.lista_lobby,
-//					R.id.lista_lobby_textview,
-//					ListaTipos()));
-//					getTiposListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+		}
+		
+		if(!User.isModoTutorial()){
+			Intent intent = new Intent(TipoEvento.this, TipoEvento_tutorial_1.class);
+			startActivity(intent);
 		}
 			    
 			    getTiposListView().setOnItemClickListener(new OnItemClickListener() {
@@ -87,7 +86,6 @@ public class TipoEvento extends Activity implements OnClickListener{
 				return null;
 			}
 		});
-		
 	}
 	private String[] ListaTipos() {
 		if (getCatalogoTipoAnotacion().getTipoAnotacion() != null){

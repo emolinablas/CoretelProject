@@ -86,17 +86,35 @@
         <activity android:name="OpcionComunidades" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <activity android:name="EditarDetalleEvento" android:screenOrientation="portrait" android:configChanges="orientation"></activity>
         <!-- TUTORIAL -->
-		<activity 
-		android:name="com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1" 
-		android:screenOrientation="portrait" android:configChanges="orientation"
-		android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-		>
+		<activity
+		    android:name="com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1"
+		    android:configChanges="orientation"
+		    android:screenOrientation="portrait"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
 		</activity>
-		<activity 
-		android:name="com.researchmobile.coretel.tutorial.pasalo.Mapa_tutorial_1" 
-		android:screenOrientation="portrait" android:configChanges="orientation"
-		android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
-		>
+		<activity
+		    android:name="com.researchmobile.coretel.tutorial.pasalo.Mapa_tutorial_1"
+		    android:configChanges="orientation"
+		    android:screenOrientation="portrait"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+		</activity>
+		<activity
+		    android:name="com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_2"
+		    android:configChanges="orientation"
+		    android:screenOrientation="portrait"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+		</activity>
+		<activity
+		    android:name="com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1"
+		    android:configChanges="orientation"
+		    android:screenOrientation="portrait"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
+		</activity>
+		<activity
+		    android:name="com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_2"
+		    android:configChanges="orientation"
+		    android:screenOrientation="portrait"
+		    android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" >
 		</activity>
               
 <!-- FIN TUTORIAL -->

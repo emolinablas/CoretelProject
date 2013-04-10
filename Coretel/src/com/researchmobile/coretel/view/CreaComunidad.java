@@ -2,20 +2,21 @@ package com.researchmobile.coretel.view;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
-import android.widget.ArrayAdapter;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_2;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -52,6 +53,10 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		getGuardarButton().setOnClickListener( this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
+		if(!User.isModoTutorial()){
+			Intent intent = new Intent(CreaComunidad.this, Comunidades_tutorial_2.class);
+			startActivity(intent);
+		}
 		//fillDataSpinner();
 	}
 

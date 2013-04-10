@@ -15,5 +15,20 @@
     <string name="tutorial_mapa_actualizaposicion">Aqui actualizas tu posicion.</string>
     <string name="tutorial_mapa_recargar ">Aqui puedes recargar puntos y ultimos eventos en el mapa</string>
     <string name="tutorial_mapa_filtrar">Aqui puedes filtrar los eventos por comunidad</string>
+    
+    <string name="tutorial_nuevacomunidad_nombrecomunidad">Coloquemos un nombre para tu comunidad</string>
+    <string name="tutorial_nuevacomunidad_descripcioncomunidad">Coloca una descripcion para que los demas sepan de que trata</string>
+    <string name="tutorial_nuevacomunidad_espublica">Coloca si es publica o no, esto significa que cualquier usuario de Pasalo podra solicitar unirse a tu comunidad</string>
+    <string name="tutorial_nuevacomunidad_esreasignable">Si tu comunidad permite reasignacion, enciende este Switch</string>
+    <string name="tutorial_nuevacomunidad_aplicarcomunidad">Aqui puedes guardar tus cambios</string>
+    <string name="tutorial_nuevacomunidad_cancelarcomunidad">Cancelar la creacion de la comunidad</string>
+    <string name="tutorial_nuevacomunidad_fintoturial">Al finalizar, comenzamos a crear tipos de eventos e invitar a tus amigos!</string>
 
+    <string name="tutorial_tipoevento_agregar">Aqui puedes agregar tipos de eventos para tu comunidad</string>
+    
+    <string name="tutorial_nuevotipoevento_aplicar">Presiona aqui cuando estes listo para guardar tu Tipo de Evento</string>
+    <string name="tutorial_nuevotipoevento_cancelar">Regresamos a la lista de Tipo de eventos</string>
+    <string name="tutorial_nuevotipoevento_nombre">Coloca un nombre, este aparecera en el mapa</string>
+    <string name="tutorial_nuevotipoevento_descripcion">Una descripcion corta, esto ayudara a entender de que trata el evento</string>
+    <string name="tutorial_nuevotipoevento_icono">Aqui encontraras una variedad de iconos para representar tu evento</string>
 </resources>
