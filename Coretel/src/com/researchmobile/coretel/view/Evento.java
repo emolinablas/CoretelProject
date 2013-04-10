@@ -142,20 +142,15 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		setTipoEventoSpinnet((Spinner)findViewById(R.id.evento_tipo_spinner));
 		setComunidadSpinner((Spinner)findViewById(R.id.evento_comunidad_spinner));
 		
-		//verificando si el usuario es due–o de la comunidad (EM)
-		
-				String usuarioActual = User.getNombre();
-				Log.v("pio", "USUARIO ACTUAL" + User.getNombre());
-				Log.v("pio", "USUARIO ANOTO" + tokenizer.usuarioAnoto(getTitulo()));
-				
-				if(usuarioActual.equalsIgnoreCase(tokenizer.usuarioAnoto(getTitulo()))){ 
-					//esDuenno = true;
-				}else{
-					//getEditarComunidad().setVisibility(View.GONE);
-					getBorrarButton().setVisibility(View.GONE);
-					//esDuenno= false;
-				}
-		
+		String usuarioActual = User.getNombre();
+		if (usuarioActual.equalsIgnoreCase(tokenizer.usuarioAnoto(getTitulo()))) {
+			// esDuenno = true;
+		} else {
+			// getEditarComunidad().setVisibility(View.GONE);
+			getBorrarButton().setVisibility(View.GONE);
+			// esDuenno= false;
+		}
+
 		if(getTitulo().equalsIgnoreCase("nuevo")){
 			iniciaNuevo();
 		}else{
@@ -402,7 +397,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
         })
         .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-//                	new enviarAsync().execute(""); 
                 }
         })
         .show();
@@ -487,48 +481,6 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
        alert.show();
 	}
 	
-	private void fotografiaDialog() {
-        LayoutInflater factory = LayoutInflater.from(Evento.this);
-       
-        final View textEntryView = factory.inflate(R.layout.dialog_fotografia , null);
-       
-        final Button capturarButton = (Button) textEntryView.findViewById(R.id.dialog_fotografia_camara);
-        final Button albumButton = (Button) textEntryView.findViewById(R.id.dialog_fotografia_album);
-        
-        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        
-        capturarButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				ActivarCamara();
-				
-			}
-		});
-        
-        alert.setPositiveButton( "CERRAR" ,
-                new DialogInterface.OnClickListener() {
-                      @Override
-                      public void onClick(DialogInterface arg0, int arg1) {
-                    	  MostrarImagen();
-                     }
-         });
-        
-        albumButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mostrarGaleria();
-				
-			}
-		});
-       alert.setTitle( "Agregar Fotografía");
-       alert.setView(textEntryView);
-       
-       alert.show();
-	}
-
-
 	private void MostrarImagen() {
 			String url = "http://23.23.1.2/WS/" + tokenizer.imagen(getDescripcion());
 			Log.e("TT", "Descripcion = " + getDescripcion());

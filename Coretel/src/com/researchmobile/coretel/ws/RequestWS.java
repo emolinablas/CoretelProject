@@ -519,10 +519,8 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 
         for(int index=0; index < nameValuePairs.size(); index++) {
             if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
-            	Log.e("LOG", "Prueba envio foto 2");
-                // If the key equals to "image", we use FileBody to transfer the data
+            	// If the key equals to "image", we use FileBody to transfer the data
                 entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
-                Log.e("LOG", "Prueba envio foto 2");
             } else {
                 // Normal string data
                 entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
@@ -555,8 +553,6 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		nombresArchivos.add(new BasicNameValuePair("lon", longitud));
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
 		post("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
-		
-		
 		return null;
 		
 	}
