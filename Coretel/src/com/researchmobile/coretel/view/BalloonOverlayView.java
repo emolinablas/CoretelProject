@@ -47,16 +47,13 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  
 	  title.setVisibility(GONE);
 	  snippet.setVisibility(GONE);
-
 	  editar = (ImageView) balloonview.findViewById(R.id.edit_img);
-	  
 	  editar.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try{
 					{
 						layout.setVisibility(GONE);
 					}
-					
 					Intent intent = new Intent(context, Evento.class);
 					intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
 					intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
@@ -73,8 +70,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 	  addView(layout, params);   
 	 }
 	 
-	 public void setData(Item item, final Context mContext) {
-	   
+	 public void setData(Item item, final Context mContext) { 
 	  setMiItem(item);
 	  System.out.println("EN EL ITEM");
 	  System.out.println(getMiItem().getSnippet());
@@ -89,18 +85,19 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 		  }else{
 			  layout.setVisibility(VISIBLE);
 			  EventoTemporal.setControl(1);
+			  title.setVisibility(VISIBLE);
+			  title.setText("Nuevo");
+			  snippet.setVisibility(VISIBLE);
+			  snippet.setText("Presione para Editar");
 		  }
 		  
-		  
-		  title.setText(tokenizer.titulo(item.getTitle()));
-		  snippet.setVisibility(VISIBLE);
-		  snippet.setText(tokenizer.descripcion(item.getSnippet()));
 	  }else{
 		  layout.setVisibility(VISIBLE);
 		  if (item.getTitle() != null && item.getTitle().length() > 0) {
-			   title.setVisibility(VISIBLE);
+			  title.setVisibility(VISIBLE);
 			   title.setText(tokenizer.titulo(item.getTitle()));
 			  } else {
+				  
 			   title.setVisibility(GONE);
 			  }
 			  if (item.getSnippet() != null && item.getSnippet().length() > 0) {

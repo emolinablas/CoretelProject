@@ -66,6 +66,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private TextView tituloComunidad;
 	private boolean itemTemporal = false;
 	
+	private TextView snippet;
+	
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
 	private Button btnAnimar = null;
@@ -550,12 +552,11 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
     }
     
     private void agregaPuntos(GeoPoint list, String titulo, String desc) {
-    	
     	BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Bitmap bm = BitmapFactory.decodeFile("sdcard/" + tokenizer.icono(titulo), options);
         
-		Drawable drawable = tokenizer.iconoResource(this, titulo);
+		Drawable drawable = tokenizer.iconoResource(this, titulo);	
 		int tamano = mapOverlays.size();
 //    		Drawable drawable = new BitmapDrawable(bm);
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
