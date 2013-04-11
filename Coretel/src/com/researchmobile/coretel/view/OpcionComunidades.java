@@ -49,11 +49,15 @@ public class OpcionComunidades extends Activity implements OnClickListener, OnIt
 	private RequestWS request;
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
+	private Button agregarButton;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.opcioncomunidades);
+		
+		setAgregarButton((Button)findViewById(R.id.comunidades_opciones_agregar_button));
+		getAgregarButton().setOnClickListener(this);
 		
 		setCatalogoComunidad(new CatalogoComunidad());
 		setRequest(new RequestWS());
@@ -236,9 +240,18 @@ private void dialogComunidades(){
 			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getSelect()));
 		}
     }
+    private void AgregarComunidad() {
+		Intent intent = new Intent(OpcionComunidades.this, CreaComunidad.class);
+		startActivity(intent);
+	}
     
 	@Override
 	public void onClick(View view) {
+		
+		if(view == getAgregarButton()){
+			AgregarComunidad();
+		}
+		
 	}
 
 	public ListView getComunidadesListView() {
@@ -288,6 +301,14 @@ private void dialogComunidades(){
 
 	public void setCatalogoTipoAnotacion(CatalogoTipoAnotacion catalogoTipoAnotacion) {
 		this.catalogoTipoAnotacion = catalogoTipoAnotacion;
+	}
+
+	public Button getAgregarButton() {
+		return agregarButton;
+	}
+
+	public void setAgregarButton(Button agregarButton) {
+		this.agregarButton = agregarButton;
 	}
 	
 	
