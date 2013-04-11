@@ -213,15 +213,14 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	protected void IniciaTipos() {
 		ConnectState connect = new ConnectState();
-		if (connect.isConnectedToInternet(Comunidad.this)){
-			RequestWS request = new RequestWS();
-			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getDetalleComunidad().getId()));
-			
-		}
+//		if (connect.isConnectedToInternet(Comunidad.this)){
+//			RequestWS request = new RequestWS();
+//			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getDetalleComunidad().getId()));
+//		}
 		
 		Intent intent = new Intent(Comunidad.this, TipoEvento.class);
 		intent.putExtra("idComunidad", getDetalleComunidad().getId());
-		intent.putExtra("catalogoTipoAnotacion", getCatalogoTipoAnotacion());
+//		intent.putExtra("catalogoTipoAnotacion", getCatalogoTipoAnotacion());
 		intent.putExtra("esDuenno", esDuenno);
 		startActivity(intent);
 	}
@@ -236,7 +235,7 @@ public class Comunidad extends Activity implements OnClickListener{
 		Intent intent = new Intent(Comunidad.this, PruebaListaFoto.class);
 		intent.putExtra("idComunidad", getDetalleComunidad().getId());
 //		intent.putExtra("catalogoMiembro", getCatalogoMiembro());
-		intent.putExtra("esDuenno", esDuenno); // enviando par‡metro si es due–o de la comunidad.
+		intent.putExtra("esDuenno", esDuenno); // enviando par‡metro si es dueño de la comunidad.
 		startActivity(intent);
 	}
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 	private String idAnotacion;
 	private String urlIcono;
 	
+	private String idComunidad;
+	
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -55,7 +58,7 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 		setContentView(R.layout.editar_tipoevento);
 		
 		Bundle bundle = (Bundle)getIntent().getExtras();
-		
+		setIdComunidad(bundle.getString("idComunidad"));
 		setTipoAnotacion((TipoAnotacion)bundle.get("tipoAnotacion"));
 		urlSeleccionado = getTipoAnotacion().getIcono();
 		setNombreEditText((EditText)findViewById(R.id.editartipoevento_nombre_edittext));
@@ -110,7 +113,9 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 			if (getRespuesta() != null){
 				Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
 				if(getRespuesta().isResultado()){
-					finish();
+					Intent intent = new Intent(EditarTipoEvento.this, TipoEvento.class);
+					intent.putExtra("idComunidad", getIdComunidad());
+					startActivity(intent);
 				}
 			}
 		}
@@ -264,6 +269,14 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 
 	public void setTipoAnotacion(TipoAnotacion tipoAnotacion) {
 		this.tipoAnotacion = tipoAnotacion;
+	}
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
 	}
 	
 	

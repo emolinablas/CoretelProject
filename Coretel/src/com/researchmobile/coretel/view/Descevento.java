@@ -34,12 +34,14 @@ public class Descevento extends Activity implements OnClickListener{
 	private ProgressDialog pd = null;
 	private RespuestaWS respuestaWS;
 	private boolean esDuenno;
+	private String idComunidad;
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.descevento);
 		Bundle bundle = (Bundle)getIntent().getExtras();
+		setIdComunidad(bundle.getString("idComunidad"));
 		setTipoAnotacion((TipoAnotacion)bundle.get("anotacion"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno")); // indica si es due–o del evento (EM)
 		
@@ -116,6 +118,7 @@ public class Descevento extends Activity implements OnClickListener{
 	private void Editarboton(){
 		Intent intent = new Intent(Descevento.this, EditarTipoEvento.class); 
 		intent.putExtra("tipoAnotacion", getTipoAnotacion());
+		intent.putExtra("idComunidad", getIdComunidad());
 		startActivity(intent);
 	}
 	
@@ -168,7 +171,9 @@ public class Descevento extends Activity implements OnClickListener{
                 pd.dismiss();
                 if (getRespuestaWS() != null){
                 	if (getRespuestaWS().isResultado()){
-                		finish();	
+                		Intent intent = new Intent(Descevento.this, TipoEvento.class);
+                		intent.putExtra("idComunidad", getIdComunidad());
+                		startActivity(intent);
                 	}else{
                 		Toast.makeText(getBaseContext(), getRespuestaWS().getMensaje(), Toast.LENGTH_SHORT).show();
                 	}
@@ -249,6 +254,16 @@ public class Descevento extends Activity implements OnClickListener{
 
 	public void setEsDuenno(boolean esDuenno) {
 		this.esDuenno = esDuenno;
+	}
+
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
 	}
 	
 	

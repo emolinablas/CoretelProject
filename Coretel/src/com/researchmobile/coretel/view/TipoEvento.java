@@ -1,7 +1,9 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1;
 import com.researchmobile.coretel.utility.MyAdapterTiposEventos;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class TipoEvento extends Activity implements OnClickListener{
 	private Button agregarButton;
@@ -25,6 +28,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private TipoAnotacion tipoAnotacion;
     private boolean esDuenno;
+    private ProgressDialog pd = null;
    
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -32,14 +36,14 @@ public class TipoEvento extends Activity implements OnClickListener{
 		setContentView(R.layout.tipoevento);
 		
 		Bundle bundle = (Bundle)getIntent().getExtras();
-		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
+//		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
 		setIdComunidad((String)bundle.getString("idComunidad"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
-		
-		
 		setAgregarButton((Button)findViewById(R.id.tipoevento_agregar_button));
 		getAgregarButton().setOnClickListener(this);
 		setTiposListView((ListView)findViewById(R.id.tipoevento_lista_listview));
+		
+		new tiposAsync().execute("");
 		
 		if(isEsDuenno()){
 			Log.v("pio", "El usuario no es dueño de la comunidad, crear un nuevo tipo");
@@ -47,11 +51,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 			getAgregarButton().setVisibility(View.GONE);
 		}
 		
-		if (ListaTipos() != null){
-			
-			MyAdapterTiposEventos adapterTipos = new MyAdapterTiposEventos(this, getCatalogoTipoAnotacion().getTipoAnotacion());
-			getTiposListView().setAdapter(adapterTipos);
-		}
+		
 		
 		if(!User.isModoTutorial()){
 			Intent intent = new Intent(TipoEvento.this, TipoEvento_tutorial_1.class);
@@ -71,7 +71,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 					}else{
 						intent.putExtra("esDuenno", false);
 					}
-		    	
+		    	intent.putExtra("idComunidad", getIdComunidad());
 		    	startActivity(intent);
 		    }
 
@@ -87,6 +87,50 @@ public class TipoEvento extends Activity implements OnClickListener{
 			}
 		});
 	}
+	
+	// Clase para ejecutar en Background
+	class tiposAsync extends AsyncTask<String, Integer, Integer> {
+
+		// Metodo que prepara lo que usara en background, Prepara el progress
+		@Override
+		protected void onPreExecute() {
+			pd = ProgressDialog.show(TipoEvento.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+			pd.setCancelable(false);
+		}
+
+		// Metodo con las instrucciones que se realizan en background
+		@Override
+		protected Integer doInBackground(String... urlString) {
+			try {
+				buscarTipos();
+			} catch (Exception exception) {
+
+			}
+			return null;
+		}
+
+		// Metodo con las instrucciones al finalizar lo ejectuado en background
+		protected void onPostExecute(Integer resultado) {
+			pd.dismiss();
+			llenaLista();
+		}
+	}
+	
+	public void llenaLista(){
+		if (ListaTipos() != null){
+			MyAdapterTiposEventos adapterTipos = new MyAdapterTiposEventos(this, getCatalogoTipoAnotacion().getTipoAnotacion());
+			getTiposListView().setAdapter(adapterTipos);
+		}
+		
+		
+	}
+	
+	public void buscarTipos(){
+		RequestWS request = new RequestWS();
+		setCatalogoTipoAnotacion(request.BuscarTiposEventos(getIdComunidad()));
+	}
+
+	
 	private String[] ListaTipos() {
 		if (getCatalogoTipoAnotacion().getTipoAnotacion() != null){
 			int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
