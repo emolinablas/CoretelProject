@@ -313,9 +313,11 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	        			+ getCatalogoAnotacion().getAnotacion()[i].getNombreComunidad() + "=+="
 	        			+ getCatalogoAnotacion().getAnotacion()[i].getImagen();
 	        		agregaPuntos(list.get(i), titulo, desc);
+	        		
 	    		}
 	    	}
 		}else{
+			
 			Toast.makeText(getBaseContext(), "intente nuevamentete", Toast.LENGTH_LONG).show();
 		}
 		
@@ -366,7 +368,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 
 			}
 		}catch(Exception exception){
-			
+			exception.printStackTrace();
 		}
 	}
 	
@@ -711,7 +713,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
                 try{
-                	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 0){
+                	System.out.println("tamano de comunidades = " + getCatalogoComunidad().getComunidad().length);
+                	if (getCatalogoComunidad().getComunidad() != null && getCatalogoComunidad().getComunidad().length > 1){
                 		ArrayAdapter<DetalleComunidad> adaptador = new ArrayAdapter<DetalleComunidad>(Mapa.this, android.R.layout.simple_list_item_1, getCatalogoComunidad().getComunidad());
     					comunidadesFilter.setAdapter(adaptador);
                     }else{
