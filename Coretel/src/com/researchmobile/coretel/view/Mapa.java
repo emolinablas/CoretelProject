@@ -207,7 +207,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         login.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	Intent intentComunidades = new Intent(Mapa.this, OpcionComunidades.class);
-    			startActivity(intentComunidades);
+            	intentComunidades.putExtra("deOpcion", false);
+            	startActivity(intentComunidades);
                 myDialog.dismiss();
             }
         });
@@ -216,6 +217,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         createAccount.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
             	Intent intentComunidades = new Intent(Mapa.this, OpcionComunidades.class);
+            	intentComunidades.putExtra("deOpcion", true);
     			startActivity(intentComunidades);
                 myDialog.dismiss();
             }

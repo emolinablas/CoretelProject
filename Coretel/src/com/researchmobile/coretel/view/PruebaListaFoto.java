@@ -100,11 +100,7 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 			Intent intent = new Intent(PruebaListaFoto.this, DetalleMiembro.class);
 			intent.putExtra("idComunidad", getIdComunidad());
 			intent.putExtra("miembro", miembro);
-			if(isEsDuenno()){
 			intent.putExtra("esDuenno", true);
-			}else{
-				intent.putExtra("esDuenno", false);
-			}
 			startActivity(intent);
 		}
 	 

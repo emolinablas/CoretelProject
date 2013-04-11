@@ -51,6 +51,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	private String select;
 	private RequestWS request;
 	private CatalogoComunidad catalogoComunidad;
+	private boolean deOpciones;
 	
 	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
@@ -96,6 +97,8 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		getAvatarImageView().setImageBitmap(image);
 		
 		prepararMenu();
+		
+		
 	}
 	
 	private void prepararMenu(){
@@ -519,6 +522,14 @@ private void dialogComunidades(){
 
 	public void setCatalogoComunidad(CatalogoComunidad catalogoComunidad) {
 		this.catalogoComunidad = catalogoComunidad;
+	}
+
+	public boolean isDeOpciones() {
+		return deOpciones;
+	}
+
+	public void setDeOpciones(boolean deOpciones) {
+		this.deOpciones = deOpciones;
 	}
 	
 	

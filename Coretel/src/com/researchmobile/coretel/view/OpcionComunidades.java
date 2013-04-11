@@ -50,6 +50,7 @@ public class OpcionComunidades extends Activity implements OnClickListener, OnIt
 	private CatalogoComunidad catalogoComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private Button agregarButton;
+	private boolean opcionComunidad;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -58,7 +59,14 @@ public class OpcionComunidades extends Activity implements OnClickListener, OnIt
 		
 		setAgregarButton((Button)findViewById(R.id.comunidades_opciones_agregar_button));
 		getAgregarButton().setOnClickListener(this);
+		Bundle bundle = getIntent().getExtras();
+		setOpcionComunidad(bundle.getBoolean("deOpcion"));
 		
+		if (isOpcionComunidad()){
+			Log.v("pio", "de comunidad");
+		}else{
+			Log.v("pio", "de tipo evento");
+		}
 		setCatalogoComunidad(new CatalogoComunidad());
 		setRequest(new RequestWS());
 		
@@ -70,16 +78,26 @@ public class OpcionComunidades extends Activity implements OnClickListener, OnIt
 public void onItemClick(AdapterView<?> adapterView, View arg1, int position, long arg3) {
 	DetalleComunidad comunidad = new DetalleComunidad();
 	comunidad = (DetalleComunidad)adapterView.getItemAtPosition(position);
-	setSelect(comunidad.getId());
-	Intent intent = new Intent(OpcionComunidades.this, OpcionTipoEvento.class);
-	intent.putExtra("idComunidad", comunidad.getId());
-	Log.v("pio", "usuario = " + User.getUserId() + " comunidad = " + comunidad.getIdDuenno());
-	if (User.getUserId().equalsIgnoreCase(comunidad.getIdDuenno())){
-		intent.putExtra("esDuenno", true);
+	if (isOpcionComunidad()){
+		iniciarComunidad(comunidad);
+		
+	}else{
+		Intent intent = new Intent(OpcionComunidades.this, OpcionTipoEvento.class);
+		intent.putExtra("idComunidad", comunidad.getId());
+		Log.v("pio", "usuario = " + User.getUserId() + " comunidad = " + comunidad.getIdDuenno());
+		if (User.getUserId().equalsIgnoreCase(comunidad.getIdDuenno())){
+			intent.putExtra("esDuenno", true);
+		}
+	    startActivity(intent);
 	}
-//	intent.putExtra("tipos", getCatalogoTipoAnotacion());
-    startActivity(intent);
-//	new TipoEventoAsync().execute("");
+}
+
+public void iniciarComunidad(DetalleComunidad comunidad){
+	RequestWS request = new RequestWS();
+	DetalleComunidad com = request.DetalleComunidad(comunidad.getId());
+	Intent intent = new Intent(OpcionComunidades.this, Comunidad.class);
+	intent.putExtra("detallecomunidad", com);
+	startActivity(intent);
 }
 
 // Clase para ejecutar en Background
@@ -317,6 +335,14 @@ private void dialogComunidades(){
 
 	public void setAgregarButton(Button agregarButton) {
 		this.agregarButton = agregarButton;
+	}
+
+	public boolean isOpcionComunidad() {
+		return opcionComunidad;
+	}
+
+	public void setOpcionComunidad(boolean opcionComunidad) {
+		this.opcionComunidad = opcionComunidad;
 	}
 	
 	
