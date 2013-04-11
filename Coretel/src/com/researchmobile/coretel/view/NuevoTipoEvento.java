@@ -44,6 +44,8 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 	private String urlSeleccionado = "";
 	int seleccionado = 0;
 	private ImageView iconoEvento;
+	private boolean esDuenno;
+	Class<?> padre = null;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -51,6 +53,8 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		setContentView(R.layout.nuevotipoevento);
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setIdComunidad((String)bundle.getString("idComunidad"));
+		padre = (Class<?>)bundle.get("activity");
+		setEsDuenno(bundle.getBoolean("esDuenno"));
 		setMensaje(new Mensaje());
 		setNombreEditText((EditText)findViewById(R.id.nuevotipoevento_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.nuevotipoevento_descripcion_edittext));
@@ -169,7 +173,10 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 				Log.e("pio", "resultado = " + getRespuesta().isResultado());
 				if (getRespuesta().isResultado()){
 					Log.e("pio", "resultado = " + getRespuesta().isResultado());
-					finish();
+					Intent intent = new Intent(NuevoTipoEvento.this, padre);
+					intent.putExtra("idComunidad", getIdComunidad());
+					intent.putExtra("esDuenno", isEsDuenno());
+					startActivity(intent);
 				}
 			}
 		}
@@ -262,6 +269,14 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 
 	public void setCancelarButton(Button cancelarButton) {
 		this.cancelarButton = cancelarButton;
+	}
+
+	public boolean isEsDuenno() {
+		return esDuenno;
+	}
+
+	public void setEsDuenno(boolean esDuenno) {
+		this.esDuenno = esDuenno;
 	}
 
 	

@@ -42,6 +42,7 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
 	private TipoAnotacion tipoAnotacion;
+	private boolean esDuenno;
 	
 	private String nombre;
 	private String descripcion;
@@ -50,6 +51,7 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 	private String urlIcono;
 	
 	private String idComunidad;
+	private Class<?> padre = null;
 	
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -60,6 +62,8 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setIdComunidad(bundle.getString("idComunidad"));
 		setTipoAnotacion((TipoAnotacion)bundle.get("tipoAnotacion"));
+		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
+		padre = (Class<?>)bundle.get("activity");
 		urlSeleccionado = getTipoAnotacion().getIcono();
 		setNombreEditText((EditText)findViewById(R.id.editartipoevento_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.editartipoevento_descripcion_edittext));
@@ -113,8 +117,9 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 			if (getRespuesta() != null){
 				Toast.makeText(getBaseContext(), getRespuesta().getMensaje(), Toast.LENGTH_SHORT).show();
 				if(getRespuesta().isResultado()){
-					Intent intent = new Intent(EditarTipoEvento.this, TipoEvento.class);
+					Intent intent = new Intent(EditarTipoEvento.this, padre);
 					intent.putExtra("idComunidad", getIdComunidad());
+					intent.putExtra("esDuenno", isEsDuenno());
 					startActivity(intent);
 				}
 			}
@@ -277,6 +282,14 @@ public class EditarTipoEvento extends Activity implements OnClickListener, OnKey
 
 	public void setIdComunidad(String idComunidad) {
 		this.idComunidad = idComunidad;
+	}
+
+	public boolean isEsDuenno() {
+		return esDuenno;
+	}
+
+	public void setEsDuenno(boolean esDuenno) {
+		this.esDuenno = esDuenno;
 	}
 	
 	

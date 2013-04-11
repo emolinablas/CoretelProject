@@ -35,16 +35,19 @@ public class Descevento extends Activity implements OnClickListener{
 	private RespuestaWS respuestaWS;
 	private boolean esDuenno;
 	private String idComunidad;
+	private Class<?> padre = null;
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.descevento);
+		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setIdComunidad(bundle.getString("idComunidad"));
 		setTipoAnotacion((TipoAnotacion)bundle.get("anotacion"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno")); // indica si es due–o del evento (EM)
-		
+		padre = (Class<?>)bundle.get("activity");
+		Log.v("pio", "es dueno = " + isEsDuenno());
 		setNombreTextView((TextView)findViewById(R.id.descevento_nombre_textview));
 		setDescripcionTextView((TextView)findViewById(R.id.descevento_descripcion_textview));
 		setIconoImageView((ImageView)findViewById(R.id.descevento_icono_imageview));
@@ -119,6 +122,8 @@ public class Descevento extends Activity implements OnClickListener{
 		Intent intent = new Intent(Descevento.this, EditarTipoEvento.class); 
 		intent.putExtra("tipoAnotacion", getTipoAnotacion());
 		intent.putExtra("idComunidad", getIdComunidad());
+		intent.putExtra("esDuenno", isEsDuenno());
+		intent.putExtra("activity", padre);
 		startActivity(intent);
 	}
 	
@@ -171,8 +176,9 @@ public class Descevento extends Activity implements OnClickListener{
                 pd.dismiss();
                 if (getRespuestaWS() != null){
                 	if (getRespuestaWS().isResultado()){
-                		Intent intent = new Intent(Descevento.this, TipoEvento.class);
+                		Intent intent = new Intent(Descevento.this, padre);
                 		intent.putExtra("idComunidad", getIdComunidad());
+                		intent.putExtra("esDuenno", isEsDuenno());
                 		startActivity(intent);
                 	}else{
                 		Toast.makeText(getBaseContext(), getRespuestaWS().getMensaje(), Toast.LENGTH_SHORT).show();

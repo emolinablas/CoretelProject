@@ -71,7 +71,15 @@ public void onItemClick(AdapterView<?> adapterView, View arg1, int position, lon
 	DetalleComunidad comunidad = new DetalleComunidad();
 	comunidad = (DetalleComunidad)adapterView.getItemAtPosition(position);
 	setSelect(comunidad.getId());
-	new TipoEventoAsync().execute("");
+	Intent intent = new Intent(OpcionComunidades.this, OpcionTipoEvento.class);
+	intent.putExtra("idComunidad", comunidad.getId());
+	Log.v("pio", "usuario = " + User.getUserId() + " comunidad = " + comunidad.getIdDuenno());
+	if (User.getUserId().equalsIgnoreCase(comunidad.getIdDuenno())){
+		intent.putExtra("esDuenno", true);
+	}
+//	intent.putExtra("tipos", getCatalogoTipoAnotacion());
+    startActivity(intent);
+//	new TipoEventoAsync().execute("");
 }
 
 // Clase para ejecutar en Background

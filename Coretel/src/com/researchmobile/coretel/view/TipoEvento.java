@@ -65,13 +65,9 @@ public class TipoEvento extends Activity implements OnClickListener{
 		    	TipoAnotacion tipo = (TipoAnotacion)a.getItemAtPosition(position);
 		    	Intent intent = new Intent(TipoEvento.this, Descevento.class);
 		    	intent.putExtra("anotacion", tipo);
-		    	
-		    	if(isEsDuenno()){  // dato diferente para saber si es due–o del evento en el descevento
-					intent.putExtra("esDuenno", true);
-					}else{
-						intent.putExtra("esDuenno", false);
-					}
-		    	intent.putExtra("idComunidad", getIdComunidad());
+		    	intent.putExtra("activity", TipoEvento.class);
+				intent.putExtra("esDuenno", esDuenno);
+				intent.putExtra("idComunidad", getIdComunidad());
 		    	startActivity(intent);
 		    }
 
@@ -117,12 +113,10 @@ public class TipoEvento extends Activity implements OnClickListener{
 	}
 	
 	public void llenaLista(){
-		if (ListaTipos() != null){
+//		if (ListaTipos() != null){
 			MyAdapterTiposEventos adapterTipos = new MyAdapterTiposEventos(this, getCatalogoTipoAnotacion().getTipoAnotacion());
 			getTiposListView().setAdapter(adapterTipos);
-		}
-		
-		
+//		}
 	}
 	
 	public void buscarTipos(){
@@ -147,6 +141,8 @@ public class TipoEvento extends Activity implements OnClickListener{
 		if (view == getAgregarButton()){
 			Intent intent = new Intent(TipoEvento.this, NuevoTipoEvento.class);
 			intent.putExtra("idComunidad", getIdComunidad());
+			intent.putExtra("activity", TipoEvento.class);
+			intent.putExtra("esDuenno", esDuenno);
 			startActivity(intent);
 		}
 	}

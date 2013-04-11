@@ -61,6 +61,7 @@ public class Comunidad extends Activity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.comunidad);
 		Bundle bundle = (Bundle)getIntent().getExtras();
+//		esDuenno = bundle.getBoolean("esDuenno");
 //		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setDetalleComunidad((DetalleComunidad)bundle.get("detallecomunidad"));
 		setMensaje(new Mensaje());
@@ -213,15 +214,10 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	protected void IniciaTipos() {
 		ConnectState connect = new ConnectState();
-//		if (connect.isConnectedToInternet(Comunidad.this)){
-//			RequestWS request = new RequestWS();
-//			setCatalogoTipoAnotacion(request.BuscarTiposEventos(getDetalleComunidad().getId()));
-//		}
-		
 		Intent intent = new Intent(Comunidad.this, TipoEvento.class);
 		intent.putExtra("idComunidad", getDetalleComunidad().getId());
-//		intent.putExtra("catalogoTipoAnotacion", getCatalogoTipoAnotacion());
 		intent.putExtra("esDuenno", esDuenno);
+		intent.putExtra("activity", Comunidad.class);
 		startActivity(intent);
 	}
 
