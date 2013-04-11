@@ -51,9 +51,7 @@ public class TipoEvento extends Activity implements OnClickListener{
 			getAgregarButton().setVisibility(View.GONE);
 		}
 		
-		
-		
-		if(!User.isModoTutorial()){
+		if(User.isModoTutorial()){
 			Intent intent = new Intent(TipoEvento.this, TipoEvento_tutorial_1.class);
 			startActivity(intent);
 		}

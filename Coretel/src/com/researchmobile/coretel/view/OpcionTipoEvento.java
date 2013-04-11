@@ -55,7 +55,7 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 		
 		
 		
-		if(!User.isModoTutorial()){
+		if(User.isModoTutorial()){
 			Intent intent = new Intent(OpcionTipoEvento.this, TipoEvento_tutorial_1.class);
 			startActivity(intent);
 		}

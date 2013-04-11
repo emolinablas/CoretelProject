@@ -67,7 +67,7 @@ public class NuevoTipoEvento extends Activity implements OnClickListener, OnKeyL
 		getGuardarButton().setOnClickListener(this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
-		if (!User.isModoTutorial()) {
+		if (User.isModoTutorial()) {
 			Intent intent = new Intent(NuevoTipoEvento.this,TipoEvento_tutorial_2.class);
 			startActivity(intent);
 		}
