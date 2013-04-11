@@ -509,7 +509,7 @@ public class RequestWS {
 		return null;
 	}
 
-public void post(String url, List<NameValuePair> nameValuePairs) {
+public void postConFoto(String url, List<NameValuePair> nameValuePairs) {
     HttpClient httpClient = new DefaultHttpClient();
     HttpContext localContext = new BasicHttpContext();
     HttpPost httpPost = new HttpPost(url);
@@ -552,8 +552,10 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		nombresArchivos.add(new BasicNameValuePair("descripcion", descripcion));
 		nombresArchivos.add(new BasicNameValuePair("lat", latitud));
 		nombresArchivos.add(new BasicNameValuePair("lon", longitud));
-		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
-		post("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
+		if (imagen != null){
+			nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
+		}
+		postConFoto("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
 		return null;
 		
 	}
@@ -563,7 +565,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
 		nombresArchivos.add(new BasicNameValuePair("id", User.getUserId()));
 		nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
-		post("http://23.23.1.2/WS/upload.avatar.php?", nombresArchivos);
+		postConFoto("http://23.23.1.2/WS/upload.avatar.php?", nombresArchivos);
 		
 	}
 	
