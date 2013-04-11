@@ -171,7 +171,8 @@ public class Comunidad extends Activity implements OnClickListener{
                 pd.dismiss();
                 if (respuestaEliminar != null){
                 	if (respuestaEliminar.isResultado()){
-                		finish();
+                		Intent intent = new Intent(Comunidad.this, Comunidades.class);
+                		startActivity(intent);
                 	}else{
                 		Toast.makeText(getBaseContext(), respuestaEliminar.getMensaje(), Toast.LENGTH_SHORT).show();
                 	}

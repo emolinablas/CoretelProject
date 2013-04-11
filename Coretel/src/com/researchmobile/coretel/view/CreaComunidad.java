@@ -60,13 +60,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		//fillDataSpinner();
 	}
 
-/*	private void fillDataSpinner() {
-		String[] datos = new String[]{"Publica","Privada"};
-		ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.item_spinner_textview, datos);
-		getTipoSpinner().setAdapter(adaptador);
-		
-	}*/
-
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
 		 if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP)
@@ -145,7 +138,8 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
                 if (getRespuesta() != null){
     				getMensaje().VerMensaje(CreaComunidad.this, getRespuesta().getMensaje());
     				if (getRespuesta().isResultado()){
-    					finish();
+    					Intent intent = new Intent(CreaComunidad.this, Comunidades.class);
+    					startActivity(intent);
     				}
     			}
          }
