@@ -366,7 +366,11 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 				borrarEvento();
 			}
 		}else if (view == getRegresarButton()){
-			regresar();
+			if(eventoNuevo){
+			regresar();}
+			else{
+				finish();
+			}
 		}
 	}
 	
