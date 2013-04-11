@@ -43,6 +43,7 @@ public class EditarDetalleEvento extends Activity implements OnClickListener, On
     private String activo = "";
     private String tipo = "";
     private String descripcion = "";
+    private String idComunidad;
 	
 	private String urlSeleccionado = "";
 	int seleccionado = 0;
@@ -70,6 +71,7 @@ public class EditarDetalleEvento extends Activity implements OnClickListener, On
 	         activo = bundle.getString("activo");
 	         tipo = bundle.getString("tipo");
 	         descripcion = bundle.getString("descripcion");
+	         setIdComunidad(bundle.getString("idComunidad"));
 	         System.out.println("se setearon los datoss " + id + " " + fecha + " " + activo  + " " + descripcion);
 	        }catch(Exception e){
 	        	System.out.println("Ocurrio un error al guardar los extras");
@@ -184,6 +186,16 @@ public class EditarDetalleEvento extends Activity implements OnClickListener, On
 	public void setRespuesta(RespuestaWS respuesta) {
 		this.respuesta = respuesta;
 	}
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
+	}
+	
+	
 
 
 }

@@ -54,7 +54,8 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/button_background_iphone_gray"
                 android:text="Editar"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

@@ -36,6 +36,7 @@ public class DetalleEvento extends Activity implements OnClickListener{
     private String tipo = "";
     private String descripcion = "";
     private RespuestaWS respuestaWS = new RespuestaWS();
+    private String idComunidad;
 	
 	private ProgressDialog pd = null;
 	
@@ -51,6 +52,7 @@ public class DetalleEvento extends Activity implements OnClickListener{
          activo = bundle.getString("activo");
          tipo = bundle.getString("tipo");
          descripcion = bundle.getString("descripcion");
+         setIdComunidad(bundle.getString("idComunidad"));
          System.out.println("se setearon los datoss " + id + " " + fecha + " " + activo  + " " + descripcion);
         }catch(Exception e){
         	System.out.println("Ocurrio un error al guardar los extras");
@@ -67,7 +69,6 @@ public class DetalleEvento extends Activity implements OnClickListener{
         getEliminarButton().setOnClickListener(this);
         getRegresarButton().setOnClickListener(this);
         
-       getEditarButton().setVisibility(View.VISIBLE);
        getEliminarButton().setVisibility(View.VISIBLE);
        
        
@@ -134,7 +135,8 @@ public class DetalleEvento extends Activity implements OnClickListener{
 			if (respuestaWS != null) {
 				Toast.makeText(getBaseContext(), respuestaWS.getMensaje(),Toast.LENGTH_SHORT).show();
 				if (respuestaWS.isResultado()) {
-					Intent intent = new Intent(DetalleEvento.this,Comunidad.class);
+					Intent intent = new Intent(DetalleEvento.this, ListaEventos.class);
+					intent.putExtra("idComunidad", getIdComunidad());
 					startActivity(intent);
 				}
 			}
@@ -153,6 +155,7 @@ public class DetalleEvento extends Activity implements OnClickListener{
 		intent.putExtra("fecha", fecha);
 		intent.putExtra("descripcion", descripcion);
 		intent.putExtra(id, id);
+		intent.putExtra("idComunidad", getIdComunidad());
 		startActivity(intent);
 	}
 
@@ -209,6 +212,14 @@ public class DetalleEvento extends Activity implements OnClickListener{
 
 	public void setTipoAnotacion(TipoAnotacion tipoAnotacion) {
 		this.tipoAnotacion = tipoAnotacion;
+	}
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
 	}
 
 	

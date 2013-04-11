@@ -110,19 +110,13 @@ public class ListaEventos extends Activity implements OnItemClickListener{
 		@SuppressWarnings("unchecked")
 		
 		Anotacion anotacion = (Anotacion)adapter.getItemAtPosition(position);
-//		HashMap<String, String> map = (HashMap)arg0.getItemAtPosition(position);
-//		String selectedId = (String) map.get("id");
-//		String selectedFecha = (String) map.get("fecha");
-//		String selectedActivo = (String) map.get("activo");
-//		String selectedTipo = (String) map.get("tipo");
-//		String selectedDescripcion = (String) map.get("descripcion");
-		
 		Intent intent = new Intent(ListaEventos.this, DetalleEvento.class);
 		intent.putExtra("id", anotacion.getIdAnotacion());
 		intent.putExtra("fecha", anotacion.getFecha_registro());
 		intent.putExtra("activo", anotacion.getActivo());
 		intent.putExtra("tipo", anotacion.getNombreTipoAnotacion());
 		intent.putExtra("descripcion", anotacion.getDescripcion());
+		intent.putExtra("idComunidad", getIdComunidad());
 		startActivity(intent);
 	}
 	
