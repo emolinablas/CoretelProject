@@ -61,7 +61,7 @@ public class Comunidad extends Activity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.comunidad);
 		Bundle bundle = (Bundle)getIntent().getExtras();
-		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
+//		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setDetalleComunidad((DetalleComunidad)bundle.get("detallecomunidad"));
 		setMensaje(new Mensaje());
 		setNombreTextView((TextView)findViewById(R.id.comunidad_nombre_textview));
@@ -234,7 +234,8 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	protected void IniciaMiembros() {
 		Intent intent = new Intent(Comunidad.this, PruebaListaFoto.class);
-		intent.putExtra("catalogoMiembro", getCatalogoMiembro());
+		intent.putExtra("idComunidad", getDetalleComunidad().getId());
+//		intent.putExtra("catalogoMiembro", getCatalogoMiembro());
 		intent.putExtra("esDuenno", esDuenno); // enviando par‡metro si es due–o de la comunidad.
 		startActivity(intent);
 	}

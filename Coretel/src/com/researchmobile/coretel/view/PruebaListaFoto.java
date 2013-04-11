@@ -1,10 +1,12 @@
 package com.researchmobile.coretel.view;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,37 +21,84 @@ import android.widget.TextView;
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.utility.RMFile;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class PruebaListaFoto extends Activity implements OnItemClickListener{
 	private static RMFile rmFile = new RMFile();
 	private static CatalogoMiembro catalogoMiembro;
 	private TextView comunidad;
 	private boolean esDuenno; // variable de verificaci—n si es due–o de la comunidad (EM)
+	private String idComunidad;
+	private ProgressDialog pd = null;
+	private ListView listaMiembros;
+	private RequestWS requestWS;
 	
 	
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	    	super.onCreate(savedInstanceState);
 	 		setContentView(R.layout.miembros);
+	 		
 	 		Bundle bundle = getIntent().getExtras();
+	 		setIdComunidad(bundle.getString("idComunidad"));
 	 		setComunidad((TextView)findViewById(R.id.miembros_comunidad));
 	 		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
+	 		setRequestWS(new RequestWS());
 	 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
-	 		String tituloComunidad = "";
+	 		
+	 		new miembrosAsync().execute("");
+	 		setListaMiembros((ListView)findViewById(R.id.miembros_lista_listview));
+	 	}
+	 
+	// Clase para ejecutar en Background
+		class miembrosAsync extends AsyncTask<String, Integer, Integer> {
+
+			// Metodo que prepara lo que usara en background, Prepara el progress
+			@Override
+			protected void onPreExecute() {
+				pd = ProgressDialog.show(PruebaListaFoto.this, "VERIFICANDO DATOS", "ESPERE UN MOMENTO");
+				pd.setCancelable(false);
+			}
+
+			// Metodo con las instrucciones que se realizan en background
+			@Override
+			protected Integer doInBackground(String... urlString) {
+				try {
+					cargarDatos();
+
+				} catch (Exception exception) {
+
+				}
+				return null;
+			}
+
+			// Metodo con las instrucciones al finalizar lo ejectuado en background
+			protected void onPostExecute(Integer resultado) {
+				pd.dismiss();
+				llenarLista();
+
+			}
+		}
+		
+		public void llenarLista(){
+			getListaMiembros().setAdapter(new miAdapter(this));
+			getListaMiembros().setOnItemClickListener(this);
+			String tituloComunidad = "";
 	 		if (getCatalogoMiembro().getMiembro()[0].getNombreComunidad() != null){
 	 			tituloComunidad = getCatalogoMiembro().getMiembro()[0].getNombreComunidad();
 	 		}
 	 		getComunidad().setText(tituloComunidad);
-	 		ListView l = (ListView) findViewById(R.id.miembros_lista_listview);
-	 		l.setAdapter(new miAdapter(this));
-	 		l.setOnItemClickListener(this);
-	 		
-	    }
+		}
+
+		public void cargarDatos() {
+			setCatalogoMiembro(getRequestWS().CatalogoMiembro(getIdComunidad()));
+		}
 	 
 	 @Override
 		public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
 			Miembro miembro = getCatalogoMiembro().getMiembro()[position];
 			Intent intent = new Intent(PruebaListaFoto.this, DetalleMiembro.class);
+			intent.putExtra("idComunidad", getIdComunidad());
 			intent.putExtra("miembro", miembro);
 			if(isEsDuenno()){
 			intent.putExtra("esDuenno", true);
@@ -125,6 +174,30 @@ public class PruebaListaFoto extends Activity implements OnItemClickListener{
 
 		public void setEsDuenno(boolean esDuenno) {
 			this.esDuenno = esDuenno;
+		}
+
+		public String getIdComunidad() {
+			return idComunidad;
+		}
+
+		public void setIdComunidad(String idComunidad) {
+			this.idComunidad = idComunidad;
+		}
+
+		public ListView getListaMiembros() {
+			return listaMiembros;
+		}
+
+		public void setListaMiembros(ListView listaMiembros) {
+			this.listaMiembros = listaMiembros;
+		}
+
+		public RequestWS getRequestWS() {
+			return requestWS;
+		}
+
+		public void setRequestWS(RequestWS requestWS) {
+			this.requestWS = requestWS;
 		}
 
 		

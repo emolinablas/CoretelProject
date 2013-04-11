@@ -371,7 +371,8 @@ private void dialogComunidades(){
           protected void onPostExecute(Integer resultado) {
                 pd.dismiss();
                 Intent intent = new Intent(Comunidades.this, Comunidad.class);
-		        intent.putExtra("catalogoMiembro", getCatalogoMiembro());
+//                intent.putExtra("idComunidad", getDetalleComunidad().getId());
+//		        intent.putExtra("catalogoMiembro", getCatalogoMiembro());
 		        intent.putExtra("detallecomunidad", getDetalleComunidad());
 		        startActivity(intent);
          }
@@ -385,12 +386,12 @@ private void dialogComunidades(){
 			if (con.isConnectedToInternet(this)){
 				RequestWS request = new RequestWS();
 				setDetalleComunidad(request.DetalleComunidad(getSelect()));
-				if(getDetalleComunidad().getRespuestaWS().isResultado()){
-					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
-					if (getCatalogoMiembro().getRespuestaWS().isResultado()){
-						
-					}
-				}
+//				if(getDetalleComunidad().getRespuestaWS().isResultado()){
+//					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
+//					if (getCatalogoMiembro().getRespuestaWS().isResultado()){
+//						
+//					}
+//				}
 			}
 		}catch(Exception exception){
 			

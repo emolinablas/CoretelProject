@@ -22,6 +22,7 @@ import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.RMFile;
+import com.researchmobile.coretel.ws.RequestWS;
 
 public class Miembros extends Activity implements OnClickListener, OnItemClickListener{
 	private ListView miembrosListView;
@@ -29,40 +30,22 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 	private ProgressDialog pd = null;
 	private RMFile rmFile = new RMFile();
 	private String idMiembro;
+	private RequestWS requestWS;
+	private String idComunidad;
 
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.miembros);
 		
+		setRequestWS(new RequestWS());
 		Bundle bundle = (Bundle)getIntent().getExtras();
-		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
+		setIdComunidad(bundle.getString("idComunidad"));
+//		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setMiembrosListView((ListView)findViewById(R.id.miembros_lista_listview));
 		getMiembrosListView().setOnItemClickListener(this);
 		
-//		new miembrosAsync().execute("");
-		
-		int tamano = getCatalogoMiembro().getMiembro().length;
-		ArrayList<HashMap<String, Bitmap>> mylist = new ArrayList<HashMap<String, Bitmap>>();
-		if (tamano > 0) {
-			for (int i = 0; i < tamano; i++) {
-				rmFile.downloadImage("http://23.23.1.2/" + getCatalogoMiembro().getMiembro()[i].getAvatar());
-				Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("id", getCatalogoMiembro().getMiembro()[i].getId());
-//				map.put("avatar", image);
-				map.put("nombre", getCatalogoMiembro().getMiembro()[i].getNombreUsuario());
-//				mylist.add(map);
-			}
-		}
-
-		final SimpleAdapter mSchedule = new SimpleAdapter(this, mylist,
-				R.layout.lista_miembros, new String[] { "id", "avatar", "nombre" },
-				new int[] { R.id.lista_miembros_id, R.id.lista_miembros_avatar, R.id.lista_miembros_nombre });
-
-		getMiembrosListView().setAdapter(mSchedule);
-		getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		
+		new miembrosAsync().execute("");
 	}
 
 	@Override
@@ -110,7 +93,7 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 		@Override
 		protected Integer doInBackground(String... urlString) {
 			try {
-				llenarLista();
+				cargarDatos();
 
 			} catch (Exception exception) {
 
@@ -121,13 +104,36 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
+			llenarLista();
 
 		}
 	}
+	
+	public void llenarLista(){
+		int tamano = getCatalogoMiembro().getMiembro().length;
+		ArrayList<HashMap<String, Bitmap>> mylist = new ArrayList<HashMap<String, Bitmap>>();
+		if (tamano > 0) {
+			for (int i = 0; i < tamano; i++) {
+				rmFile.downloadImage("http://23.23.1.2/" + getCatalogoMiembro().getMiembro()[i].getAvatar());
+				Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("id", getCatalogoMiembro().getMiembro()[i].getId());
+//				map.put("avatar", image);
+				map.put("nombre", getCatalogoMiembro().getMiembro()[i].getNombreUsuario());
+//				mylist.add(map);
+			}
+		}
 
-	public void llenarLista() {
+		final SimpleAdapter mSchedule = new SimpleAdapter(this, mylist,
+				R.layout.lista_miembros, new String[] { "id", "avatar", "nombre" },
+				new int[] { R.id.lista_miembros_id, R.id.lista_miembros_avatar, R.id.lista_miembros_nombre });
 
-		
+		getMiembrosListView().setAdapter(mSchedule);
+		getMiembrosListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+	}
+
+	public void cargarDatos() {
+		setCatalogoMiembro(getRequestWS().CatalogoMiembro(getIdComunidad()));
 	}
 
 	public ListView getMiembrosListView() {
@@ -153,5 +159,22 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 	public void setIdMiembro(String idMiembro) {
 		this.idMiembro = idMiembro;
 	}
+
+	public RequestWS getRequestWS() {
+		return requestWS;
+	}
+
+	public void setRequestWS(RequestWS requestWS) {
+		this.requestWS = requestWS;
+	}
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
+	}
+	
 
 }

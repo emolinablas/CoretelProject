@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	private RequestWS request = new RequestWS();
 	private RespuestaWS respuesta = new RespuestaWS();
 	private boolean esDuenno;
+	private String idComunidad;
 	
 	public void onCreate(Bundle saveInstanceState){
 		super.onCreate(saveInstanceState);
@@ -40,6 +42,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		Bundle bundle = getIntent().getExtras();
 		setMiembro((Miembro)bundle.get("miembro"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
+		setIdComunidad(bundle.getString("idComunidad"));
 		
 		setNombreTextView((TextView)findViewById(R.id.detallemiembros_nombre_edittext));
 		setTelefonoTextView((TextView)findViewById(R.id.detallemiembro_telefono_edittext));
@@ -54,7 +57,7 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 		getEmailTextView().setText(getMiembro().getEmail());
 		
 		if(isEsDuenno()){
-			Log.v("pio", "El usuario no es due–o de la comunidad, no puede borrar el miembro");
+			Log.v("pio", "El usuario no es dueño de la comunidad, no puede borrar el miembro");
 		}else{
 			getBorrarButton().setVisibility(View.GONE);
 		}
@@ -115,7 +118,9 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 			if (respuesta != null){
 				Toast.makeText(getBaseContext(), respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
 				if (respuesta.isResultado()){
-					finish();
+					Intent intent = new Intent(DetalleMiembro.this, PruebaListaFoto.class);
+					intent.putExtra("idComunidad", getIdComunidad());
+					startActivity(intent);
 				}
 			}
 
@@ -181,6 +186,14 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 
 	public void setEsDuenno(boolean esDuenno) {
 		this.esDuenno = esDuenno;
+	}
+
+	public String getIdComunidad() {
+		return idComunidad;
+	}
+
+	public void setIdComunidad(String idComunidad) {
+		this.idComunidad = idComunidad;
 	}
 
 	
