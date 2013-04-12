@@ -21,11 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.entity.Usuario;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.utility.NotifyManager;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -51,6 +53,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	private RespuestaWS respuestaWS;
 	private RespuestaWS respuesta2Geo;
 	private boolean cambioHecho;
+	private ConnectState connectState;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -58,6 +61,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 		setContentView(R.layout.perfil);
 		
 		setRespuestaWS(new RespuestaWS());
+		setConnectState(new ConnectState());
 		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		setUsuario((Usuario)bundle.get("usuario"));
@@ -227,9 +231,10 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	                         //Aqui lo que quieres hacer
 	                    	  Log.v("pio", "Se ejecutó el hilo");
 	                    	  RequestWS request2 = new RequestWS();
+	                    	  if(getConnectState().isConnectedToInternet(getApplicationContext())){
 	                          setRespuesta2Geo(request2.EnviarGeoposicion(User.getUserId(), User.getLatitudActual(), User.getLongitudActual()));
 	                          Log.v("geo", "se envio la siguiente geoposicion " + User.getLatitudActual() + " " + User.getLongitudActual());
-	                    	                      	  
+	                    	  }
 	                    	 /*INICIA LA NOTIFICACIÓN
 	                    	  NotifyManager notify = new NotifyManager();
 	          			    notify.playNotification(getApplicationContext(),
@@ -263,6 +268,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private boolean CambiarClave() {
+		if(getConnectState().isConnectedToInternet(this)){
 		try{
 			String clavereal = User.getPassword();
 			String claveactual = getClavenuevaEditText().getText().toString();
@@ -290,6 +296,10 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 				return false;
 			}
 		}catch(Exception exception){
+			return false;
+		}
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente de nuevo mas tarde!", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		
@@ -444,6 +454,14 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setRespuesta2Geo(RespuestaWS respuesta2Geo) {
 		this.respuesta2Geo = respuesta2Geo;
+	}
+
+	public ConnectState getConnectState() {
+		return connectState;
+	}
+
+	public void setConnectState(ConnectState connectState) {
+		this.connectState = connectState;
 	}
 	
 	
