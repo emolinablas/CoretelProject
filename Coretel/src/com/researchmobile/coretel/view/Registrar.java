@@ -37,6 +37,7 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta;
 	private boolean enviado;
+	private ConnectState connectState;
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -290,6 +291,14 @@ public class Registrar extends Activity implements OnClickListener, OnKeyListene
 
 	public void setVolverButton(Button volverButton) {
 		this.volverButton = volverButton;
+	}
+
+	public ConnectState getConnectState() {
+		return connectState;
+	}
+
+	public void setConnectState(ConnectState connectState) {
+		this.connectState = connectState;
 	}
 
 }
