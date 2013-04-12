@@ -321,7 +321,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	    	}
 		}else{
 			
-			Toast.makeText(getBaseContext(), "intente nuevamentete", Toast.LENGTH_LONG).show();
+			Toast.makeText(getBaseContext(), "no hay anotaciones en esta comunidad", Toast.LENGTH_LONG).show();
 		}
 		
 	}
