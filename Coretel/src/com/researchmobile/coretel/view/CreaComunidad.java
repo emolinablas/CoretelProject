@@ -12,6 +12,7 @@ import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
@@ -80,8 +81,14 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 
 	@Override
 	public void onClick(View v) {
+		ConnectState conect = new ConnectState();
 		if (v == getGuardarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			new crearAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (v == getCancelarButton()){
 			finish();
 		}
@@ -107,7 +114,7 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 			setRespuesta(request.CreaComunidad(nombre, descripcion, espublica, reasignable, espublica));
 		}else{
 			getRespuesta().setResultado(false);
-			getRespuesta().setMensaje("No cuenta con internet");
+			getRespuesta().setMensaje("No cuenta con conexion a internet, intente mas tarde!");
 		}
 	}
 	

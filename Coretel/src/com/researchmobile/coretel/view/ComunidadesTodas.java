@@ -56,7 +56,13 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 		setBuscarEditText((EditText)findViewById(R.id.comunidadtodas_buscar_edittext));
 		getBuscarEditText().addTextChangedListener(this);
 		
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this))
+		{
 		new buscaComunidadesAsync().execute("");
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 		
 		setComunidadesListView((ListView)findViewById(R.id.comunidadestodas_lista_listview));
 		
@@ -64,11 +70,11 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 	
 	@Override
 	public void onClick(View view) {
-	
 		if (view == getAtrasButton()){
 			finish();
 		}else if (view == getBorrarButton()){
 			getBuscarEditText().setText("");
+			
 		}
 		
 	}

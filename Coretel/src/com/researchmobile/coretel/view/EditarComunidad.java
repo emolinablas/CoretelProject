@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class EditarComunidad extends Activity implements OnClickListener{
@@ -68,7 +69,13 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		if (view == getCancelarButton()){
 			finish();
 		}else if (view == getAplicarButton()){
+			ConnectState conect = new ConnectState();
+			
+			if(conect.isConnectedToInternet(this)){
 			new editarAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}
 		
 	}

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleMiembro extends Activity implements OnClickListener{
@@ -66,10 +67,16 @@ public class DetalleMiembro extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
+		ConnectState conect = new ConnectState();
 		if (v == getComunidadesButton()){
 			finish();
 		}else if (v == getBorrarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			new eliminarAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}
 		
 	}

@@ -13,8 +13,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleSolicitud extends Activity implements OnClickListener{
@@ -77,12 +79,22 @@ public class DetalleSolicitud extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View view) {
+		ConnectState conect = new ConnectState();
+		
 		if (view == getAceptarButton()){
 			setRespuesta("1");
+			if(conect.isConnectedToInternet(this)){
             new enviarRespuestaAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getRechazarButton()){
 			setRespuesta("2");
+			if(conect.isConnectedToInternet(this)){
             new enviarRespuestaAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getRegresarButton()){
 			finish();
 		}

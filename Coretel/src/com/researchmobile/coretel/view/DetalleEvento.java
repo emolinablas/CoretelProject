@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleEvento extends Activity implements OnClickListener{
@@ -81,13 +82,23 @@ public class DetalleEvento extends Activity implements OnClickListener{
     
 	@Override
 	public void onClick(View view) {
+		ConnectState conect = new ConnectState();
 		if (view == getRegresarButton()){
 			finish();
 		}else if (view == getEliminarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			borrarEvento();
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getEditarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			Editarboton();
-			
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 	

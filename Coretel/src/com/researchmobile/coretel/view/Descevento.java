@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -110,10 +111,21 @@ public class Descevento extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		ConnectState conect = new ConnectState();
 		if (v == getBorrarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			dialogBorrar();
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if(v == getEditarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			Editarboton();
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 		}
 				
 	}
