@@ -49,6 +49,7 @@ import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.entity.EventoTemporal;
 import com.researchmobile.coretel.tutorial.pasalo.Mapa_tutorial_1;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
@@ -481,7 +482,12 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private void cargarAnotaciones() {
 		//Cargar Anotaciones(idcomunidad, idtipoanotacion)
 		RequestWS request = new RequestWS();
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		setCatalogoAnotacion(request.CargarAnotaciones());
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+		}
 	}
 
     
@@ -733,12 +739,22 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 
 	private void buscarComunidades(){
 		setRequestWS(new RequestWS());
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+		}else{
+			Toast.makeText(this, "No posee conexion a internter, intente mas tarde", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	private void buscarComunidadesFilter(){
 		setRequestWS(new RequestWS());
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		setCatalogoComunidad(getRequestWS().CargarComunidadesFilter(User.getUserId()));
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
+		}
 	}
 	private void dialogComunidades(){
 		

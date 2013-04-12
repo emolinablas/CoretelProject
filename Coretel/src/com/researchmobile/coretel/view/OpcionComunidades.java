@@ -51,6 +51,7 @@ public class OpcionComunidades extends Activity implements OnClickListener, OnIt
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private Button agregarButton;
 	private boolean opcionComunidad;
+	private ConnectState connectState;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -93,11 +94,16 @@ public void onItemClick(AdapterView<?> adapterView, View arg1, int position, lon
 }
 
 public void iniciarComunidad(DetalleComunidad comunidad){
+	ConnectState conect = new ConnectState();
+	if(conect.isConnectedToInternet(this)){
 	RequestWS request = new RequestWS();
 	DetalleComunidad com = request.DetalleComunidad(comunidad.getId());
 	Intent intent = new Intent(OpcionComunidades.this, Comunidad.class);
 	intent.putExtra("detallecomunidad", com);
 	startActivity(intent);
+	}else{
+		Toast.makeText(this, "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
+	}
 }
 
 // Clase para ejecutar en Background

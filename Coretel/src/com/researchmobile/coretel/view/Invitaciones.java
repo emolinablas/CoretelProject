@@ -46,6 +46,7 @@ import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.Solicitud;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.utility.AdapterInvitaciones;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
 /**
@@ -398,7 +399,12 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 		
 		private void buscarComunidades(){
 			setRequestWS(new RequestWS());
+			ConnectState conect = new ConnectState();
+			if(conect.isConnectedToInternet(this)){
 			setCatalogoComunidad(getRequestWS().CargarComunidades(User.getUserId()));
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
+			}
 		}
 
 	public void dialogInvitar() {

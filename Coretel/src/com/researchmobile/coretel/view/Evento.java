@@ -234,6 +234,8 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 
 	private void TipoAnotacion() {
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		try{
 			String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
 			System.out.println("comunidad seleccionada = " + selectComunidad);
@@ -254,7 +256,9 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}catch(Exception exception){
 			
 		}
-		
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	 private String[] tipoAnotacion() {
@@ -293,6 +297,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
          }
 
           private void CargarTipoAnotacion() {
+        	  
 			RequestWS request = new RequestWS();
 			String selectComunidad = getComunidadSpinner().getSelectedItem().toString();
 			String idComunidad = "";
@@ -306,16 +311,26 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		}
 
 		private void CargarDatos() {
+			ConnectState connect = new ConnectState();
+			if(connect.isConnectedToInternet(getApplicationContext())){
         	  RequestWS request = new RequestWS();
       		  setCatalogoComunidad(request.CargarComunidades(User.getUserId()));
       		  CargarTipoAnotacion();
       		  MostrarImagen();
+			}else{
+				Toast.makeText(getApplicationContext(), "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
+			}
 			
 		}
 
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
          protected void onPostExecute(Integer resultado) {
+        	 ConnectState conect = new ConnectState();
+        	 if(conect.isConnectedToInternet(getApplicationContext())){
         	 CargarDatosSpinner();
+        	 }else{
+        		 Toast.makeText(getApplicationContext(), "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
+        	 }
          }
     }
     
@@ -521,7 +536,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 				
 			}
 		}catch(Exception exception){
-			Toast.makeText(getBaseContext(), "no tiene internet", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -641,8 +656,13 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	}
 	
 	private void eliminarEvento(){
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		RequestWS request = new RequestWS();
 		respuestaWS = request.eliminaEvento(tokenizer.idAnotacion(getTitulo()), User.getUserId());
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	// Clase para ejecutar en Background
