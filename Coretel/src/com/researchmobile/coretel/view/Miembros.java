@@ -17,10 +17,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.Miembro;
 import com.researchmobile.coretel.entity.User;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -133,7 +135,12 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 	}
 
 	public void cargarDatos() {
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		setCatalogoMiembro(getRequestWS().CatalogoMiembro(getIdComunidad()));
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public ListView getMiembrosListView() {

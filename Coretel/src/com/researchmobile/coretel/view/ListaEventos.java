@@ -14,10 +14,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.Anotacion;
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterEventos;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -55,7 +57,13 @@ public class ListaEventos extends Activity implements OnItemClickListener{
 	
 	private void buscaEventos(){
 		RequestWS request = new RequestWS();
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this))
+		{
 		setCatalogoAnotacion(request.CargarAnotacionesComunidad(getIdComunidad()));
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 		
 	}
 	 // Clase para ejecutar en Background

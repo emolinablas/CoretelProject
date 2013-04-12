@@ -13,11 +13,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterTiposEventos;
 import com.researchmobile.coretel.view.TipoEvento.tiposAsync;
 import com.researchmobile.coretel.ws.RequestWS;
@@ -31,11 +33,13 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 	private TipoAnotacion tipoAnotacion;
     private boolean esDuenno;
     private ProgressDialog pd = null;
+    private ConnectState connectState;
    
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.opciontipoevento);
+		setConnectState(new ConnectState());
 		
 		Bundle bundle = (Bundle)getIntent().getExtras();
 //		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
@@ -122,8 +126,12 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 	}
 	
 	public void buscarTipos(){
+		if(getConnectState().isConnectedToInternet(this)){
 		RequestWS request = new RequestWS();
 		setCatalogoTipoAnotacion(request.BuscarTiposEventos(getIdComunidad()));
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	
@@ -182,6 +190,14 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 	}
 	public void setEsDuenno(boolean esDuenno) {
 		this.esDuenno = esDuenno;
+	}
+
+	public ConnectState getConnectState() {
+		return connectState;
+	}
+
+	public void setConnectState(ConnectState connectState) {
+		this.connectState = connectState;
 	}
 	
 }

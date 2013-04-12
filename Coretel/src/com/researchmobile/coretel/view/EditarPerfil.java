@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.researchmobile.coretel.entity.RespuestaWS;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.entity.Usuario;
+import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class EditarPerfil  extends Activity implements OnClickListener{
@@ -88,6 +89,8 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 	}
 	
 	private void enviarCambios(){
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this)){
 		String nombre = getNombreEditText().getText().toString();
 		String email = getEmailEditText().getText().toString();
 		String usuario = User.getUsername();
@@ -98,6 +101,9 @@ public class EditarPerfil  extends Activity implements OnClickListener{
 			getRespuesta().setResultado(false);
 		}else{
 			setRespuesta(getRequest().editarPerfil(nombre, email, usuario, telefono));
+		}
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
 		}
 	}
 	// Clase para ejecutar en Background
