@@ -222,6 +222,9 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:background="@drawable/button_background_clear"
+                            android:textColor="#000000"
+                            android:textSize="18dp"
+                            android:textStyle="bold"
                             android:text="Guardar" />
 
                     </LinearLayout>

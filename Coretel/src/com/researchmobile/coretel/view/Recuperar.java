@@ -27,7 +27,6 @@ public class Recuperar extends Activity implements OnClickListener, OnKeyListene
 	private RequestWS request = new RequestWS();
 	private String email = "";
 	
-	
 	private ProgressDialog pd = null;
 
 	@Override

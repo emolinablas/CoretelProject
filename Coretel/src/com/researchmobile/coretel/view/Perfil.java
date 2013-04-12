@@ -264,7 +264,7 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 
 	private boolean CambiarClave() {
 		try{
-			String clavereal = user.getPassword();
+			String clavereal = User.getPassword();
 			String claveactual = getClavenuevaEditText().getText().toString();
 			String clavenueva1 = getClavenueva1EditText().getText().toString();
 			String clavenueva2 = getClavenueva2EditText().getText().toString();
@@ -276,12 +276,12 @@ public class Perfil extends Activity implements OnClickListener, OnKeyListener{
 						return true;
 					}else{
 						getRespuestaWS().setResultado(false);
-						getMensaje().ClavesNuevasDiferente(this);
+						getRespuestaWS().setMensaje("Las claves nuevas no coinsiden");
 						return false;
 					}
 				}else{
 					getRespuestaWS().setResultado(false);
-					getMensaje().ClaveActualDiferente(this);
+					getRespuestaWS().setMensaje("La clave actual no es correcta");
 					return false;
 				}
 			}else{
