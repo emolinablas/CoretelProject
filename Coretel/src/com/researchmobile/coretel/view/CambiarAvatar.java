@@ -175,7 +175,7 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 
 	private void verImagen() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 0;
+		options.inSampleSize = 8;
 		Log.e("Log", "ver foto = sdcard" + getPathFoto());
 		Bitmap bm = BitmapFactory.decodeFile(getPathFoto(), options);
 		getAvatarImageView().setImageBitmap(bm);

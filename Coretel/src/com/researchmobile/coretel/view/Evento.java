@@ -598,17 +598,16 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		Uri uri = Uri.fromFile(f);
 		cIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		startActivityForResult(cIntent, CAMERA_RESULT);
-		verImagen();
+//		verImagen();
 //		origenAlbum = false;
 	}
 
 	private void verImagen() {
 		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 0;
+		options.inSampleSize = 8;
 		Log.e("Log", "ver foto = sdcard" + getPathFoto());
         Bitmap bm = BitmapFactory.decodeFile(getPathFoto(), options);
         getFotoEvento().setImageBitmap(bm);
-//        setGaleria(false);
 	}
 	
 	private void verImagenGaleria() {
@@ -634,6 +633,10 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
     			setPathFoto(data.getData().getPath());
     			System.out.println("aaa " + data.getData().getPath());
     			verImagenGaleria();
+    		}
+    	}else{
+    		if (resultCode < 0){
+    			verImagen();
     		}
     	}
     }
