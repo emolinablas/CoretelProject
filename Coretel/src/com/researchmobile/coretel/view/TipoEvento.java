@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
+import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.TipoAnotacion;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1;
@@ -26,6 +27,7 @@ import com.researchmobile.coretel.ws.RequestWS;
 
 public class TipoEvento extends Activity implements OnClickListener{
 	private Button agregarButton;
+	private Button comunidadButton;
 	private ListView tiposListView;
 	private String idComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -33,6 +35,7 @@ public class TipoEvento extends Activity implements OnClickListener{
     private boolean esDuenno;
     private ProgressDialog pd = null;
     private ConnectState connectState;
+    private Class<?> padre = null;
     
    
 	public void onCreate(Bundle savedInstanceState){
@@ -44,8 +47,11 @@ public class TipoEvento extends Activity implements OnClickListener{
 //		setCatalogoTipoAnotacion((CatalogoTipoAnotacion)bundle.get("catalogoTipoAnotacion"));
 		setIdComunidad((String)bundle.getString("idComunidad"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
+		padre = (Class<?>)bundle.get("activity");
 		setAgregarButton((Button)findViewById(R.id.tipoevento_agregar_button));
+		setComunidadButton((Button)findViewById(R.id.tipoevento_comunidad_button));
 		getAgregarButton().setOnClickListener(this);
+		getComunidadButton().setOnClickListener(this);
 		setTiposListView((ListView)findViewById(R.id.tipoevento_lista_listview));
 		
 		new tiposAsync().execute("");
@@ -151,6 +157,12 @@ public class TipoEvento extends Activity implements OnClickListener{
 			intent.putExtra("activity", TipoEvento.class);
 			intent.putExtra("esDuenno", esDuenno);
 			startActivity(intent);
+		}else if (view == getComunidadButton()){
+			RequestWS req = new RequestWS();
+			DetalleComunidad detalleComunidad = req.DetalleComunidad(getIdComunidad());
+			Intent intent = new Intent(TipoEvento.this, Comunidad.class);
+			intent.putExtra("detallecomunidad", detalleComunidad);
+			startActivity(intent);
 		}
 	}
 	public Button getAgregarButton() {
@@ -197,5 +209,15 @@ public class TipoEvento extends Activity implements OnClickListener{
 	public void setConnectState(ConnectState connectState) {
 		this.connectState = connectState;
 	}
+
+	public Button getComunidadButton() {
+		return comunidadButton;
+	}
+
+	public void setComunidadButton(Button comunidadButton) {
+		this.comunidadButton = comunidadButton;
+	}
+	
+	
 	
 }
