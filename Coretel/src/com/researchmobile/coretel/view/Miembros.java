@@ -46,8 +46,13 @@ public class Miembros extends Activity implements OnClickListener, OnItemClickLi
 //		setCatalogoMiembro((CatalogoMiembro)bundle.get("catalogoMiembro"));
 		setMiembrosListView((ListView)findViewById(R.id.miembros_lista_listview));
 		getMiembrosListView().setOnItemClickListener(this);
-		
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this))
+		{
 		new miembrosAsync().execute("");
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

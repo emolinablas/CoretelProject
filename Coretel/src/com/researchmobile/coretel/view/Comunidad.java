@@ -243,8 +243,15 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View view) {
+		ConnectState conect = new ConnectState();
+		
 		if (view == getBorrarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			eliminaDialog();
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getComunidadesButton()){
 			finish();
 		}else if (view == getEditarComunidad()){
@@ -252,11 +259,26 @@ public class Comunidad extends Activity implements OnClickListener{
 			intent.putExtra("comunidad", getDetalleComunidad());
 			startActivity(intent);
 		}else if (view == getMiembrosButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			IniciaMiembros();
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getEventosButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			IniciaEventos();
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}else if (view == getTiposButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			IniciaTipos();
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 		}
 	}
 	
