@@ -386,8 +386,14 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 			list.add(loc);
 			agregaPuntos(loc, "nuevo", "nuevo punto");
 			mapController.animateTo(myLocationOverlay.getMyLocation());
+			Intent intent = new Intent(Mapa.this, Evento.class);
+			intent.putExtra("latitud", String.valueOf(loc.getLatitudeE6()));
+			intent.putExtra("longitud",String.valueOf(loc.getLongitudeE6()));
+			intent.putExtra("titulo", "nuevo");
+			intent.putExtra("descripcion", "nuevo punto");
+			startActivity(intent);
 		} catch (Exception exception) {
-
+			Toast.makeText(getBaseContext(), "Tu ubicacion actual no esta disponible", Toast.LENGTH_SHORT).show();
 		}
 
 	}
@@ -562,14 +568,11 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         	MapItemizedOverlay itemizedoverlay = new MapItemizedOverlay(drawable, mapView.getContext(), mapView);
         	
     		OverlayItem overlayItem = new OverlayItem(list, titulo, desc);
-    		Log.e("TT", "22 titulo completo = " + overlayItem.getTitle());
-    		Log.e("TT", "tamaño en mapoverlays = " + tamano);
     		if (overlayItem.getTitle().equalsIgnoreCase("nuevo")){
     			if (!itemTemporal){
     				itemTemporal = true;
     				
     				EventoTemporal.setControl(1);
-    				Log.v("pio", "eventotemporal = " + EventoTemporal.getControl());
     			}else{
     				EventoTemporal.setControl(1);
     				mapOverlays.remove(tamano - 1);
