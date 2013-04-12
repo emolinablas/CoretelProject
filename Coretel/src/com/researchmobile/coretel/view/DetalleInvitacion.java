@@ -18,7 +18,6 @@ import com.researchmobile.coretel.ws.RequestWS;
 
 public class DetalleInvitacion extends Activity implements OnClickListener{
 	
-	private TextView estadoTextView;
 	private TextView invitoTextView;
 	private TextView comunidadTextView;
 	private TextView fechaTextView;
@@ -43,7 +42,6 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 		setIdInvitacion((String)invitacion.get("idInvitacion"));
 		
 		setResquestWS(new RequestWS());
-		setEstadoTextView((TextView)findViewById(R.id.detalleinvitacion_estado_textview));
 		setInvitoTextView((TextView)findViewById(R.id.detalleinvitacion_invito_textview));
 		setComunidadTextView((TextView)findViewById(R.id.detalleinvitacion_comunidad_textview));
 		setFechaTextView((TextView)findViewById(R.id.detalleinvitacion_fecha_textview));
@@ -66,8 +64,11 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 			getRechazarButton().setVisibility(View.GONE);
 		}else if(estado.equalsIgnoreCase("3")){
 			estado = "Pendiente";
+		}else if(estado.equalsIgnoreCase("0")){
+			estado = "Aceptada";
+			getAceptarButton().setVisibility(View.GONE);
+			getRechazarButton().setVisibility(View.GONE);
 		}
-		estadoTextView.setText(estado);
 		invitoTextView.setText((String)invitacion.get("usuario"));
 		comunidadTextView.setText((String)invitacion.get("comunidad"));
 		fechaTextView.setText((String)invitacion.get("fecha"));
@@ -130,14 +131,6 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
    	 }
    	
     }
-
-	public TextView getEstadoTextView() {
-		return estadoTextView;
-	}
-
-	public void setEstadoTextView(TextView estadoTextView) {
-		this.estadoTextView = estadoTextView;
-	}
 
 	public TextView getInvitoTextView() {
 		return invitoTextView;
