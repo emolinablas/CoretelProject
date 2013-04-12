@@ -99,6 +99,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private TokenizerUtility tokenizer = new TokenizerUtility();
 	private RespuestaWS respuestaWS = new RespuestaWS();
+	private RespuestaWS respuesta;
 	
 	private ProgressDialog pd = null;
 	
@@ -107,6 +108,7 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.evento);
 		
+		respuesta = new RespuestaWS();
 		new ComunidadesAsync().execute("");
 		Bundle bundle = (Bundle)getIntent().getExtras();
 		String lat = bundle.getString("latitud");
@@ -341,7 +343,12 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 		// Metodo con las instrucciones al finalizar lo ejectuado en background
 		protected void onPostExecute(Integer resultado) {
 			pd.dismiss();
-			regresar();
+			if (respuesta != null){
+				Toast.makeText(getBaseContext(), respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
+				if (respuesta.isResultado()){
+					regresar();
+				}
+			}
 		}
 	}
 
@@ -504,12 +511,14 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			    String tipoAnotacion = TipoSeleccionado();
 			    String descripcion = getDescripcionTextView().getText().toString();
 			    String imagen = fotoReducida();
-				RespuestaWS respuesta = new RespuestaWS();
-				request.MandarEvento(getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
-				if (respuesta.isResultado()){
-					getMensaje().VerMensaje(this, respuesta.getMensaje());
-					regresar();
+				respuesta = new RespuestaWS();
+				if (!comunidad.equalsIgnoreCase("") && !tipoAnotacion.equalsIgnoreCase("") && !descripcion.equalsIgnoreCase("")){
+					respuesta = request.MandarEvento(getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
+				}else{
+					respuesta.setResultado(false);
+					respuesta.setMensaje("Debe llenar todos los campos");
 				}
+				
 			}
 		}catch(Exception exception){
 			Toast.makeText(getBaseContext(), "no tiene internet", Toast.LENGTH_SHORT).show();

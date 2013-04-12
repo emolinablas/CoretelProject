@@ -509,23 +509,18 @@ public class RequestWS {
 		return null;
 	}
 
-public void postConFoto(String url, List<NameValuePair> nameValuePairs) {
+public boolean postConFoto(String url, List<NameValuePair> nameValuePairs) {
     HttpClient httpClient = new DefaultHttpClient();
     HttpContext localContext = new BasicHttpContext();
     HttpPost httpPost = new HttpPost(url);
 
     try {
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-        Log.e("LOG", "Prueba envio foto 1");
-
         for(int index=0; index < nameValuePairs.size(); index++) {
             if(nameValuePairs.get(index).getName().equalsIgnoreCase("Filedata")) {
-            	// If the key equals to "image", we use FileBody to transfer the data
-                entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
+            	entity.addPart(nameValuePairs.get(index).getName(), new FileBody(new File (nameValuePairs.get(index).getValue())));
             } else {
-                // Normal string data
                 entity.addPart(nameValuePairs.get(index).getName(), new StringBody(nameValuePairs.get(index).getValue()));
-                Log.e("LOG", "Prueba envio foto 3");
             }
         }
 
@@ -534,17 +529,20 @@ public void postConFoto(String url, List<NameValuePair> nameValuePairs) {
 
         Log.e("LOG", "Prueba envio foto 5");
         HttpResponse response = httpClient.execute(httpPost, localContext);
+        
         Log.e("LOG", "Prueba envio foto 6, response = " + response.getParams());
         Log.e("LOG", "Prueba envio foto 6, response = " + response.hashCode());
         Log.e("LOG", "Prueba envio foto 6, response = " + response.getStatusLine());
+        return true;
         
     } catch (IOException e) {
         e.printStackTrace();
+        return false;
     }
 }
 	
 	public RespuestaWS MandarEvento(String latitud, String longitud, String idUsuario, String comunidad, String tipoAnotacion, String descripcion, String imagen) {
-		Log.v("pio", "imagen = " + imagen);
+		RespuestaWS respuesta = new RespuestaWS();
 		final List<NameValuePair> nombresArchivos = new ArrayList<NameValuePair>(2);
 		nombresArchivos.add(new BasicNameValuePair("usuario", idUsuario));
 		nombresArchivos.add(new BasicNameValuePair("comunidad", comunidad));
@@ -555,8 +553,14 @@ public void postConFoto(String url, List<NameValuePair> nameValuePairs) {
 		if (imagen != null){
 			nombresArchivos.add(new BasicNameValuePair("Filedata",Environment.getExternalStorageDirectory() + imagen) );
 		}
-		postConFoto("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
-		return null;
+		boolean resultado = postConFoto("http://23.23.1.2/WS/ws_crear_anotacion.php?", nombresArchivos);
+		respuesta.setResultado(resultado);
+		if (resultado){
+			respuesta.setMensaje("Envio exitoso");
+		}else{
+			respuesta.setMensaje("Problema al enviar ");
+		}
+		return respuesta;
 		
 	}
 	
