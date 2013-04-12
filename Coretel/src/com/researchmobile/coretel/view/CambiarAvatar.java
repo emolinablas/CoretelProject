@@ -57,12 +57,18 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View view) {
+		ConnectState conect = new ConnectState();
 		if (view == getCancelarButton()){
 			finish();
 		}else if (view == getCambiarButton()){
 			dialogFotos(this);
 		}else if (view == getGuardarButton()){
+			if(conect.isConnectedToInternet(this))
+			{
 			new guardarAsync().execute("");
+			}else{
+				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+			}
 		}
 		
 	}

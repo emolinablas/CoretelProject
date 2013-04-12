@@ -78,8 +78,13 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		setCatalogo(new CatalogoComunidad());
 		setCatalogoComunidad(new CatalogoComunidad());
 		setRequest(new RequestWS());
-		
+		ConnectState conect = new ConnectState();
+		if(conect.isConnectedToInternet(this))
+		{
 		new buscaComunidadesAsync().execute("");
+		}else{
+			Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
+		}
 		
 		if (!User.isModoTutorial()) {
 			Intent intent = new Intent(Comunidades.this,Comunidades_tutorial_1.class);
