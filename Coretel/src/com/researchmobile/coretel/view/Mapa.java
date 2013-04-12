@@ -239,19 +239,17 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	        Button verTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_vertutorial);
 	        verTutorial.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
-	            	User.setModoTutorial(true);
-	            	if(User.isModoTutorial()){
-	        			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
-	        			startActivity(intent);
-	        		}
-	                myDialog.dismiss();
+	            	User.setModoTutorial(false);
+	            	Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+	        		startActivity(intent);
+	        		myDialog.dismiss();
 	            }
 	        });
 
 	        Button noVerTutorial = (Button) myDialog.findViewById(R.id.dialog_tutorial_novertutorial);
 	        noVerTutorial.setOnClickListener( new OnClickListener() {
 	            public void onClick(View v) {
-	                User.setModoTutorial(false);  
+	                User.setModoTutorial(true);  
 	                myDialog.dismiss();
 	            }
 	        });
@@ -410,7 +408,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 				mapController.zoomIn();
 			}
 		} catch (Exception exception) {
-
+			Toast.makeText(getBaseContext(), "Tu ubicacion actual no esta disponible", Toast.LENGTH_SHORT).show();
 		}
 
 	}

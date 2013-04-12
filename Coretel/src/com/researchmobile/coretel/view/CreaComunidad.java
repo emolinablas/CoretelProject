@@ -53,7 +53,7 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		getGuardarButton().setOnClickListener( this);
 		getNombreEditText().setOnKeyListener(this);
 		getDescripcionEditText().setOnKeyListener(this);
-		if(User.isModoTutorial()){
+		if(!User.isModoTutorial()){
 			Intent intent = new Intent(CreaComunidad.this, Comunidades_tutorial_2.class);
 			startActivity(intent);
 		}
