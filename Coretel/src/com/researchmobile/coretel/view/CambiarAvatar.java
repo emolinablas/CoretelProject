@@ -138,14 +138,19 @@ public class CambiarAvatar extends Activity implements OnClickListener{
     	/**
     	 * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
     	 */
+    	Log.v("pio", "avatar. requestCode = " + requestCode);
     	if (requestCode == SELECT_PICTURE){
     		if (data != null){
 //    			origenAlbum = true;
+    			Log.v("pio", "avatar. album = " + resultCode);
     			setPathFoto(data.getData().getPath());
     			verImagenGaleria();
     		}
-    	}else if (data != null){
-    		verImagen();
+    	}else {
+    		if (resultCode < 0){
+    			Log.v("pio", "avatar. camara = " + resultCode);
+    			verImagen();
+    		}
     	}
     }
 
