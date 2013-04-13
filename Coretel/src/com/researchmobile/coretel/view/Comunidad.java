@@ -7,16 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -253,7 +250,8 @@ public class Comunidad extends Activity implements OnClickListener{
 				Toast.makeText(this, "No posee conexion a internet, intentelo mas tarde!", Toast.LENGTH_SHORT).show();
 			}
 		}else if (view == getComunidadesButton()){
-			finish();
+			Intent intent = new Intent(Comunidad.this, Comunidades.class);
+			startActivity(intent);
 		}else if (view == getEditarComunidad()){
 			Intent intent = new Intent(Comunidad.this, EditarComunidad.class);
 			intent.putExtra("comunidad", getDetalleComunidad());
@@ -299,6 +297,17 @@ public class Comunidad extends Activity implements OnClickListener{
         .show();
 
 	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	      if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	  Intent intent = new Intent(Comunidad.this, Comunidades.class);
+				startActivity(intent); 
+	            return true;
+	      }
+	      
+	      return super.onKeyDown(keyCode, event);
+	    }
+
 
 	public TextView getNombreTextView() {
 		return nombreTextView;

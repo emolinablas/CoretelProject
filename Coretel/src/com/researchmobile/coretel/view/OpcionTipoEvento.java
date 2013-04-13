@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
@@ -21,12 +22,12 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.tutorial.pasalo.TipoEvento_tutorial_1;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterTiposEventos;
-import com.researchmobile.coretel.view.TipoEvento.tiposAsync;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class OpcionTipoEvento extends Activity implements OnClickListener{
 	
 	private Button agregarButton;
+	private Button atrasButton;
 	private ListView tiposListView;
 	private String idComunidad;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
@@ -46,6 +47,8 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 		setIdComunidad((String)bundle.getString("idComunidad"));
 		setEsDuenno((boolean)bundle.getBoolean("esDuenno"));
 		setAgregarButton((Button)findViewById(R.id.opciontipoevento_agregar_button));
+		setAtrasButton((Button)findViewById(R.id.opciontipoevento_atras_button));
+		getAtrasButton().setOnClickListener(this);
 		getAgregarButton().setOnClickListener(this);
 		setTiposListView((ListView)findViewById(R.id.opciontipoevento_lista_listview));
 		
@@ -151,10 +154,27 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 		if (view == getAgregarButton()){
 			Intent intent = new Intent(OpcionTipoEvento.this, NuevoTipoEvento.class);
 			intent.putExtra("idComunidad", getIdComunidad());
-			intent.putExtra("activity", TipoEvento.class);
+			intent.putExtra("activity", OpcionTipoEvento.class);
+			startActivity(intent);
+		}else if (view == getAtrasButton()){
+			Intent intent = new Intent(OpcionTipoEvento.this, OpcionComunidades.class);
+			intent.putExtra("deOpcion", true);
 			startActivity(intent);
 		}
 	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(OpcionTipoEvento.this,
+					OpcionComunidades.class);
+			intent.putExtra("deOpcion", true);
+			startActivity(intent);
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
 	public Button getAgregarButton() {
 		return agregarButton;
 	}
@@ -198,6 +218,14 @@ public class OpcionTipoEvento extends Activity implements OnClickListener{
 
 	public void setConnectState(ConnectState connectState) {
 		this.connectState = connectState;
+	}
+
+	public Button getAtrasButton() {
+		return atrasButton;
+	}
+
+	public void setAtrasButton(Button atrasButton) {
+		this.atrasButton = atrasButton;
 	}
 	
 }

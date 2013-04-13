@@ -13,6 +13,15 @@
         android:background="@drawable/background_footer_iphone"
         android:gravity="left|center"
         android:orientation="horizontal" >
+        
+           <Button
+                android:id="@+id/opciontipoevento_atras_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Atras"
+                android:textColor="#ffffff"
+                android:textSize="10dp" />
 
         <TextView
             android:id="@+id/textView1"

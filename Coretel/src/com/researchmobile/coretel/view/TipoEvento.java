@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -162,8 +163,24 @@ public class TipoEvento extends Activity implements OnClickListener{
 			DetalleComunidad detalleComunidad = req.DetalleComunidad(getIdComunidad());
 			Intent intent = new Intent(TipoEvento.this, Comunidad.class);
 			intent.putExtra("detallecomunidad", detalleComunidad);
+			intent.putExtra("idComunidad", getIdComunidad());
+			intent.putExtra("esDuenno", esDuenno);
 			startActivity(intent);
 		}
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			RequestWS req = new RequestWS();
+			DetalleComunidad detalleComunidad = req.DetalleComunidad(getIdComunidad());
+			Intent intent = new Intent(TipoEvento.this, Comunidad.class);
+			intent.putExtra("detallecomunidad", detalleComunidad);
+			intent.putExtra("idComunidad", getIdComunidad());
+			intent.putExtra("esDuenno", esDuenno);
+			startActivity(intent);
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 	public Button getAgregarButton() {
 		return agregarButton;

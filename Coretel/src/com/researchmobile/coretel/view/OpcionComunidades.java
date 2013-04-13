@@ -5,40 +5,28 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
-import com.researchmobile.coretel.entity.CatalogoMiembro;
 import com.researchmobile.coretel.entity.CatalogoTipoAnotacion;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.User;
-import com.researchmobile.coretel.tutorial.pasalo.Comunidades_tutorial_1;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterComunidad;
-import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class OpcionComunidades extends Activity implements OnClickListener, OnItemClickListener{
@@ -284,6 +272,17 @@ private void dialogComunidades(){
 			AgregarComunidad();
 		}
 		
+	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			Intent intent = new Intent(OpcionComunidades.this,Mapa.class);
+			intent.putExtra("deOpcion", true);
+			startActivity(intent);
+			return true;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 	public ListView getComunidadesListView() {

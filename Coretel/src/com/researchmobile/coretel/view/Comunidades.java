@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -426,6 +427,16 @@ private void dialogComunidades(){
 		}
 		
 	}
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	      if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            // Preventing default implementation previous to android.os.Build.VERSION_CODES.ECLAIR     
+	            return true;
+	      }
+	      
+	      return super.onKeyDown(keyCode, event);
+	    }
+
 
 	private void explorarComunidades(){
 		Intent intent = new Intent(Comunidades.this, ComunidadesTodas.class);
