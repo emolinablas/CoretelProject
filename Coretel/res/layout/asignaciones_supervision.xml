@@ -86,7 +86,7 @@
                     android:id="@+id/asignaciones_creacion_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textColorHint="#ffffff" />
             </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:id="@+id/asignaciones_asignacion_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textColorHint="#ffffffff" />
             </LinearLayout>
 
@@ -130,7 +130,7 @@
                     android:id="@+id/asignaciones_resuelto_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textColorHint="#ffffff" />
             </LinearLayout>
 

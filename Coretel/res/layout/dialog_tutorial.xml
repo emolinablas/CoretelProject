@@ -7,44 +7,58 @@
 
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Tutorial"
+        android:textSize="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:textSize="18dp"
         android:layout_height="wrap_content"
         android:text="¿Desea activar el modo tutorial?"/>
     
     <Button
         android:id ="@+id/dialog_tutorial_vertutorial"
-        android:layout_width ="250dp"
+        android:layout_width ="match_parent"
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
         android:layout_marginTop ="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background ="@drawable/boton_background"
+        android:textSize="18dp"
         android:text ="Si" >
     </Button >
    
     <Button
         android:id ="@+id/dialog_tutorial_novertutorial"
-        android:layout_width ="250dp"
+        android:layout_width ="match_parent"
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
-        android:layout_marginTop ="15dp"
+        android:layout_marginTop ="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background ="@drawable/boton_background"
+        android:textSize="18dp"
         android:text ="Ahora no" >
     </Button >
    
     <Button
         android:id ="@+id/dialog_tutorial_nuncaver"
-        android:layout_width ="250dp"
+        android:layout_width ="match_parent"
         android:layout_height ="wrap_content"
         android:layout_gravity ="center_horizontal"
         android:layout_marginTop ="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
         android:background ="@drawable/boton_background"
+        android:textSize="18dp"
         android:text ="No ofrecer nunca" >
     </Button >
     

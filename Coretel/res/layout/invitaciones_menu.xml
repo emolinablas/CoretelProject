@@ -25,7 +25,7 @@
             android:background="@drawable/item_menu_back"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingLeft="15dp" >
+            android:paddingLeft="5dp" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -90,8 +90,8 @@
 
                 <ImageView
                     android:id="@+id/menuViewButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:clickable="true"
                     android:contentDescription="Descripcion"
                     android:src="@drawable/menu_icon"

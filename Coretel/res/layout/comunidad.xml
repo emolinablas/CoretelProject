@@ -152,7 +152,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:text="ToggleButton" />
+                            android:text="ToggleButton"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -191,6 +191,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/button_background_clear"
                     android:text="Miembros"
+                    android:textSize="18dp"
                     android:textColor="#000000" />
                 
                 <Button
@@ -200,6 +201,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/button_background_clear"
                     android:text="Eventos"
+                    android:textSize="18dp"
                     android:textColor="#000000" />
                 
                 <Button
@@ -209,6 +211,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/button_background_clear"
                     android:text="Tipos de Evento"
+                    android:textSize="18dp"
                     android:textColor="#000000" />
 
                 <Button
@@ -218,6 +221,7 @@
                     android:layout_margin="5dp"
                     android:background="@drawable/button_background_clear"
                     android:text="Eliminar"
+                    android:textSize="18dp"
                     android:textColor="#000000" />
             </LinearLayout>
 

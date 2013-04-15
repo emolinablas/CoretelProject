@@ -19,7 +19,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="0dp" 
-                android:paddingLeft="15dp"             
+                android:paddingLeft="5dp"             
                 android:gravity="center_vertical"
                 android:background="@drawable/item_menu_back"
                 android:orientation="vertical">
@@ -90,8 +90,8 @@
 
 		            <ImageView
 		                android:id="@+id/menuViewButton"
-		                android:layout_width="30dp"
-		                android:layout_height="30dp"
+		                android:layout_width="40dp"
+		                android:layout_height="40dp"
 		                android:clickable="true"
 		                android:contentDescription="Descripcion"
 		                android:src="@drawable/menu_icon"
