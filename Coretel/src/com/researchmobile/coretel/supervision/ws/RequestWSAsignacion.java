@@ -58,6 +58,8 @@ public class RequestWSAsignacion {
 		UserAsignacion.setIdTipoUsuario(id.getString("id_tipo_usuario"));
 		UserAsignacion.setActivo(id.getString("activo"));
 		UserAsignacion.setIdPadre(id.getString("id_padre"));
+		UserAsignacion.setAvatar(id.getString("avatar"));
+		UserAsignacion.setNombreUsuario(id.getString("nombre"));
 		Log.v("pio", "id user = " + UserAsignacion.getUserId());
 		System.out.println("Resultado = " + respuesta);
 		return respuesta;

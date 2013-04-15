@@ -17,9 +17,17 @@ public class UserAsignacion implements Serializable{
 	private static String nivel;
 	private static String superUsuario;
 	private static String supervisorUsuario;
+	private static String nombreUsuario;
 	private static boolean modotutorialsupervision;
 	
 	
+	
+	public static String getNombreUsuario() {
+		return nombreUsuario;
+	}
+	public static void setNombreUsuario(String nombreUsuario) {
+		UserAsignacion.nombreUsuario = nombreUsuario;
+	}
 	public static boolean isModotutorialsupervision() {
 		return modotutorialsupervision;
 	}
