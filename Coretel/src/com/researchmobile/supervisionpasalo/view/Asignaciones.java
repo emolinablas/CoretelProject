@@ -73,14 +73,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setContentView(R.layout.listas_supervision);
 			Bundle bundle = getIntent().getExtras();
 			setCatalogoAsignacion((CatalogoAsignacion)bundle.get("catalogo"));
-			//MODO TUTORIAL
-			/*
-			UserAsignacion.setModotutorialsupervision(true);
-			if(UserAsignacion.isModotutorialsupervision()){
-				Intent intent = new Intent(Asignaciones.this, Asignaciones_Tutorial_1.class);
-				startActivity(intent);
-			}
-			*/
+			
 			setCreacionTextView((TextView)findViewById(R.id.asignaciones_creacion_textview));
 			setAsignacionTextView((TextView)findViewById(R.id.asignaciones_asignacion_textview));
 			setResueltoTextView((TextView)findViewById(R.id.asignaciones_resuelto_textview));
@@ -198,17 +191,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 				intentMapa.putExtra("asingaciones", getCatalogoAsignacion());
 				intentMapa.putExtra("latitud", latitud);
 				intentMapa.putExtra("longitud", longitud);
-				//MODO TUTORIAL
-				UserAsignacion.setModotutorialsupervision(true);
-				if(UserAsignacion.isModotutorialsupervision()){
-					Intent intent = new Intent(Asignaciones.this, Asignaciones_Tutorial_1.class);
-					startActivity(intent);
-				}
 				break;
-
 			case 1:
-				
-			case 2:
 				Intent intentCerrar = new Intent(Asignaciones.this, LoginRecibelo.class);
 				startActivity(intentCerrar);
 				break;

@@ -385,7 +385,5 @@ protected void onPostExecute(Integer resultado) {
 	public void setCargarPuntos(boolean cargarPuntos) {
 		this.cargarPuntos = cargarPuntos;
 	}
-	
-
-	
+		
 }
