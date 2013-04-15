@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -52,6 +53,7 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private MapItemizedOverlaySelect itemizedoverlay;
 	private CatalogoAnotacion catalogoAnotacion;
 	
+	
 	private String latitudSeleccionado;
 	private String longitudSeleccionado;
 	private float latSeleccionado;
@@ -67,6 +69,8 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 	private RelativeLayout menuPanel;
 	private int panelWidth;
 	private ImageView menuViewButton;
+	private ImageView avatarImageView;
+	private TextView nombreUsuarioTextView;
 	private ListView lView;
 	private ProgressDialog pd = null;
 	private CatalogoComunidad catalogoComunidad;
@@ -86,6 +90,14 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapasupervision);
         setRequestWSAsignacion(new RequestWSAsignacion());
+        
+        setNombreUsuarioTextView((TextView)findViewById(R.id.mapasupervision_menu_title_1));
+        setAvatarImageView((ImageView)findViewById(R.id.mapasupervision_avatar));
+      //AVATAR EN MENU
+    	
+    	animationMenu(); 
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+    	getAvatarImageView().setImageBitmap(image);
         
         new buscaAnotacionesAsync().execute("");
     }
@@ -461,9 +473,8 @@ private void animationMenu(){
 	      }
 	      
 	      return super.onKeyDown(keyCode, event);
-  }
-
-
+  }	
+		
 	public String getLatitudSeleccionado() {
 		return latitudSeleccionado;
 	}
@@ -512,7 +523,26 @@ private void animationMenu(){
 	public void setCargarPuntos(boolean cargarPuntos) {
 		this.cargarPuntos = cargarPuntos;
 	}
-	
 
+
+	public ImageView getAvatarImageView() {
+		return avatarImageView;
+	}
+
+
+	public void setAvatarImageView(ImageView avatarImageView) {
+		this.avatarImageView = avatarImageView;
+	}
+
+
+	public TextView getNombreUsuarioTextView() {
+		return nombreUsuarioTextView;
+	}
+
+
+	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+		this.nombreUsuarioTextView = nombreUsuarioTextView;
+	}
+	
 	
 }

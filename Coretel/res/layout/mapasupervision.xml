@@ -13,9 +13,33 @@
            android:gravity="right"
            android:background="@drawable/gray_bg"
            android:orientation="vertical" >
+           
+        <LinearLayout 
+            android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp" 
+                android:paddingLeft="15dp"             
+                android:gravity="center_vertical"
+                android:background="@drawable/item_menu_back"
+                android:orientation="vertical">
+            
+            <LinearLayout 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center">
+                
+                <ImageView
+                    android:id="@+id/mapasupervision_avatar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/camera" />
        
             <TextView
-                android:id="@+id/menu_title_1"
+                android:id="@+id/mapasupervision_menu_title_1"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
@@ -24,9 +48,10 @@
                 android:gravity="center_vertical"
                 android:background="#353535"
                 android:textColor="@android:color/white"
-                android:text="MENU">     
+                >    
             </TextView>
-               
+            </LinearLayout>
+            
             <ListView
 		            android:id="@+id/lista"
 		            android:layout_width="match_parent"
@@ -34,9 +59,8 @@
 		            android:divider="#b5b5b5"
 		            android:dividerHeight="0.5dp"
 		            android:background="#381E10"/>
-                       
-       </RelativeLayout>
-            
+            </LinearLayout>
+            </RelativeLayout>
        <!-- Sliding Panel -->     
 
 		<LinearLayout
@@ -118,7 +142,7 @@
 		            android:textColor="#ffffff" />
 
 		    </RelativeLayout>
-
+       
 		</LinearLayout>
 
 </FrameLayout>
