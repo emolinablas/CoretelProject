@@ -11,175 +11,182 @@
     <!-- BODY -->
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background_asignaciones"
-        android:minHeight="5sp"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_asignacion" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background_iphone_gray" >
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#d53f34"
+            android:orientation="vertical"
+            android:padding="10dp" >
 
             <TextView
-                style="@style/Text.Value"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:layout_width="15dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.63"
                 android:text="Estado"
-                android:textColor="#ffffff" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#631d18"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="5sp"
+            android:orientation="vertical"
+            android:paddingLeft="10dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
 
-                <ImageView
-                    android:id="@+id/asignaciones_estado_imageview"
-                    android:layout_width="wrap_content"
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right" />
+                    android:text="Estado"
+                    android:textColor="#adacb5" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/asignaciones_estado_imageview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right" />
+                </LinearLayout>
             </LinearLayout>
 
-        </LinearLayout>
-    <!-- espacio de creacion -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minHeight="5sp"
+                android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:minHeight="5sp"
-        android:orientation="horizontal" >
-    
-        <TextView
-            style="@style/Text.Value"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Creacion:"
-            android:textColor="#ffffff" />
-        
-        <TextView
-            android:id="@+id/asignaciones_creacion_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edittext_gray"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Creado:"
+                    android:textColor="#adacb5" />
 
-        </LinearLayout>
-  
-    <!-- espacio de asignacion -->
+                <TextView
+                    android:id="@+id/asignaciones_creacion_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#ffffff" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:minHeight="5sp"
-        android:orientation="horizontal" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:minHeight="5sp"
+                android:orientation="horizontal" >
 
-        <TextView
-            style="@style/Text.Value"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Asignacion:"
-            android:textColor="#ffffff" />
-        
-        <TextView
-            android:id="@+id/asignaciones_asignacion_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edittext_gray"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffffff" />
-        
-        </LinearLayout>
-  <!-- espacio de resuelto -->
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Asignado:"
+                    android:textColor="#adacb5" />
 
-    	<LinearLayout
-    	    android:layout_width="match_parent"
-    	    android:layout_height="wrap_content"
-    	    android:layout_marginTop="5dp"
-    	    android:minHeight="5sp"
-    	    android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/asignaciones_asignacion_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#ffffffff" />
+            </LinearLayout>
 
-        <TextView
-            style="@style/Text.Value"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Resuelto:"
-            android:textColor="#ffffff" />
-        
-        <TextView
-            android:id="@+id/asignaciones_resuelto_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edittext_gray"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:minHeight="5sp"
+                android:orientation="horizontal" >
 
-        </LinearLayout>
-        
-    	<!-- espacio de comunidad -->
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Resuelto:"
+                    android:textColor="#adacb5" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/background_textview"
-        android:minHeight="5sp"
-        android:orientation="horizontal" >
+                <TextView
+                    android:id="@+id/asignaciones_resuelto_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textColorHint="#ffffff" />
+            </LinearLayout>
 
-        <TextView
-            style="@style/Text.Value"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Comunidad:"
-            android:textColor="#000000" />
-        
-        <TextView
-        android:id="@+id/asignaciones_comunidad_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="comunidad"
-        />
-        </LinearLayout>
-    <!-- espacio de tipo -->    
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:minHeight="5sp"
+                android:orientation="horizontal" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/background_textview"
-        android:minHeight="5sp"
-        android:orientation="horizontal" >
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Comunidad:"
+                    android:textColor="#adacb5" />
 
-        <TextView
-            style="@style/Text.Value"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="Tipo:"
-            android:textColor="#000000" />
-        
-        <TextView
-        android:id="@+id/asignaciones_tipo_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tipo"
-        />
-        
-        <TextView
-        android:id="@+id/asignaciones_latitud"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        />
-        
-        <TextView
-        android:id="@+id/asignaciones_longitud"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        />
-        
+                <TextView
+                    android:id="@+id/asignaciones_comunidad_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="comunidad"
+                    android:textColor="#000000" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:minHeight="5sp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/Text.Value"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo:"
+                    android:textColor="#adacb5" />
+
+                <TextView
+                    android:id="@+id/asignaciones_tipo_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="tipo"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/asignaciones_latitud"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:id="@+id/asignaciones_longitud"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
