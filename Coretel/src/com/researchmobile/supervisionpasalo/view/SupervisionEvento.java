@@ -102,7 +102,8 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 				{
 					Responder();
 				}else if(view == getRegresarButton()){
-					Retorno();
+					//Retorno();
+					finish();
 				}
 			}
 			
@@ -219,6 +220,7 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 			intent.putExtra("latitud", latitud);
 			intent.putExtra("longitud", longitud);
 			intent.putExtra("cargarPuntos", false);
+			startActivity(intent);
 		}
 
 		public TextView getFechaTextView() {
