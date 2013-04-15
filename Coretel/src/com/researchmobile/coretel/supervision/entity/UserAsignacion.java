@@ -86,6 +86,8 @@ public class UserAsignacion implements Serializable{
 	public static void setTelefono(String telefono) {
 		UserAsignacion.telefono = telefono;
 	}
+	
+	
 	public static String getAvatar() {
 		return avatar;
 	}

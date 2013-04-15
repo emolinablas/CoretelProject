@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.Mensaje;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
+import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.view.Principal;
 import com.researchmobile.coretel.view.R;
 
@@ -43,6 +44,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 	private boolean logeado;
 	private RequestWSAsignacion requestWSAsignacion;
 	private AlertDialog.Builder dialogActiveGPS = null;
+	private RMFile rmFile = new RMFile();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +151,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 			RequestWSAsignacion request = new RequestWSAsignacion();
 			 if(request.LoginRecibelo(getUser()))
 			 {
+				 rmFile.downloadImage(UserAsignacion.getAvatar());
 				 setLogeado(true);
 				 return true;
 			 }else{

@@ -92,11 +92,12 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
         setRequestWSAsignacion(new RequestWSAsignacion());
         
         setNombreUsuarioTextView((TextView)findViewById(R.id.mapasupervision_menu_title_1));
+        getNombreUsuarioTextView().setText(UserAsignacion.getNombreUsuario());
         setAvatarImageView((ImageView)findViewById(R.id.mapasupervision_avatar));
       //AVATAR EN MENU
     	
     	animationMenu(); 
-    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + UserAsignacion.getAvatar());
     	getAvatarImageView().setImageBitmap(image);
         
         new buscaAnotacionesAsync().execute("");
