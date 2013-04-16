@@ -11,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.researchmobile.coretel.view.R;
 
-public class MyAdapterAsignaciones extends BaseAdapter {
+public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 	protected Activity activity;
 	protected ArrayList<HashMap<String, String>> data;
+	protected ArrayList<HashMap<String, String>> fitems;
 	protected Drawable estadoDrawable;
+	private Filter filter;
 	
 	public MyAdapterAsignaciones(Activity activity, ArrayList<HashMap<String, String>> data) {
 		this.activity = activity;
@@ -84,5 +88,70 @@ public class MyAdapterAsignaciones extends BaseAdapter {
 		
 		return vi;
 	}
+
+	@Override
+	public Filter getFilter() {
+		if (filter == null)
+	        filter = new PkmnNameFilter();
+
+	    return filter;
+	}
+	
+	private class PkmnNameFilter extends Filter
+	{
+	        @Override
+	        protected FilterResults performFiltering(CharSequence constraint)
+	        {   
+	            FilterResults results = new FilterResults();
+	            String prefix = constraint.toString().toLowerCase();
+
+	            if (prefix == null || prefix.length() == 0)
+	            {
+	                ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>(data);
+	                results.values = list;
+	                results.count = list.size();
+	            }
+	            else
+	            {
+	                final ArrayList<HashMap<String, String>> list = data;
+
+	                int count = list.size();
+	                final ArrayList<HashMap<String, String>> nlist = new ArrayList<HashMap<String, String>>(count);
+
+	                for (int i=0; i<count; i++)
+	                {
+	                    final HashMap<String, String> pkmn = list.get(i);
+	                    final String value = pkmn.get("asignacion").toLowerCase();
+
+	                    if (value.startsWith(prefix))
+	                    {
+	                        nlist.add(pkmn);
+	                    }
+	                }
+	                results.values = nlist;
+	                results.count = nlist.size();
+	            }
+	            return results;
+	        }
+
+	        @SuppressWarnings("unchecked")
+	        @Override
+	        protected void publishResults(CharSequence constraint, FilterResults results) {
+	            fitems = (ArrayList<HashMap<String, String>>)results.values;
+	            fitems.clear();
+	            int count = fitems.size();
+	            for (int i=0; i<count; i++)
+	            {
+	            	HashMap<String, String> pkmn = (HashMap<String, String>)fitems.get(i);
+	                fitems.add(pkmn);
+	            }
+
+	            if (fitems.size() > 0)
+	                notifyDataSetChanged();
+	            else
+	                notifyDataSetInvalidated();
+	        }
+
+	    }
 
 }

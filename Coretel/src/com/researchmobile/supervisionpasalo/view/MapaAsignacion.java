@@ -93,9 +93,9 @@ public class MapaAsignacion extends MapActivity implements OnItemClickListener{
         setLatitudSeleccionado(bundle.getString("latitud"));
         setLongitudSeleccionado(bundle.getString("longitud"));
         
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
-        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
-		lView.setAdapter(adapterMenu);
+//        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+//        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+//		lView.setAdapter(adapterMenu);
         
         Log.v("pio", "inicializando mapa en MapaAsignacion");
         setCargarPuntos(bundle.getBoolean("cargarPuntos"));
