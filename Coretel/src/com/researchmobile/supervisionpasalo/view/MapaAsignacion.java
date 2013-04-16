@@ -39,6 +39,7 @@ import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoComunidad;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
+import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.view.R;
 
 public class MapaAsignacion extends MapActivity implements OnItemClickListener{
@@ -91,6 +92,10 @@ public class MapaAsignacion extends MapActivity implements OnItemClickListener{
         setLonSeleccionado((float)bundle.getFloat("longitud"));
         setLatitudSeleccionado(bundle.getString("latitud"));
         setLongitudSeleccionado(bundle.getString("longitud"));
+        
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
         
         Log.v("pio", "inicializando mapa en MapaAsignacion");
         setCargarPuntos(bundle.getBoolean("cargarPuntos"));

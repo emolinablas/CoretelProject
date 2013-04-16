@@ -42,6 +42,7 @@ import com.researchmobile.coretel.supervision.entity.CatalogoComunidad;
 import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
+import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.view.R;
 
 public class MapaSupervision extends MapActivity implements OnItemClickListener{
@@ -117,8 +118,8 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 
       lView = (ListView) findViewById(R.id.lista);
       // Set option as Multiple Choice. So that user can able to select more the one option from list
-      lView.setAdapter(new ArrayAdapter<String>(this,
-      android.R.layout.simple_list_item_1, lv_items));
+      MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
       lView.setOnItemClickListener(this);
       animationMenu();
         

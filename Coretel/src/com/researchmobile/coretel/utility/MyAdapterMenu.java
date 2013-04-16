@@ -51,20 +51,34 @@ public class MyAdapterMenu extends BaseAdapter {
 		TextView opcion = (TextView) vi.findViewById(R.id.list_menu_opcion);
 		opcion.setText(item);
 		ImageView icono = (ImageView) vi.findViewById(R.id.list_menu_icono);
-		if (getItemId(position) == 0){
-			icono.setImageResource(R.drawable.map_icon);
-		}else if (getItemId(position) == 1){
-			icono.setImageResource(R.drawable.comunidades_icon);
-			icono.setMaxHeight(5);
-		}else if (getItemId(position) == 2){
-			icono.setImageResource(R.drawable.invitaciones_icon);
-		}else if (getItemId(position) == 3){
-			icono.setImageResource(R.drawable.perfil_icon);
-		}else if (getItemId(position) == 4){
-			icono.setImageResource(R.drawable.chat_icon);
-		}else if (getItemId(position) == 5){
-			icono.setImageResource(R.drawable.salir_icon);
+		
+		if (data.length > 3){
+			if (getItemId(position) == 0){
+				icono.setImageResource(R.drawable.map_icon);
+			}else if (getItemId(position) == 1){
+				icono.setImageResource(R.drawable.comunidades_icon);
+				icono.setMaxHeight(5);
+			}else if (getItemId(position) == 2){
+				icono.setImageResource(R.drawable.invitaciones_icon);
+			}else if (getItemId(position) == 3){
+				icono.setImageResource(R.drawable.perfil_icon);
+			}else if (getItemId(position) == 4){
+				icono.setImageResource(R.drawable.chat_icon);
+			}else if (getItemId(position) == 5){
+				icono.setImageResource(R.drawable.salir_icon);
+			}
+		}else{
+			if (getItemId(position) == 0){
+				icono.setImageResource(R.drawable.map_icon);
+			}else if (getItemId(position) == 1){
+				icono.setImageResource(R.drawable.menu_icon);
+				icono.setMaxHeight(5);
+			}else if (getItemId(position) == 2){
+				icono.setImageResource(R.drawable.salir_icon);
+			}
 		}
+		
+		
 		
 		return vi;
 	}
