@@ -17,6 +17,7 @@
         android:background="@drawable/background_asignacion" >
 
         <LinearLayout
+            android:id="@+id/asignaciones_layout_estado"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#d53f34"
@@ -24,7 +25,7 @@
             android:padding="10dp" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/estado_asignacion"
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.63"
