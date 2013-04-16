@@ -47,6 +47,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private AnotacionAsignacion anotacionAsignacion;
 	private ArrayList<HashMap<String, Object>> asignacionaesList;
 	private MyAdapterAsignaciones adapterAsignaciones;
+	private LinearLayout estadoLayout;
 	
 	//Declare to menu
 	private LinearLayout slidingPanel;
@@ -60,6 +61,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private EditText buscarEditText;
 	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
+	private TextView estadoEtiqueta;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
@@ -84,6 +86,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setListadoListView((ListView)findViewById(R.id.asignaciones_lista));
 			setBuscarEditText((EditText)findViewById(R.id.asignaciones_buscar_edittext));
 			getBuscarEditText().addTextChangedListener(this);
+			setEstadoLayout((LinearLayout)findViewById(R.id.asignaciones_layout_estado));
+			setEstadoEtiqueta((TextView)findViewById(R.id.estado_asignacion));
 			
 			setNombreUsuarioTextView((TextView)findViewById(R.id.asignaciones_menu_title_1));
 	        getNombreUsuarioTextView().setText(UserAsignacion.getNombreUsuario());
@@ -542,6 +546,22 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 
 		public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 			this.nombreUsuarioTextView = nombreUsuarioTextView;
+		}
+
+		public LinearLayout getEstadoLayout() {
+			return estadoLayout;
+		}
+
+		public void setEstadoLayout(LinearLayout estadoLayout) {
+			this.estadoLayout = estadoLayout;
+		}
+
+		public TextView getEstadoEtiqueta() {
+			return estadoEtiqueta;
+		}
+
+		public void setEstadoEtiqueta(TextView estadoEtiqueta) {
+			this.estadoEtiqueta = estadoEtiqueta;
 		}
 
 		
