@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -30,9 +31,8 @@ import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoAsignacion;
 import com.researchmobile.coretel.supervision.entity.UserAsignacion;
 import com.researchmobile.coretel.supervision.utility.MyAdapterAsignaciones;
+import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.view.R;
-import com.researchmobile.supervisionpasalo.tutorial.Asignaciones_Tutorial_1;
-import com.researchmobile.supervisionpasalo.tutorial.SupervisionRespuesta_Tutorial_3;
 
 public class Asignaciones extends Activity implements OnItemClickListener, TextWatcher{
 
@@ -58,6 +58,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private ImageView menuViewButton;
 	private ListView lView;
 	private EditText buscarEditText;
+	private ImageView avatarImageView;
+	private TextView nombreUsuarioTextView;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
@@ -83,6 +85,15 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setBuscarEditText((EditText)findViewById(R.id.asignaciones_buscar_edittext));
 			getBuscarEditText().addTextChangedListener(this);
 			
+			setNombreUsuarioTextView((TextView)findViewById(R.id.asignaciones_menu_title_1));
+	        getNombreUsuarioTextView().setText(UserAsignacion.getNombreUsuario());
+	        setAvatarImageView((ImageView)findViewById(R.id.asignaciones_avatar));
+	      //AVATAR EN MENU
+	    	
+	    	animationMenu(); 
+	    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + UserAsignacion.getAvatar());
+	    	getAvatarImageView().setImageBitmap(image);
+			
 			/***
 	         * MENU
 	         */
@@ -91,8 +102,8 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 
 	      lView = (ListView) findViewById(R.id.lista);
 	      // Set option as Multiple Choice. So that user can able to select more the one option from list
-	      lView.setAdapter(new ArrayAdapter<String>(this,
-	      android.R.layout.simple_list_item_1, lv_items));
+	      MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+			lView.setAdapter(adapterMenu);
 	      lView.setOnItemClickListener(this);
 	      
 
@@ -182,26 +193,46 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 		    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
 	    }
 
+	    
 	    private void opcionesMenu(int opcion){
 			switch(opcion){
 			case 0:
-				float latitud = (float) 14.627853;
-				float longitud = (float) -90.516584;
-				Intent intentMapa = new Intent(Asignaciones.this, MapaSupervision.class);
-				intentMapa.putExtra("asingaciones", getCatalogoAsignacion());
-				intentMapa.putExtra("latitud", latitud);
-				intentMapa.putExtra("longitud", longitud);
+				Intent intent = new Intent(Asignaciones.this, MapaSupervision.class);
+				startActivity(intent);
 				break;
 			case 1:
+				
+				break;
+			case 2:
 				Intent intentCerrar = new Intent(Asignaciones.this, LoginRecibelo.class);
 				startActivity(intentCerrar);
 				break;
 	        default:
-	        	
 	            break;
 
 			}
 		}
+	    
+//	    private void opcionesMenu(int opcion){
+//			switch(opcion){
+//			case 0:
+//				float latitud = (float) 14.627853;
+//				float longitud = (float) -90.516584;
+//				Intent intentMapa = new Intent(Asignaciones.this, MapaSupervision.class);
+//				intentMapa.putExtra("asingaciones", getCatalogoAsignacion());
+//				intentMapa.putExtra("latitud", latitud);
+//				intentMapa.putExtra("longitud", longitud);
+//				break;
+//			case 1:
+//				Intent intentCerrar = new Intent(Asignaciones.this, LoginRecibelo.class);
+//				startActivity(intentCerrar);
+//				break;
+//	        default:
+//	        	
+//	            break;
+//
+//			}
+//		}
 	    
 	    @Override
 		public void onItemClick(AdapterView<?> adapter, View arg1, int position, long arg3) {
@@ -495,6 +526,22 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 
 		public void setAdapterAsignaciones(MyAdapterAsignaciones adapterAsignaciones) {
 			this.adapterAsignaciones = adapterAsignaciones;
+		}
+
+		public ImageView getAvatarImageView() {
+			return avatarImageView;
+		}
+
+		public void setAvatarImageView(ImageView avatarImageView) {
+			this.avatarImageView = avatarImageView;
+		}
+
+		public TextView getNombreUsuarioTextView() {
+			return nombreUsuarioTextView;
+		}
+
+		public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
+			this.nombreUsuarioTextView = nombreUsuarioTextView;
 		}
 
 		
