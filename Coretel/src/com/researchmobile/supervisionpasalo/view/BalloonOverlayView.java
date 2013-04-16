@@ -54,8 +54,7 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 					{
 						layout.setVisibility(GONE);
 					}
-					//PREGUNTAR AQUI ESTABA EVENTO.CLASS
-					Intent intent = new Intent(context, SupervisionEvento.class);
+					Intent intent = new Intent(context, SupervisionRespuesta.class);					
 					intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
 					intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
 					intent.putExtra("titulo", getMiItem().getTitle());

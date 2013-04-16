@@ -32,6 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoSupervisor;
 import com.researchmobile.coretel.supervision.entity.RespuestaWS;
 import com.researchmobile.coretel.supervision.entity.Supervisor;
@@ -41,8 +42,6 @@ import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervisio
 import com.researchmobile.coretel.supervision.ws.RequestWS;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.view.R;
-import com.researchmobile.supervisionpasalo.tutorial.SupervisionEvento_Tutorial_2;
-import com.researchmobile.supervisionpasalo.tutorial.SupervisionRespuesta_Tutorial_3;
 
 public class SupervisionRespuesta extends Activity implements OnClickListener {
 	
@@ -50,6 +49,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private static int TAKE_PICTURE = 1;
 	private static int SELECT_PICTURE = 2;
 
+	private TextView ordenTextView;
 	private EditText respuestaEditText;
 	private TextView estadoTextView;
 	private Button capturarButton;
@@ -65,6 +65,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private ProgressDialog pd = null;
 	private RequestWS requestWS = new RequestWS();
 	private RespuestaWS respuesta;
+	private RequestWSAsignacion requestWSAsignacion;
 	private String idReasignado;
 	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
 	private CatalogoSupervisor catalogoSupervisor;
@@ -73,6 +74,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			super.onCreate(savedInstanceState);
 			requestWindowFeature(Window.FEATURE_NO_TITLE);
 			setContentView(R.layout.supervision_respuesta);
+			setRequestWSAsignacion(new RequestWSAsignacion());
 			
 			Bundle bundle = getIntent().getExtras();
 			setDescripcion(bundle.getString("descripcion"));
@@ -85,8 +87,15 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 				startActivity(intent);
 			}
 			*/
-			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
 			setRespuesta(new RespuestaWS());
+			
+			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
+			//getRespuestaEditText().setText(tokenizer.asignacionDescripcion(getTitulo()));
+			getRespuestaEditText().setText(AnotacionAsignacion.getAsignacionDescripcion());
+			setOrdenTextView((TextView)findViewById(R.id.supervisionrespuesta_ordenTextView));
+			getOrdenTextView().setText(AnotacionAsignacion.getOrden());
+			//getOrdenTextView().setText(tokenizer.orden(getTitulo()));
+			
 			
 			setCatalogoSupervisor(new CatalogoSupervisor());
 			
@@ -105,6 +114,12 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			
 		}
 		
+		private void setRequestWSAsignacion(
+				RequestWSAsignacion requestWSAsignacion2) {
+			// TODO Auto-generated method stub
+			
+		}
+
 		@Override
 		public void onClick(View view) {
 			if (view == getCapturarButton()){
@@ -585,6 +600,15 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 		public void setIdReasignado(String idReasignado) {
 			this.idReasignado = idReasignado;
 		}
+
+		public TextView getOrdenTextView() {
+			return ordenTextView;
+		}
+
+		public void setOrdenTextView(TextView ordenTextView) {
+			this.ordenTextView = ordenTextView;
+		}
+		
 		
 		
 }

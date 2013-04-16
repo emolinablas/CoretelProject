@@ -17,6 +17,8 @@ public class TokenizerUtilitySupervision {
 	private static int TIPO_ANOTACION = 4;
 	private static int ICONO = 5;
 	private static int ESTADO = 6;
+	private static int ORDEN = 8;
+	private static int ASIGNACIONDESCRIPCION = 9;
 	
 	private static int DESCRIPCION = 0;
 	private static int FECHA_REGISTRO = 1;
@@ -52,6 +54,14 @@ public class TokenizerUtilitySupervision {
 	
 	public String estado(String anotacion){
 		return buscar(anotacion, ESTADO);
+	}
+	
+	public String orden(String anotacion){
+		return buscar(anotacion, ORDEN);
+	}
+	
+	public String asignacionDescripcion(String anotacion){
+		return buscar(anotacion, ASIGNACIONDESCRIPCION);
 	}
 	
 	public String nombreEstado(String anotacion){

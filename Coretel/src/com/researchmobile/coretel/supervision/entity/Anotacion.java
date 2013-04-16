@@ -19,6 +19,7 @@ public class Anotacion implements Serializable{
 	private String imagen;
 	private float latitud;
 	private float longitud;
+	
 	public String getIdAnotacion() {
 		return idAnotacion;
 	}

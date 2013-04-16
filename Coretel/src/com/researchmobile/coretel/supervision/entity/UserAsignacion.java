@@ -119,5 +119,4 @@ public class UserAsignacion implements Serializable{
 		UserAsignacion.supervisorUsuario = supervisorUsuario;
 	}
 	
-	
 }

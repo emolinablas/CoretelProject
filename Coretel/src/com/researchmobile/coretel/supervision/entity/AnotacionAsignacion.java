@@ -5,33 +5,33 @@ import java.io.Serializable;
 public class AnotacionAsignacion implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private String descripcion;
-	private Integer activo;
-	private Integer id_estado;
-	private String fecha_registro;
-	private float latitud;
-	private float longitud;
-	private String archivo;
-	private String nombreComunidad;
-	private String nombreUsuario;
-	private String id;
-	private String estadoAnotacion;
-	private String nombreTipoAnotacion;
-	private String icono;
-	private Integer visto;
-	private String asignado;
-	private String respuesta;
-	private String nombreSupervisor;
-	private String orden;
-	private Integer id_comunidad;
-	private String format_fecha_asignado;
-	private Multimedia[] multimedia;
-	private String hace_tiempo;
+	private static String descripcion;
+	private static Integer activo;
+	private static Integer id_estado;
+	private static String fecha_registro;
+	private static float latitud;
+	private static float longitud;
+	private static String archivo;
+	private static String nombreComunidad;
+	private static String nombreUsuario;
+	private static String id;
+	private static String estadoAnotacion;
+	private static String nombreTipoAnotacion;
+	private static String icono;
+	private static Integer visto;
+	private static String asignado;
+	private static String respuesta;
+	private static String nombreSupervisor;
+	private static String orden;
+	private static Integer id_comunidad;
+	private static String format_fecha_asignado;
+	private static Multimedia[] multimedia;
+	private static String hace_tiempo;
 	//agregados por cambios en web service 25032013 
-	private String archivoNuevo;
-	private String fechaasignado;
-	private String fechaestado;
-	private String asignacionDescripcion;
+	private static String archivoNuevo;
+	private static String fechaasignado;
+	private static String fechaestado;
+	private static String asignacionDescripcion;
 	
 	
 	
@@ -53,7 +53,7 @@ public class AnotacionAsignacion implements Serializable{
 	public void setFechaestado(String fechaestado) {
 		this.fechaestado = fechaestado;
 	}
-	public String getAsignacionDescripcion() {
+	public static String getAsignacionDescripcion() {
 		return asignacionDescripcion;
 	}
 	public void setAsignacionDescripcion(String asignacionDescripcion) {
@@ -140,7 +140,7 @@ public class AnotacionAsignacion implements Serializable{
 	}
 	
 	
-	public String getOrden() {
+	public static String getOrden() {
 		return orden;
 	}
 	public void setOrden(String orden) {

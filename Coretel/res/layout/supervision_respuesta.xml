@@ -61,6 +61,31 @@
 
     <!-- BODY -->
 
+
+            <!-- LINEAR LAYOUT ORDEN -->
+                    <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    
+                     <TextView
+                         style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Orden #" />
+                   
+                     <TextView
+                        android:id="@+id/supervisionrespuesta_ordenTextView"
+                        style="@style/Text.Label"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"/>
+                        
+                     </LinearLayout>
+                   <!-- FIN LAYOUT ORDEN -->
+            
+
     <LinearLayout
         style="@style/Layout.body"
         android:layout_width="fill_parent"
@@ -75,16 +100,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
+                   
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
+                
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-					
+
+                     					
                     <TextView
                         style="@style/Text.Label"
                         android:layout_width="100dp"
