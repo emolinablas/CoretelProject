@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.researchmobile.coretel.view.R;
@@ -22,8 +24,10 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 	protected Activity activity;
 	protected ArrayList<HashMap<String, String>> data;
 	protected ArrayList<HashMap<String, String>> fitems;
-	protected Drawable estadoDrawable;
+	//protected Drawable estadoDrawable;
 	private Filter filter;
+	
+	
 	
 	public MyAdapterAsignaciones(Activity activity, ArrayList<HashMap<String, String>> data) {
 		this.activity = activity;
@@ -57,32 +61,44 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
         	LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         	vi = inflater.inflate(R.layout.asignaciones_supervision, null);
         }
-		
-		ImageView estadoImagen = (ImageView) vi.findViewById(R.id.asignaciones_estado_imageview);
+	
 		TextView creacion = (TextView) vi.findViewById(R.id.asignaciones_creacion_textview);
 		TextView asignacion = (TextView) vi.findViewById(R.id.asignaciones_asignacion_textview);
 		TextView resuelto = (TextView) vi.findViewById(R.id.asignaciones_resuelto_textview);
 		TextView comunidad = (TextView) vi.findViewById(R.id.asignaciones_comunidad_textview);
 		TextView tipo = (TextView) vi.findViewById(R.id.asignaciones_tipo_textview);
+		TextView estadoTV = (TextView) vi.findViewById(R.id.estado_asignacion);
+		LinearLayout estadoLayout = (LinearLayout) vi.findViewById(R.id.asignaciones_layout_estado);
+		
 		
 		String estado = (String)item.get("estado");
 		Log.v("pio", "asignaciones - estado = " + estado);
 		if (estado.equalsIgnoreCase("0") || estado.equalsIgnoreCase("1")){
-			estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_azul_0_1);
+			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_azul_0_1);
+			estadoLayout.setBackgroundColor(Color.BLUE);
+			estadoTV.setText("Pendiente");
 		}else if (estado.equalsIgnoreCase("2")){
-			estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_verde_2);
+			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_verde_2);
+			estadoLayout.setBackgroundColor(Color.GREEN);
+			estadoTV.setText("Coregido");
 		}else if (estado.equalsIgnoreCase("3")){
-			estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_rojo_3);
+			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_rojo_3);
+			estadoLayout.setBackgroundColor(Color.RED);
+			estadoTV.setText("Con Problema");
 		}else if (estado.equalsIgnoreCase("4")){
-			estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
+			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
+			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoTV.setText("Reasignado");
 		}else if (estado.equalsIgnoreCase("5")){
-			estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
+			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
+			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoTV.setText("Reasignado");
 		}
 		
-		estadoImagen.setImageDrawable(estadoDrawable);
+		//estadoImagen.setImageDrawable(estadoDrawable);
 		creacion.setText((String)item.get("creacion"));
-		asignacion.setText((String)item.get("asignacion"));
-		resuelto.setText((String)item.get("resuelto"));
+		asignacion.setText((String)item.get("asignado"));
+		resuelto.setText((String)item.get("resultado"));
 		comunidad.setText((String)item.get("comunidad"));
 		tipo.setText((String)item.get("tipo"));
 		

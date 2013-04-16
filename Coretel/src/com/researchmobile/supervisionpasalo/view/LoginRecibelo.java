@@ -51,6 +51,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loginrecibelo);
 		
+		
 		try
 		{
 			System.out.println(LoginRecibelo.this);
@@ -66,7 +67,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 			verificaGps();
 			
 			getOlvidoTextView().setOnKeyListener(this);
-			getEntrarButton().setOnClickListener(this);
+			getEntrarButton().setOnClickListener(LoginRecibelo.this);
 			getClaveEditText().setOnKeyListener(this);
 			getUsuarioEditText().setOnKeyListener(this);
 			getUsuarioEditText().setText("");
@@ -83,6 +84,7 @@ public class LoginRecibelo extends Activity implements OnClickListener, OnKeyLis
 		try {
 			if (view == getEntrarButton()) {
 				new LoginAsync().execute("");
+				Log.v("pio", "Si se presiono el boton");
 			}else if (view == getSalirButton()){
 				salir();
 			}

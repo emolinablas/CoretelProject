@@ -47,7 +47,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private AnotacionAsignacion anotacionAsignacion;
 	private ArrayList<HashMap<String, Object>> asignacionaesList;
 	private MyAdapterAsignaciones adapterAsignaciones;
-	private LinearLayout estadoLayout;
+	//private LinearLayout estadoLayout;
 	
 	//Declare to menu
 	private LinearLayout slidingPanel;
@@ -61,7 +61,7 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	private EditText buscarEditText;
 	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
-	private TextView estadoEtiqueta;
+	//private TextView estadoEtiqueta;
 	
 	FrameLayout.LayoutParams menuPanelParameters;
 	FrameLayout.LayoutParams slidingPanelParameters;
@@ -86,8 +86,6 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			setListadoListView((ListView)findViewById(R.id.asignaciones_lista));
 			setBuscarEditText((EditText)findViewById(R.id.asignaciones_buscar_edittext));
 			getBuscarEditText().addTextChangedListener(this);
-			setEstadoLayout((LinearLayout)findViewById(R.id.asignaciones_layout_estado));
-			setEstadoEtiqueta((TextView)findViewById(R.id.estado_asignacion));
 			
 			setNombreUsuarioTextView((TextView)findViewById(R.id.asignaciones_menu_title_1));
 	        getNombreUsuarioTextView().setText(UserAsignacion.getNombreUsuario());
@@ -118,9 +116,9 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 				{
 				
 					HashMap<String, String>map = new HashMap<String,String>();
-	                map.put("creacion",getCatalogoAsignacion().getAnotacionasignacion()[i].getFormat_fecha_asignado());		
+	                map.put("creacion",getCatalogoAsignacion().getAnotacionasignacion()[i].getFecha_registro());		
 	                map.put("asignado",getCatalogoAsignacion().getAnotacionasignacion()[i].getFormat_fecha_asignado());
-	                map.put("resultado",getCatalogoAsignacion().getAnotacionasignacion()[i].getFecha_registro());
+	                map.put("resultado",getCatalogoAsignacion().getAnotacionasignacion()[i].getFechaestado());
 	                map.put("comunidad", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreComunidad());
 	                map.put("tipo", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion());
 	                String estado = String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado());
@@ -548,21 +546,6 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 			this.nombreUsuarioTextView = nombreUsuarioTextView;
 		}
 
-		public LinearLayout getEstadoLayout() {
-			return estadoLayout;
-		}
-
-		public void setEstadoLayout(LinearLayout estadoLayout) {
-			this.estadoLayout = estadoLayout;
-		}
-
-		public TextView getEstadoEtiqueta() {
-			return estadoEtiqueta;
-		}
-
-		public void setEstadoEtiqueta(TextView estadoEtiqueta) {
-			this.estadoEtiqueta = estadoEtiqueta;
-		}
 
 		
 }
