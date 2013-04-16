@@ -1,7 +1,10 @@
 package com.researchmobile.coretel.view;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -133,7 +136,6 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 		Log.e("Log", "ver foto galeria = " + getPathFoto());
 		Bitmap bm = BitmapFactory.decodeFile(getPathFoto(), options);
 		getAvatarImageView().setImageBitmap(bm);
-		// origenAlbum = true;
 	}
 	
 	/**
@@ -142,14 +144,14 @@ public class CambiarAvatar extends Activity implements OnClickListener{
      */
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	/**
-    	 * Se revisa si la imagen viene de la c‡mara (TAKE_PICTURE) o de la galer’a (SELECT_PICTURE)
+    	 * Se revisa si la imagen viene de la camara (TAKE_PICTURE) o de la galeia (SELECT_PICTURE)
     	 */
     	Log.v("pio", "avatar. requestCode = " + requestCode);
     	if (requestCode == SELECT_PICTURE){
     		if (data != null){
-//    			origenAlbum = true;
-    			Log.v("pio", "avatar. album = " + resultCode);
-    			setPathFoto(data.getData().getPath());
+    			Uri selectedImage = data.getData();
+    			RMFile rmFile = new RMFile();
+    			setPathFoto(rmFile.convertMediaUriToPath(this, selectedImage));
     			verImagenGaleria();
     		}
     	}else {
@@ -258,10 +260,6 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 0;
 		Bitmap bm = BitmapFactory.decodeFile(getPathFoto());
-		// }else{
-		// bm = BitmapFactory.decodeFile("sdcard/" + getPathFoto());
-		// }
-
 		File file = new File("sdcard" + fotonueva);
 		try {
 			file.createNewFile();

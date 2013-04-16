@@ -36,7 +36,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -63,6 +62,7 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Fecha;
 import com.researchmobile.coretel.utility.Mensaje;
+import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.ws.RequestWS;
 
@@ -629,9 +629,9 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
     	 */
     	if (requestCode == SELECT_PICTURE){
     		if (data != null){
-//    			origenAlbum = true;
-    			setPathFoto(data.getData().getPath());
-    			System.out.println("aaa " + data.getData().getPath());
+    			Uri selectedImage = data.getData();
+    			RMFile rmFile = new RMFile();
+    			setPathFoto(rmFile.convertMediaUriToPath(this, selectedImage));
     			verImagenGaleria();
     		}
     	}else{
