@@ -22,7 +22,7 @@ public class AnotacionAsignacion implements Serializable{
 	private  String asignado;
 	private  String respuesta;
 	private  String nombreSupervisor;
-	private static String orden;
+	private  String orden;
 	private  Integer id_comunidad;
 	private  String format_fecha_asignado;
 	private  Multimedia[] multimedia;
@@ -31,7 +31,7 @@ public class AnotacionAsignacion implements Serializable{
 	private  String archivoNuevo;
 	private  String fechaasignado;
 	private  String fechaestado;
-	private static String asignacionDescripcion;
+	private  String asignacionDescripcion;
 	
 	
 	
@@ -52,12 +52,6 @@ public class AnotacionAsignacion implements Serializable{
 	}
 	public void setFechaestado(String fechaestado) {
 		this.fechaestado = fechaestado;
-	}
-	public static String getAsignacionDescripcion() {
-		return asignacionDescripcion;
-	}
-	public void setAsignacionDescripcion(String asignacionDescripcion) {
-		this.asignacionDescripcion = asignacionDescripcion;
 	}
 	public String getHace_tiempo() {
 		return hace_tiempo;
@@ -139,13 +133,6 @@ public class AnotacionAsignacion implements Serializable{
 		this.nombreSupervisor = nombreSupervisor;
 	}
 	
-	
-	public static String getOrden() {
-		return orden;
-	}
-	public void setOrden(String orden) {
-		this.orden = orden;
-	}
 	public Integer getVisto() {
 		return visto;
 	}
@@ -200,4 +187,18 @@ public class AnotacionAsignacion implements Serializable{
 	public void setAsignado(String asignado) {
 		this.asignado = asignado;
 	}
+	public String getOrden() {
+		return orden;
+	}
+	public void setOrden(String orden) {
+		this.orden = orden;
+	}
+	public String getAsignacionDescripcion() {
+		return asignacionDescripcion;
+	}
+	public void setAsignacionDescripcion(String asignacionDescripcion) {
+		this.asignacionDescripcion = asignacionDescripcion;
+	}
+	
+	
 }

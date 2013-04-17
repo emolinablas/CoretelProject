@@ -17,7 +17,7 @@ public class TokenizerUtilitySupervision {
 	private static int TIPO_ANOTACION = 4;
 	private static int ICONO = 5;
 	private static int ESTADO = 6;
-	private static int ORDEN = 8;
+	private static int ORDEN = 7;
 	private static int ASIGNACIONDESCRIPCION = 9;
 	
 	private static int DESCRIPCION = 0;
@@ -258,6 +258,7 @@ public class TokenizerUtilitySupervision {
 	}
 	
 	private String buscar(String anotacion, int posicion){
+		Log.v("pio", "tokenizer = " + anotacion);
 		StringTokenizer tokenizer = new StringTokenizer(anotacion, SEPARADOR);
 		int i = 0;
 		if (tokenizer.countTokens() < 5){
@@ -265,11 +266,22 @@ public class TokenizerUtilitySupervision {
 		}
 		String[] vector = new String[tokenizer.countTokens()];
 		while(tokenizer.hasMoreTokens()){
-			vector[i] = tokenizer.nextToken();
+			vector[i] = isNull(tokenizer.nextToken());
 			i++;
 		}
-		
+		if (posicion > vector.length){
+			return "";
+		}
 		return vector[posicion];
+	}
+	
+	private String isNull(String posicion){
+		String result = "-";
+		if (posicion == null || posicion.equalsIgnoreCase("")){
+			return result;
+		}else{
+			return posicion;
+		}
 	}
 	
 	private String nombrePin(String icono){
