@@ -90,11 +90,11 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			setRespuesta(new RespuestaWS());
 			
 			setRespuestaEditText((EditText)findViewById(R.id.supervisionrespuesta_respuestaEditText));
-			//getRespuestaEditText().setText(tokenizer.asignacionDescripcion(getTitulo()));
-			getRespuestaEditText().setText(AnotacionAsignacion.getAsignacionDescripcion());
+			getRespuestaEditText().setText(tokenizer.asignacionDescripcion(getTitulo()));
+			//getRespuestaEditText().setText(AnotacionAsignacion.getAsignacionDescripcion());
 			setOrdenTextView((TextView)findViewById(R.id.supervisionrespuesta_ordenTextView));
-			getOrdenTextView().setText(AnotacionAsignacion.getOrden());
-			//getOrdenTextView().setText(tokenizer.orden(getTitulo()));
+			//getOrdenTextView().setText(AnotacionAsignacion.getOrden());
+			getOrdenTextView().setText(tokenizer.orden(getTitulo()));
 			
 			
 			setCatalogoSupervisor(new CatalogoSupervisor());
