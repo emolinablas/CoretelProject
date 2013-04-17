@@ -68,6 +68,7 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 		TextView comunidad = (TextView) vi.findViewById(R.id.asignaciones_comunidad_textview);
 		TextView tipo = (TextView) vi.findViewById(R.id.asignaciones_tipo_textview);
 		TextView estadoTV = (TextView) vi.findViewById(R.id.estado_asignacion);
+		TextView descripcion = (TextView) vi.findViewById(R.id.descripcion_asignacion);
 		LinearLayout estadoLayout = (LinearLayout) vi.findViewById(R.id.asignaciones_layout_estado);
 		
 		
@@ -96,6 +97,7 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 		}
 		
 		//estadoImagen.setImageDrawable(estadoDrawable);
+		descripcion.setText((String)item.get("descripcion"));
 		creacion.setText((String)item.get("creacion"));
 		asignacion.setText((String)item.get("asignado"));
 		resuelto.setText((String)item.get("resultado"));
