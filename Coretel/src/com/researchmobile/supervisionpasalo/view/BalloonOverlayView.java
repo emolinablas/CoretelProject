@@ -53,13 +53,25 @@ public class BalloonOverlayView<Item extends OverlayItem> extends FrameLayout {
 				try{
 					{
 						layout.setVisibility(GONE);
+						String estado = tokenizer.estado(getMiItem().getTitle());
+						if (estado.equalsIgnoreCase("1")){
+							Intent intent = new Intent(context, SupervisionEvento.class);					
+							intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
+							intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
+							intent.putExtra("titulo", getMiItem().getTitle());
+							intent.putExtra("descripcion", getMiItem().getSnippet());
+							context.startActivity(intent);
+						}else{
+							Intent intent = new Intent(context, SupervisionRespuesta.class);					
+							intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
+							intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
+							intent.putExtra("titulo", getMiItem().getTitle());
+							intent.putExtra("descripcion", getMiItem().getSnippet());
+							context.startActivity(intent);
+						}
+						
 					}
-					Intent intent = new Intent(context, SupervisionRespuesta.class);					
-					intent.putExtra("latitud", String.valueOf(getMiItem().getPoint().getLatitudeE6()));
-					intent.putExtra("longitud",String.valueOf(getMiItem().getPoint().getLongitudeE6()));
-					intent.putExtra("titulo", getMiItem().getTitle());
-					intent.putExtra("descripcion", getMiItem().getSnippet());
-					context.startActivity(intent);
+					
 				}catch(Exception exception){
 					
 				}

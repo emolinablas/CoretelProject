@@ -137,16 +137,16 @@ public class SupervisionEvento extends Activity implements OnClickListener {
 		}
 		       
 		       public void marcaAsignacion(){
-			    	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision(); 
-			    	requestWS.marcarAsignacion(tokenizer.idAnotacion(getTitulo()));
+			    	TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
+			    	String visto = tokenizer.visto(getTitulo());
+			    	if (visto.equalsIgnoreCase("0")){
+			    		requestWS.marcarAsignacion(tokenizer.idAnotacion(getTitulo()));
+			    	}
 			    }
 		
 	//metodo para cargar imagenes
 			private void MostrarImagen() {
-				System.out.println("Variable descripcion" + descripcion);
 				String url = "http://23.23.1.2/WS/" + tokenizer.imagen(descripcion);
-				System.out.println("Recibe imagen");
-				Log.e("TT", "url imagen = " + url);
 				new descargaImagenes().execute(url);
 			getAsignacionfotoImageView().setVisibility(View.VISIBLE);
 		}
