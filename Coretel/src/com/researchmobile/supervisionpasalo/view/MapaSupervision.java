@@ -294,6 +294,7 @@ private void animationMenu(){
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getIcono() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getOrden() + "=+="
+    			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getVisto() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getRespuesta() + "=+="
     			+ getCatalogoAsignacion().getAnotacionasignacion()[i].getAsignacionDescripcion();
     			;

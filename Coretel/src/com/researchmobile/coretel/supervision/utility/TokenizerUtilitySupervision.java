@@ -18,7 +18,9 @@ public class TokenizerUtilitySupervision {
 	private static int ICONO = 5;
 	private static int ESTADO = 6;
 	private static int ORDEN = 7;
-	private static int ASIGNACIONDESCRIPCION = 9;
+	private static int VISTO = 8;
+	private static int RESPUESTA = 9;
+	private static int ASIGNACIONDESCRIPCION = 10;
 	
 	private static int DESCRIPCION = 0;
 	private static int FECHA_REGISTRO = 1;
@@ -56,6 +58,9 @@ public class TokenizerUtilitySupervision {
 		return buscar(anotacion, ESTADO);
 	}
 	
+	public String visto(String anotacion){
+		return buscar(anotacion, VISTO);
+	}
 	public String orden(String anotacion){
 		return buscar(anotacion, ORDEN);
 	}
@@ -119,12 +124,12 @@ public class TokenizerUtilitySupervision {
 		String url = estado(titulo);
 		Log.v("pio", "icono del evento = " + url);
 		//pendiente_nuevo
-		if (url.equalsIgnoreCase("0")){
+		if (url.equalsIgnoreCase("1") && visto(titulo).equalsIgnoreCase("0")){
 			return context.getResources().getDrawable(R.drawable.pinazul);
 		}
 		
 		//pendiente_visto
-		if (url.equalsIgnoreCase("1")){
+		if (url.equalsIgnoreCase("1") && visto(titulo).equalsIgnoreCase("1")){
 			return context.getResources().getDrawable(R.drawable.pinamarillo);
 		}
 		
