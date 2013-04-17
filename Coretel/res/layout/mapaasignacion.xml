@@ -53,27 +53,6 @@
 			    android:layout_height="50dp"
 			    android:background="@drawable/background_footer_iphone" >
 
-			    <View
-			        android:id="@+id/header_vertical_divider_1"
-			        android:layout_width="2dp"
-			        android:layout_height="fill_parent"
-			        android:layout_alignParentTop="true"
-			        android:layout_marginLeft="15dp"
-			        android:layout_toRightOf="@+id/menuViewButton"
-			        android:background="@drawable/engraved_bg" />
-
-			    <ImageView
-			        android:id="@+id/menuViewButton"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_alignParentLeft="true"
-			        android:layout_centerVertical="true"
-			        android:layout_marginLeft="15dp"
-			        android:clickable="true"
-			        android:contentDescription="Descripcion"
-			        android:src="@drawable/icon_menu"
-			        android:visibility="visible" />
-
 			    
 
 			</RelativeLayout>
