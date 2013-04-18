@@ -128,7 +128,6 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 				}else{
 					Toast.makeText(getBaseContext(), "Ya cumplio el limite de fotos", Toast.LENGTH_SHORT).show();
 				}
-				
 			}else if (view == getGuardarButton()){
 				new guardarAsync().execute("");
 			}else if (view == getEstadoButton()){
@@ -177,7 +176,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			String id = tokenizer.idAnotacion(getTitulo());
 			String respuesta = getRespuestaEditText().getText().toString();
 			if (arrayListFotos.size() < 1){
-				Toast.makeText(getBaseContext(), "Debe agregar al menos una foto", Toast.LENGTH_SHORT).show();
+				getRespuesta().setResultado(false);
+				getRespuesta().setMensaje("Debe agregar por lo menos una foto");
 			}else{
 				setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado(), getIdReasignado()));
 				if (getRespuesta().isResultado()){

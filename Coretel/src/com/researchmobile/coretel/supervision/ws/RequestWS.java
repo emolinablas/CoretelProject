@@ -562,6 +562,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 	public RespuestaWS enviarRespuesta(String id, String respuesta, String estado, String usuario) {
 		RespuestaWS respuestaWS = new RespuestaWS();
 		String finalURL = WS_UPDATE + id + "&respuesta=" + respuesta + "&estado=" + estado + "&usuario=" + usuario;
+		String url = finalURL.replace(" ", "%20");
 		JSONObject jsonObject = null;
 		try{
 			jsonObject = connectWS.enviarRespuesta(finalURL);
@@ -570,12 +571,12 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 				respuestaWS.setMensaje(jsonObject.getString("mensaje"));
 			}else{
 				respuestaWS.setResultado(false);
-				respuestaWS.setMensaje("En este momento no se puede enviar la invitacion");
+				respuestaWS.setMensaje("En este momento no se puede enviar la respuesta");
 			}
 			return respuestaWS;
 		}catch(Exception exception){
 			respuestaWS.setResultado(false);
-			respuestaWS.setMensaje("En este momento no se puede enviar la invitacion");
+			respuestaWS.setMensaje("En este momento no se puede enviar la respuesta");
 			return respuestaWS;
 		}
 	}

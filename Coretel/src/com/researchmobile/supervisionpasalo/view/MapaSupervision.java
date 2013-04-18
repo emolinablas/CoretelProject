@@ -203,8 +203,6 @@ public class MapaSupervision extends MapActivity implements OnItemClickListener{
 private void CargarAsignaciones() {
 		RequestWSAsignacion requestWS = new RequestWSAsignacion();
 		setCatalogoAsignacion(requestWS.CatalogoAsignacion(UserAsignacion.getUserId()));
-//		setCatalogoAsignacion(requestWS.CatalogoAsignacion("1"));
-		System.out.println(getCatalogoAsignacion().getRespuesta().getMensaje());
 }
 
 //Metodo que prepara lo que usara en background, Prepara el progress
@@ -340,8 +338,9 @@ private void animationMenu(){
         mapController = mapView.getController();
         mapController.setZoom(20);
         mapView.setLongClickable(false);
-        int latitud = (int) (14.627853 * 1E6);
-        int longitud = (int) (-90.517584 * 1E6);
+        int tamano = getCatalogoAsignacion().getAnotacionasignacion().length -1;
+        int latitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLatitud() * 1E6);
+        int longitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLongitud() * 1E6);
         mapController.animateTo(new GeoPoint(latitud,longitud));
 //        centerMyPosition();
    }
