@@ -522,14 +522,21 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 			RequestWS request = new RequestWS();
 			if (connect.isConnectedToInternet(this)){
 				String idUsuario = User.getUserId();
+				Log.v("pio", "Enviar 1");
 			    String comunidad = ComunidadSeleccionada();
+			    Log.v("pio", "Enviar 2");
 			    String tipoAnotacion = TipoSeleccionado();
+			    Log.v("pio", "Enviar 3");
 			    String descripcion = getDescripcionTextView().getText().toString();
+			    Log.v("pio", "Enviar 4");
 			    String imagen = fotoReducida();
+			    Log.v("pio", "Enviar 5");
 				respuesta = new RespuestaWS();
 				if (!comunidad.equalsIgnoreCase("") && !tipoAnotacion.equalsIgnoreCase("") && !descripcion.equalsIgnoreCase("")){
+					Log.v("pio", "Enviar evento todos los campos buenos");
 					respuesta = request.MandarEvento(getLatitud(), getLongitud(), idUsuario, comunidad, tipoAnotacion, descripcion, imagen);
 				}else{
+					Log.v("pio", "Enviar evento faltan campos");
 					respuesta.setResultado(false);
 					respuesta.setMensaje("Debe llenar todos los campos");
 				}
@@ -564,11 +571,13 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	private String TipoSeleccionado() {
 		String anotacion = "";
-		String tipo = getTipoEventoSpinnet().getSelectedItem().toString();
-		int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
-		for (int i = 0; i < tamano; i++){
-			if (getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre().equalsIgnoreCase(tipo)){
-				anotacion = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getId();
+		if (getCatalogoTipoAnotacion().getTipoAnotacion().length > 0){
+			String tipo = getTipoEventoSpinnet().getSelectedItem().toString();
+			int tamano = getCatalogoTipoAnotacion().getTipoAnotacion().length;
+			for (int i = 0; i < tamano; i++){
+				if (getCatalogoTipoAnotacion().getTipoAnotacion()[i].getNombre().equalsIgnoreCase(tipo)){
+					anotacion = getCatalogoTipoAnotacion().getTipoAnotacion()[i].getId();
+				}
 			}
 		}
 		return anotacion;
@@ -576,11 +585,13 @@ public class Evento extends Activity implements OnClickListener, OnKeyListener{
 
 	private String ComunidadSeleccionada() {
 		String comunidad = "";
-		String com = getComunidadSpinner().getSelectedItem().toString();
-		int tamano = getCatalogoComunidad().getComunidad().length;
-		for (int i = 0; i < tamano; i++){
-			if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(com)){
-				comunidad = getCatalogoComunidad().getComunidad()[i].getId();
+		if (getCatalogoComunidad().getComunidad().length > 0){
+			String com = getComunidadSpinner().getSelectedItem().toString();
+			int tamano = getCatalogoComunidad().getComunidad().length;
+			for (int i = 0; i < tamano; i++){
+				if (getCatalogoComunidad().getComunidad()[i].getNombre().equalsIgnoreCase(com)){
+					comunidad = getCatalogoComunidad().getComunidad()[i].getId();
+				}
 			}
 		}
 		return comunidad;
