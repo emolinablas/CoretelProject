@@ -120,9 +120,7 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 	private void mostrarGaleria() {
 		try {
 			int code = TAKE_PICTURE;
-			Intent intent = new Intent(
-					Intent.ACTION_PICK,
-					android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+			Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 			code = SELECT_PICTURE;
 			startActivityForResult(intent, code);
 		} catch (Exception exception) {

@@ -32,7 +32,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.researchmobile.coretel.supervision.entity.AnotacionAsignacion;
 import com.researchmobile.coretel.supervision.entity.CatalogoSupervisor;
 import com.researchmobile.coretel.supervision.entity.RespuestaWS;
 import com.researchmobile.coretel.supervision.entity.Supervisor;
@@ -41,6 +40,7 @@ import com.researchmobile.coretel.supervision.utility.AdapterListaFotos;
 import com.researchmobile.coretel.supervision.utility.TokenizerUtilitySupervision;
 import com.researchmobile.coretel.supervision.ws.RequestWS;
 import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
+import com.researchmobile.coretel.utility.RMFile;
 import com.researchmobile.coretel.view.R;
 
 public class SupervisionRespuesta extends Activity implements OnClickListener {
@@ -297,12 +297,18 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	    	 */
 	    	if (requestCode == SELECT_PICTURE){
 	    		if (data != null){
+	    			
+	    			Uri selectedImage = data.getData();
+	    			RMFile rmFile = new RMFile();
+	    			setPathFoto(rmFile.convertMediaUriToPath(this, selectedImage));
+	    			
+	    			
 //	    			origenAlbum = true;
-	    			setPathFoto(data.getData().getPath());
+//	    			setPathFoto(data.getData().getPath());
 	    			HashMap<String, Object> map = new HashMap<String, Object>();
 	    			map.put("asignacion", "1");
 	    			map.put("path", getPathFoto());
-	    			String p = getPathFoto().replace("sdcard/", "");
+	    			String p = getPathFoto();
 	    			BitmapFactory.Options options = new BitmapFactory.Options();
 	    			options.inSampleSize = 0;
 	    			Log.e("Log", "ver foto = sdcard" + p);
