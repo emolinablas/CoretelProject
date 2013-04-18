@@ -190,9 +190,11 @@
                             android:ems="10"
                             android:gravity="center_horizontal"
                             android:hint="Clave Actual"
-                            android:inputType="textPassword" >
+                            android:password="true"
+                            >
+                            
+                            
 
-                            <requestFocus />
                         </EditText>
 
                         <EditText
@@ -204,7 +206,10 @@
                             android:ems="10"
                             android:gravity="center_horizontal"
                             android:hint="Clave Nueva"
-                            android:inputType="textPassword" />
+                            android:password="true"
+                            />
+                            
+                             
 
                         <EditText
                             android:id="@+id/perfil_clavenueva2_edittext"
@@ -215,7 +220,8 @@
                             android:ems="10"
                             android:gravity="center_horizontal"
                             android:hint="Verificar Clave"
-                            android:inputType="textPassword" />
+                            android:password="true"
+                            />
 
                         <Button
                             android:id="@+id/perfil_guardar_button"
