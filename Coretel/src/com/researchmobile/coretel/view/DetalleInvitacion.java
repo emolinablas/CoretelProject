@@ -64,12 +64,8 @@ public class DetalleInvitacion extends Activity implements OnClickListener{
 			estado = "Rechazada";
 			getAceptarButton().setVisibility(View.GONE);
 			getRechazarButton().setVisibility(View.GONE);
-		}else if(estado.equalsIgnoreCase("3")){
-			estado = "Pendiente";
 		}else if(estado.equalsIgnoreCase("0")){
-			estado = "Aceptada";
-			getAceptarButton().setVisibility(View.GONE);
-			getRechazarButton().setVisibility(View.GONE);
+			estado = "Pendiente";
 		}
 		invitoTextView.setText((String)invitacion.get("usuario"));
 		comunidadTextView.setText((String)invitacion.get("comunidad"));

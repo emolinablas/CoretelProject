@@ -327,6 +327,7 @@ private void dialogComunidades(){
 	}
     
     private void resultadoComunidades(){
+    	try{
     	if (getCatalogo() != null){
     		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
     		if (getCatalogo().getRespuestaWS().isResultado()){
@@ -344,6 +345,9 @@ private void dialogComunidades(){
     			    }
     			});
     		}
+    	}
+    	}catch(Exception e){
+    		Toast.makeText(this, "No se pudo cargar el catalogo de comunidades \n puede que no posea", Toast.LENGTH_SHORT).show();
     	}
     }
     private void buscaComunidades(){
