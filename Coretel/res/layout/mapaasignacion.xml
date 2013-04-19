@@ -52,6 +52,18 @@
 			    android:layout_width="match_parent"
 			    android:layout_height="50dp"
 			    android:background="@drawable/background_footer_iphone" >
+			    
+			    <Button
+		            android:id="@+id/mapasupervision_atras"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignBaseline="@+id/BtnCentrar"
+		            android:layout_alignBottom="@+id/BtnCentrar"
+		            android:layout_marginLeft="17dp"
+		            android:layout_toRightOf="@+id/BtnCentrar"
+		            android:background="@drawable/button_background_iphone_gray"
+		            android:text="Atras"
+		            android:textColor="#ffffff" />
 
 			    
 

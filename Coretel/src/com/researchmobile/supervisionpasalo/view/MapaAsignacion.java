@@ -42,7 +42,7 @@ import com.researchmobile.coretel.supervision.ws.RequestWSAsignacion;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.view.R;
 
-public class MapaAsignacion extends MapActivity implements OnItemClickListener{
+public class MapaAsignacion extends MapActivity implements OnItemClickListener, OnClickListener{
 	private static final String LOG = "Recibelo - Mapa";
 	private MapController mapController;
 	private MyLocationOverlay myLocationOverlay;
@@ -57,6 +57,7 @@ public class MapaAsignacion extends MapActivity implements OnItemClickListener{
 	private float lonSeleccionado;
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
+	private Button atrasbutton;
 	private boolean cargarPuntos;
 	//Declare
 	private LinearLayout slidingPanel;
@@ -83,7 +84,7 @@ public class MapaAsignacion extends MapActivity implements OnItemClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mapasupervision);
+        setContentView(R.layout.mapaasignacion);
         setRequestWSAsignacion(new RequestWSAsignacion());
         
         Bundle bundle = getIntent().getExtras();
@@ -92,6 +93,9 @@ public class MapaAsignacion extends MapActivity implements OnItemClickListener{
         setLonSeleccionado((float)bundle.getFloat("longitud"));
         setLatitudSeleccionado(bundle.getString("latitud"));
         setLongitudSeleccionado(bundle.getString("longitud"));
+        
+        setAtrasbutton((Button)findViewById(R.id.mapasupervision_atras));
+        getAtrasbutton().setOnClickListener(this);
         
 //        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
 //        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
@@ -392,6 +396,25 @@ protected void onPostExecute(Integer resultado) {
 
 	public void setCargarPuntos(boolean cargarPuntos) {
 		this.cargarPuntos = cargarPuntos;
+	}
+
+
+	public Button getAtrasbutton() {
+		return atrasbutton;
+	}
+
+
+	public void setAtrasbutton(Button atrasbutton) {
+		this.atrasbutton = atrasbutton;
+	}
+
+
+	@Override
+	public void onClick(View view) {
+		if (view == getAtrasbutton()){
+			finish();
+		}
+		
 	}
 		
 }
