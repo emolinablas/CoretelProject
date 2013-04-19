@@ -77,15 +77,15 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 		Log.v("pio", "asignaciones - estado = " + estado);
 		if (estado.equalsIgnoreCase("0") || estado.equalsIgnoreCase("0")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_azul_0_1);
-			estadoLayout.setBackgroundColor(Color.BLUE);
+			estadoLayout.setBackgroundColor(Color.parseColor("#3f93ff"));
 			estadoTV.setText("Pendiente");
 		}else if(estado.equalsIgnoreCase("0")|| estado.equalsIgnoreCase("1")){
-			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoLayout.setBackgroundColor(Color.parseColor("#ffd62d"));
 			estadoTV.setText("Pendiente");
 		}
 		else if (estado.equalsIgnoreCase("2")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_verde_2);
-			estadoLayout.setBackgroundColor(Color.GREEN);
+			estadoLayout.setBackgroundColor(Color.parseColor("#63c246"));
 			estadoTV.setText("Coregido");
 		}else if (estado.equalsIgnoreCase("3")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_rojo_3);
@@ -93,11 +93,11 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 			estadoTV.setText("Con Problema");
 		}else if (estado.equalsIgnoreCase("4")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
-			estadoLayout.setBackgroundColor(color.holo_orange_light);
+			estadoLayout.setBackgroundColor(Color.parseColor("#ffa32f"));
 			estadoTV.setText("Reasignado");
 		}else if (estado.equalsIgnoreCase("5")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
-			estadoLayout.setBackgroundColor(color.holo_orange_light);
+			estadoLayout.setBackgroundColor(Color.parseColor("#ffa32f"));
 			estadoTV.setText("Reasignado");
 		}
 		
