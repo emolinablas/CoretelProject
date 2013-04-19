@@ -8,13 +8,14 @@ import android.content.Context;
 import com.android.dataframework.DataFramework;
 import com.android.dataframework.Entity;
 import com.researchmobile.coretel.entity.Perfil;
+import com.researchmobile.coretel.entity.User;
 
 public class RequestDB {
 	
 	public boolean modoTutorial (Context context){
 		try {
 			int modoTutorial = 0;
-			List<Entity> categories = DataFramework.getInstance().getEntityList("perfil");
+			List<Entity> categories = DataFramework.getInstance().getEntityList("perfil", User.getUserId());
 			{
 				Entity dato = categories.get(0);
 				modoTutorial = dato.getInt("modotutorial");
@@ -29,7 +30,7 @@ public class RequestDB {
 	public void desactivaModoTutorial (Context context){
 		try {
 			DataFramework.getInstance().open(context,"com.researchmobile.coretel.view");
-			Entity dato = new Entity("perfil", "1");
+			Entity dato = new Entity("perfil", "usuario = " + String.valueOf(User.getUserId()));
 			dato.setValue("modotutorial", 1);
 			dato.save();
 		} catch (Exception msj) {
@@ -44,10 +45,27 @@ public class RequestDB {
 			DataFramework.getInstance().open(context, "com.researchmobile.coretel.view");
 			Entity ent = new Entity("perfil");
 			ent.setValue("modotutorial", perfil.getModotutorial());
+			ent.setValue("usuario", User.getUserId());
 			ent.save();
 
 		} catch (Exception msj) {
 			msj.printStackTrace();
+		}
+	}
+	
+	public void verificaLogin(Context context){
+		try{
+			DataFramework.getInstance().open(context, "com.researchmobile.coretel.view");
+			List<Entity> categories = DataFramework.getInstance().getEntityList("perfil", "usuario = " + User.getUserId());
+			if (categories.size() > 0){
+				
+			}else{
+				Perfil perfil = new Perfil();
+				perfil.setModotutorial(0);
+				insertaPerfil(context, perfil);
+			}
+		}catch(Exception exception){
+			
 		}
 	}
 

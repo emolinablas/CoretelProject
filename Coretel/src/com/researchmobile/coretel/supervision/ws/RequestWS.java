@@ -565,7 +565,7 @@ public void post(String url, List<NameValuePair> nameValuePairs) {
 		String url = finalURL.replace(" ", "%20");
 		JSONObject jsonObject = null;
 		try{
-			jsonObject = connectWS.enviarRespuesta(finalURL);
+			jsonObject = connectWS.enviarRespuesta(url);
 			if (jsonObject != null){
 				respuestaWS.setResultado(jsonObject.getBoolean("resultado"));
 				respuestaWS.setMensaje(jsonObject.getString("mensaje"));

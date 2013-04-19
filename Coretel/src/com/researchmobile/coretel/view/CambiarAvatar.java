@@ -221,7 +221,7 @@ public class CambiarAvatar extends Activity implements OnClickListener{
 	public void login(){
 		RequestWS req = new RequestWS();
 		User user = new User();
-		req.Login(user);
+		req.Login(this, user);
 		RMFile rmFile = new RMFile(); 
 		rmFile.downloadImage(User.getAvatar());
 	}

@@ -1,9 +1,10 @@
 <database
-    name="coretel" version="1">
+    name="coretel" version="2">
 
     <!-- MODO TUTORIAL -->
     <table name="perfil" to-string="%pefil%">
         <field name="modotutorial" obligatory="false" type="integer"/>
+        <field name="usuario" obligatory="false" type="integer"/>
     </table>
 
 </database>

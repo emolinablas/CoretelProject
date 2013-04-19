@@ -80,6 +80,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			Bundle bundle = getIntent().getExtras();
 			setDescripcion(bundle.getString("descripcion"));
 			setTitulo(bundle.getString("titulo"));
+			
+			setEstado("2");
 			/*
 			//MODO TUTORIAL
 			UserAsignacion.setModotutorialsupervision(true);
@@ -184,9 +186,15 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 				getRespuesta().setResultado(false);
 				getRespuesta().setMensaje("Debe agregar por lo menos una foto");
 			}else{
-				setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado(), getIdReasignado()));
-				if (getRespuesta().isResultado()){
-					enviarFotos();
+				String respuestaTemp = getRespuestaEditText().toString();
+				if (respuestaTemp.equalsIgnoreCase("")){
+					getRespuesta().setResultado(false);
+					getRespuesta().setMensaje("Escriba una respuesta");
+				}else{
+					setRespuesta(requestWS.enviarRespuesta(id, respuesta, getEstado(), getIdReasignado()));
+					if (getRespuesta().isResultado()){
+						enviarFotos();
+					}
 				}
 			}
 		}

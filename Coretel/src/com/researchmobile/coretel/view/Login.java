@@ -154,7 +154,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
     	 if(connectState.isConnectedToInternet(this)){
           if (CamposLlenos()){
                RequestWS request = new RequestWS();
-               setRespuesta(request.Login(getUser()));
+               setRespuesta(request.Login(this, getUser()));
                if (getRespuesta().isResultado()){
 //            	   createDirIfNotExists();
              	   rmFile.downloadImage(User.getAvatar());

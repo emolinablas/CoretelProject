@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -103,7 +104,7 @@ public class RequestWS {
 		
 	}
 	
-	public RespuestaWS Login(User user){
+	public RespuestaWS Login(Context context, User user){
 		JSONObject jsonObject = null;
 		String finalURL = WS_LOGIN + user.getUsername() + "&clave=" + user.getPassword();
 		RespuestaWS respuesta = new RespuestaWS();
@@ -128,6 +129,8 @@ public class RequestWS {
 					User.setNivel(id.getString("nivel"));
 					User.setSuperUsuario(id.getString("super_usuario"));
 					User.setSupervisorUsuario(id.getString("supervisor_usuario"));
+					RequestDB rqDb = new RequestDB();
+					rqDb.verificaLogin(context);
 				}
 				return respuesta;
 			}else{
