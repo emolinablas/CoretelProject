@@ -3,6 +3,7 @@ package com.researchmobile.coretel.supervision.utility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.R.color;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -74,11 +75,15 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 		
 		String estado = (String)item.get("estado");
 		Log.v("pio", "asignaciones - estado = " + estado);
-		if (estado.equalsIgnoreCase("0") || estado.equalsIgnoreCase("1")){
+		if (estado.equalsIgnoreCase("0") || estado.equalsIgnoreCase("0")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_azul_0_1);
 			estadoLayout.setBackgroundColor(Color.BLUE);
 			estadoTV.setText("Pendiente");
-		}else if (estado.equalsIgnoreCase("2")){
+		}else if(estado.equalsIgnoreCase("0")|| estado.equalsIgnoreCase("1")){
+			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoTV.setText("Pendiente");
+		}
+		else if (estado.equalsIgnoreCase("2")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_verde_2);
 			estadoLayout.setBackgroundColor(Color.GREEN);
 			estadoTV.setText("Coregido");
@@ -88,11 +93,11 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 			estadoTV.setText("Con Problema");
 		}else if (estado.equalsIgnoreCase("4")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
-			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoLayout.setBackgroundColor(color.holo_orange_light);
 			estadoTV.setText("Reasignado");
 		}else if (estado.equalsIgnoreCase("5")){
 			//estadoDrawable = activity.getResources().getDrawable(R.drawable.estado_naranja_4_5);
-			estadoLayout.setBackgroundColor(Color.YELLOW);
+			estadoLayout.setBackgroundColor(color.holo_orange_light);
 			estadoTV.setText("Reasignado");
 		}
 		
