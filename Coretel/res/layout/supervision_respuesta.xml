@@ -10,12 +10,29 @@
         style="@style/Layout.header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:background="@drawable/background_footer_iphone"
         android:orientation="horizontal" >
-   
+
+            <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/supervisionrespuesta_regresarbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/button_background_iphone_gray"
+                android:text="Regresar"
+                android:textColor="#ffffff" />
+        </LinearLayout>
+        
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
             android:orientation="horizontal" >
@@ -30,7 +47,8 @@
                 android:text="Guardar"
                 android:textColor="#ffffff" />
 
-        </LinearLayout>
+</LinearLayout>
+
 <!-- 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -203,5 +221,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

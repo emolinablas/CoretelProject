@@ -54,6 +54,7 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 	private TextView estadoTextView;
 	private Button capturarButton;
 	private Button guardarButton;
+	private Button regresarButton;
 	private String descripcion;
 	private String titulo;
 	private String pathFoto;
@@ -106,10 +107,12 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 			setCapturarButton((Button)findViewById(R.id.supervisionrespuesta_capturar_button));
 			setGuardarButton((Button)findViewById(R.id.supervisionrespuesta_guardarbutton));
 			setEstadoButton((Button)findViewById(R.id.supervision_respuesta_estado));
+			setRegresarButton((Button)findViewById(R.id.supervisionrespuesta_regresarbutton));
 			
 			getGuardarButton().setOnClickListener(this);
 			getEstadoButton().setOnClickListener(this);
 			getCapturarButton().setOnClickListener(this);
+			getRegresarButton().setOnClickListener(this);
 			
 			
 		}
@@ -132,6 +135,8 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 				new guardarAsync().execute("");
 			}else if (view == getEstadoButton()){
 				dialogEstados(this);
+			}else if (view == getRegresarButton()){
+				finish();
 			}
 		}
 		
@@ -614,7 +619,13 @@ public class SupervisionRespuesta extends Activity implements OnClickListener {
 		public void setOrdenTextView(TextView ordenTextView) {
 			this.ordenTextView = ordenTextView;
 		}
-		
-		
+
+		public Button getRegresarButton() {
+			return regresarButton;
+		}
+
+		public void setRegresarButton(Button regresarButton) {
+			this.regresarButton = regresarButton;
+		}
 		
 }
