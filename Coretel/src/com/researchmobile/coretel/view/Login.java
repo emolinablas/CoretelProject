@@ -11,7 +11,6 @@ import java.net.URLConnection;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,6 +43,7 @@ import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.Mensaje;
 import com.researchmobile.coretel.utility.RMFile;
+import com.researchmobile.coretel.ws.RequestDB;
 import com.researchmobile.coretel.ws.RequestWS;
 
 public class Login extends Activity implements OnClickListener, OnKeyListener{
@@ -156,6 +156,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
                RequestWS request = new RequestWS();
                setRespuesta(request.Login(this, getUser()));
                if (getRespuesta().isResultado()){
+            	   verificaModoTutorial();
 //            	   createDirIfNotExists();
              	   rmFile.downloadImage(User.getAvatar());
 //            	   CargarAnotaciones();
@@ -170,6 +171,11 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
     		 Toast.makeText(this, "No posee conexion a internet, intente mas tarde", Toast.LENGTH_SHORT).show();
     		 return false;
     	 }
+     }
+     
+     public void verificaModoTutorial(){
+    	 RequestDB rqDb = new RequestDB();
+    	 rqDb.verificaModoTutorial(this);
      }
 
      @SuppressLint("SdCardPath")

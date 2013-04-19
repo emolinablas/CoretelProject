@@ -338,10 +338,15 @@ private void animationMenu(){
         mapController = mapView.getController();
         mapController.setZoom(20);
         mapView.setLongClickable(false);
-        int tamano = getCatalogoAsignacion().getAnotacionasignacion().length -1;
-        int latitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLatitud() * 1E6);
-        int longitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLongitud() * 1E6);
-        mapController.animateTo(new GeoPoint(latitud,longitud));
+        try{
+        	int tamano = getCatalogoAsignacion().getAnotacionasignacion().length -1;
+            int latitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLatitud() * 1E6);
+            int longitud = (int) (getCatalogoAsignacion().getAnotacionasignacion()[tamano].getLongitud() * 1E6);
+            mapController.animateTo(new GeoPoint(latitud,longitud));
+        }catch(Exception exception){
+        	
+        }
+        
 //        centerMyPosition();
    }
     
