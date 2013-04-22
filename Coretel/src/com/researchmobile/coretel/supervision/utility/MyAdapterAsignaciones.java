@@ -27,6 +27,7 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 	protected ArrayList<HashMap<String, String>> fitems;
 	//protected Drawable estadoDrawable;
 	private Filter filter;
+	private TokenizerUtilitySupervision tokenizer = new TokenizerUtilitySupervision();
 	
 	
 	
@@ -62,7 +63,7 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
         	LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         	vi = inflater.inflate(R.layout.asignaciones_supervision, null);
         }
-	
+		ImageView icono = (ImageView) vi.findViewById(R.id.icono_asignacion);
 		TextView creacion = (TextView) vi.findViewById(R.id.asignaciones_creacion_textview);
 		TextView asignacion = (TextView) vi.findViewById(R.id.asignaciones_asignacion_textview);
 		TextView resuelto = (TextView) vi.findViewById(R.id.asignaciones_resuelto_textview);
@@ -72,6 +73,7 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 		TextView descripcion = (TextView) vi.findViewById(R.id.descripcion_asignacion);
 		LinearLayout estadoLayout = (LinearLayout) vi.findViewById(R.id.asignaciones_layout_estado);
 		
+		String icono2 =(String) item.get("icono");
 		
 		String estado = (String)item.get("estado");
 		Log.v("pio", "asignaciones - estado = " + estado);
@@ -101,7 +103,9 @@ public class MyAdapterAsignaciones extends BaseAdapter implements Filterable{
 			estadoTV.setText("Reasignado");
 		}
 		
-		//estadoImagen.setImageDrawable(estadoDrawable);
+		//estadoImagen.setImageDrawable(estadoDrawabl
+		//icono.setImageDrawable(tokenizer(activity, icono2));
+		icono.setImageDrawable(tokenizer.buscaIcono(activity, icono2));
 		descripcion.setText((String)item.get("descripcion"));
 		creacion.setText((String)item.get("creacion"));
 		asignacion.setText((String)item.get("asignado"));

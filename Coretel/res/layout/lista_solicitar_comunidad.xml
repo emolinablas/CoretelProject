@@ -10,13 +10,33 @@
         android:layout_height="50dp"
         android:gravity="center" >
 
-        <TextView
-            android:id="@+id/lista_solicitar_textview"
-            style="@style/Text.ItemListView"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lista_solicitar_comunidad_textview"
+                style="@style/Text.ItemListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/lista_solicitar_tipo_textview"
+                style="@style/Text.ItemListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="TextView"  />
+
+            <TextView
+                android:id="@+id/lista_solicitar_id_textview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout2"

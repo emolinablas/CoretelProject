@@ -243,6 +243,7 @@ public class RequestWS {
 						DetalleComunidad com = new DetalleComunidad();
 						com.setId(json.getString("id"));
 						com.setNombre(json.getString("nombre"));
+						com.setEspublica(json.getString("es_publica"));
 						comunidad[i] = com;
 					}
 					catalogo.setRespuestaWS(respuesta);
@@ -287,6 +288,7 @@ public class RequestWS {
 						com.setNombre(json.getString("nombre"));
 						com.setDescripcion(json.getString("descripcion"));
 						com.setIdDuenno(json.getString("id_usuario_creo"));
+						com.setEspublica(json.getString("es_publica"));
 						comunidad[i] = com;
 					}
 					catalogo.setRespuestaWS(respuesta);

@@ -1,5 +1,8 @@
 package com.researchmobile.coretel.view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.researchmobile.coretel.entity.CatalogoComunidad;
@@ -39,6 +43,7 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 	private ArrayAdapter<String> adapter;
 	private EditText buscarEditText;
 	private Button borrarButton;
+	private SimpleAdapter mSchedule;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -109,22 +114,21 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
     
     private void resultadoComunidades(){
     	if (getCatalogo() != null){
-    		Log.e("pio", "comunidades = " + getCatalogo().getComunidad().length);
     		if (getCatalogo().getRespuestaWS().isResultado()){
+    			 setmSchedule(new SimpleAdapter(this, ListaComunidades(), R.layout.lista_solicitar_comunidad,
+    	                    new String[] {"id","nombre", "tipo"}, new int[] {R.id.lista_solicitar_id_textview, R.id.lista_solicitar_comunidad_textview, R.id.lista_solicitar_tipo_textview,}));
     			
-    			setAdapter(new ArrayAdapter<String>(this, 
-    					R.layout.lista_solicitar_comunidad,
-    					R.id.lista_solicitar_textview,
-    					ListaComunidades()));
-    					getComunidadesListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    			
-    			
-    			getComunidadesListView().setAdapter(getAdapter());
+    			getComunidadesListView().setAdapter(getmSchedule());
     				    
     				    getComunidadesListView().setOnItemClickListener(new OnItemClickListener() {
-    			    @Override
+    			    @SuppressWarnings("unchecked")
+					@Override
     			    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-    			    	setSelect(a.getItemAtPosition(position).toString());
+    			    	HashMap <String, String> map = new HashMap <String, String>();
+    			    	map = (HashMap<String, String>) a.getItemAtPosition(position);
+    			    	setSelect(map.get("id"));
+    			    	Log.v("pio", "comunidad seleccionada = " + getSelect());
+    			    	Log.v("pio", "comunidad seleccionada map = " + map.toString());
     			    	new SolicitarAsync().execute("");
     			    }
     			});
@@ -172,19 +176,19 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 
 	
 	private void enviarSolicitud(String select) {
-		String idComunidad = "";
-		int tamano = getCatalogo().getComunidad().length;
-		for (int i = 0; i < tamano; i++){
-			if (getCatalogo().getComunidad()[i].getNombre().equalsIgnoreCase(select)){
-				idComunidad = getCatalogo().getComunidad()[i].getId();
-			}
-		}
+//		String idComunidad = "";
+//		int tamano = getCatalogo().getComunidad().length;
+//		for (int i = 0; i < tamano; i++){
+//			if (getCatalogo().getComunidad()[i].getNombre().equalsIgnoreCase(select)){
+//				idComunidad = getCatalogo().getComunidad()[i].getId();
+//			}
+//		}
 		
 		try{
 			ConnectState con = new ConnectState();
 			if (con.isConnectedToInternet(this)){
 				RequestWS request = new RequestWS();
-				setRespuesta(request.solicitarComunidad(idComunidad));
+				setRespuesta(request.solicitarComunidad(getSelect()));
 				if(getDetalleComunidad().getRespuestaWS().isResultado()){
 					setCatalogoMiembro(request.CatalogoMiembro(getDetalleComunidad().getId()));
 					if (getCatalogoMiembro().getRespuestaWS().isResultado()){
@@ -197,14 +201,34 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 		}
 	}
 	
-	private String[] ListaComunidades() {
-		int tamano = getCatalogo().getComunidad().length;
-		System.out.println(tamano);
-		String[] comunidades = new String[tamano];
-		for (int i = 0; i < tamano; i++){
-			comunidades[i] = getCatalogo().getComunidad()[i].getNombre();
+	private ArrayList<HashMap<String, String>> ListaComunidades() {
+		ArrayList<HashMap<String, String>> mylist = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> map = null;
+        int tamano = getCatalogo().getComunidad().length;
+        for (int i = 0; i < tamano; i++){
+        	map = new HashMap<String, String>();
+        	map.put("id", getCatalogo().getComunidad()[i].getId());
+            map.put("nombre", getCatalogo().getComunidad()[i].getNombre());
+            map.put("tipo", tipoComunidad(getCatalogo().getComunidad()[i].getEspublica()));
+            mylist.add(map);
+        }
+        return mylist;
+		
+//		int tamano = getCatalogo().getComunidad().length;
+//		System.out.println(tamano);
+//		String[] comunidades = new String[tamano];
+//		for (int i = 0; i < tamano; i++){
+//			comunidades[i] = getCatalogo().getComunidad()[i].getNombre();
+//		}
+//		return comunidades;
+	}
+	
+	private String tipoComunidad(String tipo){
+		if (tipo.equalsIgnoreCase("1")){
+			return "Publica";
+		}else{
+			return "Privada";
 		}
-		return comunidades;
 	}
 
 
@@ -287,10 +311,8 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		getAdapter().getFilter().filter(s);
-        getAdapter().notifyDataSetChanged();
-
-		
+		getmSchedule().getFilter().filter(s);
+		getmSchedule().notifyDataSetChanged();
 	}
 
 	public ArrayAdapter<String> getAdapter() {
@@ -315,6 +337,14 @@ public class ComunidadesTodas extends Activity implements OnClickListener, TextW
 
 	public void setBorrarButton(Button borrarButton) {
 		this.borrarButton = borrarButton;
+	}
+
+	public SimpleAdapter getmSchedule() {
+		return mSchedule;
+	}
+
+	public void setmSchedule(SimpleAdapter mSchedule) {
+		this.mSchedule = mSchedule;
 	}
 	
 	

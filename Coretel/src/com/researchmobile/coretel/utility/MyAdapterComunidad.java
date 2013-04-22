@@ -46,13 +46,23 @@ public class MyAdapterComunidad extends BaseAdapter {
         	vi = inflater.inflate(R.layout.lista_comunidades, null);
         }
 		
+		TextView tipo = (TextView) vi.findViewById(R.id.item_comunidad_tipo);
 		TextView nombre = (TextView) vi.findViewById(R.id.item_comunidad_nombre);
 		TextView descripcion = (TextView) vi.findViewById(R.id.item_comunidad_descripcion);
 		
 		nombre.setText(item.getNombre());
 		descripcion.setText(item.getDescripcion());
+		tipo.setText(tipoComunidad(item.getEspublica()));
 		
 		return vi;
+	}
+	
+	private String tipoComunidad(String tipo){
+		if (tipo.equalsIgnoreCase("1")){
+			return "Publica";
+		}else{
+			return "Privada";
+		}
 	}
 
 }

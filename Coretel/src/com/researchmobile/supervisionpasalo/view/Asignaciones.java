@@ -123,10 +123,11 @@ public class Asignaciones extends Activity implements OnItemClickListener, TextW
 	                map.put("tipo", getCatalogoAsignacion().getAnotacionasignacion()[i].getNombreTipoAnotacion());
 	                String estado = String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getId_estado());
 	                map.put("descripcion", getCatalogoAsignacion().getAnotacionasignacion()[i].getDescripcion());
-
+	                map.put("icono", getCatalogoAsignacion().getAnotacionasignacion()[i].getIcono());
 	                map.put("estado", estado);
 	                map.put("latitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLatitud()));
 	                map.put("longitud", String.valueOf(getCatalogoAsignacion().getAnotacionasignacion()[i].getLongitud()));
+	                
 	                mylist.add(map);
 				}
 			
