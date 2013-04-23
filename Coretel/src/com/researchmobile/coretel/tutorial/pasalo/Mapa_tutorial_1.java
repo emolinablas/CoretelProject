@@ -1,21 +1,23 @@
 package com.researchmobile.coretel.tutorial.pasalo;
 
-import com.researchmobile.coretel.view.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.researchmobile.coretel.view.R;
 
 public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
-	int pagina = 1;
+	Button retornoButton;
+	int pagina = 0;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -24,56 +26,56 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 		setTutorialBackgroud((LinearLayout)findViewById(R.id.tutorial_layout_mapa));
 		getTutorialBackgroud().setOnClickListener(this);
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_mapa));
+		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar_mapa));
+		getRetornoButton().setOnClickListener(this);
 		}
 	
 	// El siguiente metodo permite llevar el seguimiento del tutorial, seteando el gradiente para cada paso del tutorial ademas del mensaje.
 	
-	@Override
-	public void onClick(View view) {
-		// TODO Auto-generated method stub
-		if(view == getTutorialBackgroud()){
-			switch(pagina){
+	private void MostrarView(){
+		switch(pagina){
 		
-			case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left); //utilizo el gradiente arriba/izquierda
-						mensaje.setText(R.string.tutorial_menu);
-						pagina++;
-						break;
-			case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right); // utilizo el gradiente abajo/derecha
-						mensaje.setText(R.string.tutorial_mapa_accdir);
-						pagina++;
-						break;
-			
-			case 3: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring);
-						mensaje.setText(R.string.tutorial_mapa_pluscreaevento);
-						pagina++;
-						break;
-			case 4: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring_2);
-						mensaje.setText(R.string.tutorial_mapa_world);
-						pagina++;
-						break;
-			case 5: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_left_margin);
-						mensaje.setText(R.string.tutorial_mapa_cambiarvista);
-						pagina++;
-						break;
-			case 6: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_left);
-						mensaje.setText(R.string.tutorial_mapa_actualizaposicion);
-						pagina++;
-						break;
-			case 7: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right_reload);
-						mensaje.setText(R.string.tutorial_mapa_recargar);
-						pagina++;
-						break;
-			case 8: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left_filter);
-						mensaje.setText(R.string.tutorial_mapa_filtrar);
-						pagina++;
-						break;
-
-
-			case 9:		//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
-						finish();
-						break;
+		case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left); //utilizo el gradiente arriba/izquierda
+					mensaje.setText(R.string.tutorial_menu);
 					
-		}
+					break;
+		case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right); // utilizo el gradiente abajo/derecha
+					mensaje.setText(R.string.tutorial_mapa_accdir);
+					break;		
+		case 3: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring);
+					mensaje.setText(R.string.tutorial_mapa_pluscreaevento);
+					break;
+		case 4: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring_2);
+					mensaje.setText(R.string.tutorial_mapa_world);
+					pagina++;
+					break;
+		case 5: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_left_margin);
+					mensaje.setText(R.string.tutorial_mapa_cambiarvista);
+					break;
+		case 6: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_left);
+					mensaje.setText(R.string.tutorial_mapa_actualizaposicion);
+					break;
+		case 7: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right_reload);
+					mensaje.setText(R.string.tutorial_mapa_recargar);
+					break;
+		case 8: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left_filter);
+					mensaje.setText(R.string.tutorial_mapa_filtrar);
+					break;
+		case 9:		//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
+					finish();
+					break;
+				
+	}
+
+	}
+	
+	public void onClick(View view) {
+		if(view == getTutorialBackgroud()){
+			pagina++;
+			MostrarView();
+		}else if(view == getRetornoButton()){
+			pagina--;
+			MostrarView();
 		}
 		
 	}
@@ -103,5 +105,15 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 	public void setMensaje(TextView mensaje) {
 		this.mensaje = mensaje;
 	}
+
+	public Button getRetornoButton() {
+		return retornoButton;
+	}
+
+	public void setRetornoButton(Button retornoButton) {
+		this.retornoButton = retornoButton;
+	}
+	
+	
 
 }

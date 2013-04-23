@@ -21,6 +21,15 @@
             android:layout_marginRight="10dp"
             android:text="@string/mensajeAyuda"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+       <Button 
+        android:id="@+id/tutorial_button_regresar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/retorno"
+        />
 
     </RelativeLayout>
 

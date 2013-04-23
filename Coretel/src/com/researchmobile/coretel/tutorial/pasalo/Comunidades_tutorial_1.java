@@ -1,23 +1,23 @@
 package com.researchmobile.coretel.tutorial.pasalo;
 
-import com.researchmobile.coretel.view.Comunidades;
-import com.researchmobile.coretel.view.R;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.researchmobile.coretel.view.R;
 
 public class Comunidades_tutorial_1 extends Activity implements OnClickListener {
 	
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
-	int pagina = 1;
+	Button retornoButton;
+	int pagina = 0;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -26,31 +26,36 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 		setTutorialBackgroud((LinearLayout)findViewById(R.id.tutorial_layout_comunidades));
 		getTutorialBackgroud().setOnClickListener(this);
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_comunidades));
-		}
+		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar));
+		getRetornoButton().setOnClickListener(this);
+	}
 
-	@Override
-	public void onClick(View view) {
-		// TODO Auto-generated method stub
-		if(view == getTutorialBackgroud()){
-			switch(pagina){
+	private void MostrarView(){
+		switch(pagina){
 		
-			case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
-						mensaje.setText(R.string.tutorial_agregar_comunidad);
-						pagina++;
-						break;
-			case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left);
-						mensaje.setText(R.string.tutorial_menu);
-						pagina++;
-						break;
-			case 4:	//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
-						finish();
-						break;
-			case 3: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring);
-						mensaje.setText(R.string.tutorial_explorar_comunidades);
-						pagina++;
-						break;
+		case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
+					mensaje.setText(R.string.tutorial_agregar_comunidad);
+					break;
+		case 2: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left);
+					mensaje.setText(R.string.tutorial_menu);
+					break;
+		case 3:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring);
+					mensaje.setText(R.string.tutorial_explorar_comunidades);
+					break;			
+		case 4: 	//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
+					finish();
+					break;
 					
-		}
+	}
+}
+
+	public void onClick(View view) {
+		if(view == getTutorialBackgroud()){
+			pagina++;
+			MostrarView();
+		}else if(view == getRetornoButton()){
+			pagina--;
+			MostrarView();
 		}
 		
 	}
@@ -80,5 +85,15 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 	public void setMensaje(TextView mensaje) {
 		this.mensaje = mensaje;
 	}
+
+	public Button getRetornoButton() {
+		return retornoButton;
+	}
+
+	public void setRetornoButton(Button retornoButton) {
+		this.retornoButton = retornoButton;
+	}
+	
+	
 
 }
