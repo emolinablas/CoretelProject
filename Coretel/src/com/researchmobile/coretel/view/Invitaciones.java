@@ -12,27 +12,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,12 +36,12 @@ import com.researchmobile.coretel.entity.CatalogoSolicitud;
 import com.researchmobile.coretel.entity.DetalleComunidad;
 import com.researchmobile.coretel.entity.Invitacion;
 import com.researchmobile.coretel.entity.RespuestaWS;
-import com.researchmobile.coretel.entity.Solicitud;
 import com.researchmobile.coretel.entity.User;
 import com.researchmobile.coretel.supervision.utility.AdapterInvitaciones;
 import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
+import com.slidingmenu.lib.SlidingMenu;
 /**
  * 
  * @author WUIL
@@ -80,6 +73,9 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	private String invitaEmail;
 	private String invitaComunidad;
 	
+	private SlidingMenu menu = null;
+	private ImageView startMenuButton;
+	
 	/**
 	 * Metodos para menu Slide
 	 * prepararMenu(), animationMenu(), expandMenu(), collapseMenu(), opcionesMenu(int opcion).
@@ -89,28 +85,16 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	private ImageView avatarImageView;
 	private TextView nombreUsuarioTextView;
 	private ListView lView;
-	private LinearLayout slidingPanel;
-	private boolean isExpanded;
-	private DisplayMetrics metrics;	
-	private RelativeLayout headerPanel;
-	private RelativeLayout menuPanel;
-	private int panelWidth;
-	private ImageView menuViewButton;
-	
-	FrameLayout.LayoutParams menuPanelParameters;
-	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
-	LinearLayout.LayoutParams listViewParameters;
-	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.invitaciones_menu);
-        
-        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        prepareMenu();
+        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_lateral_usuario));
         getNombreUsuarioTextView().setText(User.getNombre());
-        
+        setStartMenuButton((ImageView)findViewById(R.id.menuViewButton));
+        getStartMenuButton().setOnClickListener(this);
         setCatalogoInvitacion(new CatalogoInvitacion());
         setCatalogoInvitacionEnviado(new CatalogoInvitacion());
         setCatalogoSolicitudRecibida(new CatalogoSolicitud());
@@ -124,29 +108,60 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
         setSolicitudesRecibidasListView((ListView)findViewById(R.id.solicitudes_recibidas_listView));
         setSolicitudesEnviadasListView((ListView)findViewById(R.id.solicitud_enviada_listView));
         setInvitarButton((Button)findViewById(R.id.invitaciones_agregar_button));
-        setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
+        setAvatarImageView((ImageView)findViewById(R.id.menu_lateral_avatar));
         getInvitarButton().setOnClickListener(this);
         getInvitacionesListView().setOnItemClickListener(this);
         getInvitacionesEnviadasListView().setOnItemClickListener(this);
-       // getSolicitudesRecibidasListView().setOnItemClickListener(this);
-       // getSolicitudesEnviadasListView().setOnItemClickListener(this);
-        prepararMenu();
-    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
+        
         new InvitacionesAsync().execute("");
     }
+	
+	private void prepareMenu(){
+		//Preparacion de los componentes necesarios para que funcione el menu lateral
+		menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.menu_lateral);
+        
+        //Inicializamos la lista que mostrara las opciones del menu
+        lView = (ListView)findViewById(R.id.menu_lateral_listview);
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+        
+        //Inicializamos y agregamos la imagen del imageview para mostrar el avatar
+        ImageView avatar = (ImageView)findViewById(R.id.menu_lateral_avatar);
+        Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		avatar.setImageBitmap(image);
+        
+		//llenamos la lista con las opciones
+		MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
+		lView.setOnItemClickListener(this);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (menu.isMenuShowing()) {
+			menu.showContent();
+		} else {
+			menu.showMenu();
+//			super.onBackPressed();
+		}
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 		if (adapter == getInvitacionesListView()){
-			
 			@SuppressWarnings("unchecked")
 			HashMap<String, Object> invitacion = (HashMap<String, Object>) adapter.getItemAtPosition(position);
 			Intent intentDetalle = new Intent(this, DetalleInvitacion.class);
 			intentDetalle.putExtra("invitacion",invitacion);
 			startActivity(intentDetalle);
 		}else if(adapter == lView){
-			collapseMenu();
 			opcionesMenu(position);
 		}else if (adapter == getSolicitudesRecibidasListView()){
 			@SuppressWarnings("unchecked")
@@ -191,6 +206,8 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	public void onClick(View view) {
 		if (view == getInvitarButton()){
 			new invitarAsync().execute("");
+		}else if (view == getStartMenuButton()){
+			onBackPressed();
 		}
 	}
 	
@@ -216,111 +233,6 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	            + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 	    listView.setLayoutParams(params);
 	    listView.requestLayout();
-	}
-	
-	private void prepararMenu(){
-		/***
-         * MENU
-         */
-		lView = (ListView) findViewById(R.id.lista);
-        
-        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
-
-      // Set option as Multiple Choice. So that user can able to select more the one option from list
-        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
-		lView.setAdapter(adapterMenu);
-      lView.setOnItemClickListener(this);
-      animationMenu();
-      
-    }
-	
-	private void animationMenu(){
-    	//Initialize
-		metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		panelWidth = (int) ((metrics.widthPixels)*0.75);
-	
-		headerPanel = (RelativeLayout) findViewById(R.id.header);
-		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-		headerPanelParameters.width = metrics.widthPixels;
-		headerPanel.setLayoutParams(headerPanelParameters);
-		
-		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-		menuPanelParameters.width = panelWidth;
-		menuPanel.setLayoutParams(menuPanelParameters);
-		
-		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-		slidingPanelParameters.width = metrics.widthPixels;
-		slidingPanel.setLayoutParams(slidingPanelParameters);
-		
-		//Slide the Panel	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-		menuViewButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if(!isExpanded){
-		    		expandMenu();
-		    	}else{
-		    		collapseMenu();
-		    	}         	   
-		    }
-		});
-	}
-	
-	private void expandMenu(){
-    	//Expand
-    	isExpanded = true;
-		new ExpandAnimation(slidingPanel, panelWidth,
-	    Animation.RELATIVE_TO_SELF, 0.0f,
-	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
-    }
-    
-    private void collapseMenu(){
-    	//Collapse
-    	isExpanded = false;
-		new CollapseAnimation(slidingPanel,panelWidth,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-    }
-	
-	private void dialogInvitacion() { // metodo para llamar al dialog
-		
-			String est;
-		 if(getInvitacion().getEstado()=="0") // verifico si el estado es realizado
-		 {
-			 est = "No respondido";
-		 }else if(getInvitacion().getEstado() =="1"){
-			 est = "Aceptado";
-		 }else{
-			 est = "Rechazada";
-		 }
-		 new AlertDialog.Builder(this)
-         .setTitle("INVITACION") 
-         									   .setMessage("ESTADO:__________________ " + 
-        		 							  est + "\n" + "INVITO: __________________ " + 
-               getInvitacion().getUsuarioInvita() + "\n" + "COMUNIDAD:____________ " + 
-        	 getInvitacion().getNombreComunidad() + "\n" + "FECHA DE INVITACION:_ " + 
-               getInvitacion().getFechaRegistro() + "\n" + "EMAIL:____________________ " +
-        	 getInvitacion().getEmail())
-         .setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
-             public void onClick(DialogInterface dialog, int whichButton) {
-                  setRespuesta("1");
-                  new enviarRespuestaAsync().execute("");
-             }
-         })
-         .setNegativeButton("RECHAZAR", new DialogInterface.OnClickListener() {
-             public void onClick(DialogInterface dialog, int whichButton) {
-                 setRespuesta("2");
-                 new enviarRespuestaAsync().execute("");
-             }
-         })
-		 .setNeutralButton("CANCELAR", new DialogInterface.OnClickListener() {
-             public void onClick(DialogInterface dialog, int whichButton) {
-                 setRespuesta("3");
-             }
-         })
-         .show();
 	}
 	
 	class comunidadesAsync extends AsyncTask<String, Integer, Integer> {
@@ -909,6 +821,14 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 	public void setSolicitudesRecibidasListView(
 			ListView solicitudesRecibidasListView) {
 		this.solicitudesRecibidasListView = solicitudesRecibidasListView;
+	}
+
+	public ImageView getStartMenuButton() {
+		return startMenuButton;
+	}
+
+	public void setStartMenuButton(ImageView startMenuButton) {
+		this.startMenuButton = startMenuButton;
 	}
 
 	
