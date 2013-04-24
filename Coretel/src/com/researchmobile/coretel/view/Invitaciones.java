@@ -127,6 +127,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
         menu.setMenu(R.layout.menu_lateral);
+        menu.setSlidingEnabled(false);
         
         //Inicializamos la lista que mostrara las opciones del menu
         lView = (ListView)findViewById(R.id.menu_lateral_listview);

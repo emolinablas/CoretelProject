@@ -14,24 +14,19 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +50,7 @@ import com.researchmobile.coretel.utility.TokenizerUtility;
 import com.researchmobile.coretel.view.MapItemizedOverlaySelect.OnSelectPOIListener;
 import com.researchmobile.coretel.ws.RequestDB;
 import com.researchmobile.coretel.ws.RequestWS;
+import com.slidingmenu.lib.SlidingMenu;
 
 public class Mapa extends MapActivity implements OnItemClickListener, OnClickListener{
 	private static final String LOG = "pio";
@@ -79,14 +75,9 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private LinearLayout bubbleFilterLayout = null;
 	private LinearLayout bubbleLugaresLayout = null;
 	//Declare
-	private LinearLayout slidingPanel;
-	private boolean isExpanded;
-	private DisplayMetrics metrics;	
-	private RelativeLayout headerPanel;
-	private RelativeLayout menuPanel;
-	private int panelWidth;
 	
-	private ImageView avatarImageView;
+	private SlidingMenu menu = null;
+	
 	private TextView nombreUsuarioTextView;
 	private ImageView menuViewButton;
 	private ListView lView;
@@ -97,11 +88,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private TokenizerUtility tokenizer =new TokenizerUtility();
 	private RequestWS requestWS;
 	
-	FrameLayout.LayoutParams menuPanelParameters;
-	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
-	LinearLayout.LayoutParams listViewParameters;
-	
 	final List<GeoPoint> list = new ArrayList<GeoPoint>();
  
     @Override
@@ -111,8 +97,8 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         setContentView(R.layout.mapa);
         setRequestWS(new RequestWS());
         EventoTemporal.setControl(0);
-        
-        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+        prepareMenu();
+        setNombreUsuarioTextView((TextView)findViewById(R.id.menu_lateral_usuario));
         getNombreUsuarioTextView().setText(User.getNombre());
         setBtnAnimar((Button)findViewById(R.id.BtnAnimar));
         setBtnCentrar((Button)findViewById(R.id.BtnCentrar));
@@ -121,7 +107,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         setBtnSatelite((Button)findViewById(R.id.BtnSatelite));
         setBtnTipoComunidad((Button)findViewById(R.id.BtnTipoComunidad));
         setBtnLugares((Button)findViewById(R.id.BtnLugares));
-        setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
         getBtnAnimar().setOnClickListener(this);
         getBtnCentrar().setOnClickListener(this);
         getBtnFilter().setOnClickListener(this);
@@ -138,30 +123,57 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         bubbleLugaresLayout = (LinearLayout)findViewById(R.id.bubble_lugares_layout);
     	comunidadesFilter = (ListView)findViewById(R.id.comunidades_filter);
     	lugaresFilter = (ListView)findViewById(R.id.lugares_filter);
-    	lView = (ListView) findViewById(R.id.lista);
-        lView.setOnItemClickListener(this);
     	comunidadesFilter.setOnItemClickListener(this);
     	lugaresFilter.setOnItemClickListener(this);
     	
     	String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
     	String lugares_items[] = { "Hoteles", "Restaurantes", "Cafetería", "Otros"};
 
-		// Set option as Multiple Choice. So that user can able to select more
-		// the one option from list
-    	MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
-		lView.setAdapter(adapterMenu);
-		lView.setOnItemClickListener(this);
-		
 		lugaresFilter.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lugares_items));
 		lugaresFilter.setOnItemClickListener(this);
 		
 		
-		animationMenu();
-    	Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
-        
-		new buscaAnotacionesAsync().execute("");
+		
+    	new buscaAnotacionesAsync().execute("");
     }
+    
+    private void prepareMenu(){
+		//Preparacion de los componentes necesarios para que funcione el menu lateral
+		menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.menu_lateral);
+        menu.setSlidingEnabled(false);
+        
+        //Inicializamos la lista que mostrara las opciones del menu
+        lView = (ListView)findViewById(R.id.menu_lateral_listview);
+        String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
+        
+        //Inicializamos y agregamos la imagen del imageview para mostrar el avatar
+        ImageView avatar = (ImageView)findViewById(R.id.menu_lateral_avatar);
+        Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		avatar.setImageBitmap(image);
+        
+		//llenamos la lista con las opciones
+		MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+		lView.setAdapter(adapterMenu);
+		lView.setOnItemClickListener(this);
+	}
+    
+    @Override
+	public void onBackPressed() {
+		if (menu.isMenuShowing()) {
+			menu.showContent();
+		} else {
+			menu.showMenu();
+//			super.onBackPressed();
+		}
+	}
     
 	@Override
 	public void onClick(View v) {
@@ -176,19 +188,11 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 		}else if (v == getBtnSatelite()){
 			opcionSatelite();
 		}else if (v == getMenuViewButton()){
-			startMenu();
+			onBackPressed();
 		}else if (v == getBtnTipoComunidad()){
 			dialogTiposComunidades(this);
 		}else if (v == getBtnLugares()){
 			opcionLugares();
-		}
-	}
-	
-	public void startMenu() {
-		if (!isExpanded) {
-			expandMenu();
-		} else {
-			collapseMenu();
 		}
 	}
 	
@@ -271,7 +275,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int arg2, long arg3) {
 		if (adapterView == lView){
-			collapseMenu();
 			opcionesMenu(arg2);
 		}else if (adapterView == comunidadesFilter){
 			DetalleComunidad comunidad = (DetalleComunidad) adapterView.getItemAtPosition(arg2);
@@ -491,43 +494,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	}
 
     
-    private void animationMenu(){
-    	//Initialize
-		metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		panelWidth = (int) ((metrics.widthPixels)*0.75);
-	
-		headerPanel = (RelativeLayout) findViewById(R.id.header);
-		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-		headerPanelParameters.width = metrics.widthPixels;
-		headerPanel.setLayoutParams(headerPanelParameters);
-		
-		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-		menuPanelParameters.width = panelWidth;
-		menuPanel.setLayoutParams(menuPanelParameters);
-		
-		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-		slidingPanelParameters.width = metrics.widthPixels;
-		slidingPanel.setLayoutParams(slidingPanelParameters);
-	}
-    
-    private void expandMenu(){
-    	//Expand
-    	isExpanded = true;
-		new ExpandAnimation(slidingPanel, panelWidth,
-	    Animation.RELATIVE_TO_SELF, 0.0f,
-	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
-    }
-    
-    private void collapseMenu(){
-    	//Collapse
-    	isExpanded = false;
-		new CollapseAnimation(slidingPanel,panelWidth,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-    }
     private void VerificarPuntos(List<GeoPoint> list) {
     	if (getCatalogoAnotacion().getAnotacion() != null){
     		int tamano = getCatalogoAnotacion().getAnotacion().length;
@@ -862,14 +828,6 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 
 	public void setNombreUsuarioTextView(TextView nombreUsuarioTextView) {
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
-	}
-
-	public ImageView getAvatarImageView() {
-		return avatarImageView;
-	}
-
-	public void setAvatarImageView(ImageView avatarImageView) {
-		this.avatarImageView = avatarImageView;
 	}
 
 	public ImageView getMenuViewButton() {

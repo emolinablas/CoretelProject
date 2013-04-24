@@ -40,10 +40,12 @@ import com.researchmobile.coretel.utility.ConnectState;
 import com.researchmobile.coretel.utility.MyAdapterComunidad;
 import com.researchmobile.coretel.utility.MyAdapterMenu;
 import com.researchmobile.coretel.ws.RequestWS;
+import com.slidingmenu.lib.SlidingMenu;
 
 public class Comunidades extends Activity implements OnClickListener, OnItemClickListener{
 	private Button agregarButton;
 	private Button explorarButton;
+	private ImageView menuButton;
 	private ListView comunidadesListView;
 	private CatalogoComunidad catalogo;
 	private CatalogoMiembro catalogoMiembro;
@@ -54,27 +56,20 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	private CatalogoComunidad catalogoComunidad;
 	private boolean deOpciones;
 	
-	private ImageView avatarImageView;
+	private SlidingMenu menu = null;
 	private TextView nombreUsuarioTextView;
 	private ListView lView;
-	private LinearLayout slidingPanel;
-	private boolean isExpanded;
-	private DisplayMetrics metrics;	
-	private RelativeLayout headerPanel;
-	private RelativeLayout menuPanel;
-	private int panelWidth;
-	private ImageView menuViewButton;
 	
-	FrameLayout.LayoutParams menuPanelParameters;
-	FrameLayout.LayoutParams slidingPanelParameters;
-	LinearLayout.LayoutParams headerPanelParameters ;
-	LinearLayout.LayoutParams listViewParameters;
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.comunidades_menu);
-		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_title_1));
+		prepararMenu();
+		
+		setMenuButton((ImageView)findViewById(R.id.menuViewButton));
+		getMenuButton().setOnClickListener(this);
+		setNombreUsuarioTextView((TextView)findViewById(R.id.menu_lateral_usuario));
         getNombreUsuarioTextView().setText(User.getNombre());
 		setCatalogo(new CatalogoComunidad());
 		setCatalogoComunidad(new CatalogoComunidad());
@@ -97,87 +92,49 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 		getAgregarButton().setOnClickListener(this);
 		getExplorarButton().setOnClickListener(this);
 		setComunidadesListView((ListView)findViewById(R.id.comunidades_lista_listview));
-		setAvatarImageView((ImageView)findViewById(R.id.mapa_avatar));
-		lView = (ListView) findViewById(R.id.lista);
-		Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
-		getAvatarImageView().setImageBitmap(image);
-		
-		prepararMenu();
-		
-		
 	}
 	
 	private void prepararMenu(){
-		/***
-         * MENU
-         */
+		menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadow);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+        menu.setMenu(R.layout.menu_lateral);
+        menu.setSlidingEnabled(false);
         
+        //Inicializamos la lista que mostrara las opciones del menu
+        lView = (ListView)findViewById(R.id.menu_lateral_listview);
         String lv_items[] = { "Mapa", "Comunidades", "Invitaciones", "Mi Perfil", "Chat", "Cerrar sesión" };
-
-      // Set option as Multiple Choice. So that user can able to select more the one option from list
         
-        MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
+        //Inicializamos y agregamos la imagen del imageview para mostrar el avatar
+        ImageView avatar = (ImageView)findViewById(R.id.menu_lateral_avatar);
+        Bitmap image = BitmapFactory.decodeFile("sdcard/pasalo/" + User.getAvatar());
+		avatar.setImageBitmap(image);
+        
+		//llenamos la lista con las opciones
+		MyAdapterMenu adapterMenu = new MyAdapterMenu(this, lv_items);
 		lView.setAdapter(adapterMenu);
-      lView.setOnItemClickListener(this);
-      animationMenu();
+		lView.setOnItemClickListener(this);
       
     }
 	
-	private void animationMenu(){
-    	//Initialize
-		metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		panelWidth = (int) ((metrics.widthPixels)*0.75);
-	
-		headerPanel = (RelativeLayout) findViewById(R.id.header);
-		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel.getLayoutParams();
-		headerPanelParameters.width = metrics.widthPixels;
-		headerPanel.setLayoutParams(headerPanelParameters);
-		
-		menuPanel = (RelativeLayout) findViewById(R.id.menuPanel);
-		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel.getLayoutParams();
-		menuPanelParameters.width = panelWidth;
-		menuPanel.setLayoutParams(menuPanelParameters);
-		
-		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel.getLayoutParams();
-		slidingPanelParameters.width = metrics.widthPixels;
-		slidingPanel.setLayoutParams(slidingPanelParameters);
-		
-		//Slide the Panel	
-		menuViewButton = (ImageView) findViewById(R.id.menuViewButton);
-		menuViewButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	if(!isExpanded){
-		    		expandMenu();
-		    	}else{
-		    		collapseMenu();
-		    	}         	   
-		    }
-		});
+	@Override
+	public void onBackPressed() {
+		if (menu.isMenuShowing()) {
+			menu.showContent();
+		} else {
+			menu.showMenu();
+//			super.onBackPressed();
+		}
 	}
-	
-	private void expandMenu(){
-    	//Expand
-    	isExpanded = true;
-		new ExpandAnimation(slidingPanel, panelWidth,
-	    Animation.RELATIVE_TO_SELF, 0.0f,
-	    Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
-    }
-    
-    private void collapseMenu(){
-    	//Collapse
-    	isExpanded = false;
-		new CollapseAnimation(slidingPanel,panelWidth,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-	    TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-    }
 
-
-@Override
+	@Override
 public void onItemClick(AdapterView<?> adapterView, View arg1, int arg2, long arg3) {
 	if (adapterView == lView){
-		collapseMenu();
 		opcionesMenu(arg2);
 	}
 	
@@ -428,6 +385,8 @@ private void dialogComunidades(){
 			AgregarComunidad();
 		}else if(view == getExplorarButton()){
 			explorarComunidades();
+		}else if (view == getMenuButton()){
+			onBackPressed();
 		}
 		
 	}
@@ -520,14 +479,6 @@ private void dialogComunidades(){
 		this.nombreUsuarioTextView = nombreUsuarioTextView;
 	}
 
-	public ImageView getAvatarImageView() {
-		return avatarImageView;
-	}
-
-	public void setAvatarImageView(ImageView avatarImageView) {
-		this.avatarImageView = avatarImageView;
-	}
-
 	public RequestWS getRequest() {
 		return request;
 	}
@@ -551,6 +502,15 @@ private void dialogComunidades(){
 	public void setDeOpciones(boolean deOpciones) {
 		this.deOpciones = deOpciones;
 	}
+
+	public ImageView getMenuButton() {
+		return menuButton;
+	}
+
+	public void setMenuButton(ImageView menuButton) {
+		this.menuButton = menuButton;
+	}
+
 	
 	
 }
