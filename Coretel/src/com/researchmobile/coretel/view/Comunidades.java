@@ -135,6 +135,7 @@ public class Comunidades extends Activity implements OnClickListener, OnItemClic
 	@Override
 public void onItemClick(AdapterView<?> adapterView, View arg1, int arg2, long arg3) {
 	if (adapterView == lView){
+		onBackPressed();
 		opcionesMenu(arg2);
 	}
 	

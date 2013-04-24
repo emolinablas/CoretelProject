@@ -275,6 +275,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int arg2, long arg3) {
 		if (adapterView == lView){
+			onBackPressed();
 			opcionesMenu(arg2);
 		}else if (adapterView == comunidadesFilter){
 			DetalleComunidad comunidad = (DetalleComunidad) adapterView.getItemAtPosition(arg2);

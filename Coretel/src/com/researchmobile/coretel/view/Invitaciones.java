@@ -163,6 +163,7 @@ public class Invitaciones extends Activity implements OnItemClickListener, OnCli
 			intentDetalle.putExtra("invitacion",invitacion);
 			startActivity(intentDetalle);
 		}else if(adapter == lView){
+			onBackPressed();
 			opcionesMenu(position);
 		}else if (adapter == getSolicitudesRecibidasListView()){
 			@SuppressWarnings("unchecked")
