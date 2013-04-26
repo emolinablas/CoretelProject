@@ -62,12 +62,22 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 		}
 	}
 	public void onClick(View view) {
-		if (view == getTutorialBackgroud()) {
+		if(view == getTutorialBackgroud())
+		 {
 			pagina++;
 			MostrarView();
-		}else if(view == getRetornoButton()){
-			pagina--;
-			MostrarView();
+			if(pagina > 0)
+			getRetornoButton().setEnabled(true);				
+		 }
+		
+		else if(pagina == 0)
+			{
+			getRetornoButton().setEnabled(false);
+			}
+		else if(view == getRetornoButton())
+			{	
+		pagina--;
+		MostrarView();			
 		}
 	}
 	public LinearLayout getTutorialBackgroud() {
