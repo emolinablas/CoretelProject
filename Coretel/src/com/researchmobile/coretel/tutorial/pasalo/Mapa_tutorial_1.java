@@ -17,6 +17,7 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
 	Button retornoButton;
+	Button salirButton;
 	int pagina = 0;
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -28,6 +29,10 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_mapa));
 		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar_mapa));
 		getRetornoButton().setOnClickListener(this);
+		
+		//button salir
+		setSalirButton((Button)findViewById(R.id.tutorial_button_salir_mapa));
+		getSalirButton().setOnClickListener(this);
 		}
 	
 	// El siguiente metodo permite llevar el seguimiento del tutorial, seteando el gradiente para cada paso del tutorial ademas del mensaje.
@@ -85,7 +90,11 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 			{	
 		pagina--;
 		MostrarView();			
-		}		
+		}
+		if(view == getSalirButton())
+		{
+			finish();
+		}
 }
 
 	
@@ -122,7 +131,15 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 	public void setRetornoButton(Button retornoButton) {
 		this.retornoButton = retornoButton;
 	}
-	
+
+	public Button getSalirButton() {
+		return salirButton;
+	}
+
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
+	}
+
 	
 
 }

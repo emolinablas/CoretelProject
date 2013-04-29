@@ -16,6 +16,7 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
 	Button RetornoButton;
+	Button salirButton;
 	int pagina = 0;
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -27,6 +28,10 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_tipoevento));
 		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar_tipoevento));
 		getRetornoButton().setOnClickListener(this);
+		
+		//salir button
+		setSalirButton((Button)findViewById(R.id.tutorial_button_salir_tipoevento1));
+		getSalirButton().setOnClickListener(this);
 	}
 	
 	private void MostrarView(){
@@ -58,7 +63,11 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 			{	
 		pagina--;
 		MostrarView();			
-		}	
+		}
+		if(view == getSalirButton())
+		{
+			finish();
+		}
 }		
 
 	
@@ -82,4 +91,14 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 	public void setRetornoButton(Button retornoButton) {
 		RetornoButton = retornoButton;
 	}
+
+	public Button getSalirButton() {
+		return salirButton;
+	}
+
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
+	}
+	
+	
 }

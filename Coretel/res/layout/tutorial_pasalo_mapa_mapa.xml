@@ -22,15 +22,26 @@
             android:text="@string/mensajeAyuda"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button 
-        	android:id="@+id/tutorial_button_regresar_mapa"
-        	android:layout_width="wrap_content"
-       		android:layout_height="wrap_content"
-        	android:layout_alignParentLeft="true"
-        	android:layout_centerVertical="true"
-        	android:background="@drawable/retorno"
-        /> 
+        <Button
+            android:id="@+id/tutorial_button_regresar_mapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tutorial_mensaje_mapa"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/atras"
+            android:gravity="center" />
         
+        <Button 
+       		android:id="@+id/tutorial_button_salir_mapa"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_below="@+id/tutorial_mensaje_mapa"
+       		android:layout_centerHorizontal="true"
+       		android:layout_marginTop="65dp"
+       		android:background="@drawable/cancelar"
+       		android:gravity="center"
+        />
     </RelativeLayout>
 
 </LinearLayout>
