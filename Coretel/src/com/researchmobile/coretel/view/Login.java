@@ -7,22 +7,35 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
 
-import android.annotation.SuppressLint;
+import oauth.signpost.OAuth;
+import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.commonshttp.CommonsHttpOAuthProvider;
+import oauth.signpost.exception.OAuthCommunicationException;
+import oauth.signpost.exception.OAuthExpectationFailedException;
+import oauth.signpost.exception.OAuthMessageSignerException;
+import oauth.signpost.exception.OAuthNotAuthorizedException;
+
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,6 +47,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.LoginButton;
 
 import com.researchmobile.coretel.entity.CatalogoAnotacion;
 import com.researchmobile.coretel.entity.CatalogoComunidad;
@@ -55,6 +76,26 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private Button entrarButton;
      private Button registrarButton;
      private Button salirButton;
+     // Botones para conexion con redes sociales
+     private boolean twitter_active = false;
+     private LoginButton authButton;
+     private Button twLogin;
+     
+     private TextView statusConexion;
+     
+     private static CommonsHttpOAuthProvider provider =
+    	        new CommonsHttpOAuthProvider(
+    	        "https://api.twitter.com/oauth/request_token",
+    	        "https://api.twitter.com/oauth/access_token",
+    	        "https://api.twitter.com/oauth/authorize");
+    	 
+    	private static CommonsHttpOAuthConsumer consumer = new CommonsHttpOAuthConsumer("vYXZb4ScOp6NnV90m9PygQ","vPPm08LFDlEOzZBANEmxCDYzH6DG8vsYMZAKV9CzQDc");
+    	
+     // ----- Variables para guardar las llaves de twitter
+    	private static String ACCESS_KEY = null;
+    	private static String ACCESS_SECRET = null;
+    	private OnClickListener twitter_auth, twitter_clearauth;
+    //  -----
      private TextView recuperarTextView;
      private Mensaje mensaje;
      private User user;
@@ -67,6 +108,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
      private RespuestaWS respuesta2Geo;
      private AlertDialog.Builder dialogActiveGPS = null;
      private RMFile rmFile = new RMFile();
+     private Session.StatusCallback statusCallback = new SessionStatusCallback();
      
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +128,12 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             setClaveEditText((EditText)findViewById(R.id.login_clave_edittext));
             setEntrarButton((Button)findViewById(R.id.login_entrar_button));
             setRegistrarButton((Button)findViewById(R.id.login_registrar_button));
+            // --- Set de botones de redes sociales
+            setAuthButton((LoginButton)findViewById(R.id.facebook_button));
+            authButton.setReadPermissions(Arrays.asList("email,basic_info,friends_online_presence"));
+            setTwLogin((Button)findViewById(R.id.twitter_button));
+            setStatusConexion((TextView)findViewById(R.id.status_conexion));
+            // ---
             setRecuperarTextView((TextView)findViewById(R.id.login_recuperar_textview));
             setSalirButton((Button)findViewById(R.id.loginpasalo_salir_button));
             getSalirButton().setOnClickListener(this);
@@ -94,6 +142,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
             getClaveEditText().setOnKeyListener(this);
             getUsuarioEditText().setOnKeyListener(this);
             getEntrarButton().setOnClickListener(this);
+            getAuthButton().setOnClickListener(this);
             getUsuarioEditText().setText("");
             getClaveEditText().setText("");
             setRequestWS(new RequestWS());
@@ -101,11 +150,226 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
         }catch(Exception exception){
              Log.i(LOGTAG, exception.getLocalizedMessage());
         }
+        
+        // --- VERIFICACION DE ACCESO A TWITER
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String stored_keys = prefs.getString("KEY", "");
+        String stored_secret = prefs.getString("SECRET", "");
+         
+        if (!stored_keys.equals("") && !stored_secret.equals("")) {
+            twitter_active = true;
+        }
+        
+        //--- Primer Listener para autorizacion
+        twitter_auth = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statusConexion.setText("Twitter status: iniciando sesi—n");
+         
+                try {
+                	System.out.println("Antes de hacer la llamada a twiter");
+                    String authUrl = provider.retrieveRequestToken(consumer, "pasalo://twitter");
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(authUrl)));
+                    System.out.println("DESPUES DEL URI");
+                } catch (OAuthMessageSignerException e) {
+                	System.out.println("1");
+                    e.printStackTrace();
+                } catch (OAuthNotAuthorizedException e) {
+                	System.out.println("2");
+                    e.printStackTrace();
+                } catch (OAuthExpectationFailedException e) {
+                	System.out.println("3");
+                    e.printStackTrace();
+                } catch (OAuthCommunicationException e) {
+                	System.out.println("4");
+                    e.printStackTrace();
+                }
+         
+            }
+        };
+        
+        // --- Segundo Listener para LogOut
+        
+        twitter_clearauth = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("KEY", null);
+                editor.putString("SECRET", null);
+                editor.commit();
+                twLogin.setText("Autorizar twitter");
+                statusConexion.setText("Twitter status: sesi—n no iniciada ");
+                twLogin.setOnClickListener(twitter_auth);
+         
+            }
+        };
+        
+        // -- Verificacion de estado para saber si esta activa la sesion de Twitter
+        if (twitter_active) {
+            statusConexion.setText("Twitter status: sesi—n iniciada ");
+            twLogin.setText("Deautorizar twitter");
+            twLogin.setOnClickListener(twitter_clearauth);
+        } else {
+            twLogin.setText("Autorizar twitter");
+            twLogin.setOnClickListener(twitter_auth);
+        }
+        
+        // ---
+        
+        // --- VERIFICACION DE ACCESO A FACEBOOK
+        
+        com.facebook.Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback, savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this).setCallback(statusCallback));
+            }
+        }
+        updateView();
+        // ---
     }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	Uri uri = this.getIntent().getData();  
+    	if (uri != null && uri.toString().startsWith("pasalo://twitter")) {
+    	    String verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER);
+    	    try {    	    	
+    	    	provider.retrieveAccessToken(consumer,verifier);
+    			ACCESS_KEY = consumer.getToken();
+    			ACCESS_SECRET = consumer.getTokenSecret();
+    			
+    			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    		    SharedPreferences.Editor editor = prefs.edit();    		    
+    		    editor.putString("KEY", ACCESS_KEY);
+    		    editor.putString("SECRET", ACCESS_SECRET);
+    		    editor.commit();
+    		    
+    			TextView txtTwStatus = (TextView) this.findViewById(R.id.status_conexion);
+	            txtTwStatus.setText("Twitter status: sesi—n iniciada ");
+	            
+				twLogin.setText("Deautorizar twitter");
+	            twLogin.setOnClickListener(twitter_clearauth);
+
+			} catch (OAuthMessageSignerException e) {
+				e.printStackTrace();
+			} catch (OAuthNotAuthorizedException e) {
+				e.printStackTrace();
+			} catch (OAuthExpectationFailedException e) {
+				e.printStackTrace();
+			} catch (OAuthCommunicationException e) {
+				e.printStackTrace();
+			}
+    	    
+    	} 
+    	   	
+    }
+    
+    @Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
+    }
+    
+    private void onClickLogout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+    }
+    
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this)
+                .setPermissions(Arrays.asList("email,basic_info,friends_online_presence"))
+                .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
+    
+    private void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+            //textInstructionsOrLink.setText(URL_PREFIX_FRIENDS + session.getAccessToken());
+            authButton.setText("Salir");
+            authButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogout(); }
+            });
+        } else {
+           // textInstructionsOrLink.setText(R.string.instructions);
+            authButton.setText("Salir");
+            authButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View view) { onClickLogin(); }
+            });
+        }
+    }
+    
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+        	System.out.println("Ingreso a CALL");
+                // Respond to session state changes, ex: updating the view
+        	  if (session.isOpened()) {
+        		  System.out.println("Ingreso a IsOpened");
+		          // make request to the /me API
+		          Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+		        	 
+		            // callback after Graph API response with user object
+		       
+
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						// TODO Auto-generated method stub
+						 if (user != null) {
+				              //  TextView welcome = (TextView) findViewById(R.id.user_facebook);
+				              // welcome.setText("Hello " + user.getName() + "!" + user.getUsername());
+				               JSONObject jsonObject = user.getInnerJSONObject();
+				               System.out.println("OBJETOJSON : "+jsonObject.toString());
+				               
+				               
+				              }
+					}
+					
+		          });
+		        }
+        } }
 
      @Override
 	public void onClick(View view) {
-		try {
+		
 			if (view == getEntrarButton()) {
 				new LoginAsync().execute("");
 			}else if (view == getRegistrarButton()){
@@ -115,9 +379,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 			}else if (view == getSalirButton()){
 				salir();
 			}
-		} catch (Exception exception) {
-			Log.i(LOGTAG, exception.getLocalizedMessage());
-		}
+		
 	}
      
      public void salir(){
@@ -178,7 +440,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
     	 rqDb.verificaModoTutorial(this);
      }
 
-     @SuppressLint("SdCardPath")
+    
 	public static boolean createDirIfNotExists() {
     	    boolean ret = true;
     	    File file = new File(Environment.getExternalStorageDirectory(), "/pasalo/" + User.getAvatar());
@@ -658,6 +920,32 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
 
 	public void setRespuesta2Geo(RespuestaWS respuesta2Geo) {
 		this.respuesta2Geo = respuesta2Geo;
+	}
+
+	public LoginButton getAuthButton() {
+		return authButton;
+	}
+
+	public void setAuthButton(LoginButton authButton) {
+		this.authButton = authButton;
+	}
+
+	public Button getTwLogin() {
+		return twLogin;
+	}
+
+	public void setTwLogin(Button twLogin) {
+		this.twLogin = twLogin;
+	}
+
+
+	public TextView getStatusConexion() {
+		return statusConexion;
+	}
+
+
+	public void setStatusConexion(TextView statusConexion) {
+		this.statusConexion = statusConexion;
 	}
 	
 }
