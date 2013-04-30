@@ -16,6 +16,7 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
 	Button retornoButton;
+	Button salirButton;
 	int pagina = 0;
 	
 	public void onCreate(Bundle savedInstanceState){
@@ -27,6 +28,11 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_comunidades));
 		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar_creacomunidad));
 		getRetornoButton().setOnClickListener(this);
+		
+
+		//button salir
+		setSalirButton((Button)findViewById(R.id.tutorial_button_salir_comunidades_creacomunidad));
+		getSalirButton().setOnClickListener(this);
 		}
 	
 	private void MostrarView(){
@@ -62,12 +68,25 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 		}
 	}
 	public void onClick(View view) {
-		if (view == getTutorialBackgroud()) {
+		if(view == getTutorialBackgroud())
+		 {
 			pagina++;
 			MostrarView();
-		}else if(view == getRetornoButton()){
-			pagina--;
-			MostrarView();
+			if(pagina > 0)
+			getRetornoButton().setEnabled(true);				
+		 }
+		
+		else if(pagina == 0)
+			{
+			getRetornoButton().setEnabled(false);
+			}
+		else if(view == getRetornoButton())
+			{	
+		pagina--;
+		MostrarView();			
+		}
+		if(view == getSalirButton()){
+			finish();
 		}
 	}
 	public LinearLayout getTutorialBackgroud() {
@@ -88,6 +107,16 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 	public void setRetornoButton(Button retornoButton) {
 		this.retornoButton = retornoButton;
 	}
+
+	public Button getSalirButton() {
+		return salirButton;
+	}
+
+	public void setSalirButton(Button salirButton) {
+		this.salirButton = salirButton;
+	}
+	
+	
 	
 	
 

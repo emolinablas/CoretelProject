@@ -26,10 +26,21 @@
         android:id="@+id/tutorial_button_regresar_creacomunidad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/retorno"
+        android:layout_below="@+id/tutorial_mensaje_comunidades"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"   
+        android:background="@drawable/atras"
+        android:gravity="center"
         />
+
+        <Button
+            android:id="@+id/tutorial_button_salir_comunidades_creacomunidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tutorial_button_regresar_creacomunidad"
+            android:layout_below="@+id/tutorial_button_regresar_creacomunidad"
+            android:background="@drawable/cancelar"
+            android:gravity="center" />
 
     </RelativeLayout>
 
