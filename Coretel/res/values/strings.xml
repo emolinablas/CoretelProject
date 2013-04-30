@@ -7,18 +7,18 @@
     <string name="mensajeAyuda">Te explicare como usar esta pantalla, toca la pantalla para iniciar</string>
     <string name="tutorial_agregar_comunidad">Presiona aqui para poder crear nuevas comunidades</string>
     <string name="tutorial_menu">Aqui puedes acceder al menu principal</string>
-    <string name="tutorial_explorar_comunidades">Aqui puedes explorar las comunidades publicas, y puedes solicitar unirte a ellas</string>
+    <string name="tutorial_explorar_comunidades">Aquí puedes explorar las comunidades publicas y seguirlas</string>
     <string name="tutorial_mapa_accdir">Este acceso directo, lo puedes usar para ver comunidades y tipos de eventos con un simple toque</string>
     <string name="tutorial_mapa_pluscreaevento">¡Aqui puedes crear un evento utilizando geoposicion!, claro tienes que tener activado tu gps</string>
     <string name="tutorial_mapa_world">Aqui te mostraremos lugares de interes, como Restaurantes, Hoteles, Hospitales, etc.</string>
-    <string name="tutorial_mapa_cambiarvista">Puedes cambiar las capas del mapa, como prefieras</string>
+    <string name="tutorial_mapa_cambiarvista">Puedes cambiar las vistas del mapa, como prefieras</string>
     <string name="tutorial_mapa_actualizaposicion">Aqui actualizas tu posicion.</string>
     <string name="tutorial_mapa_recargar ">Aqui puedes recargar puntos y ultimos eventos en el mapa</string>
     <string name="tutorial_mapa_filtrar">Aqui puedes filtrar los eventos por comunidad</string>
     
     <string name="tutorial_nuevacomunidad_nombrecomunidad">Coloquemos un nombre para tu comunidad</string>
     <string name="tutorial_nuevacomunidad_descripcioncomunidad">Coloca una descripcion para que los demas sepan de que trata</string>
-    <string name="tutorial_nuevacomunidad_espublica">Coloca si es publica o no, esto significa que cualquier usuario de Pasalo podra solicitar unirse a tu comunidad</string>
+    <string name="tutorial_nuevacomunidad_espublica">Coloca si es publica o no, esto significa que cualquier usuario de Pasalo podra solicitar unirse</string>
     <string name="tutorial_nuevacomunidad_esreasignable">Si tu comunidad permite reasignacion, enciende este Switch</string>
     <string name="tutorial_nuevacomunidad_aplicarcomunidad">Aqui puedes guardar tus cambios</string>
     <string name="tutorial_nuevacomunidad_cancelarcomunidad">Cancelar la creacion de la comunidad</string>

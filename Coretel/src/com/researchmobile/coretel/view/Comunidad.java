@@ -39,7 +39,6 @@ public class Comunidad extends Activity implements OnClickListener{
 	private Button eventosButton;
 	private Button tiposButton;
 	private ToggleButton esPublicaToggleButton;
-	private ToggleButton esReasignableToggleButton;
 	private CatalogoMiembro catalogoMiembro;
 	private CatalogoTipoAnotacion catalogoTipoAnotacion;
 	private DetalleComunidad detalleComunidad;
@@ -73,7 +72,6 @@ public class Comunidad extends Activity implements OnClickListener{
 		setComunidadesButton((Button)findViewById(R.id.comunidad_atras_button));
 		setEditarComunidad((Button)findViewById(R.id.comunidad_editar_button));
 		setEsPublicaToggleButton((ToggleButton)findViewById(R.id.esPublicaToggleButton));
-		setEsReasignableToggleButton((ToggleButton)findViewById(R.id.esReasignableToggleButton));
 		getMiembrosButton().setOnClickListener(this);
 		getEventosButton().setOnClickListener(this);
 		getTiposButton().setOnClickListener(this);
@@ -81,18 +79,11 @@ public class Comunidad extends Activity implements OnClickListener{
 		getComunidadesButton().setOnClickListener(this);
 		getBorrarButton().setOnClickListener(this);
 		getEsPublicaToggleButton().setEnabled(false);
-		getEsReasignableToggleButton().setEnabled(false);
 		
 		if(getDetalleComunidad().getEspublica().equalsIgnoreCase("1")){
 			getEsPublicaToggleButton().setChecked(true);
 		}else{
 			getEsPublicaToggleButton().setChecked(false);
-		}
-		
-		if(getDetalleComunidad().getEsreasignable().equalsIgnoreCase("1")){
-			getEsReasignableToggleButton().setChecked(true);
-		}else{
-		getEsReasignableToggleButton().setChecked(false);
 		}
 		
 		//verificando si el usuario es due–o de la comunidad (EM)
@@ -433,16 +424,6 @@ public class Comunidad extends Activity implements OnClickListener{
 
 	public void setEsPublicaToggleButton(ToggleButton esPublicaToggleButton) {
 		this.esPublicaToggleButton = esPublicaToggleButton;
-	}
-
-
-	public ToggleButton getEsReasignableToggleButton() {
-		return esReasignableToggleButton;
-	}
-
-
-	public void setEsReasignableToggleButton(ToggleButton esReasignableToggleButton) {
-		this.esReasignableToggleButton = esReasignableToggleButton;
 	}
 
 

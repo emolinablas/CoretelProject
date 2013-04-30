@@ -31,7 +31,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 
 	private RespuestaWS respuesta;
 	private Button cancelarButton;
-	private ToggleButton permiteReasignacion;
 	private ToggleButton esPublica;
 	
 	private ProgressDialog pd = null;
@@ -48,7 +47,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 		//setTipoSpinner((Spinner)findViewById(R.id.creacomunidad_tipo_spinner));
 		setGuardarButton((Button)findViewById(R.id.creacomunidad_guardar_button));
 		setCancelarButton((Button)findViewById(R.id.creacomunidad_cancelar_button));
-		setPermiteReasignacion((ToggleButton)findViewById(R.id.permiteReasignacion_toggleButton));
 		setEsPublica((ToggleButton)findViewById(R.id.esPublica_crear_toggleButton));
 		getCancelarButton().setOnClickListener(this);
 		getGuardarButton().setOnClickListener( this);
@@ -96,11 +94,9 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 	}
 
 	private void Guardar() {
-		String reasignable="0";
+		String reasignable="1";
 		String espublica="0";
-		if(getPermiteReasignacion().isChecked()){
-			reasignable="1";
-		}
+		
 		if(getEsPublica().isChecked()){
 			espublica="1";
 		}
@@ -200,14 +196,6 @@ public class CreaComunidad extends Activity implements OnClickListener, OnKeyLis
 
 	public void setCancelarButton(Button cancelarButton) {
 		this.cancelarButton = cancelarButton;
-	}
-
-	public ToggleButton getPermiteReasignacion() {
-		return permiteReasignacion;
-	}
-
-	public void setPermiteReasignacion(ToggleButton permiteReasignacion) {
-		this.permiteReasignacion = permiteReasignacion;
 	}
 
 	public ToggleButton getEsPublica() {

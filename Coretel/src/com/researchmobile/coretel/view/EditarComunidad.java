@@ -25,7 +25,6 @@ public class EditarComunidad extends Activity implements OnClickListener{
 	private EditText nombreEditText;
 	private EditText descripcionEditText;
 	private ToggleButton esPublica;
-	private ToggleButton esReasignable;
 	private DetalleComunidad detalleComunidad;
 	private ProgressDialog pd = null;
 	private RespuestaWS respuesta = new RespuestaWS();
@@ -42,21 +41,12 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		setNombreEditText((EditText)findViewById(R.id.editarcomunidad_nombre_edittext));
 		setDescripcionEditText((EditText)findViewById(R.id.editarcomunidad_descripcion_edittext));
 		setEsPublica((ToggleButton)findViewById(R.id.editar_es_publica_toggleButton));
-		setEsReasignable((ToggleButton)findViewById(R.id.editar_es_reasignable_toggleButton));
 		
 		if(getDetalleComunidad().getEspublica().equalsIgnoreCase("1")){
 			getEsPublica().setChecked(true);
 		}else{
 			getEsPublica().setChecked(false);
 		}
-		
-		if(getDetalleComunidad().getEsreasignable().equalsIgnoreCase("1")){
-			getEsReasignable().setChecked(true);
-		}else{
-			getEsReasignable().setChecked(false);
-		}
-		
-		
 		
 		getNombreEditText().setText(getDetalleComunidad().getNombre());
 		getDescripcionEditText().setText(getDetalleComunidad().getDescripcion());
@@ -122,17 +112,11 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		String descripcion = getDescripcionEditText().getText().toString();
 		System.out.println("inicia el proceso de edicion de comunidad 3");
 		String espublica = "";
-		String esreasignable = "";
+		String esreasignable = "1";
 		if(getEsPublica().isChecked()){
 			espublica = "1";
 		}else{
 			espublica = "0";
-		}
-		
-		if(getEsReasignable().isChecked()){
-			esreasignable = "1";
-		}else{
-			esreasignable = "0";
 		}
 		
 		if (nombre.equalsIgnoreCase("") || descripcion.equalsIgnoreCase("")){
@@ -198,12 +182,4 @@ public class EditarComunidad extends Activity implements OnClickListener{
 		this.esPublica = esPublica;
 	}
 
-	public ToggleButton getEsReasignable() {
-		return esReasignable;
-	}
-
-	public void setEsReasignable(ToggleButton esReasignable) {
-		this.esReasignable = esReasignable;
-	}
-	
 }
