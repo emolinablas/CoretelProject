@@ -4,7 +4,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_login">Login</string>
-    <string name="mensajeAyuda">Te explicare como usar esta pantalla, toca la pantalla para iniciar</string>
+    <string name="mensajeAyuda">Te explicare como usar esta pantalla</string>
     <string name="tutorial_agregar_comunidad">Presiona aqui para poder crear nuevas comunidades</string>
     <string name="tutorial_menu">Aqui puedes acceder al menu principal</string>
     <string name="tutorial_explorar_comunidades">Aquí puedes explorar las comunidades publicas y seguirlas</string>

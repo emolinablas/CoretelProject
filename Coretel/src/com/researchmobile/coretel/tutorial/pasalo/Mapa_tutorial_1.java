@@ -40,6 +40,9 @@ public class Mapa_tutorial_1 extends Activity implements OnClickListener {
 	private void MostrarView(){
 		switch(pagina){
 		
+		case 0:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial); //utilizo el gradiente arriba/izquierda
+					mensaje.setText(R.string.mensajeAyuda);
+		break;
 		case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_left); //utilizo el gradiente arriba/izquierda
 					mensaje.setText(R.string.tutorial_menu);
 					break;
