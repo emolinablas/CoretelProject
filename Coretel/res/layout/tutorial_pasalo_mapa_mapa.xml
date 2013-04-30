@@ -49,7 +49,7 @@
             android:layout_below="@+id/tutorial_button_salir_mapa"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
-            android:text="Toca la pantalla para iniciar"
+            android:text="Toque la pantalla para empezar"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>

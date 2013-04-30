@@ -36,6 +36,10 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 	
 	private void MostrarView(){
 		switch (pagina) {
+		case 0:
+			tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial);
+			mensaje.setText(R.string.mensajeAyuda);
+			break;
 		case 1:
 			tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
 			mensaje.setText(R.string.tutorial_tipoevento_agregar);

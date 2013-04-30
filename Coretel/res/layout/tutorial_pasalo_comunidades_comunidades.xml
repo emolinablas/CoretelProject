@@ -20,30 +20,38 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="@string/mensajeAyuda"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
        <Button
            android:id="@+id/tutorial_button_regresar"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
+           android:layout_alignLeft="@+id/tutorial_mensaje_comunidades"
            android:layout_below="@+id/tutorial_mensaje_comunidades"
-           android:layout_centerHorizontal="true"
-           android:layout_marginTop="32dp"
+           android:layout_marginTop="29dp"
            android:background="@drawable/atras"
-           android:gravity="center" 
-         
-         />
-       
+           android:gravity="center" />
+
        <Button
-       		android:id="@+id/tutorial_button_salir_comunidades"
-       		android:layout_width="wrap_content"
-       		android:layout_height="wrap_content"
-       		android:layout_below="@+id/tutorial_mensaje_comunidades"
-       		android:layout_centerHorizontal="true"
-       		android:layout_marginTop="65dp"
-       		android:background="@drawable/cancelar"
-       		android:gravity="center"    
-       />
+           android:id="@+id/tutorial_button_salir_comunidades"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_alignBaseline="@+id/tutorial_button_regresar"
+           android:layout_alignBottom="@+id/tutorial_button_regresar"
+           android:layout_alignRight="@+id/tutorial_mensaje_comunidades"
+           android:background="@drawable/cancelar"
+           android:gravity="center" />
+
+       <TextView
+           android:id="@+id/textView1"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/tutorial_button_salir_comunidades"
+           android:layout_centerHorizontal="true"
+           android:layout_marginTop="45dp"
+           android:text="Toque la pantalla para empezar"
+           android:textAppearance="?android:attr/textAppearanceLarge" />
+
     </RelativeLayout>
 
 </LinearLayout>

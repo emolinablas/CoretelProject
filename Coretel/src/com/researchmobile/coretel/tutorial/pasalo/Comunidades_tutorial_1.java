@@ -38,6 +38,9 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 	private void MostrarView(){
 		switch(pagina){
 		
+		case 0:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial);
+					mensaje.setText(R.string.mensajeAyuda	);
+					break;
 		case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
 					mensaje.setText(R.string.tutorial_agregar_comunidad);
 					break;
@@ -47,7 +50,10 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 		case 3:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_bottom_right_maring);
 					mensaje.setText(R.string.tutorial_explorar_comunidades);
 					break;			
-		case 4: 	//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
+		case 4: 	tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial);
+					mensaje.setText(R.string.tutorial_comunidades_invitar);
+					break;
+		case 5: 	//Intent intent = new Intent(Comunidades_tutorial_1.this, Comunidades.class);
 					finish();
 					break;
 					

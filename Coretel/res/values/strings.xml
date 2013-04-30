@@ -15,6 +15,8 @@
     <string name="tutorial_mapa_actualizaposicion">Aqui actualizas tu posicion.</string>
     <string name="tutorial_mapa_recargar ">Aqui puedes recargar puntos y ultimos eventos en el mapa</string>
     <string name="tutorial_mapa_filtrar">Aqui puedes filtrar los eventos por comunidad</string>
+    <string name="tutorial_comunidades_invitar">La Comunidad tiene miembros, estos son invitados por medio de correo electrónico, en el correo que Pasalo envia, aceptar la invitación y listo, ya eres miembro de la Comunidad “X”</string>
+    
     
     <string name="tutorial_nuevacomunidad_nombrecomunidad">Coloquemos un nombre para tu comunidad</string>
     <string name="tutorial_nuevacomunidad_descripcioncomunidad">Coloca una descripcion para que los demas sepan de que trata</string>

@@ -37,6 +37,10 @@ public class Comunidades_tutorial_2  extends Activity implements OnClickListener
 	
 	private void MostrarView(){
 		switch (pagina) {
+		case 0:
+			tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial);
+			mensaje.setText(R.string.mensajeAyuda);
+			break;
 		case 1:
 			tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_center_margin1);
 			mensaje.setText(R.string.tutorial_nuevacomunidad_nombrecomunidad);
