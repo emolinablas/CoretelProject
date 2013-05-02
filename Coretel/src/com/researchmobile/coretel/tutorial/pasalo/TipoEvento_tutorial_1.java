@@ -15,6 +15,7 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 	
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
+	TextView indicaInicio;
 	Button RetornoButton;
 	Button salirButton;
 	int pagina = 0;
@@ -26,6 +27,7 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 		setTutorialBackgroud((LinearLayout)findViewById(R.id.tutorial_layout_tipoevento));
 		getTutorialBackgroud().setOnClickListener(this);
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_tipoevento));
+		setIndicaInicio((TextView)findViewById(R.id.inicio_tutorial_textview));
 		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar_tipoevento));
 		getRetornoButton().setOnClickListener(this);
 		
@@ -56,12 +58,14 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 			pagina++;
 			MostrarView();
 			if(pagina > 0)
-			getRetornoButton().setEnabled(true);				
+			getRetornoButton().setEnabled(true);
+			getIndicaInicio().setVisibility(View.INVISIBLE);
 		 }
 		
 		else if(pagina == 0)
 			{
 			getRetornoButton().setEnabled(false);
+			getIndicaInicio().setVisibility(View.VISIBLE);
 			}
 		else if(view == getRetornoButton())
 			{	
@@ -102,6 +106,14 @@ public class TipoEvento_tutorial_1 extends Activity implements OnClickListener {
 
 	public void setSalirButton(Button salirButton) {
 		this.salirButton = salirButton;
+	}
+
+	public TextView getIndicaInicio() {
+		return indicaInicio;
+	}
+
+	public void setIndicaInicio(TextView indicaInicio) {
+		this.indicaInicio = indicaInicio;
 	}
 	
 	

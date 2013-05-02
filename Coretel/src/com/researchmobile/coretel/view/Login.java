@@ -114,7 +114,7 @@ public class Login extends Activity implements OnClickListener, OnKeyListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.login);
+        setContentView(R.layout.login_pasalo);
         User.setLatitudActual("0");
         User.setLongitudActual("0");
       //Intent service = new Intent(this, ServicioGeoposicion.class);

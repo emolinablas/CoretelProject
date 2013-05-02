@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:text="@string/mensajeAyuda"
@@ -43,11 +44,12 @@
             android:gravity="center" />
 
         <TextView
-            android:id="@+id/textView1"
+           android:id="@+id/inicio_tutorial_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tutorial_button_regresar_tipoevento"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginTop="20dp"
             android:text="Toque la pantalla para empezar"
             android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -72,6 +72,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 	private Button btnReload = null;
 	private Button btnTipoComunidad = null;
 	private Button btnLugares = null;
+	private Button tutorialButton;
 	private LinearLayout bubbleFilterLayout = null;
 	private LinearLayout bubbleLugaresLayout = null;
 	//Declare
@@ -107,6 +108,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         setBtnSatelite((Button)findViewById(R.id.BtnSatelite));
         setBtnTipoComunidad((Button)findViewById(R.id.BtnTipoComunidad));
         setBtnLugares((Button)findViewById(R.id.BtnLugares));
+        setTutorialButton((Button)findViewById(R.id.mapa_tutorial_button));
         getBtnAnimar().setOnClickListener(this);
         getBtnCentrar().setOnClickListener(this);
         getBtnFilter().setOnClickListener(this);
@@ -114,6 +116,7 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
         getBtnSatelite().setOnClickListener(this);
         getBtnTipoComunidad().setOnClickListener(this);
         getBtnLugares().setOnClickListener(this);
+        getTutorialButton().setOnClickListener(this);
         setTituloComunidad((TextView)findViewById(R.id.mapa_titulo_comunidad));
         getTituloComunidad().setText("Todos");
         
@@ -193,6 +196,9 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 			dialogTiposComunidades(this);
 		}else if (v == getBtnLugares()){
 			opcionLugares();
+		}else if (v == getTutorialButton()){
+			Intent intent = new Intent(Mapa.this, Mapa_tutorial_1.class);
+    		startActivity(intent);
 		}
 	}
 	
@@ -861,6 +867,14 @@ public class Mapa extends MapActivity implements OnItemClickListener, OnClickLis
 
 	public void setTituloComunidad(TextView tituloComunidad) {
 		this.tituloComunidad = tituloComunidad;
+	}
+
+	public Button getTutorialButton() {
+		return tutorialButton;
+	}
+
+	public void setTutorialButton(Button tutorialButton) {
+		this.tutorialButton = tutorialButton;
 	}
 
 	

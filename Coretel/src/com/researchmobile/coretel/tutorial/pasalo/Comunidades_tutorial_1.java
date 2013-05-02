@@ -16,6 +16,7 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 	
 	LinearLayout tutorialBackgroud;
 	TextView	mensaje;
+	TextView indicaInicio;
 	Button retornoButton;
 	Button salirButton;
 	int pagina = 0;
@@ -28,8 +29,9 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 		getTutorialBackgroud().setOnClickListener(this);
 		setMensaje((TextView)findViewById(R.id.tutorial_mensaje_comunidades));
 		setRetornoButton((Button)findViewById(R.id.tutorial_button_regresar));
+		setIndicaInicio((TextView)findViewById(R.id.inicio_tutorial_textview));
 		getRetornoButton().setOnClickListener(this);
-		
+		mensaje.setText(R.string.tutorial_comunidades_inicio);
 		//salir button
 		setSalirButton((Button)findViewById(R.id.tutorial_button_salir_comunidades));
 		getSalirButton().setOnClickListener(this);
@@ -39,7 +41,7 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 		switch(pagina){
 		
 		case 0:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_inicial);
-					mensaje.setText(R.string.mensajeAyuda	);
+					mensaje.setText(R.string.tutorial_comunidades_inicio);
 					break;
 		case 1:		tutorialBackgroud.setBackgroundResource(R.drawable.tutorial_pasalo_shape_top_right);
 					mensaje.setText(R.string.tutorial_agregar_comunidad);
@@ -66,11 +68,13 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 			pagina++;
 			MostrarView();
 			if(pagina > 0)
-			getRetornoButton().setEnabled(true);				
+			getRetornoButton().setEnabled(true);
+			getIndicaInicio().setVisibility(View.INVISIBLE);
 		 }
 		
 		else if(pagina == 0)
 			{
+			getIndicaInicio().setVisibility(View.VISIBLE);
 			getRetornoButton().setEnabled(false);
 			}
 		else if(view == getRetornoButton())
@@ -124,6 +128,14 @@ public class Comunidades_tutorial_1 extends Activity implements OnClickListener 
 
 	public void setSalirButton(Button salirButton) {
 		this.salirButton = salirButton;
+	}
+
+	public TextView getIndicaInicio() {
+		return indicaInicio;
+	}
+
+	public void setIndicaInicio(TextView indicaInicio) {
+		this.indicaInicio = indicaInicio;
 	}
 	
 	

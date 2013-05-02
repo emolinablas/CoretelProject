@@ -19,6 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:gravity="center"
             android:text="@string/mensajeAyuda"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -43,11 +44,12 @@
             android:gravity="center" />
 
         <TextView
-            android:id="@+id/tutorial_mensaje_iniciar"
+           android:id="@+id/inicio_tutorial_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tutorial_button_salir_mapa"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginTop="55dp"
             android:text="Toque la pantalla para empezar"
             android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -138,6 +138,15 @@
 		        </ListView>
 		    </LinearLayout>
 
+		        <Button
+		            android:id="@+id/mapa_tutorial_button"
+		            android:layout_width="30dp"
+		            android:layout_height="40dp"
+		            android:layout_alignParentBottom="true"
+		            android:layout_alignParentRight="true"
+		            android:layout_marginBottom="10dp"
+		            android:background="@drawable/alert_i"/>
+
 		    </RelativeLayout>
 
 		    <RelativeLayout
